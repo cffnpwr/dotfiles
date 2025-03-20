@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# dot_Brewfile hash: {{ include "dot_Brewfile" | sha256sum }}
+{{ if eq .chezmoi.os "darwin" -}}
+# Install Homebrew Bundle
+brew bundle --file="$HOME/.Brewfile" --force
+brew bundle cleanup --file="$HOME/.Brewfile" --force
+{{ end -}}
