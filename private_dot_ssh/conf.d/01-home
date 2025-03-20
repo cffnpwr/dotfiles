@@ -1,0 +1,26 @@
+Host cpwr-rpi0
+  HostName 192.168.0.129
+  User cffnpwr
+  IdentitiesOnly yes
+  ForwardAgent yes
+  ForwardX11 yes
+  ForwardX11Trusted yes
+  RemoteForward /run/user/1000/gnupg/S.gpg-agent /Users/cffnpwr/.gnupg/S.gpg-agent.extra
+  #ProxyCommand /Users/cffnpwr/.local/bin/quicssh-rs client quic://%h:4433
+
+Host cpwr-dev0
+  HostName 192.168.0.131
+  User cffnpwr
+  IdentitiesOnly yes
+  ForwardAgent yes
+  ForwardX11 yes
+  ForwardX11Trusted yes
+  RemoteForward /run/user/1000/gnupg/S.gpg-agent /Users/cffnpwr/.gnupg/S.gpg-agent.extra
+  ProxyCommand /Users/cffnpwr/.local/bin/quicssh-rs client quic://%h:4433
+
+Host cpwr-srv0
+  HostName 192.168.0.130
+  User cffnpwr
+  IdentitiesOnly yes
+  ForwardAgent yes
+  RemoteForward /run/user/1000/gnupg/S.gpg-agent /Users/cffnpwr/.gnupg/S.gpg-agent.extra

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
+mise install
+{{ end -}}

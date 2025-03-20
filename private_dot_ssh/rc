@@ -1,0 +1,1 @@
+ln -nsf $(gpgconf --list-dir agent-socket) $(gpgconf --list-dir agent-extra-socket)

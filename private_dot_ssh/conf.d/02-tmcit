@@ -1,0 +1,6 @@
+Host tmcit-312
+  HostName 172.24.20.128
+  User cffnpwr
+  IdentitiesOnly yes
+  ForwardAgent yes
+  RemoteForward /run/user/1000/gnupg/S.gpg-agent /Users/cffnpwr/.gnupg/S.gpg-agent.extra
