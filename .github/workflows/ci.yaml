@@ -1,0 +1,13 @@
+name: Dotfiles CI
+on:
+  push:
+
+jobs:
+  apply_test:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run chezmoi apply
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply ${{ github.repository_owner }}
