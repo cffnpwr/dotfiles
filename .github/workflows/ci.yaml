@@ -17,4 +17,4 @@ jobs:
           CHEZMOI_ENCRYPT_KEY: ${{ secrets.CHEZMOI_ENCRYPT_KEY }}
 
       - name: Run chezmoi apply
-        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply ${{ github.repository_owner }}
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply -v ${{ github.repository_owner }}
