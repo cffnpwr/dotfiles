@@ -42,9 +42,6 @@ inline = 'eval "$(/opt/homebrew/bin/brew shellenv)"'
 [plugins.starship]
 inline = 'eval "$(starship init zsh)"'
 
-[plugins.mise.hooks]
-post = "$HOME/.config/zsh/hooks/mise.zsh"
-
 [plugins.compinit]
 inline = "autoload -Uz compinit && compinit"
 
