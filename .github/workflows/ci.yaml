@@ -9,5 +9,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Load age secret key
+        run: echo "${{ env.CHEZMOI_ENCRYPT_KEY }}" > ~/.chezmoi-encrypt-key.txt
+        env:
+          CHEZMOI_ENCRYPT_KEY: ${{ secrets.CHEZMOI_ENCRYPT_KEY }}
+
       - name: Run chezmoi apply
         run: sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply ${{ github.repository_owner }}
