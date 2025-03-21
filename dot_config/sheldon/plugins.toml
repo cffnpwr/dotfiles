@@ -7,7 +7,6 @@ github = "romkatv/zsh-defer"
 
 [plugins.zsh-autocomplete]
 github = "marlonrichert/zsh-autocomplete"
-# apply = ["defer"]
 
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
@@ -15,7 +14,6 @@ apply = ["defer"]
 
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
-# apply = ["defer"]
 
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
@@ -27,30 +25,33 @@ apply = ["defer"]
 
 [plugins.zsh-navigation-tools]
 github = "psprint/zsh-navigation-tools"
-
-[plugins.zsh-abbr]
-github = "olets/zsh-abbr"
 apply = ["defer"]
 
 [plugins.local-zsh-completions]
 local = "~/.config/zsh/site-functions/"
-apply = ["fpath"]
+apply = ["defer", "fpath"]
 
 [plugins.homebrew]
 inline = 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+
+[plugins.mise]
+inline = 'eval "$(mise activate zsh)"'
 
 [plugins.starship]
 inline = 'eval "$(starship init zsh)"'
 
 [plugins.compinit]
-inline = "autoload -Uz compinit && compinit"
+inline = """
+autoload -Uz compinit
+zsh-defer -a -t0.01 compinit -d "$XDG_STATE_HOME/zsh/zcompdump"
+"""
 
 [plugins.cdr]
 inline = "autoload -Uz chpwd_recent_dirs cdr add-zsh-hook && add-zsh-hook chpwd chpwd_recent_dirs"
 
 [plugins.local-plugins]
 local = "~/.config/zsh/plugins/"
-apply = ["source"]
+apply = ["defer", "source"]
 
 [templates]
 defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"

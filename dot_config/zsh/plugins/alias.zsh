@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 # alias
 alias ei="eza --icons --git"
 alias ea="eza -a --icons --git"

@@ -1,8 +1,7 @@
-#!/bin/zsh
+#!/bin/sh
 
-set -o pipefail
-
-# install
+# config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
 mise install
 
 # gh command completion
@@ -28,3 +27,12 @@ if which bw > /dev/null; then
   fi
   bw completion --shell zsh > ~/.config/zsh/site-functions/_bw
 fi
+
+# sheldon command completion
+if which sheldon > /dev/null; then
+  if [ ! -d ~/.config/zsh/site-functions/ ]; then
+    mkdir -p ~/.config/zsh/site-functions
+  fi
+  sheldon completions --shell zsh > ~/.config/zsh/site-functions/_sheldon
+fi
+{{ end -}}

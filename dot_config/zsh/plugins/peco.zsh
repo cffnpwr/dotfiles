@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 # Peco
 # 履歴検索
 function peco-select-history() {
