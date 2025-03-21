@@ -1,9 +1,5 @@
 #!/bin/sh
 
-{{ if eq .chezmoi.os "darwin" -}}
-alias mise=/opt/homebrew/bin/mise
-{{ end -}}
-
 {{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
 mise install
 {{ end -}}
