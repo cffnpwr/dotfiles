@@ -4,6 +4,9 @@ on:
 
 jobs:
   apply_test:
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-apply_test
+      cancel-in-progress: true
     runs-on: macos-latest
     steps:
       - name: Checkout
