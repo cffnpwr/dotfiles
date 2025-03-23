@@ -1,6 +1,7 @@
 #!/bin/zsh
 
 # Key bindings
+bindkey -e
 bindkey "^A"      beginning-of-line
 bindkey "^E"      end-of-line
 bindkey "^[f"     forward-word
