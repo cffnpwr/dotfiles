@@ -12,7 +12,7 @@ shell = { program = "/bin/zsh", args = [
 [window]
 dimensions = { columns = 192, lines = 64 }
 opacity = 0.9
-padding = { x = 12, y = 16 }
+padding = { x = 12, y = 24 }
 decorations = "transparent"
 
 [font]
