@@ -19,3 +19,8 @@ decorations = "transparent"
 size = 13.0
 normal.family = "0xProto Nerd Font"
 offset.y = 1
+
+[keyboard]
+bindings = [
+  { key = "Backspace", mods = "Super", chars = "\u001b[killline" }
+]
