@@ -7,7 +7,7 @@ bindkey "^[f"         forward-word
 bindkey "^[b"         backward-word
 bindkey "^[[1;3C"     forward-word
 bindkey "^[[1;3D"     backward-word
-bindkey "^[[1;\b"     backward-kill-word
+bindkey "^[^?"        backward-kill-word
 bindkey "^[[killline" vi-kill-line
 bindkey "^I"          menu-select
 bindkey "^R"          peco-select-history
