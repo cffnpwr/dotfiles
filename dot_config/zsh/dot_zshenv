@@ -72,3 +72,6 @@ setopt no_beep
 unsetopt list_types
 # スラッシュを区切り文字に含める
 export WORDCHARS="${WORDCHARS/\//}"
+
+# SSH Agent
+export SSH_AUTH_SOCK="${HOME}/.bitwarden-ssh-agent.sock"
