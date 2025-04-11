@@ -11,11 +11,11 @@ export XDG_STATE_HOME=${HOME}/.local/state
 
 # path
 path=(
-    ${HOME}/.local/bin(N-/)
-    /usr/local/sbin(N-/)
-    /usr/local/bin(N-/)
-    /opt/homebrew/bin(N-/)
-    # $path
+  ${HOME}/.local/bin(N-/)
+  /usr/local/sbin(N-/)
+  /usr/local/bin(N-/)
+  /opt/homebrew/bin(N-/)
+  $path
 )
 
 # lang
@@ -74,4 +74,4 @@ unsetopt list_types
 export WORDCHARS="${WORDCHARS/\//}"
 
 # SSH Agent
-export SSH_AUTH_SOCK="${HOME}/.bitwarden-ssh-agent.sock"
+export SSH_AUTH_SOCK="${HOME}/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"

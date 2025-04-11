@@ -1,5 +1,6 @@
 {
-    "recommendations": [
-        "casualjim.gotemplate"
-    ]
+  "recommendations": [
+    "casualjim.gotemplate",
+    "kdl-org.kdl"
+  ]
 }
