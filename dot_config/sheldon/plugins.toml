@@ -5,15 +5,15 @@ shell = "zsh"
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
-[plugins.zsh-autocomplete]
-github = "marlonrichert/zsh-autocomplete"
-
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 apply = ["defer"]
 
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
+
+[plugins.zsh-autocomplete]
+github = "marlonrichert/zsh-autocomplete"
 
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
@@ -35,10 +35,19 @@ apply = ["defer", "fpath"]
 inline = 'eval "$(/opt/homebrew/bin/brew shellenv)"'
 
 [plugins.mise]
-inline = 'eval "$(mise activate zsh)"'
+inline = '''
+eval "$(mise activate zsh)"
+path=(
+  ${HOME}/.local/share/mise/shims(N-/)
+  $path
+)
+'''
 
 [plugins.starship]
 inline = 'eval "$(starship init zsh)"'
+
+[plugins.zellij]
+inline = 'eval "$(zellij setup --generate-auto-start zsh)"'
 
 [plugins.compinit]
 inline = """
@@ -51,7 +60,7 @@ inline = "autoload -Uz chpwd_recent_dirs cdr add-zsh-hook && add-zsh-hook chpwd 
 
 [plugins.local-plugins]
 local = "~/.config/zsh/plugins/"
-apply = ["defer", "source"]
+apply = ["defer"]
 
 [templates]
 defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"

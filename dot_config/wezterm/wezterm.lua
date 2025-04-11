@@ -14,7 +14,7 @@ end
 config.automatically_reload_config = true
 
 -- startup
-config.default_prog = { "/bin/zsh", "-l", "-c", "tmux a -t default || tmux new -s default" }
+config.default_prog = { "/bin/zsh", "-l" }
 
 -- key binds
 local keybind = require("keybinds")
