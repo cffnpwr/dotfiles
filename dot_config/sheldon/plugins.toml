@@ -46,9 +46,6 @@ path=(
 [plugins.starship]
 inline = 'eval "$(starship init zsh)"'
 
-[plugins.zellij]
-inline = 'eval "$(zellij setup --generate-auto-start zsh)"'
-
 [plugins.compinit]
 inline = """
 autoload -Uz compinit
