@@ -14,7 +14,7 @@ end
 config.automatically_reload_config = true
 
 -- startup
-config.default_prog = { "/bin/zsh", "-l" }
+config.default_prog = { "/bin/zsh", "-l", "-c", "zellij attach wezterm --create" }
 
 -- key binds
 local keybind = require("keybinds")
@@ -39,14 +39,7 @@ config.initial_cols = 192
 config.initial_rows = 64
 
 -- tab bar
-config.window_frame = {
-  font = wezterm.font_with_fallback({
-    { family = "0xProto Nerd Font Mono", weight = "Bold" },
-    { family = "Koruri", weight = "Bold" }
-  }),
-  font_size = 12.0,
-}
-config.tab_bar_style = {}
+config.enable_tab_bar = false
 
 -- and finally, return the configuration to wezterm
 return config
