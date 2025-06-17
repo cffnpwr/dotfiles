@@ -1,7 +1,5 @@
 tap "cloudflare/cloudflare"
 tap "gromgit/fuse"
-tap "homebrew/bundle"
-tap "homebrew/services"
 tap "jorgelbg/tap"
 tap "majd/repo"
 tap "minacle/chntpw"

@@ -8,6 +8,7 @@ brewfile="$HOME/.Brewfile"
 
 {{ if and (eq .chezmoi.os "darwin") (eq (env "CI") "true") -}}
 MAS_APPS="$(cat $brewfile | grep -v brew | grep mas | sed 's/^.*"\(.*\)".*$/\1/' | tr '\n' ' ')"
+export HOMEBREW_BUNDLE_MAS_SKIP="$MAS_APPS"
 echo "CI 環境では MAS を除外して \`brew bundle\` を実行します。"
 echo "スキップ対象のアプリ: $MAS_APPS"
 {{ end -}}
