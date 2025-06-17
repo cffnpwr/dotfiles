@@ -3,6 +3,7 @@ tap "gromgit/fuse"
 tap "homebrew/bundle"
 tap "homebrew/services"
 tap "jorgelbg/tap"
+tap "majd/repo"
 tap "minacle/chntpw"
 tap "osx-cross/arm"
 tap "osx-cross/avr"
@@ -86,6 +87,7 @@ brew "cloudflare/cloudflare/curl"
 brew "jorgelbg/tap/pinentry-touchid"
 brew "minacle/chntpw/chntpw"
 brew "osx-cross/avr/avr-gcc@9"
+cask "alt-tab"
 cask "android-commandlinetools"
 cask "android-file-transfer"
 cask "android-platform-tools"
@@ -105,7 +107,6 @@ cask "google-japanese-ime"
 cask "inkscape"
 cask "jd-gui"
 cask "karabiner-elements"
-cask "kicad"
 cask "macfuse"
 brew "gromgit/fuse/ntfs-3g-mac"
 cask "mactex-no-gui"
@@ -128,4 +129,11 @@ cask "xcodes"
 cask "xquartz"
 cask "yubico-yubikey-manager"
 
+mas "Amphetamine", id: 937984704
 mas "Bitwarden", id: 1352778147
+mas "Goodnotes", id: 1444383602
+mas "Hex Fiend", id: 1342896380
+mas "LINE", id: 539883307
+mas "RunCat", id: 1429033973
+mas "The Unarchiver", id: 425424353
+mas "Windows App", id: 1295203466
