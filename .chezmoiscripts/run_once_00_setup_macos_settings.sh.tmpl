@@ -1,0 +1,51 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+
+set -euo pipefail
+
+echo "macOSの設定を行います..."
+
+# Finderの設定
+# 隠しファイルを表示
+defaults write com.apple.finder "AppleShowAllFiles" -bool true
+# リスト表示
+defaults write com.apple.finder "FXPreferredViewStyle" -string "Nlsv"
+# パスバーを表示
+defaults write com.apple.finder "ShowPathbar" -bool true
+# ステータスバーを表示
+defaults write com.apple.finder "ShowStatusBar" -bool true
+# 拡張子を表示
+defaults write NSGlobalDomain "AppleShowAllFiles" -bool true
+# 拡張子の変更警告を無効化
+defaults write com.apple.finder "FXEnableExtensionChangeWarning" -bool false
+# デスクトップ上にアイコンを表示しない
+defaults write com.apple.finder "CreateDesktop" -bool false
+
+# .DS_Storeを作らないようにする
+defaults write com.apple.desktopservices "DSDontWriteNetworkStores" -bool true
+defaults write com.apple.desktopservices "DSDontWriteUSBStores" -bool true
+
+# .DS_Storeを全削除
+find ~ -name ".DS_Store" -type f -delete
+
+# Finderを再起動
+killall Finder
+
+# Dockの設定
+# ドックの位置を画面下部に設定
+defaults write com.apple.dock "orientation" -string "bottom"
+# ドックのアイコンサイズを36pxに設定
+defaults write com.apple.dock "tilesize" -int "36"
+# ドックの自動非表示を有効化
+defaults write com.apple.dock "autohide" -bool true
+# ドックに最近使ったアプリケーションを表示しない
+defaults write com.apple.dock "show-recents" -bool false
+# ドックのアニメーション効果をスケールに設定
+defaults write com.apple.dock "mineffect" -string "scale"
+
+# Mission Controlの設定
+# 仮想デスクトップの自動並び替えを無効化
+defaults write com.apple.dock "mru-spaces" -bool false
+# アプリケーションウィンドウのグループ化を有効化
+defaults write com.apple.dock "expose-group-apps" -bool true
+{{- end -}}

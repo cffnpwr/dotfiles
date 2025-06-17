@@ -1,0 +1,22 @@
+# dot_Brewfile hash: {{ include "dot_Brewfile" | sha256sum }}
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+
+set -euo pipefail
+
+brewfile="$HOME/.Brewfile"
+
+{{ if and (eq .chezmoi.os "darwin") (eq (env "CI") "true") -}}
+MAS_APPS="$(cat $brewfile | grep -v brew | grep mas | sed 's/^.*"\(.*\)".*$/\1/' | tr '\n' ' ')"
+echo "CI 環境では MAS を除外して \`brew bundle\` を実行します。"
+echo "スキップ対象のアプリ: $MAS_APPS"
+{{ else -}}
+
+# Install Homebrew Bundle
+echo "Homebrew パッケージのインストール・更新を実行します..."
+brew bundle --file="$brewfile" --force
+echo "Homebrew パッケージのインストール・更新が完了しました。"
+echo "Homebrew パッケージのクリーンアップを実行します..."
+brew bundle cleanup --file="$brewfile" --force
+echo "Homebrew パッケージのクリーンアップが完了しました。"
+{{ end -}}

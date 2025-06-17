@@ -19,18 +19,5 @@ jobs:
         env:
           CHEZMOI_ENCRYPT_KEY: ${{ secrets.CHEZMOI_ENCRYPT_KEY }}
 
-      - name: Install packages from Brewfile (excluding MAS)
-        run: |
-          # chezmoiでBrowfileを生成
-          sh -c "$(curl -fsLS get.chezmoi.io)" -- init ${{ github.repository_owner }}
-          
-          # MASを除外してBrew Bundleを実行
-          grep -v "^mas " ~/.Brewfile | brew bundle --file=-
-          
-      - name: Run chezmoi apply (without brew bundle)
-        run: |
-          # Brewfileを一時的にリネームしてBrew Bundleの実行を回避
-          mv ~/.Brewfile ~/.Brewfile.bak || true
-          chezmoi apply -v
-          # Brewfileを元に戻す
-          mv ~/.Brewfile.bak ~/.Brewfile || true
+      - name: Run chezmoi apply
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply -v ${{ github.repository_owner }}

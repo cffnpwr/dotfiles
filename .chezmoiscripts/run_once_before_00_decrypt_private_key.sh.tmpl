@@ -1,7 +1,12 @@
+{{ if or (eq .chezmoi.os "linux") (eq .chezmoi.os "darwin") -}}
 #!/bin/sh
 
+set -euo pipefail
+
 if [ ! -f "${HOME}/.config/chezmoi/key.txt" ]; then
+    echo "chezmoi の暗号化された秘密鍵が見つかりません。復号を実行します..."
     mkdir -p "${HOME}/.config/chezmoi"
     chezmoi age decrypt --output "${HOME}/.config/chezmoi/key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age"
     chmod 600 "${HOME}/.config/chezmoi/key.txt"
 fi
+{{- end -}}

@@ -1,11 +1,16 @@
-#!/bin/sh
-
 # config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
 {{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
+#!/bin/sh
+
+set -euo pipefail
+
+echo "mise で管理されたアプリケーションをインストールします..."
 mise install
+echo "mise で管理されたアプリケーションのインストールが完了しました。"
 
 # gh command completion
 if which gh > /dev/null; then
+  echo "gh コマンドの補完スクリプトを生成します..."
   if [ ! -d ~/.config/zsh/site-functions/ ]; then
     mkdir -p ~/.config/zsh/site-functions
   fi
@@ -14,6 +19,7 @@ fi
 
 # chezmoi command completion
 if which chezmoi > /dev/null; then
+  echo "chezmoi コマンドの補完スクリプトを生成します..."
   if [ ! -d ~/.config/zsh/site-functions/ ]; then
     mkdir -p ~/.config/zsh/site-functions
   fi
@@ -22,6 +28,7 @@ fi
 
 # bw command completion
 if which bw > /dev/null; then
+  echo "Bitwarden CLI (bw) コマンドの補完スクリプトを生成します..."
   if [ ! -d ~/.config/zsh/site-functions/ ]; then
     mkdir -p ~/.config/zsh/site-functions
   fi
@@ -30,9 +37,10 @@ fi
 
 # sheldon command completion
 if which sheldon > /dev/null; then
+  echo "sheldon コマンドの補完スクリプトを生成します..."
   if [ ! -d ~/.config/zsh/site-functions/ ]; then
     mkdir -p ~/.config/zsh/site-functions
   fi
   sheldon completions --shell zsh > ~/.config/zsh/site-functions/_sheldon
 fi
-{{ end -}}
+{{- end -}}
