@@ -1,9 +1,9 @@
-# config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
 {{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
 #!/bin/sh
 
 set -euo pipefail
 
+# config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
 echo "mise で管理されたアプリケーションをインストールします..."
 mise install
 echo "mise で管理されたアプリケーションのインストールが完了しました。"

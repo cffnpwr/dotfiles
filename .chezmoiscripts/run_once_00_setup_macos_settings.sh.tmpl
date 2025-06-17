@@ -25,9 +25,6 @@ defaults write com.apple.finder "CreateDesktop" -bool false
 defaults write com.apple.desktopservices "DSDontWriteNetworkStores" -bool true
 defaults write com.apple.desktopservices "DSDontWriteUSBStores" -bool true
 
-# .DS_Storeを全削除
-find ~ -name ".DS_Store" -type f -delete
-
 # Finderを再起動
 killall Finder
 

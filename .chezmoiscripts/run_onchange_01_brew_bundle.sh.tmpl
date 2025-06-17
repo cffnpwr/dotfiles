@@ -1,9 +1,9 @@
-# dot_Brewfile hash: {{ include "dot_Brewfile" | sha256sum }}
 {{ if eq .chezmoi.os "darwin" -}}
 #!/bin/sh
 
 set -euo pipefail
 
+# dot_Brewfile hash: {{ include "dot_Brewfile" | sha256sum }}
 brewfile="$HOME/.Brewfile"
 
 {{ if and (eq .chezmoi.os "darwin") (eq (env "CI") "true") -}}
