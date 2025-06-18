@@ -10,8 +10,10 @@ brewfile="$HOME/.Brewfile"
 MAS_APP_NAMES="$(cat $brewfile | grep -v brew | grep mas | sed 's/^.*"\(.*\)".*$/\1/' | tr '\n' ',')"
 MAS_APP_IDS="$(cat $brewfile | grep -v brew | grep mas | sed 's/^.*id: \([0-9]*\).*/\1/' | tr '\n' ' ')"
 export HOMEBREW_BUNDLE_MAS_SKIP="$MAS_APP_IDS"
-echo "CI 環境では MAS を除外して \`brew bundle\` を実行します。"
-echo "スキップ対象のアプリ: $MAS_APP_NAMES"
+export HOMEBREW_BUNDLE_CASK_SKIP="microsoft-office microsoft-teams"
+echo "CI 環境では MAS と問題のあるCaskを除外して \`brew bundle\` を実行します。"
+echo "スキップ対象のMASアプリ: $MAS_APP_NAMES"
+echo "スキップ対象のCask: microsoft-office, microsoft-teams"
 {{ end -}}
 
 # Install Homebrew Bundle
