@@ -1,6 +1,13 @@
 name: Dotfiles CI
 on:
   push:
+    paths-ignore:
+      - ".claude/**"
+      - ".vscode/**"
+      - ".editorconfig"
+      - "CLAUDE.md"
+      - "README.md"
+      - "LICENSE"
 
 jobs:
   apply_test:
