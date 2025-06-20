@@ -121,25 +121,27 @@ This repository is a personal dotfiles project managed with **chezmoi**. It prov
 
 ### chezmoi Operations
 
+YOU MUST: Always use `--no-tty` option when running chezmoi commands to ensure proper execution in non-interactive environments.
+
 ```bash
 # Preview changes before applying
-chezmoi diff
+chezmoi diff --no-tty
 
 # Apply changes to home directory
-chezmoi apply
+chezmoi apply --no-tty
 
 # Dry run to check what would be changed
-chezmoi apply --dry-run
+chezmoi apply --dry-run --no-tty
 
 # Add new file to management
-chezmoi add ~/.config/example
+chezmoi add --no-tty ~/.config/example
 
 # Sync with remote repository
-chezmoi update
+chezmoi update --no-tty
 
 # Re-run scripts (useful for brew bundle updates)
-chezmoi state delete-bucket --bucket=entryState
-chezmoi apply
+chezmoi state delete-bucket --bucket=entryState --no-tty
+chezmoi apply --no-tty
 ```
 
 ### Encrypted File Operations

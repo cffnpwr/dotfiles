@@ -65,7 +65,21 @@
       "Bash(mise list)",
       "Bash(mise current)",
       "Bash(mise ls)",
-      "Bash(mise which:*)"
+      "Bash(mise which:*)",
+      "mcp__git__git_status",
+      "mcp__git__git_diff",
+      "mcp__git__git_log",
+      "mcp__git__git_show",
+      "mcp__git__git_branch(mode:list)",
+      "mcp__git__git_branch(mode:show-current)",
+      "mcp__git__git_remote(mode:list)",
+      "mcp__git__git_remote(mode:show)",
+      "mcp__git__git_fetch",
+      "mcp__git__git_tag(mode:list)",
+      "mcp__git__git_stash(mode:list)",
+      "mcp__git__git_worktree(mode:list)",
+      "mcp__git__git_set_working_dir",
+      "mcp__git__git_clear_working_dir"
     ]
   },
   "includeCoAuthoredBy": false

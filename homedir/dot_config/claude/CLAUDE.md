@@ -124,6 +124,18 @@ YOU MUST: When writing CLAUDE.md using `/init` command, always write rules in En
 YOU MUST: When writing CLAUDE.md using `/init` command, include detailed directory structure to provide comprehensive project context
 IMPORTANT: English is preferred for CLAUDE.md because Claude Code processes rules more efficiently in English context
 
+## Git Operations Guidelines
+
+YOU MUST: Use Git MCP server tools for all Git operations when available
+YOU MUST: Only use command line Git operations for functions not supported by the Git MCP server
+YOU MUST: Prioritize Git MCP server tools over bash commands for Git operations
+
+Examples of preferred approach:
+- Use `mcp__git__git_status` instead of `git status`
+- Use `mcp__git__git_diff` instead of `git diff`
+- Use `mcp__git__git_commit` instead of `git commit`
+- Use `mcp__git__git_add` instead of `git add`
+
 ## important-instruction-reminders
 
 Do what has been asked; nothing more, nothing less.
