@@ -31,9 +31,6 @@ apply = ["defer"]
 local = "~/.config/zsh/site-functions/"
 apply = ["defer", "fpath"]
 
-[plugins.homebrew]
-inline = 'eval "$(/opt/homebrew/bin/brew shellenv)"'
-
 [plugins.starship]
 inline = 'eval "$(starship init zsh)"'
 
