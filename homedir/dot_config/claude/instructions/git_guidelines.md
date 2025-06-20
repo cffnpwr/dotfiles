@@ -2,7 +2,8 @@
 
 ## Git Commit Guidelines
 
-YOU MUST: Follow Conventional Commits standards with the following specific format:
+YOU MUST: Follow Conventional Commits standards with the following specific
+format:
 
 ### Commit Message Format
 
@@ -14,14 +15,17 @@ YOU MUST: Follow Conventional Commits standards with the following specific form
 
 YOU MUST: Choose from the following types:
 
-- **build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
-- **ci**: Changes to CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+- **build**: Changes that affect the build system or external dependencies
+  (example scopes: gulp, broccoli, npm)
+- **ci**: Changes to CI configuration files and scripts
+  (example scopes: Travis, Circle, BrowserStack, SauceLabs)
 - **docs**: Documentation only changes
 - **feat**: A new feature
 - **fix**: A bug fix
 - **perf**: A code change that improves performance
 - **refactor**: A code change that neither fixes a bug nor adds a feature
-- **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+- **style**: Changes that do not affect the meaning of the code
+  (white-space, formatting, missing semi-colons, etc)
 - **test**: Adding missing tests or correcting existing tests
 
 ### Emoji Guidelines
@@ -55,8 +59,12 @@ YOU MUST: Clearly indicate what was changed or implemented
 ## Git Operations Guidelines
 
 YOU MUST: Use Git MCP server tools for all Git operations when available
-YOU MUST: Only use command line Git operations for functions not supported by the Git MCP server
-YOU MUST: Prioritize Git MCP server tools over bash commands for Git operations
+
+YOU MUST: Only use command line Git operations for functions not supported
+by the Git MCP server
+
+YOU MUST: Prioritize Git MCP server tools over bash commands for Git
+operations
 
 Examples of preferred approach:
 

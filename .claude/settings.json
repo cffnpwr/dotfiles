@@ -60,7 +60,8 @@
       "Bash(gh release view:*)",
       "Bash(gh status)",
       "Bash(gh auth status)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(markdownlint:*)"
     ]
   }
 }

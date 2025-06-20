@@ -1,20 +1,27 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working
+with code in this repository.
 
 ## chezmoi-Specific Operation Guidelines
 
-YOU MUST: Always use `--no-tty` option when running chezmoi commands to ensure proper execution in non-interactive environments.
+YOU MUST: Always use `--no-tty` option when running chezmoi commands to
+ensure proper execution in non-interactive environments.
+
 YOU MUST: Follow this procedure after file editing:
+
 1. `chezmoi diff --no-tty` to check changes
 2. `chezmoi apply --dry-run --no-tty` for test execution
 3. `chezmoi apply --no-tty` for actual application
 
-YOU MUST: Edit files in homedir/ directory, never edit files directly in the home directory.
+YOU MUST: Edit files in homedir/ directory, never edit files directly in
+the home directory.
+
 YOU MUST: Suggest creating backups before important configuration changes.
 
 FOR DOTFILES PROJECT:
 YOU MUST: Execute configuration changes in the following order:
+
 1. Edit files in homedir/
 2. Confirm changes with `chezmoi diff --no-tty`
 3. Test execution with `chezmoi apply --dry-run --no-tty`
@@ -28,22 +35,34 @@ YOU MUST: Apply system-wide changes (zsh, ssh, etc.) in stages.
 FOR SENSITIVE FILES:
 
 private_* files (sensitive but not encrypted files):
+
 YOU MUST: Get user permission before outputting content to logs.
-YOU MUST: Never display the content of confidential information (passwords, tokens, etc.).
+
+YOU MUST: Never display the content of confidential information (passwords,
+tokens, etc.).
+
 YOU MUST: Editing can be done with normal chezmoi operations.
 
 encrypted_* files (actually encrypted files):
+
 YOU MUST: Use chezmoi edit command (direct editing prohibited).
+
 YOU MUST: Always verify encryption status after editing.
+
 YOU MUST: Never display content in plain text.
-YOU MUST: Verify integrity with `chezmoi verify` after encryption operations.
+
+YOU MUST: Verify integrity with `chezmoi verify` after encryption
+operations.
 
 NEVER: Output confidential information to diff or logs for any files.
 NEVER: Display encrypted file content in plain text.
 
 ## Project Overview
 
-This repository is a personal dotfiles project managed with **chezmoi**. It provides a comprehensive configuration setup for macOS development environment, integrating shell configurations, development tools, and application settings.
+This repository is a personal dotfiles project managed with **chezmoi**.
+It provides a comprehensive configuration setup for macOS development
+environment, integrating shell configurations, development tools, and
+application settings.
 
 ## Architecture
 
@@ -55,8 +74,10 @@ This repository is a personal dotfiles project managed with **chezmoi**. It prov
 
 ### File Naming Conventions
 
-- `dot_*`: Files/directories that become `.` prefixed in home directory (e.g., `dot_Brewfile` → `~/.Brewfile`)
-- `private_*`: Files that contain sensitive information (SSH keys, credentials)
+- `dot_*`: Files/directories that become `.` prefixed in home directory
+  (e.g., `dot_Brewfile` → `~/.Brewfile`)
+- `private_*`: Files that contain sensitive information
+  (SSH keys, credentials)
 - `encrypted_*`: Files that are actually encrypted with age
 - `*.tmpl`: Template files with variable expansion
 
@@ -152,8 +173,10 @@ This repository is a personal dotfiles project managed with **chezmoi**. It prov
 
 - `.chezmoiroot`: Specifies `homedir` as the source root directory
 - `dot_Brewfile`: Homebrew dependencies (brew, cask, mas packages)
-- `dot_config/mise/config.toml`: Development tools version management (Node.js, Go, Python)
-- `dot_config/sheldon/plugins.toml`: Zsh plugin management with deferred loading
+- `dot_config/mise/config.toml`: Development tools version management
+  (Node.js, Go, Python)
+- `dot_config/sheldon/plugins.toml`: Zsh plugin management with
+  deferred loading
 - `dot_config/starship.toml`: Custom prompt configuration with themes
 - `dot_config/wezterm/`: Terminal configuration with Zellij integration
 - `dot_config/zsh/`: Zsh configuration with plugins and aliases
@@ -162,7 +185,8 @@ This repository is a personal dotfiles project managed with **chezmoi**. It prov
 
 ### chezmoi Operations
 
-YOU MUST: Always use `--no-tty` option when running chezmoi commands to ensure proper execution in non-interactive environments.
+YOU MUST: Always use `--no-tty` option when running chezmoi commands to
+ensure proper execution in non-interactive environments.
 
 ```bash
 # Preview changes before applying
@@ -219,7 +243,8 @@ mas outdated
 
 ### Primary Tools
 
-- **Shell**: Zsh + Starship (prompt) + Sheldon (plugin manager with deferred loading)
+- **Shell**: Zsh + Starship (prompt) + Sheldon
+  (plugin manager with deferred loading)
 - **Terminal**: Wezterm (auto-starts Zellij session)
 - **Multiplexer**: Zellij (attached as "wezterm" session)
 - **Version Manager**: mise (Node.js 22, Go 1.24.1, Python via uv, pnpm 10)
@@ -232,7 +257,8 @@ mas outdated
 - **Zsh Performance**: Uses Sheldon's deferred loading and caching system
 - **Plugin Loading**: Plugins are loaded via `zsh-defer` for faster startup
 - **Cache System**: Sheldon generates cached plugin source for performance
-- **Integration**: Mise, Starship, and Homebrew are initialized through Sheldon
+- **Integration**: Mise, Starship, and Homebrew are initialized
+  through Sheldon
 
 ### Editor Configuration
 
@@ -247,8 +273,10 @@ Follow `.editorconfig` in project root:
 
 ### File Editing
 
-- **IMPORTANT**: Edit files in this repository (`/Users/cffnpwr/.local/share/chezmoi/homedir/`), not in home directory
-- **WORKFLOW**: Always edit files in `./homedir/` directory, then apply changes with `chezmoi apply`
+- **IMPORTANT**: Edit files in this repository
+  (`/Users/cffnpwr/.local/share/chezmoi/homedir/`), not in home directory
+- **WORKFLOW**: Always edit files in `./homedir/` directory, then apply
+  changes with `chezmoi apply`
 - Use `private_` prefix for files containing sensitive information
 - Use `encrypted_` prefix for files that require actual encryption
 - Test changes with `chezmoi diff` before applying
@@ -256,9 +284,12 @@ Follow `.editorconfig` in project root:
 
 ### Working with Specific Components
 
-- **Brewfile**: Add packages to `homedir/dot_Brewfile`, then run `brew bundle --file ~/.Brewfile`
-- **Zsh plugins**: Update `dot_config/sheldon/plugins.toml`, plugins auto-load via cache system
-- **SSH configs**: Edit sensitive files under `private_dot_ssh/` using appropriate chezmoi commands
+- **Brewfile**: Add packages to `homedir/dot_Brewfile`, then run
+  `brew bundle --file ~/.Brewfile`
+- **Zsh plugins**: Update `dot_config/sheldon/plugins.toml`, plugins
+  auto-load via cache system
+- **SSH configs**: Edit sensitive files under `private_dot_ssh/` using
+  appropriate chezmoi commands
 - **Development tools**: Update versions in `dot_config/mise/config.toml`
 
 ### Commit Convention

@@ -2,4 +2,5 @@
 "npm:@anthropic-ai/claude-code" = "1.0.30"
 "npm:ccusage" = "latest"
 "npm:@cyanheads/git-mcp-server" = "latest"
+"npm:markdownlint-cli" = "latest"
 uv = "latest"

@@ -1,9 +1,10 @@
 # Editor Configuration
 
-## Editor Configuration
+YOU MUST: When editing files, always check for the existence of
+`.editorconfig` in the project root
 
-YOU MUST: When editing files, always check for the existence of `.editorconfig` in the project root
-YOU MUST: If `.editorconfig` exists, strictly follow its formatting rules including:
+YOU MUST: If `.editorconfig` exists, strictly follow its formatting rules
+including:
 
 - Indentation style (spaces vs tabs)
 - Indentation size
@@ -12,4 +13,5 @@ YOU MUST: If `.editorconfig` exists, strictly follow its formatting rules includ
 - Final newline requirements
 - Trailing whitespace handling
 
-YOU MUST: Ensure all file modifications comply with the project's `.editorconfig` settings
+YOU MUST: Ensure all file modifications comply with the project's
+`.editorconfig` settings
