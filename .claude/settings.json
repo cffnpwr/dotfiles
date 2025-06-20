@@ -16,6 +16,7 @@
       "Bash(chezmoi list:*)",
       "Bash(chezmoi state:*)",
       "Bash(chezmoi verify:*)",
+      "Bash(chezmoi --version)",
       "Bash(brew list:*)",
       "Bash(brew outdated:*)",
       "Bash(brew deps:*)",
