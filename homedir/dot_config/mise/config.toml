@@ -1,5 +1,5 @@
 [tools]
-"npm:@anthropic-ai/claude-code" = "1.0.27"
+"npm:@anthropic-ai/claude-code" = "1.0.30"
 "npm:ccusage" = "latest"
 "npm:@cyanheads/git-mcp-server" = "latest"
 uv = "latest"

@@ -2,6 +2,45 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## chezmoi-Specific Operation Guidelines
+
+YOU MUST: Always use `--no-tty` option when running chezmoi commands to ensure proper execution in non-interactive environments.
+YOU MUST: Follow this procedure after file editing:
+1. `chezmoi diff --no-tty` to check changes
+2. `chezmoi apply --dry-run --no-tty` for test execution
+3. `chezmoi apply --no-tty` for actual application
+
+YOU MUST: Edit files in homedir/ directory, never edit files directly in the home directory.
+YOU MUST: Suggest creating backups before important configuration changes.
+
+FOR DOTFILES PROJECT:
+YOU MUST: Execute configuration changes in the following order:
+1. Edit files in homedir/
+2. Confirm changes with `chezmoi diff --no-tty`
+3. Test execution with `chezmoi apply --dry-run --no-tty`
+4. Actually apply with `chezmoi apply --no-tty`
+5. Verify operation of affected applications/services
+
+YOU MUST: Apply system-wide changes (zsh, ssh, etc.) in stages.
+
+## Sensitive File Operation Safety Guidelines
+
+FOR SENSITIVE FILES:
+
+private_* files (sensitive but not encrypted files):
+YOU MUST: Get user permission before outputting content to logs.
+YOU MUST: Never display the content of confidential information (passwords, tokens, etc.).
+YOU MUST: Editing can be done with normal chezmoi operations.
+
+encrypted_* files (actually encrypted files):
+YOU MUST: Use chezmoi edit command (direct editing prohibited).
+YOU MUST: Always verify encryption status after editing.
+YOU MUST: Never display content in plain text.
+YOU MUST: Verify integrity with `chezmoi verify` after encryption operations.
+
+NEVER: Output confidential information to diff or logs for any files.
+NEVER: Display encrypted file content in plain text.
+
 ## Project Overview
 
 This repository is a personal dotfiles project managed with **chezmoi**. It provides a comprehensive configuration setup for macOS development environment, integrating shell configurations, development tools, and application settings.
@@ -17,8 +56,9 @@ This repository is a personal dotfiles project managed with **chezmoi**. It prov
 ### File Naming Conventions
 
 - `dot_*`: Files/directories that become `.` prefixed in home directory (e.g., `dot_Brewfile` → `~/.Brewfile`)
-- `private_*`: Files encrypted with age (SSH keys, credentials)
-- `*.tmpl`: Template files with variable expansion (none currently present)
+- `private_*`: Files that contain sensitive information (SSH keys, credentials)
+- `encrypted_*`: Files that are actually encrypted with age
+- `*.tmpl`: Template files with variable expansion
 
 ### Directory Structure
 
@@ -53,7 +93,7 @@ This repository is a personal dotfiles project managed with **chezmoi**. It prov
     │   │   ├── 01-home                   # Home environment settings
     │   │   ├── 02-tmcit                  # School environment settings
     │   │   └── 03-git                    # Git-related settings
-    │   ├── private_config                # Main SSH config (encrypted)
+    │   ├── private_config                # Main SSH config (sensitive)
     │   └── rc                            # SSH RC configuration
     │
     └── ⚙️ Application Configurations (dot_config/ - 16 files)
@@ -65,8 +105,8 @@ This repository is a personal dotfiles project managed with **chezmoi**. It prov
         │       └── reflection.md         # Reflection configuration
         │
         ├── 🐙 gh/ (2 files - encrypted)  # GitHub CLI configuration
-        │   ├── private_config.yml        # GitHub CLI config (encrypted)
-        │   └── private_hosts.yml         # GitHub hosts config (encrypted)
+        │   ├── private_config.yml        # GitHub CLI config (sensitive)
+        │   └── private_hosts.yml         # GitHub hosts config (sensitive)
         │
         ├── 🛠️ mise/ (1 file)             # Development tool version management
         │   └── config.toml               # Node.js, Go, Python versions
@@ -96,7 +136,8 @@ This repository is a personal dotfiles project managed with **chezmoi**. It prov
 ### File Naming Patterns
 
 - `dot_*`: Files/directories that become `.` prefixed in home directory
-- `private_*`: Files encrypted with age (SSH keys, credentials)
+- `private_*`: Files containing sensitive information
+- `encrypted_*`: Files that are actually encrypted with age
 - `*.tmpl`: Template files with variable expansion (7 files total)
 - `run_once_*`: Scripts that run only once during initial setup
 - `run_onchange_*`: Scripts that run when configuration files change
@@ -208,7 +249,8 @@ Follow `.editorconfig` in project root:
 
 - **IMPORTANT**: Edit files in this repository (`/Users/cffnpwr/.local/share/chezmoi/homedir/`), not in home directory
 - **WORKFLOW**: Always edit files in `./homedir/` directory, then apply changes with `chezmoi apply`
-- Use `private_` prefix for files requiring encryption (SSH configs, credentials)
+- Use `private_` prefix for files containing sensitive information
+- Use `encrypted_` prefix for files that require actual encryption
 - Test changes with `chezmoi diff` before applying
 - After editing, run `chezmoi apply` to deploy changes to home directory
 
@@ -216,7 +258,7 @@ Follow `.editorconfig` in project root:
 
 - **Brewfile**: Add packages to `homedir/dot_Brewfile`, then run `brew bundle --file ~/.Brewfile`
 - **Zsh plugins**: Update `dot_config/sheldon/plugins.toml`, plugins auto-load via cache system
-- **SSH configs**: Edit encrypted files under `private_dot_ssh/` using `chezmoi edit`
+- **SSH configs**: Edit sensitive files under `private_dot_ssh/` using appropriate chezmoi commands
 - **Development tools**: Update versions in `dot_config/mise/config.toml`
 
 ### Commit Convention
@@ -232,10 +274,3 @@ Examples:
 - `feat ✨: Wezterm設定の追加`
 - `fix 🐛: Zsh補完設定の修正`
 - `perf ⚡: Sheldonプラグイン起動の最適化`
-
-## important-instruction-reminders
-
-Do what has been asked; nothing more, nothing less.
-NEVER create files unless they're absolutely necessary for achieving your goal.
-ALWAYS prefer editing an existing file to creating a new one.
-NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
