@@ -12,4 +12,3 @@ alias ll=ee
 alias lt=et
 alias lta=eta
 alias l="clear && ls"
-alias code="code-insiders"

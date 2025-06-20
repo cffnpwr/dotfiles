@@ -3,12 +3,6 @@
 # 重複排除
 typeset -Ug path PATH fpath FPATH
 
-# XDG
-export XDG_CONFIG_HOME=${HOME}/.config
-export XDG_CACHE_HOME=${HOME}/.cache
-export XDG_DATA_HOME=${HOME}/.local/share
-export XDG_STATE_HOME=${HOME}/.local/state
-
 # path
 path=(
   ${HOME}/.local/bin(N-/)
@@ -17,6 +11,12 @@ path=(
   /opt/homebrew/bin(N-/)
   $path
 )
+
+# XDG
+export XDG_CONFIG_HOME=${HOME}/.config
+export XDG_CACHE_HOME=${HOME}/.cache
+export XDG_DATA_HOME=${HOME}/.local/share
+export XDG_STATE_HOME=${HOME}/.local/state
 
 # lang
 export LANGUAGE="en_US.UTF-8"
@@ -29,6 +29,13 @@ export EDITOR=vim
 export CVSEDITOR="${EDITOR}"
 export SVN_EDITOR="${EDITOR}"
 export GIT_EDITOR="${EDITOR}"
+
+# mise - use shims for non-interactive shells, activate for interactive shells
+if [[ $- == *i* ]]; then
+  eval "$(mise activate zsh)"
+else
+  eval "$(mise activate zsh --shims)"
+fi
 
 {{ if eq .chezmoi.os "darwin" -}}
 # SSH Agent
