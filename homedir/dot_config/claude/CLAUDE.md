@@ -104,6 +104,16 @@ YOU MUST: Actively use web search when encountering:
 IMPORTANT: Don't assume knowledge about rapidly changing technologies
 YOU MUST: Always verify implementation details with current documentation when uncertain
 
+### Library and Framework Usage
+
+YOU MUST: When using external libraries or frameworks in code:
+
+- Research the library thoroughly even if you think you know it well
+- Verify the latest version, syntax, and best practices
+- Check for any breaking changes or deprecations
+- Ensure information accuracy and reliability before implementation
+- Consult official documentation and reliable sources
+
 ## Editor Configuration
 
 YOU MUST: When editing files, always check for the existence of `.editorconfig` in the project root
@@ -131,6 +141,7 @@ YOU MUST: Only use command line Git operations for functions not supported by th
 YOU MUST: Prioritize Git MCP server tools over bash commands for Git operations
 
 Examples of preferred approach:
+
 - Use `mcp__git__git_status` instead of `git status`
 - Use `mcp__git__git_diff` instead of `git diff`
 - Use `mcp__git__git_commit` instead of `git commit`
