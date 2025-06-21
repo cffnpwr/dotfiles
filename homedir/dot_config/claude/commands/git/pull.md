@@ -30,6 +30,7 @@ YOU MUST: Verify repository state after pull completion.
 ## Conflict Resolution
 
 When merge conflicts occur:
+
 1. Identify conflicted files
 2. Resolve conflicts manually
 3. Stage resolved files  

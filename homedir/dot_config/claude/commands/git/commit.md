@@ -50,12 +50,14 @@ NEVER: Mix features and bug fixes in a single commit
 NEVER: Combine multiple unrelated changes in one commit
 
 Examples of proper commit separation:
+
 - **Wrong**: `feat ✨: ログイン機能の追加とパスワードバリデーションのバグ修正`
 - **Correct**:
   - `feat ✨: ログイン機能の追加`
   - `fix 🐛: パスワードバリデーションのバグ修正`
 
 YOU MUST: For large features, break down into smaller, logical commits:
+
 - **Wrong**: `feat ✨: ユーザー管理システム全体の実装`
 - **Correct**:
   - `feat ✨: ユーザー登録機能の実装`

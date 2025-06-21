@@ -30,6 +30,7 @@ YOU MUST: Include line numbers and file paths for reference.
 ## Analysis
 
 When showing diffs:
+
 1. Summarize the scope and nature of changes
 2. Identify potential issues or improvements
 3. Suggest next steps based on the changes shown

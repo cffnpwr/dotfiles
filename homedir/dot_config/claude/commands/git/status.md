@@ -16,6 +16,7 @@ Execute the following workflow:
 ## Status Information
 
 Display the following information:
+
 - **Current branch**: Active branch name and upstream tracking
 - **Repository state**: Clean, dirty, or in special state (merge, rebase, etc.)
 - **Staged changes**: Files ready for commit
