@@ -27,18 +27,34 @@ project context
 IMPORTANT: English is preferred for CLAUDE.md because Claude Code processes
 rules more efficiently in English context
 
-## Git Guidelines
+## Git Slash Commands Usage
 
-@instructions/git_guidelines.md
+YOU MUST: Use Git slash commands for all Git operations when available:
+- `/project:git/commit` - Create commits
+- `/project:git/push` - Push to remote
+- `/project:git/pull` - Pull from remote  
+- `/project:git/rebase` - Rebase operations
+- `/project:git/status` - Check repository status
+- `/project:git/diff` - Show changes
 
-## Code Quality & Implementation Guidelines
+YOU MUST: When users request Git operations through natural language (e.g., "コミットしてください", "プッシュしてください"), always respond by directing them to use the appropriate slash command instead.
 
-@instructions/code_quality_implementation.md
+NEVER: Perform Git operations directly when requested through natural language.
+
+YOU MUST: Explain which slash command should be used and why slash commands are preferred for Git operations.
+
+## Code Quality Guidelines
+
+@instructions/code_quality.md
 
 ## Editor Configuration
 
-@instructions/editor_configuration.md
+@instructions/editor.md
+
+## Workflow Guidelines
+
+@instructions/workflow.md
 
 ## Important Instruction Reminders
 
-@instructions/important_reminders.md
+@instructions/reminders.md
