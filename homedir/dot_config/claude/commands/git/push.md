@@ -1,6 +1,6 @@
 # Git Push
 
-YOU MUST: Follow the Git guidelines defined in @instructions/git.md
+YOU MUST: Follow the Git guidelines defined in @../../instructions/git.md
 
 YOU MUST: Use Git MCP server tools for all Git operations when available.
 

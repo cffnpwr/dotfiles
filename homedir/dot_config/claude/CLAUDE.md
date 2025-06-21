@@ -11,8 +11,6 @@ technical documentation.
 YOU MUST: Write CLAUDE.md files and system instructions in English for
 optimal processing.
 
-YOU MUST: Write commit messages in Japanese using noun-ending form (体言止め).
-
 YOU MUST: When insufficient information is provided to complete a user's
 request, clearly state what information is missing and specify what additional
 details would be needed to fulfill the request.
@@ -27,16 +25,9 @@ project context
 IMPORTANT: English is preferred for CLAUDE.md because Claude Code processes
 rules more efficiently in English context
 
-## Git Slash Commands Usage
+## Git Operations Guidelines
 
-YOU MUST: Use Git slash commands for all Git operations when available:
-
-- `/commit` - Create commits
-- `/push` - Push to remote
-- `/pull` - Pull from remote  
-- `/rebase` - Rebase operations
-- `/status` - Check repository status
-- `/diff` - Show changes
+YOU MUST: Use Git slash commands for all Git operations when available.
 
 YOU MUST: When users request Git operations through natural language (e.g., "コミットしてください", "プッシュしてください"),
 always respond by directing them to use the appropriate slash command instead.

@@ -5,28 +5,31 @@ with code in this repository.
 
 ## chezmoi-Specific Operation Guidelines
 
+**CRITICAL FILE EDITING RULE:**
+NEVER EVER edit files directly in the home directory (~/).
+ALWAYS edit files in the chezmoi source directory: `/Users/cffnpwr/.local/share/chezmoi/homedir/`
+
 YOU MUST: Always use `--no-tty` option when running chezmoi commands to
 ensure proper execution in non-interactive environments.
 
-YOU MUST: Follow this procedure after file editing:
+**MANDATORY FILE EDITING WORKFLOW:**
+When user requests ANY configuration change (e.g., "change zsh settings", "modify SSH config", "update starship prompt"):
 
-1. `chezmoi diff --no-tty` to check changes
-2. `chezmoi apply --dry-run --no-tty` for test execution
-3. `chezmoi apply --no-tty` for actual application
+1. **IDENTIFY TARGET FILE**: Map the configuration request to the correct file in `homedir/` directory
+2. **EDIT SOURCE FILE**: Edit the file in `/Users/cffnpwr/.local/share/chezmoi/homedir/` (NEVER in home directory)
+3. **VERIFY CHANGES**: Run `chezmoi diff --no-tty` to check changes
+4. **TEST APPLY**: Run `chezmoi apply --dry-run --no-tty` for test execution
+5. **APPLY CHANGES**: Run `chezmoi apply --no-tty` for actual application
+6. **VERIFY OPERATION**: Check that affected applications/services work correctly
 
-YOU MUST: Edit files in homedir/ directory, never edit files directly in
-the home directory.
+**FILE PATH MAPPING EXAMPLES:**
+- User says "edit ~/.zshrc" → Edit `homedir/dot_config/zsh/dot_zshrc`
+- User says "modify ~/.config/starship.toml" → Edit `homedir/dot_config/starship.toml`
+- User says "change SSH config" → Edit files in `homedir/private_dot_ssh/`
+- User says "update Brewfile" → Edit `homedir/dot_Brewfile`
+- User says "change Wezterm settings" → Edit files in `homedir/dot_config/wezterm/`
 
 YOU MUST: Suggest creating backups before important configuration changes.
-
-FOR DOTFILES PROJECT:
-YOU MUST: Execute configuration changes in the following order:
-
-1. Edit files in homedir/
-2. Confirm changes with `chezmoi diff --no-tty`
-3. Test execution with `chezmoi apply --dry-run --no-tty`
-4. Actually apply with `chezmoi apply --no-tty`
-5. Verify operation of affected applications/services
 
 YOU MUST: Apply system-wide changes (zsh, ssh, etc.) in stages.
 
@@ -273,14 +276,26 @@ Follow `.editorconfig` in project root:
 
 ### File Editing
 
-- **IMPORTANT**: Edit files in this repository
-  (`/Users/cffnpwr/.local/share/chezmoi/homedir/`), not in home directory
-- **WORKFLOW**: Always edit files in `./homedir/` directory, then apply
-  changes with `chezmoi apply`
+**ABSOLUTE REQUIREMENT**: NEVER edit files in home directory (~/) directly.
+ALWAYS edit files in chezmoi source directory: `/Users/cffnpwr/.local/share/chezmoi/homedir/`
+
+**CONFIGURATION CHANGE PROTOCOL**:
+When user requests any configuration change:
+1. **STOP** - Do not edit files in ~/
+2. **IDENTIFY** - Map request to correct file in `homedir/`
+3. **EDIT** - Modify file in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
+4. **APPLY** - Use chezmoi workflow to deploy changes
+
+**NAMING CONVENTIONS**:
 - Use `private_` prefix for files containing sensitive information
 - Use `encrypted_` prefix for files that require actual encryption
-- Test changes with `chezmoi diff` before applying
-- After editing, run `chezmoi apply` to deploy changes to home directory
+- Use `dot_` prefix for dotfiles (files starting with . in home directory)
+
+**DEPLOYMENT WORKFLOW**:
+1. Edit files in `homedir/` directory
+2. Test changes with `chezmoi diff --no-tty`
+3. Validate with `chezmoi apply --dry-run --no-tty`
+4. Deploy with `chezmoi apply --no-tty`
 
 ### Working with Specific Components
 
