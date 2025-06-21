@@ -30,14 +30,16 @@ rules more efficiently in English context
 ## Git Slash Commands Usage
 
 YOU MUST: Use Git slash commands for all Git operations when available:
-- `/project:git/commit` - Create commits
-- `/project:git/push` - Push to remote
-- `/project:git/pull` - Pull from remote  
-- `/project:git/rebase` - Rebase operations
-- `/project:git/status` - Check repository status
-- `/project:git/diff` - Show changes
 
-YOU MUST: When users request Git operations through natural language (e.g., "コミットしてください", "プッシュしてください"), always respond by directing them to use the appropriate slash command instead.
+- `/commit` - Create commits
+- `/push` - Push to remote
+- `/pull` - Pull from remote  
+- `/rebase` - Rebase operations
+- `/status` - Check repository status
+- `/diff` - Show changes
+
+YOU MUST: When users request Git operations through natural language (e.g., "コミットしてください", "プッシュしてください"),
+always respond by directing them to use the appropriate slash command instead.
 
 NEVER: Perform Git operations directly when requested through natural language.
 
