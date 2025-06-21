@@ -10,8 +10,13 @@ Execute the following workflow:
 
 1. Check current git status and staged changes using git_status
 2. Review changes with git_diff (both staged and unstaged)
-3. Create commit using git_commit with proper Conventional Commits format and Japanese message
-4. Verify commit was created successfully
+3. **DISPLAY COMMIT CONFIRMATION** - Present the following information to the user for confirmation:
+   - **Target Branch**: Show the current branch name
+   - **Files to be committed**: List all staged files with their status (Added, Modified, Deleted, etc.)
+   - **Proposed commit message**: Show the commit message that will be used
+4. **WAIT FOR USER CONFIRMATION** - Ask user to confirm before proceeding with the commit
+5. Create commit using git_commit with proper Conventional Commits format and Japanese message
+6. Verify commit was created successfully
 
 ## Commit Message Format
 
