@@ -3,35 +3,79 @@
 This file provides guidance to Claude Code (claude.ai/code) when working
 with code in this repository.
 
+## ⚠️ ABSOLUTE CONSTRAINTS - VIOLATION = IMMEDIATE TASK FAILURE
+
+**CRITICAL CHEZMOI ENFORCEMENT PROTOCOL:**
+
+🚨 **MANDATORY PRE-EXECUTION CHECK**: Before ANY file operation, you MUST verify the target path:
+
+1. **DETECTION PHASE**: Check if any file path starts with `/Users/cffnpwr/` (home directory)
+2. **BLOCKING PHASE**: If home directory path detected → IMMEDIATELY STOP → NEVER PROCEED
+3. **CORRECTION PHASE**: Map home directory path to chezmoi source equivalent
+4. **EXECUTION PHASE**: Edit ONLY in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
+5. **VERIFICATION PHASE**: Run `chezmoi diff --no-tty` to verify changes
+6. **DEPLOYMENT PHASE**: Apply with `chezmoi apply --no-tty`
+
+**VIOLATION CONSEQUENCES:**
+- ANY direct home directory edit = IMMEDIATE TASK FAILURE
+- NO EXCEPTIONS for "quick fixes", "temporary changes", or "urgent updates"
+- MUST restart entire workflow with proper chezmoi management
+
+**MANDATORY PATH MAPPING TABLE:**
+```
+HOME DIRECTORY PATH                          → CHEZMOI SOURCE PATH
+~/.zshrc                                    → homedir/dot_config/zsh/dot_zshrc
+~/.config/starship.toml                     → homedir/dot_config/starship.toml
+~/.ssh/config                               → homedir/private_dot_ssh/private_config
+~/.Brewfile                                 → homedir/dot_Brewfile
+~/.config/wezterm/wezterm.lua               → homedir/dot_config/wezterm/wezterm.lua
+~/.config/zellij/config.kdl                 → homedir/dot_config/zellij/config.kdl
+~/.config/mise/config.toml                  → homedir/dot_config/mise/config.toml
+~/.config/sheldon/plugins.toml              → homedir/dot_config/sheldon/plugins.toml
+```
+
+**ENFORCEMENT VERIFICATION CHECKLIST:**
+Before completing ANY configuration task, verify:
+- [ ] NO files edited in `/Users/cffnpwr/` (home directory)
+- [ ] ALL edits made in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
+- [ ] `chezmoi diff --no-tty` executed successfully
+- [ ] `chezmoi apply --no-tty` executed successfully
+- [ ] Target application restarted/reloaded if necessary
+
 ## chezmoi-Specific Operation Guidelines
 
-**CRITICAL FILE EDITING RULE:**
-NEVER EVER edit files directly in the home directory (~/).
-ALWAYS edit files in the chezmoi source directory: `/Users/cffnpwr/.local/share/chezmoi/homedir/`
+**REINFORCED FILE EDITING PROTOCOL:**
 
-YOU MUST: Always use `--no-tty` option when running chezmoi commands to
-ensure proper execution in non-interactive environments.
+🔒 **ABSOLUTE PROHIBITION**: NEVER edit files in `/Users/cffnpwr/` (home directory)
+✅ **MANDATORY LOCATION**: ALWAYS edit in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
 
-**MANDATORY FILE EDITING WORKFLOW:**
-When user requests ANY configuration change (e.g., "change zsh settings", "modify SSH config", "update starship prompt"):
+**COMMAND EXECUTION REQUIREMENTS:**
+YOU MUST: Always use `--no-tty` option when running chezmoi commands
 
-1. **IDENTIFY TARGET FILE**: Map the configuration request to the correct file in `homedir/` directory
-2. **EDIT SOURCE FILE**: Edit the file in `/Users/cffnpwr/.local/share/chezmoi/homedir/` (NEVER in home directory)
-3. **VERIFY CHANGES**: Run `chezmoi diff --no-tty` to check changes
-4. **TEST APPLY**: Run `chezmoi apply --dry-run --no-tty` for test execution
-5. **APPLY CHANGES**: Run `chezmoi apply --no-tty` for actual application
-6. **VERIFY OPERATION**: Check that affected applications/services work correctly
+**STEP-BY-STEP ENFORCEMENT WORKFLOW:**
+When user requests ANY configuration change:
 
-**FILE PATH MAPPING EXAMPLES:**
-- User says "edit ~/.zshrc" → Edit `homedir/dot_config/zsh/dot_zshrc`
-- User says "modify ~/.config/starship.toml" → Edit `homedir/dot_config/starship.toml`
-- User says "change SSH config" → Edit files in `homedir/private_dot_ssh/`
-- User says "update Brewfile" → Edit `homedir/dot_Brewfile`
-- User says "change Wezterm settings" → Edit files in `homedir/dot_config/wezterm/`
+1. **STOP & ANALYZE**: Before any action, identify home directory paths
+2. **PATH TRANSLATION**: Convert home paths to chezmoi source paths using mapping table above
+3. **SOURCE EDIT**: Edit ONLY files in `homedir/` directory
+4. **VERIFICATION**: Run `chezmoi diff --no-tty` to preview changes
+5. **DRY RUN TEST**: Execute `chezmoi apply --dry-run --no-tty` for safety
+6. **DEPLOYMENT**: Apply with `chezmoi apply --no-tty`
+7. **VALIDATION**: Verify target application functionality
 
-YOU MUST: Suggest creating backups before important configuration changes.
+**CRITICAL PATH TRANSLATION EXAMPLES:**
+```
+USER REQUEST                                 → CORRECT ACTION
+"edit ~/.zshrc"                             → Edit homedir/dot_config/zsh/dot_zshrc
+"modify ~/.config/starship.toml"            → Edit homedir/dot_config/starship.toml
+"change SSH config"                         → Edit homedir/private_dot_ssh/private_config
+"update Brewfile"                           → Edit homedir/dot_Brewfile
+"change Wezterm settings"                   → Edit homedir/dot_config/wezterm/wezterm.lua
+```
 
-YOU MUST: Apply system-wide changes (zsh, ssh, etc.) in stages.
+**SAFETY PROTOCOLS:**
+YOU MUST: Create backups before critical system configuration changes
+YOU MUST: Apply system-wide changes (zsh, ssh, etc.) incrementally
 
 ## Sensitive File Operation Safety Guidelines
 
@@ -276,15 +320,17 @@ Follow `.editorconfig` in project root:
 
 ### File Editing
 
-**ABSOLUTE REQUIREMENT**: NEVER edit files in home directory (~/) directly.
-ALWAYS edit files in chezmoi source directory: `/Users/cffnpwr/.local/share/chezmoi/homedir/`
+**ULTIMATE FILE EDITING ENFORCEMENT:**
 
-**CONFIGURATION CHANGE PROTOCOL**:
+⛔ **TOTAL PROHIBITION**: NEVER edit files in `/Users/cffnpwr/` (home directory)
+✅ **EXCLUSIVE LOCATION**: ONLY edit in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
+
+**ZERO-TOLERANCE CONFIGURATION PROTOCOL:**
 When user requests any configuration change:
-1. **STOP** - Do not edit files in ~/
-2. **IDENTIFY** - Map request to correct file in `homedir/`
-3. **EDIT** - Modify file in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
-4. **APPLY** - Use chezmoi workflow to deploy changes
+1. **IMMEDIATE STOP** - Halt any home directory path detection
+2. **MANDATORY MAPPING** - Use PATH MAPPING TABLE from constraints section
+3. **SOURCE-ONLY EDIT** - Modify files exclusively in `homedir/` directory
+4. **CHEZMOI DEPLOYMENT** - Apply using proper chezmoi workflow with verification
 
 **NAMING CONVENTIONS**:
 - Use `private_` prefix for files containing sensitive information
