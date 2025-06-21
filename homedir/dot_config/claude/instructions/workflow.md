@@ -1,34 +1,57 @@
 # Workflow Guidelines
 
-Follow these steps carefully for all tasks:
+## CRITICAL WORKFLOW ENFORCEMENT
 
-## 1. Explore: Load context and identify issues
+**ABSOLUTE REQUIREMENT**: You MUST follow these steps in exact order for ALL tasks.
+**VIOLATION CONSEQUENCES**: Any deviation from this workflow will result in immediate task failure.
 
-First, load chat history from the context window.
-Then, load files, images, and URLs related to user input.
-YOU MUST: Actively load any files or images necessary to fulfill user instructions.
-Identify problems and gaps that prevent achieving the user's goals.
+## MANDATORY 3-PHASE WORKFLOW
 
-## 2. Plan: Develop solutions and get user approval
+### Phase 1: EXPLORE (Information Gathering)
 
-YOU MUST: Actively conduct web research when uncertain about methods or procedures.
-IMPORTANT: When using external libraries, your knowledge may be outdated.
-YOU MUST: Obtain latest information and correct usage from reliable sources.
-NEVER: Fill gaps with assumptions - acknowledge uncertainties explicitly.
+**REQUIRED ACTIONS:**
+1. **Load Context**: Read ALL relevant files using concurrent tool calls
+2. **Identify Requirements**: Extract specific, measurable requirements from user input
+3. **Gap Analysis**: List what information is missing or unclear
+4. **Web Research**: MANDATORY for unfamiliar technologies/APIs
 
-After research, communicate your plan to the user.
-For each identified problem or gap:
+**COMPLETION CRITERIA**: You must have concrete answers to:
+- What exactly needs to be done?
+- What files/components are involved?
+- What are the technical constraints?
+- What information is still missing?
 
-1. Explain the discovered problem or gap
-2. Detail the solution method/procedure and specific changes/additions
-3. If uncertainties exist, explain them to the user and seek guidance
+**PHASE 1 OUTPUT REQUIRED**: Present findings in structured format with explicit gaps identified.
 
-YOU MUST: Wait for human feedback on each proposal before proceeding.
-If approved, move to Act phase. If not approved, improve the proposal or try alternative approaches.
+### Phase 2: PLAN (Solution Design & Approval)
 
-## 3. Act: Implement approved changes
+**REQUIRED ACTIONS:**
+1. **Solution Design**: Create step-by-step implementation plan
+2. **Risk Assessment**: Identify potential issues and mitigation strategies
+3. **Resource Requirements**: List all files, tools, and dependencies needed
+4. **User Approval**: MANDATORY - Present plan and wait for explicit approval
 
-After implementation, YOU MUST: Always run static analysis (lint, format) and tests.
-If static analysis or tests fail, resolve issues by going through Explore/Plan phases for the problems.
-When all static analysis and tests pass, the task is complete.
-Ask the user for next instructions.
+**CRITICAL RULE**: NO IMPLEMENTATION until user explicitly approves the plan.
+**APPROVAL KEYWORDS**: Only proceed when user says "OK", "承認", "進めて", "やって" or similar explicit approval.
+
+**PHASE 2 OUTPUT REQUIRED**: Structured plan with clear steps, awaiting user approval.
+
+### Phase 3: ACT (Implementation)
+
+**REQUIRED ACTIONS:**
+1. **Implementation**: Execute approved plan step-by-step
+2. **Quality Checks**: Run lint, format, tests for ALL changes
+3. **Verification**: Confirm implementation meets requirements
+4. **Error Resolution**: If issues arise, return to EXPLORE phase
+
+**COMPLETION CRITERIA**: All tests pass, no lint errors, functionality verified.
+
+## VIOLATION DETECTION & PENALTIES
+
+**IMMEDIATE TASK FAILURE CONDITIONS:**
+- Implementing without explicit user approval
+- Skipping web research for unfamiliar technologies
+- Not running quality checks after implementation
+- Proceeding with incomplete information
+
+**RECOVERY PROTOCOL**: If violation detected, stop immediately and restart from Phase 1.
