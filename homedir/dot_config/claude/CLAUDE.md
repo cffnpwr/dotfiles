@@ -44,10 +44,6 @@ YOU MUST: Explain which slash command should be used and why slash commands are 
 
 @instructions/editor.md
 
-## Workflow Guidelines
-
-@instructions/workflow.md
-
 ## Important Instruction Reminders
 
 @instructions/reminders.md
