@@ -1,0 +1,15 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+
+# link claude config directory
+# Claude の設定ディレクトリのリンク先が存在しなければ作る
+if [ ! -d "$HOME/.claude" ]; then
+    echo "Claude の設定ディレクトリのリンク先が見つかりません。ディレクトリを作成します..."
+    mkdir -p "$HOME/.claude"
+fi
+# Claude の設定ディレクトリをリンク
+if [ ! -L "$HOME/.claude" ]; then
+    echo "Claude の設定ファイルのリンクが見つかりません。リンクを作成します..."
+    ln -nfs "${XDG_CONFIG_HOME:-$HOME/.config}/claude/" "$HOME/.claude/"
+fi
+{{ end -}}
