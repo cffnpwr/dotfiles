@@ -79,7 +79,9 @@
       "mcp__git__git_stash(mode:list)",
       "mcp__git__git_worktree(mode:list)",
       "mcp__git__git_set_working_dir",
-      "mcp__git__git_clear_working_dir"
+      "mcp__git__git_clear_working_dir",
+      "mcp__git__git_diff_staged",
+      "mcp__git__git_diff_unstaged"
     ]
   },
   "includeCoAuthoredBy": false

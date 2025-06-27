@@ -1,6 +1,7 @@
 [tools]
-"npm:@anthropic-ai/claude-code" = "1.0.31"
+"npm:@anthropic-ai/claude-code" = "latest"
 "npm:ccusage" = "latest"
 "npm:@cyanheads/git-mcp-server" = "latest"
 "npm:markdownlint-cli" = "latest"
+"npm:@google/gemini-cli" = "latest"
 uv = "latest"
