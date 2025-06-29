@@ -5,3 +5,6 @@
 "npm:markdownlint-cli" = "latest"
 "npm:@google/gemini-cli" = "latest"
 uv = "latest"
+"pipx:mcp-server-git" = "latest"
+"npm:@mjpitz/mcp-rfc" = "latest"
+"pipx:mcp-server-fetch" = "latest"

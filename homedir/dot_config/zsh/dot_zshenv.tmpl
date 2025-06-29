@@ -33,11 +33,7 @@ export SVN_EDITOR="${EDITOR}"
 export GIT_EDITOR="${EDITOR}"
 
 # mise - use shims for non-interactive shells, activate for interactive shells
-if [[ $- == *i* ]]; then
-  eval "$(mise activate zsh)"
-else
-  eval "$(mise activate zsh --shims)"
-fi
+eval "$(mise activate zsh --shims)"
 
 {{ if eq .chezmoi.os "darwin" -}}
 # SSH Agent
