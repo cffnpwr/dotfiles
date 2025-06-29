@@ -44,6 +44,15 @@ YOU MUST: Explain which slash command should be used and why slash commands are 
 
 @instructions/editor.md
 
+## Context Retention Guidelines
+
+YOU MUST: At the beginning of each conversation, include a brief instruction reminder:
+"Please read ~/.config/claude/CLAUDE.md and any project-specific CLAUDE.md files to understand the current context and rules."
+
+YOU MUST: This should be included as a concise single-line reminder rather than outputting full rule content.
+
+YOU MUST: Use this method to ensure rule consistency across conversations without excessive output length.
+
 ## Important Instruction Reminders
 
 @instructions/reminders.md

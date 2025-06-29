@@ -1,15 +1,16 @@
 {
+  "includeCoAuthoredBy": false,
   "permissions": {
     "allow": [
       "Read(**/*)",
       "LS(**/*)",
       "Glob(**/*)",
       "Grep(**/*)",
-      "Fetch(*)",
-      "WebFetch(*)",
-      "WebSearch(*)",
+      "WebFetch",
+      "WebSearch",
       "NotebookRead(**/*.ipynb)",
       "TodoRead",
+      "TodoWrite",
       "mcp__ide__getDiagnostics",
       "Bash(ls:*)",
       "Bash(cat:*)",
@@ -83,6 +84,5 @@
       "mcp__git__git_diff_staged",
       "mcp__git__git_diff_unstaged"
     ]
-  },
-  "includeCoAuthoredBy": false
+  }
 }
