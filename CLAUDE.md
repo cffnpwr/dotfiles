@@ -22,7 +22,8 @@ with code in this repository.
 - MUST restart entire workflow with proper chezmoi management
 
 **MANDATORY PATH MAPPING TABLE:**
-```
+
+```text
 HOME DIRECTORY PATH                          → CHEZMOI SOURCE PATH
 ~/.zshrc                                    → homedir/dot_config/zsh/dot_zshrc
 ~/.config/starship.toml                     → homedir/dot_config/starship.toml
@@ -32,6 +33,10 @@ HOME DIRECTORY PATH                          → CHEZMOI SOURCE PATH
 ~/.config/zellij/config.kdl                 → homedir/dot_config/zellij/config.kdl
 ~/.config/mise/config.toml                  → homedir/dot_config/mise/config.toml
 ~/.config/sheldon/plugins.toml              → homedir/dot_config/sheldon/plugins.toml
+~/.config/claude/CLAUDE.md                  → homedir/dot_config/claude/CLAUDE.md
+~/.config/claude/settings.json              → homedir/dot_config/claude/settings.json
+~/.config/gh/config.yml                     → homedir/dot_config/gh/private_config.yml
+~/.config/gh/hosts.yml                      → homedir/dot_config/gh/private_hosts.yml
 ```
 
 **ENFORCEMENT VERIFICATION CHECKLIST:**
@@ -148,10 +153,11 @@ application settings.
     │   ├── dot_zshenv                    # Zsh environment variables
     │   └── key.txt.age                   # Encrypted private key
     │
-    ├── 🚀 Automation Scripts (.chezmoiscripts/ - 5 scripts)
+    ├── 🚀 Automation Scripts (.chezmoiscripts/ - 6 scripts)
     │   ├── run_once_before_00_decrypt_private_key.sh.tmpl
     │   ├── run_once_00_install_homebrew.sh.tmpl
     │   ├── run_once_00_setup_macos_settings.sh.tmpl
+    │   ├── run_once_03_setup_claude_code.sh.tmpl
     │   ├── run_onchange_01_brew_bundle.sh.tmpl
     │   └── run_onchange_02_mise_install.sh.tmpl
     │
@@ -166,11 +172,16 @@ application settings.
     │
     └── ⚙️ Application Configurations (dot_config/ - 16 files)
         │
-        ├── 🤖 claude/ (3 files)          # Claude Code configuration
-        │   ├── CLAUDE.md                 # Claude instructions
-        │   ├── settings.json             # Claude settings JSON
-        │   └── commands/
-        │       └── reflection.md         # Reflection configuration
+        ├── 🤖 claude/ (11 files)         # Claude Code configuration
+        │   ├── CLAUDE.md                 # Global Claude instructions
+        │   ├── settings.json             # Detailed permissions (86 settings)
+        │   ├── commands/ (7 files)       # Custom command definitions
+        │   │   ├── git/ (6 files)        # Git workflow commands
+        │   │   └── reflection.md         # Reflection configuration
+        │   └── instructions/ (4 files)   # Modular instruction system
+        │       ├── code_quality.md       # Code standards and debugging
+        │       ├── editor.md             # EditorConfig enforcement
+        │       └── reminders.md          # Task guidelines
         │
         ├── 🐙 gh/ (2 files - encrypted)  # GitHub CLI configuration
         │   ├── private_config.yml        # GitHub CLI config (sensitive)
@@ -366,3 +377,55 @@ Examples:
 - `feat ✨: Wezterm設定の追加`
 - `fix 🐛: Zsh補完設定の修正`
 - `perf ⚡: Sheldonプラグイン起動の最適化`
+
+## Claude Code Integration
+
+### Advanced Permission System
+
+The `dot_config/claude/settings.json` contains 86 granular permission settings that control Claude Code's access to system resources, MCP servers, and tool capabilities. Key permission categories:
+
+- **MCP Server Access**: GitHub, Git, IDE, RFC documentation
+- **File System Operations**: Read/write restrictions with path-based controls
+- **Network Access**: Controlled web search and fetch capabilities
+- **Shell Command Execution**: Bash access with security constraints
+
+### Custom Command System
+
+Located in `dot_config/claude/commands/`, provides specialized workflows:
+
+#### Git Commands (`git/` directory - 6 commands)
+- **Commit workflows**: Automated staging, conventional commits
+- **Branch management**: Creation, switching, merging operations
+- **Repository operations**: Status checking, diff analysis
+- **Pull request workflows**: Creation, review, merge processes
+
+#### Reflection System (`reflection.md`)
+- **Session analysis**: Task completion tracking
+- **Learning integration**: Pattern recognition for common workflows
+- **Performance optimization**: Command usage analysis
+
+### Modular Instruction Architecture
+
+The `instructions/` directory provides specialized guidance modules:
+
+- **`code_quality.md`**: Error handling, debugging protocols, web search requirements
+- **`editor.md`**: EditorConfig enforcement, formatting standards
+- **`reminders.md`**: Task management, file creation constraints
+
+### Template System Integration
+
+Claude Code leverages chezmoi's template system for dynamic configuration:
+
+- **Environment detection**: OS-specific settings (Darwin/Linux)
+- **Conditional loading**: CI environment vs. interactive mode
+- **Variable expansion**: User-specific paths and preferences
+- **Age encryption**: Automatic key management for sensitive files
+
+### MCP Server Configuration
+
+Configured MCP servers provide extended capabilities:
+
+- **GitHub integration**: Repository management, issue tracking, PR workflows
+- **Git operations**: Advanced version control with safety checks
+- **IDE integration**: VS Code diagnostics, code execution
+- **RFC documentation**: Standards lookup and reference
