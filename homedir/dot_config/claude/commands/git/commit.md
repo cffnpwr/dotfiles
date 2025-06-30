@@ -2,22 +2,41 @@
 
 ## Commit Quality Guidelines
 
-**Commit Granularity Guidelines:**
+**CRITICAL COMMIT GRANULARITY ENFORCEMENT:**
 
-YOU SHOULD: Create logical, coherent commits that represent complete units of work
+🚨 **ABSOLUTE REQUIREMENTS:**
 
-AVOID: Mixing unrelated changes in a single commit
+YOU MUST: Apply the commit granularity rules from @../../instructions/git.md WITHOUT EXCEPTION
+YOU MUST: NEVER create a commit without first analyzing ALL changes for proper separation
+YOU MUST: ALWAYS propose commit separation strategy before creating any commits
+YOU MUST: Get explicit user approval for multi-commit strategies
 
-**Smart Granularity Rules:**
-- Related changes that work together can be in the same commit
-- Configuration changes supporting a feature can be included with the feature
-- Documentation updates for a feature can be included with the feature
-- Small formatting/style fixes can be bundled with related functional changes
+**ZERO-TOLERANCE VIOLATIONS:**
 
-**When to Consider Splitting Commits:**
-- Truly unrelated changes (different features/bugs)
-- Large refactoring mixed with new features
-- Changes that affect completely different parts of the system
+NEVER: Create commits with mixed unrelated changes
+NEVER: Skip the mandatory commit analysis phase
+NEVER: Bundle different types of changes (feature + bugfix, config + feature)
+NEVER: Create commits without user confirmation of the separation strategy
+
+**MANDATORY PRE-COMMIT ANALYSIS:**
+
+Before ANY commit creation, you MUST:
+
+1. **Exhaustive Change Analysis**: Review every single file change
+2. **Logical Grouping**: Identify natural commit boundaries
+3. **Separation Proposal**: Clearly propose how to split changes
+4. **User Consultation**: Present the strategy and get explicit approval
+5. **Sequential Execution**: Create commits one by one with verification
+
+**COMMIT SEPARATION DECISION TREE:**
+
+For EACH changed file, ask:
+- Does this change belong to the same logical unit as other changes?
+- Could this change be deployed independently?
+- Does this solve the same problem or implement the same feature?
+- Would reviewing this change separately make sense?
+
+If ANY answer is "no" → SEPARATE COMMIT REQUIRED
 
 YOU MUST: Follow the Git guidelines defined in @../../instructions/git.md
 
@@ -29,13 +48,19 @@ Execute the following workflow:
 
 1. **Status Check**: Check current git status and staged changes using git_status
 2. **Change Review**: Review changes with git_diff (both staged and unstaged)
-3. **Commit Confirmation**: Present commit summary:
-   - **Target Branch**: Show the current branch name
-   - **Files to be committed**: List all staged files with their status
-   - **Proposed commit message**: Show the commit message that will be used
-4. **User Confirmation**: Ask user to confirm before proceeding with the commit
-5. Create commit using git_commit with proper Conventional Commits format and Japanese message
-6. Verify commit was created successfully
+3. **MANDATORY COMMIT ANALYSIS**: Analyze all changes and identify logical commit units
+   - **Change Classification**: Categorize each change by type (feature, fix, refactor, etc.)
+   - **Component Analysis**: Identify which components/modules are affected
+   - **Dependency Analysis**: Determine if changes are related or independent
+   - **Commit Unit Proposal**: Propose how to split changes into separate commits
+4. **Commit Strategy Confirmation**: Present commit separation strategy:
+   - **Number of commits**: How many commits will be created
+   - **Commit breakdown**: List what changes go into each commit
+   - **Commit order**: The sequence of commits to be created
+   - **Rationale**: Explain why changes are grouped or separated
+5. **User Approval**: Get explicit user confirmation for the commit strategy
+6. **Sequential Commit Creation**: Create commits one by one using git_commit
+7. **Verification**: Verify each commit was created successfully
 
 ## Commit Message Format
 
@@ -97,6 +122,44 @@ YOU MUST: Clearly indicate what was changed or implemented
 - Multiple unrelated features
 - Bug fix + new feature  
 - Large refactoring + new functionality
+
+## Commit Analysis Template
+
+**MANDATORY USAGE**: Use this template for EVERY commit analysis:
+
+```
+## Commit Analysis Report
+
+### Files Changed:
+[List all changed files with their modification type]
+
+### Change Classification:
+- **Type 1 Changes**: [Group related changes by type/feature]
+- **Type 2 Changes**: [List other types of changes]
+- **Unrelated Changes**: [Identify independent changes]
+
+### Proposed Commit Strategy:
+
+**Commit 1**: [Description]
+- Files: [List files for this commit]
+- Proposed message: `[type] [emoji]: [Japanese commit message]`
+- Rationale: [Why these changes belong together]
+
+**Commit 2**: [Description]  
+- Files: [List files for this commit]
+- Proposed message: `[type] [emoji]: [Japanese commit message]`
+- Rationale: [Why these changes belong together]
+
+[Continue for additional commits...]
+
+### Separation Rationale:
+[Explain why changes are split this way]
+
+### User Confirmation Required:
+Do you approve this commit separation strategy? Please confirm before proceeding.
+```
+
+**ENFORCEMENT**: You MUST use this exact template format for every commit analysis
 
 ## Examples
 

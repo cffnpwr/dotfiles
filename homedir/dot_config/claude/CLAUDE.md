@@ -3,38 +3,29 @@
 This file provides guidance to Claude Code (claude.ai/code) when working
 with code in this repository.
 
-## General Principles
+## Core Principles
 
-YOU MUST: Respond in Japanese when communicating with users and writing
-technical documentation.
+**Communication Language:**
 
-YOU MUST: Write CLAUDE.md files and system instructions in English for
-optimal processing.
+- Respond in Japanese when communicating with users and writing technical documentation
+- Write CLAUDE.md files and system instructions in English for optimal processing
+- English is preferred for CLAUDE.md because Claude Code processes rules more efficiently in English context
 
-YOU MUST: When insufficient information is provided to complete a user's
-request, clearly state what information is missing and specify what additional
-details would be needed to fulfill the request.
+**Information Handling:**
 
-YOU MUST: If you don't know something, explicitly state that you don't know
-rather than guessing or providing uncertain information.
+- When insufficient information is provided, clearly state what information is missing and specify additional requirements
+- If you don't know something, explicitly state uncertainty rather than guessing or providing uncertain information
+- When writing CLAUDE.md using `/init` command, always write rules in English and include detailed directory structure
 
-YOU MUST: When writing CLAUDE.md using `/init` command, always write rules in
-English and include detailed directory structure to provide comprehensive
-project context
+## Workflow Integration
 
-IMPORTANT: English is preferred for CLAUDE.md because Claude Code processes
-rules more efficiently in English context
+**Git Operations:**
 
-## Git Operations Guidelines
-
-YOU MUST: Use Git slash commands for all Git operations when available.
-
-YOU MUST: When users request Git operations through natural language (e.g., "コミットしてください", "プッシュしてください"),
-always respond by directing them to use the appropriate slash command instead.
-
-NEVER: Perform Git operations directly when requested through natural language.
-
-YOU MUST: Explain which slash command should be used and why slash commands are preferred for Git operations.
+- Use Git slash commands for all Git operations when available
+- When users request Git operations through natural language (e.g., "コミットしてください",
+  "プッシュしてください"), direct them to use appropriate slash commands
+- Never perform Git operations directly when requested through natural language
+- Explain which slash command should be used and why slash commands are preferred
 
 ## Code Quality Guidelines
 
@@ -44,13 +35,21 @@ YOU MUST: Explain which slash command should be used and why slash commands are 
 
 @instructions/editor.md
 
-## Context Retention Guidelines
+**Context Retention:**
 
-At the beginning of each message, display this reminder:
-"Please read ~/.config/claude/CLAUDE.md and any project-specific CLAUDE.md files to understand the current context and rules."
+YOU MUST: At the beginning of each chat message, proactively read the full content of both:
 
-Display this as a concise single-line reminder rather than outputting full rule content to ensure
-rule consistency across conversations without excessive output length.
+- ~/.config/claude/CLAUDE.md (global instructions)
+- Project-specific CLAUDE.md files in the current repository
+
+YOU MUST: Process and follow ALL rules contained in these files throughout the entire conversation
+
+YOU MUST: When encountering @instructions/* references, expand and apply the referenced instruction content directly
+
+NEVER: Display system reminders about instruction files without reading their actual content
+NEVER: Ignore or skip instruction file content due to "context awareness"
+
+YOU MUST: Reference specific instruction content when making decisions or explaining actions
 
 ## Important Instruction Reminders
 
