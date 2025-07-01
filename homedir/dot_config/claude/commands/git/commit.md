@@ -44,6 +44,13 @@ YOU MUST: Use Git MCP server tools for all Git operations when available.
 
 YOU MUST: Only use command line Git operations for functions not supported by the Git MCP server.
 
+**OUTPUT LANGUAGE ENFORCEMENT:**
+
+YOU MUST: Always communicate with the user in Japanese throughout the entire commit process
+YOU MUST: Present all analysis, status reports, and commit strategies in Japanese
+YOU MUST: Never use English for user communication during commit operations
+YOU MUST: Use Japanese for all explanations, confirmations, and progress updates
+
 Execute the following workflow:
 
 1. **Status Check**: Check current git status and staged changes using git_status
@@ -120,46 +127,46 @@ YOU MUST: Clearly indicate what was changed or implemented
 
 **Avoid These Combinations:**
 - Multiple unrelated features
-- Bug fix + new feature  
+- Bug fix + new feature
 - Large refactoring + new functionality
 
 ## Commit Analysis Template
 
-**MANDATORY USAGE**: Use this template for EVERY commit analysis:
+**MANDATORY USAGE**: Use this template for EVERY commit analysis (ALWAYS IN JAPANESE):
 
 ```
-## Commit Analysis Report
+## コミット分析レポート
 
-### Files Changed:
-[List all changed files with their modification type]
+### 変更ファイル:
+[変更されたファイルを修正タイプと共にリスト]
 
-### Change Classification:
-- **Type 1 Changes**: [Group related changes by type/feature]
-- **Type 2 Changes**: [List other types of changes]
-- **Unrelated Changes**: [Identify independent changes]
+### 変更分類:
+- **タイプ1の変更**: [タイプ/機能別に関連する変更をグループ化]
+- **タイプ2の変更**: [その他のタイプの変更をリスト]
+- **無関係な変更**: [独立した変更を識別]
 
-### Proposed Commit Strategy:
+### 提案するコミット戦略:
 
-**Commit 1**: [Description]
-- Files: [List files for this commit]
-- Proposed message: `[type] [emoji]: [Japanese commit message]`
-- Rationale: [Why these changes belong together]
+**コミット1**: [説明]
+- ファイル: [このコミットに含むファイルのリスト]
+- 提案メッセージ: `[type] [emoji]: [日本語コミットメッセージ]`
+- 根拠: [これらの変更が一緒にある理由]
 
-**Commit 2**: [Description]  
-- Files: [List files for this commit]
-- Proposed message: `[type] [emoji]: [Japanese commit message]`
-- Rationale: [Why these changes belong together]
+**コミット2**: [説明]
+- ファイル: [このコミットに含むファイルのリスト]
+- 提案メッセージ: `[type] [emoji]: [日本語コミットメッセージ]`
+- 根拠: [これらの変更が一緒にある理由]
 
-[Continue for additional commits...]
+[追加のコミットがある場合は続ける...]
 
-### Separation Rationale:
-[Explain why changes are split this way]
+### 分離の根拠:
+[変更をこのように分割する理由を説明]
 
-### User Confirmation Required:
-Do you approve this commit separation strategy? Please confirm before proceeding.
+### ユーザー確認が必要:
+このコミット分離戦略を承認しますか？続行前に確認をお願いします。
 ```
 
-**ENFORCEMENT**: You MUST use this exact template format for every commit analysis
+**ENFORCEMENT**: すべてのコミット分析でこの正確なテンプレート形式を使用する必要があります（常に日本語で）
 
 ## Examples
 
