@@ -34,6 +34,9 @@ apply = ["defer", "fpath"]
 [plugins.starship]
 inline = 'eval "$(starship init zsh)"'
 
+[plugins.mise]
+inline = 'eval "$(mise activate zsh)"'
+
 [plugins.compinit]
 inline = """
 autoload -Uz compinit
