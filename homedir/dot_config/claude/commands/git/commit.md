@@ -40,9 +40,9 @@ If ANY answer is "no" → SEPARATE COMMIT REQUIRED
 
 YOU MUST: Follow the Git guidelines defined in @../../instructions/git.md
 
-YOU MUST: Use Git MCP server tools for all Git operations when available.
+YOU MUST: Use Bash tool with command line Git operations for all commit operations to ensure GPG signing.
 
-YOU MUST: Only use command line Git operations for functions not supported by the Git MCP server.
+YOU MUST: Use Git MCP server tools ONLY for status checking and diff operations.
 
 **OUTPUT LANGUAGE ENFORCEMENT:**
 
@@ -53,8 +53,8 @@ YOU MUST: Use Japanese for all explanations, confirmations, and progress updates
 
 Execute the following workflow:
 
-1. **Status Check**: Check current git status and staged changes using git_status
-2. **Change Review**: Review changes with git_diff (both staged and unstaged)
+1. **Status Check**: Check current git status and staged changes using git_status MCP tool
+2. **Change Review**: Review changes with git_diff MCP tool (both staged and unstaged)
 3. **MANDATORY COMMIT ANALYSIS**: Analyze all changes and identify logical commit units
    - **Change Classification**: Categorize each change by type (feature, fix, refactor, etc.)
    - **Component Analysis**: Identify which components/modules are affected
@@ -66,8 +66,11 @@ Execute the following workflow:
    - **Commit order**: The sequence of commits to be created
    - **Rationale**: Explain why changes are grouped or separated
 5. **User Approval**: Get explicit user confirmation for the commit strategy
-6. **Sequential Commit Creation**: Create commits one by one using git_commit with signing
-7. **Verification**: Verify each commit was created successfully
+6. **Sequential Commit Creation**: For each planned commit:
+   - Stage specific files using `git add <files>` via Bash tool
+   - Create signed commit using `git commit -S -m "<message>"` via Bash tool
+   - Verify commit signature immediately after creation
+7. **Final Verification**: Check all commits were created successfully and properly signed using `git log --show-signature --oneline -n <number_of_commits>`
 
 ## Commit Message Format
 
@@ -80,8 +83,10 @@ YOU MUST: Follow Conventional Commits standards with this specific format:
 ## Commit Signing
 
 YOU MUST: Sign all commits with GPG when creating commits
-YOU MUST: Use the `-S` flag with git_commit operations to ensure commit signing
+YOU MUST: Always use `git commit -S` command via Bash tool for GPG signing
+YOU MUST: Use `git add` via Bash tool to stage files before committing
 YOU MUST: Verify that commit signing is properly configured before proceeding
+YOU MUST: Check that each commit shows GPG signature verification after creation using `git log --show-signature -1`
 
 ## Commit Types
 
