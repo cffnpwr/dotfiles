@@ -45,7 +45,9 @@
       "Bash(gh status)",
       "Bash(gh workflow list:*)",
       "Bash(gh workflow view:*)",
+      "Bash(git add:*)",
       "Bash(git branch:*)",
+      "Bash(git commit:*)",
       "Bash(git config --get:*)",
       "Bash(git config --list)",
       "Bash(git diff:*)",
@@ -156,6 +158,21 @@
           {
             "type": "command",
             "command": "osascript -e 'display notification \"タスクが完了しました\" with title \"Claude Code\" subtitle \"処理終了\" sound name \"Funk\"'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash(git commit.*)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.command' | ~/.config/claude/hooks/validate-git-commit-signing.sh"
+          },
+          {
+            "type": "command",
+            "command": "jq -r '.command' | grep -o -- '-m \"[^\"]*\"' | sed 's/-m \"//' | sed 's/\"$//' | ~/.config/claude/hooks/validate-commit-message.sh"
           }
         ]
       }
