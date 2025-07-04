@@ -66,7 +66,7 @@ Execute the following workflow:
    - **Commit order**: The sequence of commits to be created
    - **Rationale**: Explain why changes are grouped or separated
 5. **User Approval**: Get explicit user confirmation for the commit strategy
-6. **Sequential Commit Creation**: Create commits one by one using git_commit
+6. **Sequential Commit Creation**: Create commits one by one using git_commit with signing
 7. **Verification**: Verify each commit was created successfully
 
 ## Commit Message Format
@@ -76,6 +76,12 @@ YOU MUST: Follow Conventional Commits standards with this specific format:
 ```text
 <type> <emoji>: <commit message>
 ```
+
+## Commit Signing
+
+YOU MUST: Sign all commits with GPG when creating commits
+YOU MUST: Use the `-S` flag with git_commit operations to ensure commit signing
+YOU MUST: Verify that commit signing is properly configured before proceeding
 
 ## Commit Types
 

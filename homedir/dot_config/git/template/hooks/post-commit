@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# post-commit hook to add GPG signature to commits created without signing
+# This is particularly useful for Git MCP Server commits that don't support signing
+
+# Check if the commit is already signed
+if git log -1 --pretty="format:%G?" HEAD | grep -q "^[GU]$"; then
+  echo "Commit is already signed, skipping."
+  exit 0
+fi
+
+# Check if GPG signing is enabled
+if [ "$(git config --get commit.gpgsign)" != "true" ]; then
+  echo "GPG signing is not enabled, skipping."
+  exit 0
+fi
+
+# Get the current commit hash
+COMMIT_HASH=$(git rev-parse HEAD)
+
+# Amend the commit with GPG signature
+echo "Adding GPG signature to commit $COMMIT_HASH"
+git commit --amend --no-edit --gpg-sign
+
+if [ $? -eq 0 ]; then
+  echo "Successfully signed commit $COMMIT_HASH"
+else
+  echo "Failed to sign commit $COMMIT_HASH"
+  exit 1
+fi
