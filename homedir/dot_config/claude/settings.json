@@ -136,7 +136,8 @@
       "mcp__github__search_issues",
       "mcp__github__search_repositories",
       "mcp__github__search_users",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "mcp__container-use"
     ]
   },
   "hooks": {
