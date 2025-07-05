@@ -3,10 +3,33 @@
 
 set -euo pipefail
 
+# 秘密鍵の復号化が必要な場合のみ実行
+# テスト環境では暗号化されたファイルが無いためスキップ
+if [ ! -f "{{ .chezmoi.sourceDir }}/key.txt.age" ]; then
+    echo "暗号化された秘密鍵ファイルが見つからないため、復号処理をスキップします。"
+    exit 0
+fi
+
 if [ ! -f "${HOME}/.config/chezmoi/key.txt" ]; then
     echo "chezmoi の暗号化された秘密鍵が見つかりません。復号を実行します..."
     mkdir -p "${HOME}/.config/chezmoi"
-    ./bin/chezmoi age decrypt --output "${HOME}/.config/chezmoi/key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age"
+    
+    # chezmoiコマンドをパスから検索、見つからない場合は一般的な場所を試す
+    CHEZMOI_CMD=""
+    if command -v chezmoi >/dev/null 2>&1; then
+        CHEZMOI_CMD="chezmoi"
+    elif [ -f "${HOME}/.local/bin/chezmoi" ]; then
+        CHEZMOI_CMD="${HOME}/.local/bin/chezmoi"
+    elif [ -f "./bin/chezmoi" ]; then
+        CHEZMOI_CMD="./bin/chezmoi"
+    elif [ -f "/usr/local/bin/chezmoi" ]; then
+        CHEZMOI_CMD="/usr/local/bin/chezmoi"
+    else
+        echo "chezmoiコマンドが見つかりません。手動でキーを配置してください。"
+        exit 1
+    fi
+    
+    "${CHEZMOI_CMD}" age decrypt --output "${HOME}/.config/chezmoi/key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age"
     chmod 600 "${HOME}/.config/chezmoi/key.txt"
 fi
 {{- end -}}
