@@ -168,11 +168,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.command' | ~/.config/claude/hooks/validate-git-commit-signing.sh"
+            "command": "jq -r '.tool_input.command' | ~/.config/claude/hooks/validate-git-commit-signing.sh"
           },
           {
             "type": "command",
-            "command": "jq -r '.command' | grep -o -- '-m \"[^\"]*\"' | sed 's/-m \"//' | sed 's/\"$//' | ~/.config/claude/hooks/validate-commit-message.sh"
+            "command": "jq -r '.tool_input.command' | grep -o -- '-m \"[^\"]*\"' | sed 's/-m \"//' | sed 's/\"$//' | ~/.config/claude/hooks/validate-commit-message.sh"
           }
         ]
       }
