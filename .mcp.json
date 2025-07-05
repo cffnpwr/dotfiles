@@ -2,8 +2,11 @@
   "mcpServers": {
     "container-use": {
       "type": "stdio",
-      "command": "cu",
+      "command": "mise",
       "args": [
+        "x",
+        "--",
+        "cu",
         "stdio"
       ],
       "env": {}

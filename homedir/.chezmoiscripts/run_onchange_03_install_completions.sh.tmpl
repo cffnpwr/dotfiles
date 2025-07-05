@@ -1,0 +1,53 @@
+{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
+#!/bin/bash
+
+set -euo pipefail
+
+# config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+# dot_Brewfile hash: {{ include "dot_Brewfile" | sha256sum }}
+
+# gh command completion
+if which gh > /dev/null; then
+  echo "gh コマンドの補完スクリプトを生成します..."
+  if [ ! -d ~/.config/zsh/site-functions/ ]; then
+    mkdir -p ~/.config/zsh/site-functions
+  fi
+  gh completion -s zsh > ~/.config/zsh/site-functions/_gh
+fi
+
+# chezmoi command completion
+if which chezmoi > /dev/null; then
+  echo "chezmoi コマンドの補完スクリプトを生成します..."
+  if [ ! -d ~/.config/zsh/site-functions/ ]; then
+    mkdir -p ~/.config/zsh/site-functions
+  fi
+  chezmoi completion zsh > ~/.config/zsh/site-functions/_chezmoi
+fi
+
+# bw command completion
+if which bw > /dev/null; then
+  echo "Bitwarden CLI (bw) コマンドの補完スクリプトを生成します..."
+  if [ ! -d ~/.config/zsh/site-functions/ ]; then
+    mkdir -p ~/.config/zsh/site-functions
+  fi
+  bw completion --shell zsh > ~/.config/zsh/site-functions/_bw
+fi
+
+# sheldon command completion
+if which sheldon > /dev/null; then
+  echo "sheldon コマンドの補完スクリプトを生成します..."
+  if [ ! -d ~/.config/zsh/site-functions/ ]; then
+    mkdir -p ~/.config/zsh/site-functions
+  fi
+  sheldon completions --shell zsh > ~/.config/zsh/site-functions/_sheldon
+fi
+
+# docker command completion
+if which docker > /dev/null; then
+  echo "docker コマンドの補完スクリプトを生成します..."
+  if [ ! -d ~/.config/zsh/site-functions/ ]; then
+    mkdir -p ~/.config/zsh/site-functions
+  fi
+  docker completion zsh > ~/.config/zsh/site-functions/_docker
+fi
+{{- end -}}
