@@ -10,5 +10,5 @@ chezmoiを使って管理しています。
 ### quick install
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply cffnpwr
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply cffnpwr
 ```

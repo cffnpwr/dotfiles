@@ -47,7 +47,6 @@
       "Bash(gh workflow view:*)",
       "Bash(git add:*)",
       "Bash(git branch:*)",
-      "Bash(git commit:*)",
       "Bash(git config --get:*)",
       "Bash(git config --list)",
       "Bash(git diff:*)",
