@@ -429,3 +429,88 @@ Configured MCP servers provide extended capabilities:
 - **Git operations**: Advanced version control with safety checks
 - **IDE integration**: VS Code diagnostics, code execution
 - **RFC documentation**: Standards lookup and reference
+
+## Container-Use Environment Testing
+
+### Linux Environment Testing Protocol
+
+This section describes how to test dotfiles deployment in Linux environments using Claude Code's container-use functionality.
+
+#### Secret Management for Container Testing
+
+**Encryption Key Injection Method:**
+
+```bash
+# Set environment variable with actual decryption key
+export CHEZMOI_ENCRYPT_KEY="actual-github-actions-secret-key"
+
+# Create environment with secret injection
+environment_create --envs "CHEZMOI_ENCRYPT_KEY=env://CHEZMOI_ENCRYPT_KEY"
+```
+
+**Container Setup Workflow:**
+
+1. **Key Deployment**: Mirror GitHub Actions CI workflow
+   ```bash
+   mkdir -p ~/.config/chezmoi
+   echo "$CHEZMOI_ENCRYPT_KEY" > ~/.config/chezmoi/key.txt
+   chmod 600 ~/.config/chezmoi/key.txt
+   ```
+
+2. **Chezmoi Installation**: Use official installation script
+   ```bash
+   sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply cffnpwr
+   ```
+
+#### Known Linux Environment Issues
+
+**Dependency Conflicts:**
+
+- **mise Command Not Found**: Linux containers lack mise installation
+  - Solution: Add Linux-specific mise installation to setup scripts
+  - Workaround: Install mise manually before running chezmoi apply
+
+- **macOS-Specific Packages**: Brewfile contains macOS-only packages
+  - Solution: Use template conditions to separate macOS/Linux packages
+  - Workaround: Skip Brewfile execution on Linux environments
+
+**Encryption/Decryption Status:**
+
+- **Partial Decryption**: Some encrypted files may not decrypt properly
+  - Verification: Check SSH config decryption status
+  - Solution: Verify age key configuration and file permissions
+
+#### Testing Checklist
+
+Before completing container testing:
+
+- [ ] Secret injection working (CHEZMOI_ENCRYPT_KEY available)
+- [ ] Chezmoi repository cloned and initialized
+- [ ] Age key properly configured with correct permissions
+- [ ] mise installation completed (Linux-specific)
+- [ ] SSH configuration decrypted and applied
+- [ ] Basic shell configuration (zsh, starship) functional
+- [ ] Git configuration applied correctly
+
+#### Validation Commands
+
+```bash
+# Check encryption key availability
+ls -la ~/.config/chezmoi/key.txt
+
+# Verify chezmoi configuration
+chezmoi doctor
+
+# Check encrypted file status
+chezmoi cat ~/.ssh/config
+
+# Validate applied configuration
+chezmoi diff --no-tty
+```
+
+#### Container Environment Advantages
+
+- **Safe Testing**: Isolated environment prevents system configuration damage
+- **Reproducible**: Consistent testing environment across different machines
+- **CI/CD Simulation**: Mimics GitHub Actions deployment workflow
+- **Secret Management**: Secure handling of encryption keys via environment variables
