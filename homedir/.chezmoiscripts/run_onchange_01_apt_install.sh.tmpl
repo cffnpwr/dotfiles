@@ -1,0 +1,45 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+set -euo pipefail
+
+# packages: {{ .packages.linux | toJson | sha256sum }}
+# アーキテクチャ検証
+if [[ "{{ .chezmoi.arch }}" != "amd64" && "{{ .chezmoi.arch }}" != "arm64" ]]; then
+    echo "Error: サポートされていないアーキテクチャです: {{ .chezmoi.arch }}"
+    echo "サポートアーキテクチャ: amd64, arm64"
+    exit 1
+fi
+
+# 前提パッケージのインストール
+echo "前提パッケージをインストールしています..."
+sudo apt-get -qq update
+sudo apt-get -qq install -y --no-install-recommends {{ .packages.linux.bootstrap | join " " }}
+
+# 外部リポジトリの追加
+echo "外部リポジトリを追加しています..."
+sudo mkdir -p /etc/apt/keyrings
+
+{{ range .packages.linux.repositories -}}
+echo "{{ .name }}リポジトリを追加しています..."
+
+# GPGキーのダウンロードと設定
+wget -qO - {{ .key_url }} | gpg --dearmor | sudo tee /etc/apt/keyrings/{{ .name }}-archive-keyring.gpg 1> /dev/null
+
+# リポジトリの追加（アーキテクチャ直接置換）
+REPO_LINE="{{ .repo_base | replace "ARCH_PLACEHOLDER" .chezmoi.arch }}"
+echo "$REPO_LINE" | sudo tee /etc/apt/sources.list.d/{{ .name }}.list
+
+{{ end -}}
+
+# リポジトリ一覧の更新
+sudo apt-get -qq update
+
+# パッケージインストール
+echo "APTパッケージをインストールしています..."
+{{ $allPackages := .packages.linux.apt -}}
+{{ range .packages.linux.repositories -}}
+{{ $allPackages = concat $allPackages .packages -}}
+{{ end -}}
+sudo apt-get -qq install -y --no-install-recommends {{ $allPackages | join " " }}
+
+{{- end -}}

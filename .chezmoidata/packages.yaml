@@ -1,0 +1,16 @@
+packages:
+  linux:
+    bootstrap:
+      - gpg
+      - sudo
+      - wget
+      - curl
+    apt:
+      - git
+      - btop
+    repositories:
+      - name: "mise"
+        key_url: "https://mise.jdx.dev/gpg-key.pub"
+        repo_base: "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=ARCH_PLACEHOLDER] https://mise.jdx.dev/deb stable main"
+        packages:
+          - mise
