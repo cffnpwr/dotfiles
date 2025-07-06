@@ -1,7 +1,7 @@
 [user]
 	name = CaffeinePower
 	email = cffnpwr@gmail.com
-	signingKey = 27C7C60F4A390F8AF774F1CDB4F0ADCD237F374B
+	signingkey = /Users/cffnpwr/.ssh/id_ed25519.pub
 [init]
 	templatedir = ~/.config/git/template
 [ghq]
@@ -13,3 +13,5 @@
 	useHttpPath = true
 [commit]
 	gpgsign = true
+[gpg]
+	format = ssh
