@@ -1,7 +1,19 @@
 {{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") -}}
 #!/bin/bash
-
 set -euo pipefail
+
+# miseがインストールされているか確認
+if ! command -v mise &> /dev/null; then
+    echo "mise がインストールされていません。"
+    {{ if eq .chezmoi.os "darwin" -}}
+    echo "macOSではBrewfileからインストールされるはずです。"
+    {{ else if eq .chezmoi.os "linux" -}}
+    echo "LinuxではAPTパッケージからインストールされるはずです。"
+    {{ end -}}
+    exit 1
+fi
+
+echo "mise version: $(mise --version)"
 
 # config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
 echo "mise で管理されたアプリケーションをインストールします..."
