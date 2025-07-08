@@ -1,8 +1,90 @@
 {{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
+
 set -euo pipefail
 
 # packages: {{ .packages.linux | toJson | sha256sum }}
+
+# 外部パッケージダウンロード関数
+download_external_package() {
+  local package_name="$1"
+  local temp_dir="$2"
+  local package_config="${3}"
+
+  echo "外部パッケージをダウンロードしています: $package_name"
+
+  # GitHub API経由でバージョン情報を取得
+  local version_api_url=$(echo "$package_config" | jq -r '.version_api_url')
+  local download_url_template=$(echo "$package_config" | jq -r '.download_url_template')
+
+  # 最新バージョンを取得
+  local latest_version=$(curl -s "$version_api_url" | jq -r '.tag_name')
+  if [[ -z "$latest_version" || "$latest_version" == "null" ]]; then
+    echo "Error: $package_name のバージョン情報を取得できませんでした"
+    return 1
+  fi
+
+  # バージョンからvプレフィックスを除去
+  local version_clean=$(echo "$latest_version" | sed 's/^v//')
+
+  # OSとアーキテクチャのマッピング
+  local os="{{ .chezmoi.os }}"
+  local arch="{{ .chezmoi.arch }}"
+
+  # ダウンロードURL生成
+  local download_url=$(echo "$download_url_template" | sed "s/{version}/$latest_version/g" | sed "s/{version_clean}/$version_clean/g" | sed "s/{os}/$os/g" | sed "s/{arch}/$arch/g")
+
+  # ダウンロード実行
+  local output_file="$temp_dir/${package_name}.deb"
+  if curl -sL "$download_url" -o "$output_file"; then
+    echo "ダウンロード完了: $package_name ($latest_version)"
+    return 0
+  else
+    echo "Error: $package_name のダウンロードに失敗しました: $download_url"
+    return 1
+  fi
+}
+
+# 外部パッケージ一括インストール関数
+install_external_packages() {
+  {{ if .packages.linux.external_packages -}}
+  echo "外部パッケージをインストールしています..."
+
+  # 一時ディレクトリ作成
+  local temp_dir=$(mktemp -d)
+
+  # 並列ダウンロード
+  {{ range .packages.linux.external_packages -}}
+  download_external_package "{{ .name }}" "$temp_dir" '{{ . | toJson }}' &
+  {{ end -}}
+
+  # 全ダウンロード完了まで待機
+  wait
+
+  # ダウンロードしたファイルをチェック
+  local deb_files=("$temp_dir"/*.deb)
+  if [[ ${#deb_files[@]} -eq 0 ]] || [[ ! -f "${deb_files[0]}" ]]; then
+    echo "Warning: ダウンロードされたdebファイルが見つかりません"
+    rm -rf "$temp_dir"
+    return 1
+  fi
+
+  # 一括インストール（依存関係自動解決）
+  echo "外部パッケージをインストールしています..."
+  if sudo apt-get install -y "${deb_files[@]}"; then
+    echo "外部パッケージのインストールが完了しました"
+  else
+    echo "Error: 外部パッケージのインストールに失敗しました"
+    rm -rf "$temp_dir"
+    return 1
+  fi
+
+  # 一時ディレクトリクリーンアップ
+  rm -rf "$temp_dir"
+  {{ else -}}
+  echo "外部パッケージは定義されていません"
+  {{ end -}}
+}
 # アーキテクチャ検証
 if [[ "{{ .chezmoi.arch }}" != "amd64" && "{{ .chezmoi.arch }}" != "arm64" ]]; then
     echo "Error: サポートされていないアーキテクチャです: {{ .chezmoi.arch }}"
@@ -25,8 +107,8 @@ echo "{{ .name }}リポジトリを追加しています..."
 # GPGキーのダウンロードと設定
 wget -qO - {{ .key_url }} | gpg --dearmor | sudo tee /etc/apt/keyrings/{{ .name }}-archive-keyring.gpg 1> /dev/null
 
-# リポジトリの追加（アーキテクチャ直接置換）
-REPO_LINE="{{ .repo_base | replace "ARCH_PLACEHOLDER" .chezmoi.arch }}"
+# リポジトリの追加（アーキテクチャ置換）
+REPO_LINE="{{ .repo_base | replace "{arch}" .chezmoi.arch }}"
 echo "$REPO_LINE" | sudo tee /etc/apt/sources.list.d/{{ .name }}.list
 
 {{ end -}}
@@ -41,5 +123,8 @@ echo "APTパッケージをインストールしています..."
 {{ $allPackages = concat $allPackages .packages -}}
 {{ end -}}
 sudo apt-get -qq install -y --no-install-recommends {{ $allPackages | join " " }}
+
+# 外部パッケージのインストール
+install_external_packages
 
 {{- end -}}
