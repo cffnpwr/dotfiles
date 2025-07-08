@@ -108,7 +108,7 @@ echo "{{ .name }}リポジトリを追加しています..."
 wget -qO - {{ .key_url }} | gpg --dearmor | sudo tee /etc/apt/keyrings/{{ .name }}-archive-keyring.gpg 1> /dev/null
 
 # リポジトリの追加（アーキテクチャ置換）
-REPO_LINE="{{ .repo_base | replace "{arch}" .chezmoi.arch }}"
+REPO_LINE="{{ .repo_base | replace "{arch}" $.chezmoi.arch }}"
 echo "$REPO_LINE" | sudo tee /etc/apt/sources.list.d/{{ .name }}.list
 
 {{ end -}}
