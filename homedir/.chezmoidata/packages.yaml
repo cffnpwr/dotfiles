@@ -1,0 +1,25 @@
+packages:
+  linux:
+    bootstrap:
+      - gpg
+      - sudo
+      - wget
+      - curl
+      - jq
+    apt:
+      - git
+      - btop
+    repositories:
+      - name: "mise"
+        key_url: "https://mise.jdx.dev/gpg-key.pub"
+        repo_base: "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch={arch}] https://mise.jdx.dev/deb stable main"
+        packages:
+          - mise
+        supported_arch:
+          - amd64
+          - arm64
+    external_packages:
+      - name: "chezmoi"
+        source: "github"
+        version_api_url: "https://api.github.com/repos/twpayne/chezmoi/releases/latest"
+        download_url_template: "https://github.com/twpayne/chezmoi/releases/download/{version}/chezmoi_{version_clean}_{os}_{arch}.deb"
