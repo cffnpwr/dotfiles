@@ -10,9 +10,9 @@ on:
       - "LICENSE"
 
 jobs:
-  apply_test:
+  apply_test_macos:
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-apply_test
+      group: ${{ github.workflow }}-${{ github.ref }}-apply_test_macos
       cancel-in-progress: true
     runs-on: macos-latest
     steps:
@@ -23,6 +23,26 @@ jobs:
         run: |
           mkdir -p ~/.config/chezmoi
           echo "${{ env.CHEZMOI_ENCRYPT_KEY }}" > ~/.config/chezmoi/key.txt
+        env:
+          CHEZMOI_ENCRYPT_KEY: ${{ secrets.CHEZMOI_ENCRYPT_KEY }}
+
+      - name: Run chezmoi apply
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply -v ${{ github.repository_owner }}
+
+  apply_test_linux:
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-apply_test_linux
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Load age secret key
+        run: |
+          mkdir -p ~/.config/chezmoi
+          echo "${{ env.CHEZMOI_ENCRYPT_KEY }}" > ~/.config/chezmoi/key.txt
+          chmod 600 ~/.config/chezmoi/key.txt
         env:
           CHEZMOI_ENCRYPT_KEY: ${{ secrets.CHEZMOI_ENCRYPT_KEY }}
 
