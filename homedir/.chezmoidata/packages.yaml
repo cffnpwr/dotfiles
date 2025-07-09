@@ -9,6 +9,7 @@ packages:
     apt:
       - git
       - btop
+      - zsh
     repositories:
       - name: "mise"
         key_url: "https://mise.jdx.dev/gpg-key.pub"
