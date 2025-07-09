@@ -94,7 +94,7 @@ fi
 
 # 前提パッケージのインストール
 echo "前提パッケージをインストールしています..."
-sudo apt-get -qq update
+sudo apt-get -qq update --allow-releaseinfo-change
 sudo apt-get -qq install -y --no-install-recommends {{ .packages.linux.bootstrap | join " " }}
 
 # 外部リポジトリの追加
@@ -114,7 +114,7 @@ echo "$REPO_LINE" | sudo tee /etc/apt/sources.list.d/{{ .name }}.list
 {{ end -}}
 
 # リポジトリ一覧の更新
-sudo apt-get -qq update
+sudo apt-get -qq update --allow-releaseinfo-change
 
 # パッケージインストール
 echo "APTパッケージをインストールしています..."
