@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-# packages: {{ .packages.debian | toJson | sha256sum }}
+# packages: {{ .debian | toJson | sha256sum }}
 
 # 外部パッケージダウンロード関数
 download_external_package() {
@@ -47,14 +47,14 @@ download_external_package() {
 
 # 外部パッケージ一括インストール関数
 install_external_packages() {
-  {{ if .packages.debian.external_packages -}}
+  {{ if .debian.external_packages -}}
   echo "外部パッケージをインストールしています..."
 
   # 一時ディレクトリ作成
   local temp_dir=$(mktemp -d)
 
   # 並列ダウンロード
-  {{ range .packages.debian.external_packages -}}
+  {{ range .debian.external_packages -}}
   download_external_package "{{ .name }}" "$temp_dir" '{{ . | toJson }}' &
   {{ end -}}
 
@@ -95,13 +95,13 @@ fi
 # 前提パッケージのインストール
 echo "前提パッケージをインストールしています..."
 sudo apt-get -qq update --allow-releaseinfo-change
-sudo apt-get -qq install -y --no-install-recommends {{ .packages.debian.bootstrap | join " " }}
+sudo apt-get -qq install -y --no-install-recommends {{ .debian.bootstrap | join " " }}
 
 # 外部リポジトリの追加
 echo "外部リポジトリを追加しています..."
 sudo mkdir -p /etc/apt/keyrings
 
-{{ range .packages.debian.repositories -}}
+{{ range .debian.repositories -}}
 echo "{{ .name }}リポジトリを追加しています..."
 
 # GPGキーのダウンロードと設定
@@ -118,7 +118,7 @@ sudo apt-get -qq update --allow-releaseinfo-change
 
 # パッケージインストール
 echo "APTパッケージをインストールしています..."
-sudo apt-get -qq install -y --no-install-recommends {{ .packages.debian.packages | join " " }}
+sudo apt-get -qq install -y --no-install-recommends {{ .debian | join " " }}
 
 # 外部パッケージのインストール
 install_external_packages

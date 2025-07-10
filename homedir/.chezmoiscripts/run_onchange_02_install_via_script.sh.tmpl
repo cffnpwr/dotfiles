@@ -3,10 +3,10 @@
 
 set -euo pipefail
 
-# via_script: {{ .packages.via_script | toJson | sha256sum }}
+# via_script: {{ .via_script | toJson | sha256sum }}
 
 # スクリプト経由パッケージのインストール実行
-{{ if .packages.via_script -}}
+{{ if .via_script -}}
 echo "スクリプト経由パッケージをインストールしています..."
 
 # ~/.local/binディレクトリの作成
