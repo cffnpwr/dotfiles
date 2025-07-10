@@ -1,0 +1,30 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+
+set -euo pipefail
+
+# via_script: {{ .packages.via_script | toJson | sha256sum }}
+
+# スクリプト経由パッケージのインストール実行
+{{ if .packages.via_script -}}
+echo "スクリプト経由パッケージをインストールしています..."
+
+# ~/.local/binディレクトリの作成
+mkdir -p ~/.local/bin
+
+{{ range .packages.via_script -}}
+echo "{{ .name }}をインストールしています..."
+
+# インストールコマンド実行
+if eval '{{ .cmd }}'; then
+  echo "{{ .name }}のインストールが完了しました"
+else
+  echo "Error: {{ .name }}のインストールに失敗しました"
+  exit 1
+fi
+{{ end -}}
+
+echo "スクリプト経由パッケージのインストールが完了しました"
+{{ end -}}
+
+{{- end -}}
