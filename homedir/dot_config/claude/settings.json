@@ -164,15 +164,15 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "Bash(git commit.*)",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_input.command' | ~/.config/claude/hooks/validate-git-commit-signing.sh"
+            "command": "if jq -r '.tool_input.command' | grep -q '^git commit'; then jq -r '.tool_input.command' | ~/.config/claude/hooks/validate-git-commit-signing.sh; fi"
           },
           {
             "type": "command",
-            "command": "jq -r '.tool_input.command' | grep -o -- '-m \"[^\"]*\"' | sed 's/-m \"//' | sed 's/\"$//' | ~/.config/claude/hooks/validate-commit-message.sh"
+            "command": "if jq -r '.tool_input.command' | grep -q '^git commit.*-m'; then jq -r '.tool_input.command' | sed -n 's/.*-m \"\\([^\"]*\\)\".*/\\1/p' | ~/.config/claude/hooks/validate-commit-message.sh; fi"
           }
         ]
       }

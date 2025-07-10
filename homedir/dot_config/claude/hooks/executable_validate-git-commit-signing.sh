@@ -25,16 +25,28 @@ if echo "$command" | grep -q "^git commit"; then
   
   # -Sオプションの存在チェック
   if echo "$command" | grep -q -- "-S"; then
-    echo "✅ Git commit コマンドに署名オプション (-S) が含まれています"
+    echo "✅ Git commit コマンドに署名オプション (-S) が含まれています" >&2
+    echo '{
+  "decision": "approve",
+  "reason": "Git commit command includes GPG signing option (-S)"
+}'
     exit 0
   else
-    echo "❌ エラー: Git commit コマンドに署名オプション (-S) が含まれていません"
-    echo "GPG署名付きコミットを作成するため、必ず -S オプションを使用してください"
-    echo "例: git commit -S -m \"commit message\""
-    echo "現在のコマンド: $command"
+    echo "❌ エラー: Git commit コマンドに署名オプション (-S) が含まれていません" >&2
+    echo "GPG署名付きコミットを作成するため、必ず -S オプションを使用してください" >&2
+    echo "例: git commit -S -m \"commit message\"" >&2
+    echo "現在のコマンド: $command" >&2
+    echo '{
+  "decision": "block",
+  "reason": "Git commit command missing required GPG signing option (-S). Use: git commit -S -m \"message\""
+}'
     exit 1
   fi
 else
   echo "DEBUG: Not a git commit command, skipping check" >&2
+  echo '{
+  "decision": "approve",
+  "reason": "Not a git commit command, no signing validation required"
+}'
   exit 0
 fi
