@@ -12,7 +12,7 @@ echo "スクリプト経由パッケージをインストールしています..
 # ~/.local/binディレクトリの作成
 mkdir -p ~/.local/bin
 
-{{ range .packages.via_script -}}
+{{ range .via_script -}}
 echo "{{ .name }}をインストールしています..."
 
 # インストールコマンド実行
