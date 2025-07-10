@@ -118,7 +118,7 @@ sudo apt-get -qq update --allow-releaseinfo-change
 
 # パッケージインストール
 echo "APTパッケージをインストールしています..."
-sudo apt-get -qq install -y --no-install-recommends {{ .debian | join " " }}
+sudo apt-get -qq install -y --no-install-recommends {{ .debian.packages | join " " }}
 
 # 外部パッケージのインストール
 install_external_packages
