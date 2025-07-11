@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-echo "Linux環境でデフォルトシェルをzshに設定します..."
+echo "デフォルトシェルをzshに設定します..."
 
 # zshがインストールされているかチェック
 if ! command -v zsh &> /dev/null; then
@@ -14,7 +14,7 @@ fi
 # デフォルトシェルをzshに変更
 if [ "$SHELL" != "$(which zsh)" ]; then
     echo "デフォルトシェルをzshに変更しています..."
-    chsh -s $(which zsh)
+    sudo usermod -s $(which zsh) $USER
     echo "デフォルトシェルがzshに変更されました。再ログインしてください。"
 else
     echo "デフォルトシェルは既にzshに設定されています。"

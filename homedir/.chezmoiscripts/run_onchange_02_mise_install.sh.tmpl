@@ -8,7 +8,11 @@ if ! command -v mise &> /dev/null; then
     {{ if eq .chezmoi.os "darwin" -}}
     echo "macOSではBrewfileからインストールされるはずです。"
     {{ else if eq .chezmoi.os "linux" -}}
-    echo "LinuxではAPTパッケージからインストールされるはずです。"
+      {{ if or (eq .chezmoi.osRelease.id "debian") (eq .chezmoi.osRelease.id "ubuntu") -}}
+    echo "{{ .chezmoi.osRelease.name }}ではAPTパッケージからインストールされるはずです。"
+      {{ else -}}
+    echo "{{ .chezmoi.osRelease.name }}はサポートされていません。"
+      {{ end -}}
     {{ end -}}
     exit 1
 fi
