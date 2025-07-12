@@ -7,10 +7,14 @@ debian:
     - wget
     - jq
   packages:
-    - git
+    - bat
     - btop
-    - zsh
+    - eza
+    - fd-find
+    - git
     - mise
+    - ripgrep
+    - zsh
   external_packages:
     - name: "chezmoi"
       source: "github"
