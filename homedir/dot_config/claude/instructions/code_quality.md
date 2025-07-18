@@ -7,6 +7,20 @@ YOU MUST: Follow established coding conventions for the project's language
 YOU MUST: Include appropriate error handling
 YOU MUST: Write meaningful variable and function names
 
+## Fundamental Design Principles
+
+YOU MUST: Adhere to these core principles:
+
+- **DRY (Don't Repeat Yourself)**: Eliminate code duplication
+- **YAGNI (You Aren't Gonna Need It)**: Implement only what's needed
+- **KISS (Keep It Simple, Stupid)**: Favor simplicity over complexity
+- **SOLID Principles**:
+  - Single Responsibility Principle: Each function/class should have one reason to change
+  - Open/Closed Principle: Open for extension, closed for modification
+  - Liskov Substitution Principle: Derived classes must be substitutable for base classes
+  - Interface Segregation Principle: Don't force clients to depend on unused interfaces
+  - Dependency Inversion Principle: Depend on abstractions, not concretions
+
 ## Error Handling and Debugging
 
 NEVER: Use quick fixes or workarounds for errors
