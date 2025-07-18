@@ -40,4 +40,6 @@ eval "$(mise activate zsh --shims)"
 {{ if eq .chezmoi.os "darwin" -}}
 # SSH Agent
 export SSH_AUTH_SOCK="${HOME}/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+{{- else if eq .chezmoi.os "linux" -}}
+export SSH_AUTH_SOCK="${HOME}/.bitwarden-ssh-agent.sock"
 {{ end -}}
