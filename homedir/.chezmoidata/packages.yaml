@@ -21,12 +21,19 @@ debian:
       version_api_url: "https://api.github.com/repos/twpayne/chezmoi/releases/latest"
       download_url_template: "https://github.com/twpayne/chezmoi/releases/download/{version}/chezmoi_{version_clean}_{os}_{arch}.deb"
   repositories:
-    - name: "mise"
-      key_url: "https://mise.jdx.dev/gpg-key.pub"
+    - name: mise
+      key_url: https://mise.jdx.dev/gpg-key.pub
       repo_base: "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch={arch}] https://mise.jdx.dev/deb stable main"
       supported_arch:
         - amd64
         - arm64
+    - name: eza
+      key_url: https://raw.githubusercontent.com/eza-community/eza/main/deb.asc
+      repo_base: "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main"
+      supported_arch:
+        - amd64
+        - arm64
+        - armhf
 
 via_script:
   - name: "starship"
