@@ -105,9 +105,11 @@ sudo mkdir -p /etc/apt/keyrings
 echo "{{ .name }}リポジトリを追加しています..."
 
 # GPGキーのダウンロードと設定
-wget -qO - {{ .key_url }} | gpg --dearmor | sudo tee /etc/apt/keyrings/{{ .name }}-archive-keyring.gpg 1> /dev/null
+# repo_baseからsigned-byパスを抽出
+GPG_KEY_PATH=$(echo "{{ .repo_base }}" | grep -o 'signed-by=[^]]*' | cut -d'=' -f2)
+wget -qO - {{ .key_url }} | gpg --dearmor | sudo tee "$GPG_KEY_PATH" 1> /dev/null
 
-# リポジトリの追加（アーキテクチャ置換）
+# リポジトリの追加
 REPO_LINE="{{ .repo_base | replace "{arch}" $.chezmoi.arch }}"
 echo "$REPO_LINE" | sudo tee /etc/apt/sources.list.d/{{ .name }}.list
 
