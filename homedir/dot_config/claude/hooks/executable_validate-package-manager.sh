@@ -3,10 +3,19 @@
 # Package manager validation hook for Claude Code
 # Prevents direct editing of package management files and suggests appropriate commands
 
+# 標準入力からJSON形式の情報を取得
+json_input=$(cat)
+
+# デバッグ情報出力
+echo "DEBUG: JSON input: '$json_input'" >&2
+
 # Extract the file path from the tool input
-file_path=$(jq -r '.tool_input.file_path // empty' 2>/dev/null)
+file_path=$(echo "$json_input" | jq -r '.tool_input.file_path // empty' 2>/dev/null)
+
+echo "DEBUG: Extracted file path: '$file_path'" >&2
 
 if [ -z "$file_path" ]; then
+    echo "DEBUG: No file_path found in JSON input, skipping validation" >&2
     exit 0
 fi
 

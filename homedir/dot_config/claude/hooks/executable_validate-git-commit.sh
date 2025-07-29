@@ -1,23 +1,80 @@
 #!/bin/bash
 
-# コミットメッセージ検証スクリプト
-# Conventional Commits + Gitmoji 形式をチェックします
+# Git commit統合検証スクリプト
+# GPG署名チェック + Conventional Commits + Gitmoji 形式チェック
 # 形式: <type> <emoji>: <Japanese message in noun form>
 
-# 標準入力からコミットメッセージを取得
-full_message=$(cat)
-commit_message=$(echo "$full_message" | head -n 1)
+# 標準入力からJSON形式の情報を取得
+json_input=$(cat)
 
 # デバッグ情報出力
-echo "DEBUG: Full message: '$full_message'" >&2
-echo "DEBUG: Commit message: '$commit_message'" >&2
-echo "DEBUG: Full message length: ${#full_message}" >&2
-echo "DEBUG: Commit message length: ${#commit_message}" >&2
+echo "DEBUG: JSON input: '$json_input'" >&2
+
+# JSONからコマンドを抽出
+command=$(echo "$json_input" | jq -r '.tool_input.command // empty' 2>/dev/null)
+
+# commandが空の場合、エラー
+if [ -z "$command" ]; then
+  echo "DEBUG: Failed to extract command from JSON input" >&2
+  exit 0
+fi
+
+echo "DEBUG: Extracted command: '$command'" >&2
+
+# git commitコマンドでない場合は検証をスキップ
+if ! echo "$command" | grep -q "^git commit"; then
+  echo "DEBUG: Not a git commit command, skipping validation" >&2
+  echo '{
+  "decision": "approve",
+  "reason": "Not a git commit command, no validation required"
+}'
+  exit 0
+fi
+
+echo "DEBUG: Git commit command detected" >&2
+
+# ===========================================
+# 1. GPG署名検証
+# ===========================================
+
+# -Sオプションの存在チェック
+if echo "$command" | grep -q -- "-S"; then
+  echo "✅ Git commit コマンドに署名オプション (-S) が含まれています" >&2
+else
+  echo "❌ エラー: Git commit コマンドに署名オプション (-S) が含まれていません" >&2
+  echo "GPG署名付きコミットを作成するため、必ず -S オプションを使用してください" >&2
+  echo "例: git commit -S -m \"commit message\"" >&2
+  echo "現在のコマンド: $command" >&2
+  echo '{
+  "decision": "block",
+  "reason": "Git commit command missing required GPG signing option (-S). Use: git commit -S -m \"message\""
+}'
+  exit 1
+fi
+
+# ===========================================
+# 2. コミットメッセージ形式検証
+# ===========================================
+
+# コマンドから -m オプションでコミットメッセージを抽出
+if echo "$command" | grep -q -- "-m"; then
+  # -m "message" の形式からメッセージを抽出（改行文字を削除）
+  commit_message=$(printf '%s' "$command" | sed 's/.*-m[[:space:]]*["'\'']//' | sed 's/["'\''].*$//')
+else
+  echo "DEBUG: No -m option found in git commit command, skipping message validation" >&2
+  echo '{
+  "decision": "approve",
+  "reason": "Git commit command with GPG signing verified. No -m option for message validation."
+}'
+  exit 0
+fi
+
+echo "DEBUG: Extracted commit message: '$commit_message'" >&2
 
 # 空のメッセージチェック
 if [ -z "$commit_message" ]; then
   echo "❌ エラー: コミットメッセージが空です" >&2
-  echo "使用方法: git commit -m \"feat ✨: 新機能の追加\"" >&2
+  echo "使用方法: git commit -S -m \"feat ✨: 新機能の追加\"" >&2
   echo "形式: <type> <emoji>: <Japanese message in noun form>" >&2
   echo '{
   "decision": "block",
@@ -26,15 +83,15 @@ if [ -z "$commit_message" ]; then
   exit 1
 fi
 
-# 改行チェック
-line_count=$(echo "$full_message" | wc -l | tr -d ' ')
-if [ "$line_count" -gt 1 ]; then
-  echo "❌ エラー: コミットメッセージに改行が含まれています" >&2
+# 改行チェック（複数行でないことを確認）
+line_count=$(echo "$commit_message" | wc -l | tr -d ' ')
+if [ "$line_count" -ne 1 ]; then
+  echo "❌ エラー: コミットメッセージが複数行になっています" >&2
   echo "コミットメッセージは1行で記述してください" >&2
   echo "現在の行数: $line_count 行" >&2
   echo '{
   "decision": "block",
-  "reason": "Commit message contains newlines. Please use single line format."
+  "reason": "Commit message contains multiple lines. Please use single line format."
 }'
   exit 1
 fi
@@ -140,15 +197,15 @@ if [ ${#message_part} -gt 50 ]; then
   echo "推奨: 50文字以下" >&2
 fi
 
-echo "✅ コミットメッセージの形式が正しいです" >&2
+echo "✅ Git commitコマンドの検証が完了しました" >&2
+echo "GPG署名: ✅" >&2
 echo "Type: $type" >&2
 echo "Emoji: $emoji" >&2
 echo "Message: $message_part" >&2
 
 echo '{
   "decision": "approve",
-  "reason": "Valid commit message format: '"$type $emoji: $message_part"'"
+  "reason": "Valid git commit command with GPG signing and proper message format: '"$type $emoji: $message_part"'"
 }'
 
 exit 0
-
