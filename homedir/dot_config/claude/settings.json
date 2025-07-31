@@ -169,7 +169,7 @@
           {
             "type": "command",
             "command": "~/.config/claude/hooks/validate-git-commit.sh"
-          },
+          }
         ]
       },
       {
