@@ -50,11 +50,11 @@ Planning Sub Agentが以下のコミット戦略を提案しました:
 
 ### 提案されたコミット:
 
-**コミット1**: [type] [emoji]: [message]
+**コミット1**: [type] [:emoji_name:]: [message]
 - ファイル: [file list]
 - 根拠: [rationale]
 
-**コミット2**: [type] [emoji]: [message]
+**コミット2**: [type] [:emoji_name:]: [message]
 - ファイル: [file list]
 - 根拠: [rationale]
 
@@ -88,10 +88,12 @@ For each commit in the approved commit plan:
 **Execution Agent Instructions:**
 
 - Precise staging of specified files
-- Execute GPG-signed commits
-- Immediate verification of commit signatures
+- Execute GPG-signed commits using `git commit -S` command
+- MANDATORY: Always add `-S` flag to enable GPG signing for all commits
+- Immediate verification of commit signatures using `git log --show-signature -1`
 - Report execution status in Japanese
 - Proper handling of errors
+- Verify GPG configuration is working before attempting commits
 
 **STEP 5**: Final verification and result reporting
 
@@ -104,7 +106,7 @@ For each commit in the approved commit plan:
 YOU MUST: Follow Conventional Commits standards with this specific format:
 
 ```text
-<type> <emoji>: <commit message>
+<type> <:emoji_name:>: <commit message>
 ```
 
 ## Commit Signing
@@ -142,23 +144,23 @@ YOU MUST: Clearly indicate what was changed or implemented
 
 **Complete Feature Implementation:**
 
-- `feat ✨: ログイン機能の実装` (includes form, validation, API)
-- `feat ✨: ユーザープロフィール機能の追加` (includes UI, backend, tests)
+- `feat :sparkles:: ログイン機能の実装` (includes form, validation, API)
+- `feat :sparkles:: ユーザープロフィール機能の追加` (includes UI, backend, tests)
 
 **Bug Fixes:**
 
-- `fix 🐛: パスワードバリデーションエラーの修正`
-- `fix 🐛: データベース接続タイムアウトの解決`
+- `fix :bug:: パスワードバリデーションエラーの修正`
+- `fix :bug:: データベース接続タイムアウトの解決`
 
 **Refactoring:**
 
-- `refactor ♻️: 認証ロジックの整理`
-- `refactor ♻️: コンポーネント構造の改善`
+- `refactor :recycle:: 認証ロジックの整理`
+- `refactor :recycle:: コンポーネント構造の改善`
 
 **Configuration and Documentation:**
 
-- `chore 🔧: 環境設定の更新`
-- `docs 📚: API仕様書の追加`
+- `chore :wrench:: 環境設定の更新`
+- `docs :books:: API仕様書の追加`
 
 ### 💡 Smart Bundling Examples
 
@@ -193,12 +195,12 @@ YOU MUST: Clearly indicate what was changed or implemented
 
 **コミット1**: [説明]
 - ファイル: [このコミットに含むファイルのリスト]
-- 提案メッセージ: `[type] [emoji]: [日本語コミットメッセージ]`
+- 提案メッセージ: `[type] [:emoji_name:]: [日本語コミットメッセージ]`
 - 根拠: [これらの変更が一緒にある理由]
 
 **コミット2**: [説明]
 - ファイル: [このコミットに含むファイルのリスト]
-- 提案メッセージ: `[type] [emoji]: [日本語コミットメッセージ]`
+- 提案メッセージ: `[type] [:emoji_name:]: [日本語コミットメッセージ]`
 - 根拠: [これらの変更が一緒にある理由]
 
 [追加のコミットがある場合は続ける...]
@@ -214,7 +216,7 @@ YOU MUST: Clearly indicate what was changed or implemented
 
 ## Examples
 
-- `feat ✨: ログイン機能の実装`
-- `fix 🐛: データベース接続エラーの修正`
-- `docs 📚: README.mdの更新`
-- `refactor ♻️: ユーザー認証ロジックのリファクタリング`
+- `feat :sparkles:: ログイン機能の実装`
+- `fix :bug:: データベース接続エラーの修正`
+- `docs :books:: README.mdの更新`
+- `refactor :recycle:: ユーザー認証ロジックのリファクタリング`

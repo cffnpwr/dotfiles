@@ -53,7 +53,7 @@ YOU MUST return commit plan in JSON format:
     {
       "id": 1,
       "type": "feat",
-      "emoji": "✨",
+      "emoji": ":sparkles:",
       "message": "ログイン機能の実装",
       "files": ["src/auth/login.js", "src/components/LoginForm.vue"],
       "rationale": "Complete login feature implementation with related files bundled together"
@@ -61,7 +61,7 @@ YOU MUST return commit plan in JSON format:
     {
       "id": 2,
       "type": "test",
-      "emoji": "✅",
+      "emoji": ":white_check_mark:",
       "message": "ログイン機能のテスト追加",
       "files": ["tests/auth/login.test.js"],
       "rationale": "Separate feature implementation and tests for better review"
