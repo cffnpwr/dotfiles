@@ -3,6 +3,23 @@
 This file provides guidance to Claude Code (claude.ai/code) when working
 with code in this repository.
 
+## Essential Initial Setup
+
+**MANDATORY PROJECT INITIALIZATION:**
+
+🚨 **BEFORE ANY WORK**: Execute initial instructions to activate project context:
+
+```bash
+# For chezmoi project
+mcp__serena__activate_project("chezmoi")
+mcp__serena__check_onboarding_performed()
+```
+
+**Project Context Requirements:**
+- MUST activate serena project before any code analysis or file operations
+- MUST verify onboarding status to access project-specific memories
+- MUST read relevant memories based on task requirements
+
 ## ⚠️ ABSOLUTE CONSTRAINTS - VIOLATION = IMMEDIATE TASK FAILURE
 
 **CRITICAL CHEZMOI ENFORCEMENT PROTOCOL:**

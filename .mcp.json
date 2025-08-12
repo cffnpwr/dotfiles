@@ -10,6 +10,17 @@
         "stdio"
       ],
       "env": {}
+    },
+    "textlint": {
+      "type": "stdio",
+      "command": "mise",
+      "args": [
+        "x",
+        "--",
+        "textlint",
+        "--mcp"
+      ],
+      "env": {}
     }
   }
 }

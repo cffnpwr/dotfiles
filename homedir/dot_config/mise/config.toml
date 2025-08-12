@@ -9,3 +9,16 @@ uv = "latest"
 "pipx:mcp-server-git" = "latest"
 "npm:@mjpitz/mcp-rfc" = "latest"
 "pipx:mcp-server-fetch" = "latest"
+"npm:textlint" = "latest"
+"npm:textlint-rule-preset-ja-technical-writing" = "latest"
+"npm:@textlint-ja/textlint-rule-preset-ai-writing" = "latest"
+"npm:textlint-rule-ja-no-redundant-expression" = "latest"
+"npm:textlint-filter-rule-allowlist" = "latest"
+"npm:textlint-filter-rule-comments" = "latest"
+"npm:textlint-rule-preset-ja-spacing" = "latest"
+
+[env]
+NODE_PATH = "{{ exec(command='fd -t d \"node_modules\" ~/.local/share/mise/installs/npm-* | grep \"/lib/node_modules/$\" | tr \"\\n\" \":\"', cache_key='textlint-paths', cache_duration='1h') }}$NODE_PATH"
+
+[settings]
+experimental = true
