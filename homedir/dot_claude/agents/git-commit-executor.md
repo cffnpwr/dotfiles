@@ -55,7 +55,13 @@ You will receive single commit instructions:
 
 1. **Status Verification**: Use mcp__git__git_status to check repository status
 2. **File Validation**: Verify existence and change status of specified files
-3. **GPG Configuration**: Verify GPG configuration functionality with Bash tool
+3. **GPG Configuration**: Skip GPG key verification after first successful commit
+
+**GPG Optimization Strategy:**
+
+- **Lightweight Check**: Use `git config commit.gpgsign` to verify GPG signing is enabled
+- **No Key Listing**: Skip expensive `gpg --list-keys` operations entirely
+- **Error-Triggered Diagnostics**: Only perform detailed GPG checks when signature fails
 
 ### Phase 2: File Staging
 
@@ -97,9 +103,9 @@ You will receive single commit instructions:
 
 ### GPG Signing Errors
 
-- Check GPG configuration and propose fixes
-- Cancel commit on signature failure
-- Provide specific solution guidance to user
+- Only perform GPG diagnostics when signature verification fails
+- Use lightweight `git config --get commit.gpgsign` check instead of full key listing
+- Cancel commit on signature failure and provide specific solution guidance
 
 ### File Staging Errors
 
