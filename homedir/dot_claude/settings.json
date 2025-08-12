@@ -168,7 +168,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.config/claude/hooks/validate-git-commit.sh"
+            "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config/config.yaml git-commit-hook"
           }
         ]
       },
@@ -177,7 +177,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.config/claude/hooks/validate-package-manager.sh"
+            "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config/config.yaml manifest-file-hook"
           }
         ]
       }

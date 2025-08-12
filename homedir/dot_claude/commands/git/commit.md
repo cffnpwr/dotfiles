@@ -1,76 +1,103 @@
-# Git Commit
+# Git Commit (Sub Agent Powered)
 
-## Commit Quality Guidelines
+## 3-Phase Workflow Architecture
 
-**CRITICAL COMMIT GRANULARITY ENFORCEMENT:**
+This command executes a 3-phase workflow using specialized Sub Agents:
 
-🚨 **ABSOLUTE REQUIREMENTS:**
+### Phase 1: Commit Planning (Planning Sub Agent)
 
-YOU MUST: Apply the commit granularity rules from @../../instructions/git.md WITHOUT EXCEPTION
-YOU MUST: NEVER create a commit without first analyzing ALL changes for proper separation
-YOU MUST: ALWAYS propose commit separation strategy before creating any commits
-YOU MUST: Get explicit user approval for multi-commit strategies
+### Phase 2: User Confirmation (Main Agent)
 
-**ZERO-TOLERANCE VIOLATIONS:**
+### Phase 3: Commit Execution (Execution Sub Agent)
 
-NEVER: Create commits with mixed unrelated changes
-NEVER: Skip the mandatory commit analysis phase
-NEVER: Bundle different types of changes (feature + bugfix, config + feature)
-NEVER: Create commits without user confirmation of the separation strategy
+## Execution Workflow
 
-**MANDATORY PRE-COMMIT ANALYSIS:**
+Execute the following 3-phase process:
 
-Before ANY commit creation, you MUST:
+### Phase 1: Commit Planning
 
-1. **Exhaustive Change Analysis**: Review every single file change
-2. **Logical Grouping**: Identify natural commit boundaries
-3. **Separation Proposal**: Clearly propose how to split changes
-4. **User Consultation**: Present the strategy and get explicit approval
-5. **Sequential Execution**: Create commits one by one with verification
+**STEP 1**: Call Planning Sub Agent for commit analysis and strategy planning
 
-**COMMIT SEPARATION DECISION TREE:**
+```text
+Use Task tool to invoke git-commit-planner Sub Agent:
+- Execute comprehensive analysis of current Git state
+- Logical classification of changes and commit granularity determination
+- Generate Conventional Commits compliant messages
+- Output commit plan in JSON format
+```
 
-For EACH changed file, ask:
-- Does this change belong to the same logical unit as other changes?
-- Could this change be deployed independently?
-- Does this solve the same problem or implement the same feature?
-- Would reviewing this change separately make sense?
+**Planning Agent Instructions:**
 
-If ANY answer is "no" → SEPARATE COMMIT REQUIRED
+- Execute detailed analysis of Git status and diff
+- Classify changes into logical units
+- Generate appropriate messages for each commit
+- Clarify rationale for commit separation
+- Provide analysis results in Japanese
 
-YOU MUST: Follow the Git guidelines defined in @../../instructions/git.md
+### Phase 2: User Confirmation Phase
 
-YOU MUST: Use Bash tool with command line Git operations for all commit operations to ensure GPG signing.
+**STEP 2**: Present commit plan returned from Planning Sub Agent to user
 
-YOU MUST: Use Git MCP server tools ONLY for status checking and diff operations.
+YOU MUST: Display the plan in Japanese using the following format:
 
-**OUTPUT LANGUAGE ENFORCEMENT:**
+```text
+## コミット計画の確認
 
-YOU MUST: Always communicate with the user in Japanese throughout the entire commit process
-YOU MUST: Present all analysis, status reports, and commit strategies in Japanese
-YOU MUST: Never use English for user communication during commit operations
-YOU MUST: Use Japanese for all explanations, confirmations, and progress updates
+Planning Sub Agentが以下のコミット戦略を提案しました:
 
-Execute the following workflow:
+### 分析結果:
+[Agent-provided analysis summary]
 
-1. **Status Check**: Check current git status and staged changes using git_status MCP tool
-2. **Change Review**: Review changes with git_diff MCP tool (both staged and unstaged)
-3. **MANDATORY COMMIT ANALYSIS**: Analyze all changes and identify logical commit units
-   - **Change Classification**: Categorize each change by type (feature, fix, refactor, etc.)
-   - **Component Analysis**: Identify which components/modules are affected
-   - **Dependency Analysis**: Determine if changes are related or independent
-   - **Commit Unit Proposal**: Propose how to split changes into separate commits
-4. **Commit Strategy Confirmation**: Present commit separation strategy:
-   - **Number of commits**: How many commits will be created
-   - **Commit breakdown**: List what changes go into each commit
-   - **Commit order**: The sequence of commits to be created
-   - **Rationale**: Explain why changes are grouped or separated
-5. **User Approval**: Get explicit user confirmation for the commit strategy
-6. **Sequential Commit Creation**: For each planned commit:
-   - Stage specific files using `git add <files>` via Bash tool
-   - Create signed commit using `git commit -S -m "<message>"` via Bash tool
-   - Verify commit signature immediately after creation
-7. **Final Verification**: Check all commits were created successfully and properly signed using `git log --show-signature --oneline -n <number_of_commits>`
+### 提案されたコミット:
+
+**コミット1**: [type] [emoji]: [message]
+- ファイル: [file list]
+- 根拠: [rationale]
+
+**コミット2**: [type] [emoji]: [message]
+- ファイル: [file list]
+- 根拠: [rationale]
+
+[Continue for additional commits...]
+
+### 確認事項:
+この計画を承認して実行を開始しますか？
+- [y] はい、この計画でコミットを実行
+- [n] いいえ、計画を見直す
+- [m] 計画を修正したい
+```
+
+**STEP 3**: Obtain explicit user approval
+
+- Do not proceed to next phase until approval is received
+- Re-request Planning Agent if modification is requested
+- Abort process if rejected
+
+### Phase 3: Commit Execution Phase
+
+**STEP 4**: After user approval, execute commits sequentially with Execution Sub Agent
+
+```text
+For each commit in the approved commit plan:
+1. Call git-commit-executor Sub Agent using Task tool
+2. Pass single commit information for execution
+3. Confirm execution results and proceed to next commit
+4. Repeat until all commits are completed
+```
+
+**Execution Agent Instructions:**
+
+- Precise staging of specified files
+- Execute GPG-signed commits
+- Immediate verification of commit signatures
+- Report execution status in Japanese
+- Proper handling of errors
+
+**STEP 5**: Final verification and result reporting
+
+- Verify signatures of all commits
+- Confirm created commits
+- Report completion status in Japanese
 
 ## Commit Message Format
 
@@ -111,32 +138,38 @@ YOU MUST: Clearly indicate what was changed or implemented
 
 ## Best Practice Examples
 
-### ✅ Good Commit Examples:
+### ✅ Good Commit Examples
 
 **Complete Feature Implementation:**
+
 - `feat ✨: ログイン機能の実装` (includes form, validation, API)
 - `feat ✨: ユーザープロフィール機能の追加` (includes UI, backend, tests)
 
 **Bug Fixes:**
+
 - `fix 🐛: パスワードバリデーションエラーの修正`
 - `fix 🐛: データベース接続タイムアウトの解決`
 
 **Refactoring:**
+
 - `refactor ♻️: 認証ロジックの整理`
 - `refactor ♻️: コンポーネント構造の改善`
 
 **Configuration and Documentation:**
+
 - `chore 🔧: 環境設定の更新`
 - `docs 📚: API仕様書の追加`
 
-### 💡 Smart Bundling Examples:
+### 💡 Smart Bundling Examples
 
 **Feature with Supporting Changes:**
+
 - Feature implementation + related config + documentation
 - Component + its styles + tests
 - API endpoint + validation + error handling
 
 **Avoid These Combinations:**
+
 - Multiple unrelated features
 - Bug fix + new feature
 - Large refactoring + new functionality
@@ -145,7 +178,7 @@ YOU MUST: Clearly indicate what was changed or implemented
 
 **MANDATORY USAGE**: Use this template for EVERY commit analysis (ALWAYS IN JAPANESE):
 
-```
+```text
 ## コミット分析レポート
 
 ### 変更ファイル:
@@ -177,7 +210,7 @@ YOU MUST: Clearly indicate what was changed or implemented
 このコミット分離戦略を承認しますか？続行前に確認をお願いします。
 ```
 
-**ENFORCEMENT**: すべてのコミット分析でこの正確なテンプレート形式を使用する必要があります（常に日本語で）
+**ENFORCEMENT**: All commit analysis must use this exact template format (always in Japanese)
 
 ## Examples
 

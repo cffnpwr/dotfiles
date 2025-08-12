@@ -47,3 +47,14 @@ YOU MUST: Actively use web search when encountering:
 
 IMPORTANT: Don't assume knowledge about rapidly changing technologies
 YOU MUST: Always verify implementation details with current documentation when uncertain
+
+## Research Limitations and Reporting
+
+YOU MUST: When research is insufficient or yields no results:
+
+- Report specific research attempts made and their outcomes
+- State clearly what information could not be found
+- Explain why the research was insufficient
+- Ask user for additional information or guidance
+- NEVER: Continue with incomplete or uncertain information
+- NEVER: Fill gaps with assumptions or best guesses
