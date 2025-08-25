@@ -10,7 +10,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # path
 path=(
-  ${HOME}/.local/bin(N-/)
+  $HOME/.local/bin(N-/)
   /usr/local/sbin(N-/)
   /usr/local/bin(N-/)
   $path
@@ -35,7 +35,14 @@ export SVN_EDITOR="${EDITOR}"
 export GIT_EDITOR="${EDITOR}"
 
 # mise - use shims for non-interactive shells, activate for interactive shells
-eval "$(mise activate zsh --shims)"
+if command -v zsh &> /dev/null; then
+  eval "$(mise activate zsh)"
+  path=(
+    $HOME/.local/share/mise/shims(N-/)
+    $path
+  )
+fi
+
 
 {{ if eq .chezmoi.os "darwin" -}}
 # SSH Agent
