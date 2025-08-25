@@ -136,7 +136,20 @@
       "mcp__github__search_repositories",
       "mcp__github__search_users",
       "mcp__ide__getDiagnostics",
-      "mcp__container-use"
+      "mcp__container-use",
+      "mcp__serena__list_dir",
+      "mcp__serena__write_memory",
+      "mcp__serena__get_symbols_overview",
+      "mcp__serena__find_file",
+      "mcp__serena__find_symbol",
+      "mcp__serena__search_for_pattern",
+      "mcp__serena__think_about_collected_information",
+      "mcp__serena__list_memories",
+      "mcp__serena__read_memory",
+      "mcp__textlint__lintFile",
+      "mcp__textlint__getLintFixedFileContent",
+      "mcp__serena__activate_project",
+      "mcp__serena__check_onboarding_performed"
     ]
   },
   "hooks": {
@@ -158,6 +171,15 @@
           {
             "type": "command",
             "command": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then osascript -e 'display notification \"タスクが完了しました\" with title \"Claude Code\" subtitle \"処理終了\" sound name \"Funk\"'; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config/config.yaml quality-gate-hook"
           }
         ]
       }
@@ -182,5 +204,9 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "mise x -- ccusage statusline"
   }
 }
