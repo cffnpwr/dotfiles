@@ -173,40 +173,39 @@
             "command": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then osascript -e 'display notification \"タスクが完了しました\" with title \"Claude Code\" subtitle \"処理終了\" sound name \"Funk\"'; fi"
           }
         ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config/config.yaml quality-gate-hook"
-          }
-        ]
       }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config/config.yaml git-commit-hook"
-          }
-        ]
-      },
-      {
-        "matcher": "Edit|MultiEdit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config/config.yaml manifest-file-hook"
-          }
-        ]
-      }
-    ]
+    ] //,
+    // "PreToolUse": [
+    //   {
+    //     "matcher": "Bash",
+    //     "hooks": [
+    //       {
+    //         "type": "command",
+    //         "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config.yaml git-commit-hook"
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "matcher": "Edit|MultiEdit|Write",
+    //     "hooks": [
+    //       {
+    //         "type": "command",
+    //         "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config.yaml manifest-file-hook"
+    //       }
+    //     ]
+    //   }
+    // ]
   },
   "statusLine": {
     "type": "command",
     "command": "mise x -- ccusage statusline"
+  },
+  "env": {
+    "CLAUDE_CODE_ENABLE_TELEMETRY": false,
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": true,
+    "DISABLE_ERROR_REPORTING": true,
+    "DISABLE_TELEMETRY": true,
+    "DISABLE_AUTOUPDATER": true,
+    "DISABLE_MICROCOMPACT": true
   }
 }
