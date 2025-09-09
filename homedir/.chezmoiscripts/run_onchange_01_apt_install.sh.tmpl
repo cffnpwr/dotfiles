@@ -106,7 +106,7 @@ echo "{{ .name }}リポジトリを追加しています..."
 
 # GPGキーのダウンロードと設定
 # repo_baseからsigned-byパスを抽出
-GPG_KEY_PATH=$(echo "{{ .repo_base }}" | grep -o 'signed-by=[^]]*' | cut -d'=' -f2)
+GPG_KEY_PATH=$(echo "{{ .repo_base }}" | grep -o 'signed-by=[^] ]*' | cut -d'=' -f2)
 wget -qO - {{ .key_url }} | gpg --dearmor | sudo tee "$GPG_KEY_PATH" 1> /dev/null
 
 # リポジトリの追加
