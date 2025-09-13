@@ -91,22 +91,22 @@
       "Bash(whoami)",
       "Bash(xxd:*)",
       "Bash(gemini:*)",
-      "mcp__git__git_branch(mode:list)",
-      "mcp__git__git_branch(mode:show-current)",
+      "mcp__git__git_branch",
+      "mcp__git__git_branch",
       "mcp__git__git_clear_working_dir",
       "mcp__git__git_diff",
       "mcp__git__git_diff_staged",
       "mcp__git__git_diff_unstaged",
       "mcp__git__git_fetch",
       "mcp__git__git_log",
-      "mcp__git__git_remote(mode:list)",
+      "mcp__git__git_remote",
       "mcp__git__git_remote(mode:show)",
       "mcp__git__git_set_working_dir",
       "mcp__git__git_show",
-      "mcp__git__git_stash(mode:list)",
+      "mcp__git__git_stash",
       "mcp__git__git_status",
-      "mcp__git__git_tag(mode:list)",
-      "mcp__git__git_worktree(mode:list)",
+      "mcp__git__git_tag",
+      "mcp__git__git_worktree",
       "mcp__github__get_code_scanning_alert",
       "mcp__github__get_commit",
       "mcp__github__get_file_contents",
@@ -137,6 +137,7 @@
       "mcp__github__search_users",
       "mcp__ide__getDiagnostics",
       "mcp__container-use",
+      "mcp__serena__get_current_config",
       "mcp__serena__list_dir",
       "mcp__serena__write_memory",
       "mcp__serena__get_symbols_overview",
@@ -146,10 +147,10 @@
       "mcp__serena__think_about_collected_information",
       "mcp__serena__list_memories",
       "mcp__serena__read_memory",
-      "mcp__textlint__lintFile",
-      "mcp__textlint__getLintFixedFileContent",
       "mcp__serena__activate_project",
-      "mcp__serena__check_onboarding_performed"
+      "mcp__serena__check_onboarding_performed",
+      "mcp__textlint__lintFile",
+      "mcp__textlint__getLintFixedFileContent"
     ]
   },
   "hooks": {
@@ -174,27 +175,7 @@
           }
         ]
       }
-    ] //,
-    // "PreToolUse": [
-    //   {
-    //     "matcher": "Bash",
-    //     "hooks": [
-    //       {
-    //         "type": "command",
-    //         "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config.yaml git-commit-hook"
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     "matcher": "Edit|MultiEdit|Write",
-    //     "hooks": [
-    //       {
-    //         "type": "command",
-    //         "command": "~/.claude/hooks/cchooks --config ~/.claude/hooks/config.yaml manifest-file-hook"
-    //       }
-    //     ]
-    //   }
-    // ]
+    ]
   },
   "statusLine": {
     "type": "command",
