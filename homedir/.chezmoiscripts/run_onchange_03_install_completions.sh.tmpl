@@ -50,4 +50,13 @@ if which docker > /dev/null; then
   fi
   docker completion zsh > ~/.config/zsh/site-functions/_docker
 fi
+
+# mise command completion
+if which mise > /dev/null; then
+  echo "mise コマンドの補完スクリプトを生成します..."
+  if [ ! -d ~/.config/zsh/site-functions/ ]; then
+    mkdir -p ~/.config/zsh/site-functions
+  fi
+  mise completion zsh > ~/.config/zsh/site-functions/_mise
+fi
 {{- end -}}
