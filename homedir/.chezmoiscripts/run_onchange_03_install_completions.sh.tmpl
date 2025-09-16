@@ -59,4 +59,14 @@ if which mise > /dev/null; then
   fi
   mise completion zsh > ~/.config/zsh/site-functions/_mise
 fi
+
+# fzf command completion
+if which fzf > /dev/null; then
+  echo "fzf コマンドの補完スクリプトを生成します..."
+  if [ ! -d ~/.config/zsh/site-functions/ ]; then
+    mkdir -p ~/.config/zsh/site-functions
+  fi
+  fzf --zsh > ~/.config/zsh/site-functions/_fzf
+fi
+
 {{- end -}}
