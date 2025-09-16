@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+# mise shims
+eval "$(mise activate zsh --shims)"
