@@ -1,0 +1,17 @@
+# Font Configuration
+font-family = "0xProto Nerd Font"
+font-family-bold = "0xProto Nerd Font"
+font-family-italic = "0xProto Nerd Font"
+font-family-bold-italic = "0xProto Nerd Font"
+font-family = "Koruri"
+font-size = 13.0
+
+theme = "tokyonight"
+background-opacity = 0.9
+
+window-width = 192
+window-height = 64
+
+command = "/bin/zsh -l -c zellij attach wezterm --create"
+
+macos-option-as-alt = left
