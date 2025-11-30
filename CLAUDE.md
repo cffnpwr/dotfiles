@@ -128,17 +128,25 @@ NEVER: Display encrypted file content in plain text.
 
 ## Project Overview
 
-This repository is a personal dotfiles project managed with **chezmoi**.
-It provides a comprehensive configuration setup for macOS development
-environment, integrating shell configurations, development tools, and
-application settings.
+This repository is a personal dotfiles and system configuration project
+using **Nix** with **nix-darwin** and **Home Manager**. It provides a
+comprehensive, declarative configuration setup for macOS development
+environment, integrating system settings, shell configurations, development
+tools, and application settings.
+
+The project combines Nix's declarative package management with chezmoi for
+additional dotfile management, creating a hybrid approach for maximum
+flexibility and reproducibility.
 
 ## Architecture
 
 ### Core Components
 
-- **chezmoi**: Dotfiles management system
-- **age**: Private file encryption
+- **Nix**: Declarative package management and system configuration
+- **nix-darwin**: macOS system configuration
+- **Home Manager**: User environment configuration
+- **agenix**: Age-based secret encryption for Nix
+- **chezmoi**: Supplementary dotfiles management system
 - **Git**: Version control
 
 ### File Naming Conventions
@@ -155,78 +163,86 @@ application settings.
 ```text
 /Users/cffnpwr/.local/share/chezmoi/
 ├── 📄 Core Repository Files
+│   ├── flake.nix                         # Nix flake configuration (main entry point)
+│   ├── flake.lock                        # Nix flake lock file
 │   ├── .chezmoiroot                      # Specifies homedir as source root
 │   ├── .editorconfig                     # Editor settings (2-space indent, LF)
 │   ├── CLAUDE.md                         # Project-specific Claude instructions
 │   ├── LICENSE                           # License file
 │   └── README.md                         # Project documentation
 │
-└── 📂 homedir/ (33 files total)          # Main dotfiles directory
-    │
-    ├── 🔧 Configuration Root Files
-    │   ├── .chezmoi.toml.tmpl            # chezmoi configuration template
-    │   ├── .chezmoiignore                # chezmoi ignore patterns
-    │   ├── dot_Brewfile                  # Homebrew dependencies
-    │   ├── dot_zshenv                    # Zsh environment variables
-    │   └── key.txt.age                   # Encrypted private key
-    │
-    ├── 🚀 Automation Scripts (.chezmoiscripts/ - 6 scripts)
-    │   ├── run_once_before_00_decrypt_private_key.sh.tmpl
-    │   ├── run_once_00_install_homebrew.sh.tmpl
-    │   ├── run_once_00_setup_macos_settings.sh.tmpl
-    │   ├── run_once_03_setup_claude_code.sh.tmpl
-    │   ├── run_onchange_01_brew_bundle.sh.tmpl
-    │   └── run_onchange_02_mise_install.sh.tmpl
-    │
-    ├── 🛡️ Private SSH Configuration (private_dot_ssh/ - 7 files)
-    │   ├── conf.d/                       # Modular SSH configuration
-    │   │   ├── 00-common                 # Common SSH settings
-    │   │   ├── 01-home                   # Home environment settings
-    │   │   ├── 02-tmcit                  # School environment settings
-    │   │   └── 03-git                    # Git-related settings
-    │   ├── private_config                # Main SSH config (sensitive)
-    │   └── rc                            # SSH RC configuration
-    │
-    └── ⚙️ Application Configurations (dot_config/ - 16 files)
-        │
-        ├── 🤖 claude/ (11 files)         # Claude Code configuration
-        │   ├── CLAUDE.md                 # Global Claude instructions
-        │   ├── settings.json             # Detailed permissions (86 settings)
-        │   ├── commands/ (7 files)       # Custom command definitions
-        │   │   ├── git/ (6 files)        # Git workflow commands
-        │   │   └── reflection.md         # Reflection configuration
-        │   └── instructions/ (4 files)   # Modular instruction system
-        │       ├── code_quality.md       # Code standards and debugging
-        │       ├── editor.md             # EditorConfig enforcement
-        │       └── reminders.md          # Task guidelines
-        │
-        ├── 🐙 gh/ (2 files - encrypted)  # GitHub CLI configuration
-        │   ├── private_config.yml        # GitHub CLI config (sensitive)
-        │   └── private_hosts.yml         # GitHub hosts config (sensitive)
-        │
-        ├── 🛠️ mise/ (1 file)             # Development tool version management
-        │   └── config.toml               # Node.js, Go, Python versions
-        │
-        ├── 📦 sheldon/ (1 file)          # Zsh plugin management
-        │   └── plugins.toml              # Deferred loading plugin config
-        │
-        ├── ⭐ starship.toml (1 file)     # Prompt configuration
-        │
-        ├── 💻 wezterm/ (2 files)         # Terminal configuration
-        │   ├── wezterm.lua               # Main configuration
-        │   └── keybinds.lua              # Keybinding settings
-        │
-        ├── 🖥️ zellij/ (1 file)          # Terminal multiplexer
-        │   └── config.kdl                # Zellij configuration
-        │
-        └── 🐚 zsh/ (6 files)             # Shell configuration
-            ├── dot_zshenv.tmpl           # Environment template
-            ├── dot_zshrc                 # Main Zsh configuration
-            └── plugins/                  # Custom plugins
-                ├── alias.zsh             # Alias definitions
-                ├── bindkey.zsh           # Key bindings
-                ├── peco.zsh              # Peco integration
-                └── vscode.zsh            # VS Code integration
+├── 🏗️ Nix Configuration (modules/)
+│   ├── common/                           # Common configuration (Darwin/Linux)
+│   │   ├── default.nix                   # Module imports
+│   │   ├── environment.nix               # Environment variables
+│   │   ├── fonts.nix                     # Font configuration
+│   │   ├── packages.nix                  # Common packages
+│   │   └── user.nix                      # User account configuration
+│   │
+│   ├── darwin/                           # macOS-specific configuration
+│   │   ├── default.nix                   # Module imports
+│   │   ├── packages.nix                  # macOS packages
+│   │   ├── services.nix                  # LaunchDaemons/LaunchAgents
+│   │   ├── system.nix                    # System preferences
+│   │   └── user.nix                      # User shell configuration
+│   │
+│   └── home-manager/                     # Home Manager configuration
+│       ├── default.nix                   # Home Manager entry point
+│       ├── packages/                     # Package lists
+│       │   ├── default.nix               # Common packages
+│       │   ├── darwin.nix                # macOS-specific packages
+│       │   └── linux.nix                 # Linux-specific packages
+│       │
+│       ├── programs/                     # Program configurations
+│       │   ├── claude-code/              # Claude Code configuration
+│       │   │   ├── default.nix           # Main module
+│       │   │   ├── mcp.nix               # MCP server configuration
+│       │   │   ├── settings.nix          # Settings generation
+│       │   │   ├── commands.nix          # Custom commands
+│       │   │   ├── agents.nix            # Custom agents
+│       │   │   └── files/                # Instruction files
+│       │   ├── git/                      # Git configuration
+│       │   ├── ghostty/                  # Ghostty terminal
+│       │   ├── google-japanese-ime/      # Google Japanese IME
+│       │   ├── karabiner-elements/       # Keyboard customization
+│       │   ├── mas/                      # Mac App Store CLI
+│       │   ├── mise/                     # Development tool manager
+│       │   ├── sheldon/                  # Zsh plugin manager
+│       │   ├── ssh/                      # SSH configuration
+│       │   ├── starship/                 # Shell prompt
+│       │   ├── zellij/                   # Terminal multiplexer
+│       │   └── zsh/                      # Zsh configuration
+│       │
+│       └── services/                     # User services (LaunchAgents)
+│           ├── default.nix               # Service module loader
+│           ├── darwin.nix                # macOS-specific services
+│           ├── aerospace.nix             # Window manager
+│           ├── alt-tab.nix               # Alt-Tab replacement
+│           ├── amphetamine.nix           # Keep-awake utility
+│           ├── bitwarden.nix             # Password manager
+│           ├── google-japanese-ime.nix   # IME service
+│           ├── runcat.nix                # System monitor
+│           ├── scroll-reverser.nix       # Scroll direction
+│           └── stats.nix                 # System stats
+│
+├── 🖥️ Host Configurations (hosts/)
+│   └── cpwr-mba2/                        # MacBook Air M2 configuration
+│       └── default.nix                   # Host-specific settings
+│
+├── 📦 Custom Packages (pkgs/)
+│   ├── claude-desktop/                   # Claude Desktop app
+│   ├── google-japanese-ime/              # Google Japanese IME
+│   ├── mactex/                           # MacTeX distribution
+│   ├── microsoft-office/                 # Microsoft Office
+│   ├── obsidian/                         # Obsidian notes
+│   └── spotify/                          # Spotify client
+│
+├── 🔐 Secrets (secrets/)
+│   ├── secrets.nix                       # agenix secret definitions
+│   └── github-token.age                  # Encrypted GitHub token
+│
+└── 📂 Legacy chezmoi Dotfiles (homedir/)
+    └── (Traditional chezmoi-managed configurations)
 ```
 
 ### File Naming Patterns
@@ -258,10 +274,46 @@ application settings.
 
 ## Common Commands
 
-### chezmoi Operations
+### Nix Operations (Primary)
 
-YOU MUST: Always use `--no-tty` option when running chezmoi commands to
-ensure proper execution in non-interactive environments.
+**IMPORTANT**: This project primarily uses Nix for system and package
+management. Use these commands for most configuration changes.
+
+```bash
+# Build configuration (for testing without applying)
+nix run nix-darwin -- build --flake .#cpwr-mba2
+
+# Build and switch to new configuration (requires sudo)
+nix run nix-darwin -- switch --flake .#cpwr-mba2
+
+# Update flake inputs (nixpkgs, home-manager, etc.)
+nix flake update
+
+# Check flake for errors
+nix flake check
+
+# Clean up old generations (free disk space)
+nix-collect-garbage -d
+sudo nix-collect-garbage -d
+
+# Show flake outputs
+nix flake show
+```
+
+### agenix Secret Management
+
+```bash
+# Edit encrypted secret (uses $EDITOR)
+agenix -e secrets/github-token.age
+
+# Rekey all secrets (after age key change)
+agenix --rekey
+```
+
+### chezmoi Operations (Supplementary)
+
+**NOTE**: Some legacy configurations are still managed via chezmoi. Always
+use `--no-tty` option when running chezmoi commands.
 
 ```bash
 # Preview changes before applying
@@ -278,40 +330,22 @@ chezmoi add --no-tty ~/.config/example
 
 # Sync with remote repository
 chezmoi update --no-tty
-
-# Re-run scripts (useful for brew bundle updates)
-chezmoi state delete-bucket --bucket=entryState --no-tty
-chezmoi apply --no-tty
 ```
 
-### Encrypted File Operations
+### Development Tools
 
 ```bash
-# Edit encrypted files
-chezmoi edit ~/.ssh/config
-
-# View encrypted file contents
-chezmoi cat ~/.ssh/config
-```
-
-### Package Management
-
-```bash
-# Update Homebrew packages from Brewfile
-brew bundle --file ~/.Brewfile
-
-# Update mise-managed development tools
+# Update mise-managed development tools (Node.js, Go, Python)
 mise upgrade
 
-# Update Zsh plugins (via Sheldon)
-sheldon update
+# Install/sync mise tools
+mise install
 
-# Install missing packages and remove unused ones
-brew bundle --file ~/.Brewfile --cleanup
+# Check current versions
+mise current
 
-# Check for outdated packages
-brew outdated
-mas outdated
+# List available versions
+mise ls-remote nodejs
 ```
 
 ## Development Environment
@@ -346,26 +380,35 @@ Follow `.editorconfig` in project root:
 
 ## Development Guidelines
 
-### File Editing
+### Configuration Management Strategy
 
-**ULTIMATE FILE EDITING ENFORCEMENT:**
+This project uses a **hybrid approach** combining Nix and chezmoi:
+
+#### Nix Configuration (Primary - Declarative)
+
+**PREFERRED**: Use Nix for all system and package management:
+
+- **System packages**: Edit `modules/common/packages.nix` or `modules/darwin/packages.nix`
+- **Program configurations**: Edit files in `modules/home-manager/programs/`
+- **System settings**: Edit `modules/darwin/system.nix`
+- **User services**: Edit files in `modules/home-manager/services/`
+- **Secrets**: Use agenix in `secrets/` directory
+
+**Deployment Workflow**:
+
+1. Edit Nix configuration files in `modules/` directory
+2. Build and test: `nix run nix-darwin -- build --flake .#cpwr-mba2`
+3. Apply changes: `nix run nix-darwin -- switch --flake .#cpwr-mba2` (requires sudo)
+
+#### chezmoi Configuration (Legacy - Imperative)
+
+**USE ONLY FOR**: Configurations not yet migrated to Nix
 
 ⛔ **TOTAL PROHIBITION**: NEVER edit files in `/Users/cffnpwr/` (home directory)
 ✅ **EXCLUSIVE LOCATION**: ONLY edit in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
 
-**ZERO-TOLERANCE CONFIGURATION PROTOCOL:**
-When user requests any configuration change:
-1. **IMMEDIATE STOP** - Halt any home directory path detection
-2. **MANDATORY MAPPING** - Use PATH MAPPING TABLE from constraints section
-3. **SOURCE-ONLY EDIT** - Modify files exclusively in `homedir/` directory
-4. **CHEZMOI DEPLOYMENT** - Apply using proper chezmoi workflow with verification
-
-**NAMING CONVENTIONS**:
-- Use `private_` prefix for files containing sensitive information
-- Use `encrypted_` prefix for files that require actual encryption
-- Use `dot_` prefix for dotfiles (files starting with . in home directory)
-
 **DEPLOYMENT WORKFLOW**:
+
 1. Edit files in `homedir/` directory
 2. Test changes with `chezmoi diff --no-tty`
 3. Validate with `chezmoi apply --dry-run --no-tty`
@@ -373,13 +416,21 @@ When user requests any configuration change:
 
 ### Working with Specific Components
 
-- **Brewfile**: Add packages to `homedir/dot_Brewfile`, then run
-  `brew bundle --file ~/.Brewfile`
-- **Zsh plugins**: Update `dot_config/sheldon/plugins.toml`, plugins
-  auto-load via cache system
-- **SSH configs**: Edit sensitive files under `private_dot_ssh/` using
-  appropriate chezmoi commands
-- **Development tools**: Update versions in `dot_config/mise/config.toml`
+#### Nix-Managed Components (Primary)
+
+- **System packages**: Edit `modules/common/packages.nix` or `modules/darwin/packages.nix`
+- **Claude Code**: Edit `modules/home-manager/programs/claude-code/`
+- **Git config**: Edit `modules/home-manager/programs/git/default.nix`
+- **SSH config**: Edit `modules/home-manager/programs/ssh/default.nix`
+- **Shell (Zsh)**: Edit `modules/home-manager/programs/zsh/default.nix`
+- **Terminal**: Edit `modules/home-manager/programs/ghostty/default.nix`
+- **Development tools (mise)**: Edit `modules/home-manager/programs/mise/default.nix`
+- **Secrets**: Use `agenix -e secrets/<file>.age`
+
+#### Legacy chezmoi Components (Supplementary)
+
+- **Custom shell plugins**: Edit `homedir/dot_config/zsh/plugins/`
+- **Legacy configs**: Files in `homedir/` not yet migrated to Nix
 
 ### Commit Convention
 
