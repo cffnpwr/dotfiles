@@ -1,4 +1,0 @@
-Host *
-  IgnoreUnknown UseKeychain
-  UseKeychain yes
-  AddKeysToAgent yes

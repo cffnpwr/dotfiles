@@ -1,0 +1,4 @@
+{
+  "nixEnvSelector.nixFile": "${workspaceFolder}/shell.nix",
+  "nixEnvSelector.nixShellPath": "/run/current-system/sw/bin/nix-shell"
+}
