@@ -1,5 +1,8 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
+  # Nix version設定
+  nix.package = pkgs.nixVersions.latest;
+
   # zsh enable
   programs.zsh.enable = true;
 
