@@ -36,6 +36,8 @@ in
     "programs/claude-code.nix"
   ];
 
+  xdg.enable = true;
+
   home = {
     username = osConfig.username;
     homeDirectory = osConfig.homeDirectory;
@@ -46,7 +48,7 @@ in
 
       echo "Declarative IME activation started..."
       mkdir -p "${imeDstDir}"
-      $DRY_RUN_CMD ${pkgs.rsync}/bin/rsync -a --delete "${imeSrcDir}/" "${imeDstDir}/"
+      $DRY_RUN_CMD ${pkgs.rsync}/bin/rsync -a --delete --no-perms --no-owner --no-group "${imeSrcDir}/" "${imeDstDir}/"
 
       echo "Registering IMEs with the system..."
       $DRY_RUN_CMD ${pkgs.fd}/bin/fd --base-directory "${imeDstDir}" -t dir -e app -d 1 --exec \

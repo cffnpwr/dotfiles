@@ -2,7 +2,6 @@
 {
   config = lib.mkIf pkgs.stdenv.isDarwin {
     services = {
-      aerospace.enable = true;
       alt-tab.enable = true;
       amphetamine.enable = true;
       bitwarden.enable = true;

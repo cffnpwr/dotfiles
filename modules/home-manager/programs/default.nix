@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./aerospace
     ./ghostty
     ./git
     ./mas

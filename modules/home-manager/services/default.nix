@@ -3,7 +3,6 @@
 {
   imports = [
     # import service module definitions
-    ./aerospace
     ./alt-tab
     ./amphetamine
     ./bitwarden
