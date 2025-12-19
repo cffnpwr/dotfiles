@@ -8,7 +8,7 @@
     ./service.nix
   ];
 
-  # nix設定
+  # nix settings
   nix.settings = {
     experimental-features = "nix-command flakes";
   };

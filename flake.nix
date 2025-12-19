@@ -74,7 +74,6 @@
               ./modules/darwin
               ./hosts/cpwr-mba2
 
-              agenix.darwinModules.default
               home-manager.darwinModules.home-manager
 
               (

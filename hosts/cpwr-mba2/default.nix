@@ -17,9 +17,4 @@
 
   # Touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
-
-  # agenix secrets
-  age.secrets.github-token = {
-    file = ../../secrets/github-token.age;
-  };
 }
