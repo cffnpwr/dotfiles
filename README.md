@@ -1,14 +1,45 @@
 # Dotfiles for cffnpwr
 
-## これはなに
+## About
 
-個人用のdotfilesです。
-chezmoiを使って管理しています。
+My personal dotfiles repository.
 
-## 使い方
+## Usage
 
-### quick install
+### Pre-requirements
+
+- curl
+- sudo and sudo privileges
+
+### Install
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply cffnpwr
+curl -fsSL https://raw.githubusercontent.com/cffnpwr/dotfiles/main/install.sh | sh
 ```
+
+## Architecture
+
+```text
+.
+├── hosts/            # Host-specific configurations
+├── modules/          # Modular configurations
+│   ├── common/       # Common modules for all systems
+│   ├── darwin/       # Modules specific to macOS
+│   └── home-manager/ # Home Manager modules
+│       ├── packages/ # Packages
+│       ├── programs/ # Programs configurations
+│       └── services/ # Services configurations
+├── secrets           # Encrypted secrets
+├── flake.nix         # Nix flake configuration
+├── flake.lock        # Nix flake lock file
+├── install.sh        # Installation script
+└── README.md         # This file
+```
+
+## See Also
+
+- [cffnpwr/nixpkgs](https://github.com/cffnpwr/nixpkgs) - My personal Nix packages repository.
+
+## License
+
+[MIT License](LICENSE)
