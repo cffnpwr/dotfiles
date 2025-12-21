@@ -40,21 +40,6 @@
         ({
           nixpkgs.overlays = [
             cffnpwr-nixpkgs.overlays.default
-
-            # Workaround for fish build failure on Darwin (Issue #461406)
-            # Remove fish from direnv's test dependencies since we only use zsh
-            (final: prev: {
-              direnv = prev.direnv.overrideAttrs (oldAttrs: {
-                nativeCheckInputs = builtins.filter (pkg: pkg.pname or null != "fish") (
-                  oldAttrs.nativeCheckInputs or [ ]
-                );
-                checkPhase = ''
-                  runHook preCheck
-                  make test-go test-bash test-zsh
-                  runHook postCheck
-                '';
-              });
-            })
           ];
         })
       ];
