@@ -29,10 +29,12 @@
   outputs =
     {
       self,
+      nixpkgs,
       nix-darwin,
       home-manager,
       agenix,
       cffnpwr-nixpkgs,
+      flake-utils,
       ...
     }@inputs:
     let
@@ -84,5 +86,25 @@
             ];
         };
       };
-    };
+    }
+    // flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ cffnpwr-nixpkgs.overlays.default ];
+          config.allowUnfree = true;
+        };
+      in
+      {
+        devShell = pkgs.mkShell {
+          packages = with pkgs; [
+            git
+            nil
+            nixd
+            nixfmt-rfc-style
+          ];
+        };
+      }
+    );
 }
