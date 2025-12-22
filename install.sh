@@ -326,6 +326,9 @@ _install_nix() {
     gum log --level info "Installing Nix using Determinate Nix Installer..."
   fi
 
+  if ${SKIP_CONFIRM}; then
+    export NIX_INSTALLER_NO_CONFIRM=true
+  fi
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 
   # Load Nix environment
@@ -422,7 +425,7 @@ _gather_user_inputs() {
 
   # 4. Confirmation
   prompt_confirm="Proceed with installation?"
-  if [ "${SKIP_CONFIRM}" = false ]; then
+  if ! "${SKIP_CONFIRM}"; then
     if ! gum confirm "${prompt_confirm}"; then
       _echoback "${prompt_confirm}: " "No"
       gum log --level warn "Installation cancelled."
