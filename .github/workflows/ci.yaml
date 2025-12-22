@@ -47,12 +47,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # TODO: flake.nixから自動生成するように
         include:
           - os: macos-15
             hostname: cpwr-mba2
     steps:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Load age secret key
+        run: |
+          mkdir -p $HOME/.config/age
+          echo "${{ secrets.AGE_SECRET_KEY }}" > $HOME/.config/age/key.txt
+          chmod 600 $HOME/.config/age/key.txt
 
       - name: Run install script
         run: ./install.sh --path $HOME/.dotfiles --hostname ${{ matrix.hostname }} --branch ${{ github.ref_name }} --yes
