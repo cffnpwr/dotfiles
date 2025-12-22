@@ -63,3 +63,5 @@ jobs:
 
       - name: Run install script
         run: ./install.sh --path $HOME/.dotfiles --hostname ${{ matrix.hostname }} --branch ${{ github.ref_name }} --yes
+        env:
+          NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
