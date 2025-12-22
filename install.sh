@@ -520,7 +520,7 @@ _apply_dotfiles() {
   esac
 
   gum log --level info "Building ${system_type} configuration for host: ${HOSTNAME}..."
-  sudo $switch_cmd switch --flake "${REPO_PATH}#${HOSTNAME}"
+  sudo NIX_CONFIG="${NIX_CONFIG:-}" $switch_cmd switch --flake "${REPO_PATH}#${HOSTNAME}"
 
   gum log --level info "Dotfiles applied successfully!"
   gum log --level info "Please restart your machine to ensure all changes take effect"
