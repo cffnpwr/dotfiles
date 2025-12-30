@@ -117,9 +117,6 @@ jobs:
           df -h
           echo "================================"
 
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
       - name: Load age secret key
         run: |
           mkdir -p $HOME/.config/age
@@ -127,6 +124,8 @@ jobs:
           chmod 600 $HOME/.config/age/key.txt
 
       - name: Run install script
-        run: ./install.sh --path $HOME/.dotfiles --hostname ${{ matrix.hostname }} --branch ${{ github.ref_name }} --yes
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/cffnpwr/dotfiles/${{ github.ref_name }}/install.sh | \
+          sh -s -- --path $HOME/.dotfiles --hostname ${{ matrix.hostname }} --branch ${{ github.ref_name }} --yes
         env:
           NIX_CONFIG: "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}"
