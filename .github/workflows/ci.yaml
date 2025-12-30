@@ -1,13 +1,14 @@
 name: CI
 on:
   push:
-    paths-ignore:
-      - ".claude/**"
-      - ".vscode/**"
-      - ".editorconfig"
-      - "CLAUDE.md"
-      - "README.md"
-      - "LICENSE"
+    paths:
+      - "**.nix"
+      - "modules/**"
+      - "hosts/**"
+      - "secrets/**"
+      - "flake.lock"
+      - "install.sh"
+      - ".github/workflows/**"
 
 concurrency:
   group: ci-${{ github.ref }}
