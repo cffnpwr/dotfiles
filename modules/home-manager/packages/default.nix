@@ -64,5 +64,9 @@
 
     # communication
     discord
+
+    # fonts
+    nerd-fonts._0xproto
+    koruri
   ];
 }

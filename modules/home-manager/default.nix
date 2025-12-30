@@ -7,6 +7,9 @@
   ...
 }:
 let
+  # home-manager state version
+  stateVersion = "26.05";
+
   google-japanese-ime = packages.google-japanese-ime;
 
   imes = [
@@ -46,12 +49,16 @@ in
     "programs/claude-code.nix"
   ];
 
+  # Enable XDG support
   xdg.enable = true;
+
+  # enable fontconfig
+  fonts.fontconfig.enable = true;
 
   home = {
     username = osConfig.username;
     homeDirectory = osConfig.homeDirectory;
-    stateVersion = osConfig.stateVersion;
+    stateVersion = stateVersion;
 
     activation.manageIMEs = lib.mkIf pkgs.stdenv.isDarwin (
       lib.hm.dag.entryAfter [ "installPackages" ] ''

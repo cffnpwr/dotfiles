@@ -21,8 +21,5 @@
 
     # security
     gnupg
-
-    # dotfiles management
-    chezmoi
   ];
 }

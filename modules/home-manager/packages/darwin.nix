@@ -11,6 +11,8 @@
 
       # Utilities
       alt-tab-macos
+      iproute2mac
+      pinentry_mac
       raycast
       scroll-reverser
       stats

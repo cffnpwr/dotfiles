@@ -1,35 +1,28 @@
-{ config, pkgs, ... }:
+{ ... }:
 {
-  # Nix version設定
-  nix.package = pkgs.nixVersions.latest;
+  system = {
+    # The primaryUser property is required for macOS system defaults configuration
+    # This property can be removed once the transition to the `users.users.*` namespace is complete.
+    # Ref: https://github.com/nix-darwin/nix-darwin/issues/1462
+    primaryUser = "cffnpwr";
 
-  # zsh enable
-  programs.zsh.enable = true;
+    # macOS system defaults
+    defaults = {
+      dock = {
+        autohide = true;
+        orientation = "bottom";
+      };
 
-  # Primary user設定
-  system.primaryUser = config.username;
+      finder = {
+        AppleShowAllExtensions = true;
+        FXEnableExtensionChangeWarning = false;
+      };
 
-  # PATH設定
-  environment.systemPath = [
-    "/Library/TeX/texbin"
-  ];
-
-  # macOS system defaults
-  system.defaults = {
-    dock = {
-      autohide = true;
-      orientation = "bottom";
-    };
-
-    finder = {
-      AppleShowAllExtensions = true;
-      FXEnableExtensionChangeWarning = false;
-    };
-
-    NSGlobalDomain = {
-      AppleShowAllExtensions = true;
-      InitialKeyRepeat = 15;
-      KeyRepeat = 2;
+      NSGlobalDomain = {
+        AppleShowAllExtensions = true;
+        InitialKeyRepeat = 15;
+        KeyRepeat = 2;
+      };
     };
   };
 }
