@@ -1,102 +1,102 @@
 # Task Completion Workflow
 
-## Configuration Management Decision Tree
+## Configuration Management - Nix Only
 
-Before ANY configuration change, determine the appropriate management system:
-
-### Decision Process
-
-1. **Is this a system setting or package?** → Use Nix (Primary)
-2. **Is this a program configuration?** → Check if Nix module exists:
-   - Exists → Use Nix
-   - Not exists → Use chezmoi (Legacy) or create Nix module
-3. **Is this a secret?** → Use agenix
-4. **Is this a custom shell script/plugin?** → Use chezmoi (Legacy)
-
-## Nix-Based Workflow (Primary)
+**CRITICAL**: This project uses **pure Nix** for ALL configuration management. There is NO chezmoi or other legacy systems.
 
 ### Pre-Execution Checks
 
-1. Identify which Nix module to edit:
-   - System packages: `modules/common/packages.nix` or `modules/darwin/packages.nix`
-   - Program config: `modules/home-manager/programs/<program>/`
-   - System settings: `modules/darwin/system.nix`
-   - User services: `modules/home-manager/services/`
-   - Secrets: `secrets/` directory
+Before ANY configuration change:
 
-### Edit and Deploy Workflow
+1. **Verify target path**: Check if path starts with `/Users/cffnpwr/` (home directory)
+2. **Block direct edits**: If home directory path detected → STOP → NEVER PROCEED
+3. **Map to Nix module**: Convert request to appropriate Nix module path
+4. **Edit in modules/**: Make changes ONLY in `/Users/cffnpwr/.local/share/chezmoi/modules/`
 
-```bash
-# 1. Edit Nix configuration files
-# Edit files in modules/ directory
+### Path Mapping Table
 
-# 2. Check Nix syntax
-nix flake check
-
-# 3. Build configuration (test without applying)
-nix run nix-darwin -- build --flake .#cpwr-mba2
-
-# 4. Apply changes (requires sudo)
-nix run nix-darwin -- switch --flake .#cpwr-mba2
-
-# 5. Verify changes
-# Check affected applications/services
+```text
+HOME DIRECTORY PATH                          → NIX MODULE PATH
+~/.zshrc                                    → modules/home-manager/programs/zsh/
+~/.config/starship.toml                     → modules/home-manager/programs/starship/
+~/.ssh/config                               → modules/home-manager/programs/ssh/
+~/.config/ghostty/                          → modules/home-manager/programs/ghostty/
+~/.config/zellij/config.kdl                 → modules/home-manager/programs/zellij/
+~/.config/mise/config.toml                  → modules/home-manager/programs/mise/
+~/.config/sheldon/plugins.toml              → modules/home-manager/programs/sheldon/
+~/.config/git/config                        → modules/home-manager/programs/git/
+~/.config/aerospace/                        → modules/home-manager/programs/aerospace/
+System packages                             → modules/common/packages.nix or modules/darwin/packages.nix
+System settings                             → modules/darwin/system.nix
+Environment variables                       → modules/common/environment.nix
+User services (LaunchAgents)                → modules/home-manager/services/
 ```
 
-### Validation Checklist
+## Nix Configuration Workflow
 
-- [ ] Nix files edited in `modules/` directory
-- [ ] `nix flake check` passed without errors
-- [ ] `nix run nix-darwin -- build` completed successfully
-- [ ] Changes applied with `nix run nix-darwin -- switch`
-- [ ] Target applications/services restarted if necessary
-- [ ] System behaves as expected
-
-## chezmoi-Based Workflow (Legacy)
-
-### Critical Pre-Execution Checks
-
-Before ANY file operation:
-
-1. Verify target path does NOT start with `/Users/cffnpwr/` (home directory)
-2. If home directory path detected → STOP → Convert to chezmoi source path
-3. Edit ONLY in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
-
-### Edit and Deploy Workflow
+### Step-by-Step Process
 
 ```bash
-# 1. Edit files in homedir/ directory
-# NEVER edit files in /Users/cffnpwr/
+# 1. Edit Nix configuration files in modules/ directory
+# NEVER edit files in /Users/cffnpwr/ (home directory)
 
-# 2. Preview changes
-chezmoi diff --no-tty
+# 2. Format code
+nix fmt
 
-# 3. Validate changes (dry run)
-chezmoi apply --dry-run --no-tty
+# 3. Validate flake
+nix flake check
 
-# 4. Deploy changes
-chezmoi apply --no-tty
+# 4. Build configuration (test without applying)
+nix run nix-darwin -- build --flake .#cpwr-mba2
 
-# 5. Verify target application
+# 5. Apply changes (requires sudo)
+nix run nix-darwin -- switch --flake .#cpwr-mba2
+
+# 6. Verify target application
 # Restart/reload if necessary
 ```
 
-### Path Mapping Examples
+### Module Selection Guide
 
-```text
-~/.zshrc                    → homedir/dot_config/zsh/dot_zshrc
-~/.config/starship.toml     → homedir/dot_config/starship.toml
-~/.ssh/config              → homedir/private_dot_ssh/private_config
-~/.Brewfile                → homedir/dot_Brewfile
-```
+**System Configuration**:
+- System packages → `modules/common/packages.nix` or `modules/darwin/packages.nix`
+- System settings → `modules/darwin/system.nix`
+- Environment variables → `modules/common/environment.nix`
+- User account → `modules/common/user.nix`
+
+**Program Configurations**:
+- Git → `modules/home-manager/programs/git/default.nix`
+- SSH → `modules/home-manager/programs/ssh/default.nix`
+- Shell (Zsh) → `modules/home-manager/programs/zsh/default.nix`
+- Terminal (Ghostty) → `modules/home-manager/programs/ghostty/default.nix`
+- Multiplexer (Zellij) → `modules/home-manager/programs/zellij/default.nix`
+- Window Manager (Aerospace) → `modules/home-manager/programs/aerospace/default.nix`
+- Browser (Zen) → `modules/home-manager/programs/zen-browser/default.nix`
+- Prompt (Starship) → `modules/home-manager/programs/starship/default.nix`
+- Plugin Manager (Sheldon) → `modules/home-manager/programs/sheldon/default.nix`
+- Development tools (mise) → `modules/home-manager/programs/mise/default.nix`
+- Mac App Store (mas) → `modules/home-manager/programs/mas/default.nix`
+
+**Service Configurations** (LaunchAgents):
+- User services → `modules/home-manager/services/`
+- System services → `modules/darwin/services.nix`
+
+**Secrets Management**:
+- Edit secrets → `agenix -e secrets/<file>.age`
+- Define secrets → `secrets/secrets.nix`
 
 ### Validation Checklist
 
+Before marking a task as complete:
+
 - [ ] NO files edited in `/Users/cffnpwr/` (home directory)
-- [ ] ALL edits made in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
-- [ ] `chezmoi diff --no-tty` executed successfully
-- [ ] `chezmoi apply --no-tty` executed successfully
-- [ ] Target applications restarted/reloaded if necessary
+- [ ] ALL edits made in `/Users/cffnpwr/.local/share/chezmoi/modules/`
+- [ ] Code formatted with `nix fmt`
+- [ ] Flake validated with `nix flake check`
+- [ ] Build tested with `nix run nix-darwin -- build --flake .#cpwr-mba2`
+- [ ] Changes applied with `nix run nix-darwin -- switch --flake .#cpwr-mba2`
+- [ ] Target application restarted/reloaded if necessary
+- [ ] System behaves as expected
 
 ## Secret Management Workflow (agenix)
 
@@ -109,6 +109,40 @@ agenix --rekey
 
 # 3. Rebuild system to apply secrets
 nix run nix-darwin -- switch --flake .#cpwr-mba2
+```
+
+## Custom Package Workflow
+
+Custom packages are managed in separate repository (cffnpwr-nixpkgs):
+
+```bash
+# 1. Edit package in cffnpwr-nixpkgs repository
+# 2. Commit and push changes
+# 3. Update flake input in this repository
+nix flake lock --update-input cffnpwr-nixpkgs
+
+# 4. Rebuild system
+nix run nix-darwin -- switch --flake .#cpwr-mba2
+```
+
+## Adding New Programs
+
+```bash
+# 1. Create module in modules/home-manager/programs/<program-name>/default.nix
+# 2. Import in modules/home-manager/programs/default.nix
+# 3. Test build
+nix run nix-darwin -- build --flake .#cpwr-mba2
+
+# 4. Apply changes
+nix run nix-darwin -- switch --flake .#cpwr-mba2
+```
+
+## Adding New Services
+
+```bash
+# 1. Create service in modules/home-manager/services/<service-name>.nix
+# 2. Import in modules/home-manager/services/darwin.nix (for macOS services)
+# 3. Test and apply same as programs
 ```
 
 ## Linting and Quality Checks
@@ -149,19 +183,16 @@ nix flake check
 Before marking a task as complete:
 
 1. **Nix Changes**:
+   - [ ] `nix fmt` executed
    - [ ] `nix flake check` passed
    - [ ] Successfully built with `nix run nix-darwin -- build`
    - [ ] Successfully applied with `nix run nix-darwin -- switch`
 
-2. **chezmoi Changes** (if applicable):
-   - [ ] `chezmoi diff --no-tty` reviewed
-   - [ ] `chezmoi apply --no-tty` executed
-
-3. **Documentation**:
+2. **Documentation**:
    - [ ] Markdown linting passed
    - [ ] Japanese text linting passed (if applicable)
 
-4. **System Verification**:
+3. **System Verification**:
    - [ ] Target application functioning correctly
    - [ ] No unexpected side effects
    - [ ] Services restarted/reloaded if necessary

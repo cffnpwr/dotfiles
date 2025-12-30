@@ -1,21 +1,15 @@
-# Project Overview: Nix-based System Configuration with chezmoi
+# Project Overview: Nix-based System Configuration
 
 ## Project Purpose
 
-This is a personal system configuration and dotfiles management project using
-**Nix** with **nix-darwin** and **Home Manager** for declarative system
-configuration, combined with **chezmoi** for legacy dotfile management. The
-project provides a comprehensive, reproducible setup for macOS development
-environments.
+This is a personal dotfiles and system configuration project using **Nix** with **nix-darwin** and **Home Manager**. It provides a comprehensive, **fully declarative** configuration setup for macOS development environment, integrating system settings, shell configurations, development tools, and application settings.
 
 ## Architecture Strategy
 
-The project uses a **hybrid approach**:
+The project uses **pure Nix** for all configuration management:
 
-- **Nix (Primary)**: Declarative system configuration, package management, and
-  program settings
-- **chezmoi (Legacy)**: Supplementary dotfile management for configurations not
-  yet migrated to Nix
+- **Nix (Primary and Only)**: Complete declarative system configuration, package management, and program settings
+- **No Legacy Systems**: Previously used chezmoi has been completely removed
 
 ## Tech Stack
 
@@ -25,20 +19,24 @@ The project uses a **hybrid approach**:
 - **nix-darwin**: macOS system configuration framework
 - **Home Manager**: User environment configuration
 - **agenix**: Age-based secret encryption for Nix
-- **chezmoi**: Legacy dotfiles management system
+- **flake-parts**: Modular flake framework
+- **cffnpwr-nixpkgs**: Custom packages repository (https://github.com/cffnpwr/nixpkgs)
 - **Git**: Version control
 
 ### Development Environment
 
 - **Shell**: Zsh with Starship prompt and Sheldon plugin manager
-- **Terminal**: Ghostty (migrated from Wezterm)
-- **Multiplexer**: Zellij
-- **Version Manager**: mise (Node.js 22, Go 1.24, Python via uv)
-- **Package Management**:
-  - Nix (primary - system and user packages)
-  - Homebrew (macOS-specific GUI applications)
-  - mise (development tools)
-  - pnpm (Node.js packages)
+- **Terminal**: Ghostty (GPU-accelerated, native macOS terminal)
+- **Multiplexer**: Zellij (terminal workspace manager)
+- **Window Manager**: Aerospace (tiling window manager for macOS)
+- **Launcher**: Raycast (productivity tool and app launcher)
+- **Browser**: Zen Browser (privacy-focused browser)
+- **Version Manager**: mise (Node.js, Go, Python, pnpm)
+- **Package Manager**: Nix (system packages), pnpm (Node.js)
+- **File Manager**: eza (with icons and git status)
+- **Editor**: Neovim, VS Code (for GUI editing)
+- **Nix LSP**: nil, nixd (Nix language servers)
+- **Formatter**: nixfmt-rfc-style (Nix code formatting)
 
 ### Key Applications
 
@@ -47,53 +45,107 @@ The project uses a **hybrid approach**:
 - **Password Manager**: Bitwarden
 - **Notes**: Obsidian
 - **Productivity**: Microsoft Office, MacTeX
+- **Input**: Karabiner-Elements, Google Japanese IME
+- **Monitoring**: Stats, RunCat
+- **Utilities**: Alt-Tab, Amphetamine, Scroll Reverser
 
 ## Project Structure
 
-### Nix Configuration (`modules/`)
+### Root Directory
+```
+/Users/cffnpwr/.local/share/chezmoi/
+├── 📄 Core Repository Files
+│   ├── flake.nix                         # Nix flake configuration (main entry point, uses flake-parts)
+│   ├── flake.lock                        # Nix flake lock file
+│   ├── install.sh                        # Automated installation script
+│   ├── key.txt.age                       # Encrypted age key
+│   ├── .editorconfig                     # Editor settings (2-space indent, LF)
+│   ├── CLAUDE.md                         # Project-specific Claude instructions
+│   ├── LICENSE                           # License file
+│   └── README.md                         # Project documentation
+│
+├── 🏗️ Nix Configuration (modules/)
+│   ├── common/                           # Common configuration (Darwin/Linux)
+│   │   ├── default.nix                   # Module imports
+│   │   ├── environment.nix               # Environment variables
+│   │   ├── fonts.nix                     # Font configuration
+│   │   ├── packages.nix                  # Common packages
+│   │   └── user.nix                      # User account configuration
+│   │
+│   ├── darwin/                           # macOS-specific configuration
+│   │   ├── default.nix                   # Module imports
+│   │   ├── packages.nix                  # macOS packages
+│   │   ├── services.nix                  # LaunchDaemons/LaunchAgents
+│   │   ├── system.nix                    # System preferences
+│   │   └── user.nix                      # User shell configuration
+│   │
+│   └── home-manager/                     # Home Manager configuration
+│       ├── default.nix                   # Home Manager entry point
+│       ├── packages/                     # Package lists
+│       │   ├── default.nix               # Common packages
+│       │   ├── darwin.nix                # macOS-specific packages
+│       │   └── linux.nix                 # Linux-specific packages
+│       │
+│       ├── programs/                     # Program configurations
+│       │   ├── aerospace/                # Window manager
+│       │   ├── git/                      # Git configuration
+│       │   ├── ghostty/                  # Ghostty terminal
+│       │   ├── mas/                      # Mac App Store CLI
+│       │   ├── mise/                     # Development tool manager
+│       │   ├── sheldon/                  # Zsh plugin manager
+│       │   ├── ssh/                      # SSH configuration
+│       │   ├── starship/                 # Shell prompt
+│       │   ├── zellij/                   # Terminal multiplexer
+│       │   ├── zen-browser/              # Zen Browser
+│       │   └── zsh/                      # Zsh configuration
+│       │
+│       └── services/                     # User services (LaunchAgents)
+│           ├── default.nix               # Service module loader
+│           ├── darwin.nix                # macOS-specific services
+│           ├── alt-tab.nix               # Alt-Tab replacement
+│           ├── amphetamine.nix           # Keep-awake utility
+│           ├── bitwarden.nix             # Password manager
+│           ├── raycast.nix               # Launcher & productivity tool
+│           ├── runcat.nix                # System monitor
+│           ├── scroll-reverser.nix       # Scroll direction
+│           └── stats.nix                 # System stats
+│
+├── 🖥️ Host Configurations (hosts/)
+│   └── cpwr-mba2/                        # MacBook Air M2 configuration
+│       └── default.nix                   # Host-specific settings
+│
+├── 🔐 Secrets (secrets/)
+│   ├── secrets.nix                       # agenix secret definitions
+│   └── github-token.age                  # Encrypted GitHub token
+│
+└── 🚀 CI/CD (.github/workflows/)
+    └── ci.yaml                           # GitHub Actions workflow (flake check, format check, install check)
+```
 
-- **`modules/common/`**: Cross-platform configuration
-  - Common packages, fonts, environment variables, user accounts
-- **`modules/darwin/`**: macOS-specific configuration
-  - System settings, macOS packages, system services
-- **`modules/home-manager/`**: User environment configuration
-  - Package lists (`packages/`)
-  - Program configurations (`programs/`)
-  - User services (`services/`)
+**NOTE**: Custom packages (Claude Desktop, Google Japanese IME, MacTeX, Microsoft Office, Obsidian, Spotify) are managed in the separate cffnpwr-nixpkgs repository and integrated via flake overlays.
 
-### Host Configuration (`hosts/`)
+## Flake Architecture
 
-- **`hosts/cpwr-mba2/`**: MacBook Air M2 specific settings
+### Flake Inputs
+- **nixpkgs**: NixOS/nixpkgs unstable channel
+- **nix-darwin**: macOS system configuration framework
+- **home-manager**: User environment management
+- **zen-browser**: Zen Browser flake
+- **agenix**: Secret encryption with age
+- **flake-parts**: Modular flake framework
+- **cffnpwr-nixpkgs**: Custom packages and modules
 
-### Custom Packages (`pkgs/`)
-
-- Custom Nix derivations for applications not in nixpkgs
-- Examples: Claude Desktop, Google Japanese IME, Microsoft Office
-
-### Secrets (`secrets/`)
-
-- agenix-encrypted secrets
-- GitHub tokens, API keys
-
-### Legacy Dotfiles (`homedir/`)
-
-- Traditional chezmoi-managed configurations
-- Gradually being migrated to Nix
-
-## Key Technologies
-
-- **Development Tools**: Visual Studio Code, GitHub CLI, Docker, Colima
-- **CLI Utilities**: eza, fzf, jq, btop, lazygit, neovim
-- **Security Tools**: GPG, SSH, age encryption, Bitwarden CLI
-- **Claude Code Integration**: Comprehensive setup with MCP servers
-- **Input Management**: Karabiner-Elements, Google Japanese IME
-- **Window Management**: AeroSpace
-- **System Monitoring**: Stats, RunCat
+### Module Integration
+- Darwin modules loaded via `darwinConfigurations`
+- Home Manager loaded as Darwin module
+- Custom modules from cffnpwr-nixpkgs loaded via `builtins.attrValues`
+- Overlays from cffnpwr-nixpkgs integrated via `nixpkgs.overlays`
 
 ## Configuration Philosophy
 
-1. **Declarative First**: Prefer Nix for all configuration when possible
+1. **Declarative First**: All configuration through Nix
 2. **Reproducibility**: Entire system can be rebuilt from flake.nix
 3. **Modularity**: Configuration split into logical, reusable modules
 4. **Security**: Secrets managed with agenix encryption
 5. **Version Control**: All configuration tracked in Git
+6. **No Manual Configuration**: No direct editing of home directory files

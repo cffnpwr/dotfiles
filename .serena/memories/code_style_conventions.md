@@ -10,6 +10,7 @@
 - **Multi-line Strings**: Use `''` for multi-line strings (heredoc)
 - **Lists**: Always use trailing commas in multi-line lists
 - **Attribute Sets**: Use trailing semicolons
+- **Formatter**: Use `nixfmt-rfc-style` (via `nix fmt`)
 
 ### Nix Best Practices
 
@@ -61,18 +62,28 @@ config = lib.mkIf config.programs.git.enable {
 - `<program>.nix`: Program-specific configuration
 - `<category>.nix`: Category-specific configuration (e.g., `packages.nix`)
 
-### chezmoi Files (Legacy)
+### Directory Structure
 
-- `dot_*`: Files that become `.` prefixed in home directory
-- `private_*`: Files containing sensitive information (SSH keys, credentials)
-- `encrypted_*`: Files that are actually encrypted with age
-- `*.tmpl`: Template files with variable expansion
+```text
+modules/
+├── common/          # Cross-platform configuration
+│   ├── default.nix  # Module loader
+│   └── *.nix        # Individual modules
+├── darwin/          # macOS-specific configuration
+│   ├── default.nix  # Module loader
+│   └── *.nix        # Individual modules
+└── home-manager/    # User environment
+    ├── default.nix  # Entry point
+    ├── packages/    # Package lists
+    ├── programs/    # Program configs
+    └── services/    # User services
+```
 
 ## EditorConfig Standards
 
 - **Indentation**: 2 spaces for most files
-- **Nix Exception**: 2 spaces (not tabs)
-- **Go Exception**: Tab indentation for Go files
+- **Nix**: 2 spaces (not tabs)
+- **Go**: Tab indentation for Go files
 - **Line Endings**: LF (Unix-style)
 - **Character Encoding**: UTF-8
 - **Trailing Whitespace**: Trim automatically
@@ -126,7 +137,7 @@ feat ✨: Nix設定の追加
 fix 🐛: Home Manager設定の修正
 perf ⚡: ビルド時間の最適化
 docs 📝: CLAUDE.md更新
-config 🔧: Claude Code権限設定の調整
+chore 🔧: flake.lock更新
 ```
 
 ## Secret Management
@@ -137,32 +148,25 @@ config 🔧: Claude Code権限設定の調整
 - Use `.age` extension for encrypted files
 - Define secrets in `secrets/secrets.nix`
 - Never commit unencrypted secrets
-
-### Sensitive Information Handling
-
-- Use `private_` prefix for sensitive but unencrypted files (chezmoi)
-- Use `encrypted_` prefix for encrypted files (chezmoi)
-- Use agenix for Nix-managed secrets
 - Never log or display secret contents
+
+### Age Key Management
+
+- Age key location: `~/.config/age/key.txt` (permissions: 600)
+- Encrypted age key in repository: `key.txt.age`
+- Edit secrets: `agenix -e secrets/<file>.age`
+- Rekey after key change: `agenix --rekey`
 
 ## Configuration Management
 
-### Nix Configuration (Primary)
+### Nix Configuration (Only Method)
 
-- All system and package configuration through Nix
+- **ALL** system and package configuration through Nix
 - Modular structure in `modules/` directory
 - Host-specific configuration in `hosts/` directory
 - Secrets managed with agenix
 - Clear separation between common, Darwin, and Home Manager configs
-
-### chezmoi Configuration (Legacy)
-
-- Traditional dotfiles management
-- Gradually migrating to Nix
-- Template files support dynamic OS detection
-- Clear separation between public and private configurations
-
-## Code Organization
+- Custom packages in separate repository (cffnpwr-nixpkgs)
 
 ### Module Organization
 
@@ -171,11 +175,15 @@ modules/
 ├── common/          # Cross-platform configuration
 │   ├── default.nix  # Module loader
 │   ├── packages.nix # Common packages
-│   └── ...
+│   ├── environment.nix # Environment variables
+│   ├── fonts.nix    # Font configuration
+│   └── user.nix     # User account
 ├── darwin/          # macOS-specific
 │   ├── default.nix  # Module loader
 │   ├── system.nix   # System settings
-│   └── ...
+│   ├── packages.nix # macOS packages
+│   ├── services.nix # System services
+│   └── user.nix     # User shell
 └── home-manager/    # User environment
     ├── default.nix  # Entry point
     ├── packages/    # Package lists
@@ -188,5 +196,22 @@ modules/
 - **System-level**: `modules/common/` and `modules/darwin/`
 - **User-level**: `modules/home-manager/`
 - **Host-specific**: `hosts/cpwr-mba2/`
-- **Packages**: `pkgs/` for custom derivations
+- **Custom packages**: Managed in cffnpwr-nixpkgs repository
 - **Secrets**: `secrets/` for encrypted data
+
+## Flake Architecture
+
+### Flake Structure with flake-parts
+
+- **Multi-system support**: `aarch64-darwin`, `x86_64-darwin`, `x86_64-linux`, `aarch64-linux`
+- **Overlay system**: Integrates cffnpwr-nixpkgs custom packages via overlays
+- **Per-system configuration**: Development shell and formatter defined per-system
+- **Unified Home Manager**: Home Manager integrated as Darwin module
+
+### Best Practices
+
+- Use `flake-parts` for modular organization
+- Pin all inputs with `flake.lock`
+- Use `follows` to minimize duplicate dependencies
+- Keep custom packages in separate repository
+- Use overlays for custom package integration

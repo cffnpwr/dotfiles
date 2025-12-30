@@ -1,6 +1,6 @@
 # Essential Commands for Development
 
-## Nix Operations (Primary)
+## Nix Operations (Primary and Only)
 
 ### Build and Deploy
 
@@ -11,17 +11,24 @@ nix run nix-darwin -- build --flake .#cpwr-mba2
 # Build and switch to new configuration (requires sudo)
 nix run nix-darwin -- switch --flake .#cpwr-mba2
 
-# Update flake inputs (nixpkgs, home-manager, etc.)
+# Update flake inputs (nixpkgs, home-manager, cffnpwr-nixpkgs, etc.)
 nix flake update
 
-# Check flake for errors
+# Update specific flake input
+nix flake lock --update-input nixpkgs
+nix flake lock --update-input cffnpwr-nixpkgs
+
+# Check flake for errors (runs on all systems)
 nix flake check
 
-# Show flake outputs
-nix flake show
-
-# Format Nix files
+# Format Nix files with nixfmt-rfc-style
 nix fmt
+
+# Check formatting without modifying files
+nix fmt -- --check .
+
+# Show flake outputs and structure
+nix flake show
 ```
 
 ### Cleanup and Maintenance
@@ -41,7 +48,7 @@ nix-store --verify --check-contents --repair
 ### Development and Debugging
 
 ```bash
-# Enter development shell
+# Enter development shell (includes nil, nixd, nixfmt-rfc-style)
 nix develop
 
 # Build specific output
@@ -65,25 +72,11 @@ agenix --rekey
 
 # List all secrets
 ls -la secrets/*.age
-```
 
-## chezmoi Operations (Legacy - Always use --no-tty)
-
-```bash
-# Preview changes before applying
-chezmoi diff --no-tty
-
-# Apply changes to home directory
-chezmoi apply --no-tty
-
-# Dry run to check what would be changed
-chezmoi apply --dry-run --no-tty
-
-# Add new file to management
-chezmoi add --no-tty ~/.config/example
-
-# Sync with remote repository
-chezmoi update --no-tty
+# Add new secret
+# 1. Define in secrets/secrets.nix
+# 2. Create encrypted file: agenix -e secrets/<name>.age
+# 3. Reference in Nix modules
 ```
 
 ## Development Tools
@@ -91,7 +84,7 @@ chezmoi update --no-tty
 ### mise (Development Environment Manager)
 
 ```bash
-# Update mise-managed tools (Node.js, Go, Python)
+# Update mise-managed development tools (Node.js, Go, Python)
 mise upgrade
 
 # Install/sync mise tools
@@ -168,12 +161,23 @@ arp-scan          # Network scanning
 # Check Nix system health
 nix flake check
 
-# Check chezmoi health
-chezmoi doctor
-
 # Check mise health
 mise doctor
 
 # Verify system configuration
 nix-store --verify
+
+# Check Nix installation
+nix doctor
+```
+
+## Common Workflow
+
+```bash
+# Complete update workflow
+nix flake update              # Update inputs
+nix fmt                       # Format code
+nix flake check              # Validate flake
+nix run nix-darwin -- build --flake .#cpwr-mba2   # Test build
+nix run nix-darwin -- switch --flake .#cpwr-mba2  # Apply changes
 ```

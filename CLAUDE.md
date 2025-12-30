@@ -10,8 +10,8 @@ with code in this repository.
 🚨 **BEFORE ANY WORK**: Execute initial instructions to activate project context:
 
 ```bash
-# For chezmoi project
-mcp__serena__activate_project("chezmoi")
+# For dotfiles project (Serena MCP)
+mcp__serena__activate_project("dotfiles")
 mcp__serena__check_onboarding_performed()
 ```
 
@@ -20,79 +20,105 @@ mcp__serena__check_onboarding_performed()
 - MUST verify onboarding status to access project-specific memories
 - MUST read relevant memories based on task requirements
 
+**Understanding Configuration Management:**
+- **ALL configurations**: Nix modules in `modules/` directory
+- **NEVER**: Direct editing of files in home directory (`/Users/cffnpwr/`)
+
 ## ⚠️ ABSOLUTE CONSTRAINTS - VIOLATION = IMMEDIATE TASK FAILURE
 
-**CRITICAL CHEZMOI ENFORCEMENT PROTOCOL:**
+**CRITICAL NIX CONFIGURATION PROTOCOL:**
 
 🚨 **MANDATORY PRE-EXECUTION CHECK**: Before ANY file operation, you MUST verify the target path:
 
 1. **DETECTION PHASE**: Check if any file path starts with `/Users/cffnpwr/` (home directory)
 2. **BLOCKING PHASE**: If home directory path detected → IMMEDIATELY STOP → NEVER PROCEED
-3. **CORRECTION PHASE**: Map home directory path to chezmoi source equivalent
-4. **EXECUTION PHASE**: Edit ONLY in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
-5. **VERIFICATION PHASE**: Run `chezmoi diff --no-tty` to verify changes
-6. **DEPLOYMENT PHASE**: Apply with `chezmoi apply --no-tty`
+3. **CORRECTION PHASE**: Map home directory path to Nix module equivalent
+4. **EXECUTION PHASE**: Edit ONLY in `/Users/cffnpwr/.local/share/chezmoi/modules/`
+5. **FORMAT PHASE**: Run `nix fmt` to format code
+6. **BUILD PHASE**: Test with `nix run nix-darwin -- build --flake .#cpwr-mba2`
+7. **DEPLOYMENT PHASE**: Apply with `nix run nix-darwin -- switch --flake .#cpwr-mba2`
 
 **VIOLATION CONSEQUENCES:**
 - ANY direct home directory edit = IMMEDIATE TASK FAILURE
 - NO EXCEPTIONS for "quick fixes", "temporary changes", or "urgent updates"
-- MUST restart entire workflow with proper chezmoi management
+- MUST restart entire workflow with proper Nix module management
 
 **MANDATORY PATH MAPPING TABLE:**
 
+All configurations are managed via Nix modules (DO NOT edit in home directory):
+
 ```text
-HOME DIRECTORY PATH                          → CHEZMOI SOURCE PATH
-~/.zshrc                                    → homedir/dot_config/zsh/dot_zshrc
-~/.config/starship.toml                     → homedir/dot_config/starship.toml
-~/.ssh/config                               → homedir/private_dot_ssh/private_config
-~/.Brewfile                                 → homedir/dot_Brewfile
-~/.config/wezterm/wezterm.lua               → homedir/dot_config/wezterm/wezterm.lua
-~/.config/zellij/config.kdl                 → homedir/dot_config/zellij/config.kdl
-~/.config/mise/config.toml                  → homedir/dot_config/mise/config.toml
-~/.config/sheldon/plugins.toml              → homedir/dot_config/sheldon/plugins.toml
-~/.config/claude/CLAUDE.md                  → homedir/dot_config/claude/CLAUDE.md
-~/.config/claude/settings.json              → homedir/dot_config/claude/settings.json
-~/.config/gh/config.yml                     → homedir/dot_config/gh/private_config.yml
-~/.config/gh/hosts.yml                      → homedir/dot_config/gh/private_hosts.yml
+HOME DIRECTORY PATH                          → NIX MODULE PATH
+~/.zshrc                                    → modules/home-manager/programs/zsh/
+~/.config/starship.toml                     → modules/home-manager/programs/starship/
+~/.ssh/config                               → modules/home-manager/programs/ssh/
+~/.config/ghostty/                          → modules/home-manager/programs/ghostty/
+~/.config/zellij/config.kdl                 → modules/home-manager/programs/zellij/
+~/.config/mise/config.toml                  → modules/home-manager/programs/mise/
+~/.config/sheldon/plugins.toml              → modules/home-manager/programs/sheldon/
+~/.config/git/config                        → modules/home-manager/programs/git/
+~/.config/aerospace/                        → modules/home-manager/programs/aerospace/
+
+System packages                             → modules/common/packages.nix or modules/darwin/packages.nix
+System settings                             → modules/darwin/system.nix
+Environment variables                       → modules/common/environment.nix
+User services (LaunchAgents)                → modules/home-manager/services/
 ```
 
 **ENFORCEMENT VERIFICATION CHECKLIST:**
+
 Before completing ANY configuration task, verify:
 - [ ] NO files edited in `/Users/cffnpwr/` (home directory)
-- [ ] ALL edits made in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
-- [ ] `chezmoi diff --no-tty` executed successfully
-- [ ] `chezmoi apply --no-tty` executed successfully
+- [ ] ALL edits made in `/Users/cffnpwr/.local/share/chezmoi/modules/`
+- [ ] Code formatted with `nix fmt`
+- [ ] Build tested with `nix run nix-darwin -- build --flake .#cpwr-mba2`
+- [ ] Changes applied with `nix run nix-darwin -- switch --flake .#cpwr-mba2`
 - [ ] Target application restarted/reloaded if necessary
 
-## chezmoi-Specific Operation Guidelines
+## Configuration Management Guidelines
 
-**REINFORCED FILE EDITING PROTOCOL:**
+**ALL CONFIGURATION: Nix Modules**
 
-🔒 **ABSOLUTE PROHIBITION**: NEVER edit files in `/Users/cffnpwr/` (home directory)
-✅ **MANDATORY LOCATION**: ALWAYS edit in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
+🎯 **MANDATORY**: Use Nix for ALL configuration management
+✅ **APPLIES TO**: System packages, programs, services, secrets, user environment
 
-**COMMAND EXECUTION REQUIREMENTS:**
-YOU MUST: Always use `--no-tty` option when running chezmoi commands
+**STEP-BY-STEP WORKFLOW:**
 
-**STEP-BY-STEP ENFORCEMENT WORKFLOW:**
 When user requests ANY configuration change:
 
-1. **STOP & ANALYZE**: Before any action, identify home directory paths
-2. **PATH TRANSLATION**: Convert home paths to chezmoi source paths using mapping table above
-3. **SOURCE EDIT**: Edit ONLY files in `homedir/` directory
-4. **VERIFICATION**: Run `chezmoi diff --no-tty` to preview changes
-5. **DRY RUN TEST**: Execute `chezmoi apply --dry-run --no-tty` for safety
-6. **DEPLOYMENT**: Apply with `chezmoi apply --no-tty`
-7. **VALIDATION**: Verify target application functionality
+1. **IDENTIFY TARGET**: Determine which component needs modification
+2. **LOCATE MODULE**: Find corresponding Nix module in `modules/` directory
+3. **EDIT MODULE**: Make changes to the appropriate `.nix` file
+4. **FORMAT CODE**: Run `nix fmt` to ensure proper formatting
+5. **TEST BUILD**: Run `nix run nix-darwin -- build --flake .#cpwr-mba2`
+6. **VALIDATE**: Check for errors in build output
+7. **DEPLOY**: Run `nix run nix-darwin -- switch --flake .#cpwr-mba2` (requires sudo)
+8. **VERIFICATION**: Verify target application functionality
 
 **CRITICAL PATH TRANSLATION EXAMPLES:**
 ```
 USER REQUEST                                 → CORRECT ACTION
-"edit ~/.zshrc"                             → Edit homedir/dot_config/zsh/dot_zshrc
-"modify ~/.config/starship.toml"            → Edit homedir/dot_config/starship.toml
-"change SSH config"                         → Edit homedir/private_dot_ssh/private_config
-"update Brewfile"                           → Edit homedir/dot_Brewfile
-"change Wezterm settings"                   → Edit homedir/dot_config/wezterm/wezterm.lua
+"edit ~/.zshrc"                             → Edit modules/home-manager/programs/zsh/
+"modify ~/.config/starship.toml"            → Edit modules/home-manager/programs/starship/
+"change SSH config"                         → Edit modules/home-manager/programs/ssh/
+"update Ghostty settings"                   → Edit modules/home-manager/programs/ghostty/
+"add Nix package"                           → Edit modules/common/packages.nix or modules/darwin/packages.nix
+"configure Aerospace"                       → Edit modules/home-manager/programs/aerospace/
+"add Zsh plugin"                            → Edit modules/home-manager/programs/zsh/ or modules/home-manager/programs/sheldon/
+"change system settings"                    → Edit modules/darwin/system.nix
+"add LaunchAgent service"                   → Edit modules/home-manager/services/
+```
+
+**IMPORTANT**: After editing Nix modules, you MUST rebuild:
+```bash
+# Format code
+nix fmt
+
+# Test build
+nix run nix-darwin -- build --flake .#cpwr-mba2
+
+# Apply changes (requires sudo)
+nix run nix-darwin -- switch --flake .#cpwr-mba2
 ```
 
 **SAFETY PROTOCOLS:**
@@ -101,71 +127,69 @@ YOU MUST: Apply system-wide changes (zsh, ssh, etc.) incrementally
 
 ## Sensitive File Operation Safety Guidelines
 
-FOR SENSITIVE FILES:
+**SECRET MANAGEMENT WITH AGENIX:**
 
-private_* files (sensitive but not encrypted files):
+All secrets are managed via **agenix** (age-based encryption for Nix):
 
-YOU MUST: Get user permission before outputting content to logs.
+**Encrypted Secrets**:
+- Location: `secrets/` directory
+- Definition: `secrets/secrets.nix`
+- Encryption: age encryption with keys in `~/.config/age/key.txt`
 
-YOU MUST: Never display the content of confidential information (passwords,
-tokens, etc.).
+**Security Requirements**:
 
-YOU MUST: Editing can be done with normal chezmoi operations.
+YOU MUST: Get user permission before outputting secret content to logs
 
-encrypted_* files (actually encrypted files):
+YOU MUST: Never display the content of confidential information (passwords, tokens, API keys)
 
-YOU MUST: Use chezmoi edit command (direct editing prohibited).
+YOU MUST: Use `agenix -e secrets/<file>.age` to edit encrypted secrets
 
-YOU MUST: Always verify encryption status after editing.
+YOU MUST: Always verify encryption status after editing
 
-YOU MUST: Never display content in plain text.
+YOU MUST: Never display encrypted content in plain text
 
-YOU MUST: Verify integrity with `chezmoi verify` after encryption
-operations.
+YOU MUST: Verify key permissions (600) for `~/.config/age/key.txt`
 
-NEVER: Output confidential information to diff or logs for any files.
-NEVER: Display encrypted file content in plain text.
+NEVER: Output confidential information to diff or logs
+
+NEVER: Display encrypted file content in plain text
+
+NEVER: Commit unencrypted secrets to repository
 
 ## Project Overview
 
 This repository is a personal dotfiles and system configuration project
 using **Nix** with **nix-darwin** and **Home Manager**. It provides a
-comprehensive, declarative configuration setup for macOS development
+comprehensive, **fully declarative** configuration setup for macOS development
 environment, integrating system settings, shell configurations, development
 tools, and application settings.
 
-The project combines Nix's declarative package management with chezmoi for
-additional dotfile management, creating a hybrid approach for maximum
-flexibility and reproducibility.
+The project uses **Nix's declarative package management** with
+**flake-parts** for modular organization. Custom packages are maintained in
+a separate [cffnpwr/nixpkgs](https://github.com/cffnpwr/nixpkgs) repository
+and integrated via flake overlays. All configurations are managed through
+**Nix modules**, providing complete reproducibility and version control.
 
 ## Architecture
 
 ### Core Components
 
 - **Nix**: Declarative package management and system configuration
-- **nix-darwin**: macOS system configuration
+- **nix-darwin**: macOS system configuration framework
 - **Home Manager**: User environment configuration
 - **agenix**: Age-based secret encryption for Nix
-- **chezmoi**: Supplementary dotfiles management system
+- **flake-parts**: Modular flake framework (migrated from flake-utils)
+- **cffnpwr-nixpkgs**: Custom packages repository (https://github.com/cffnpwr/nixpkgs)
 - **Git**: Version control
-
-### File Naming Conventions
-
-- `dot_*`: Files/directories that become `.` prefixed in home directory
-  (e.g., `dot_Brewfile` → `~/.Brewfile`)
-- `private_*`: Files that contain sensitive information
-  (SSH keys, credentials)
-- `encrypted_*`: Files that are actually encrypted with age
-- `*.tmpl`: Template files with variable expansion
 
 ### Directory Structure
 
 ```text
 /Users/cffnpwr/.local/share/chezmoi/
 ├── 📄 Core Repository Files
-│   ├── flake.nix                         # Nix flake configuration (main entry point)
+│   ├── flake.nix                         # Nix flake configuration (main entry point, uses flake-parts)
 │   ├── flake.lock                        # Nix flake lock file
-│   ├── .chezmoiroot                      # Specifies homedir as source root
+│   ├── install.sh                        # Automated installation script
 │   ├── .editorconfig                     # Editor settings (2-space indent, LF)
 │   ├── CLAUDE.md                         # Project-specific Claude instructions
 │   ├── LICENSE                           # License file
@@ -194,33 +218,25 @@ flexibility and reproducibility.
 │       │   └── linux.nix                 # Linux-specific packages
 │       │
 │       ├── programs/                     # Program configurations
-│       │   ├── claude-code/              # Claude Code configuration
-│       │   │   ├── default.nix           # Main module
-│       │   │   ├── mcp.nix               # MCP server configuration
-│       │   │   ├── settings.nix          # Settings generation
-│       │   │   ├── commands.nix          # Custom commands
-│       │   │   ├── agents.nix            # Custom agents
-│       │   │   └── files/                # Instruction files
+│       │   ├── aerospace/                # Window manager
 │       │   ├── git/                      # Git configuration
 │       │   ├── ghostty/                  # Ghostty terminal
-│       │   ├── google-japanese-ime/      # Google Japanese IME
-│       │   ├── karabiner-elements/       # Keyboard customization
 │       │   ├── mas/                      # Mac App Store CLI
 │       │   ├── mise/                     # Development tool manager
 │       │   ├── sheldon/                  # Zsh plugin manager
 │       │   ├── ssh/                      # SSH configuration
 │       │   ├── starship/                 # Shell prompt
 │       │   ├── zellij/                   # Terminal multiplexer
+│       │   ├── zen-browser/              # Zen Browser
 │       │   └── zsh/                      # Zsh configuration
 │       │
 │       └── services/                     # User services (LaunchAgents)
 │           ├── default.nix               # Service module loader
 │           ├── darwin.nix                # macOS-specific services
-│           ├── aerospace.nix             # Window manager
 │           ├── alt-tab.nix               # Alt-Tab replacement
 │           ├── amphetamine.nix           # Keep-awake utility
 │           ├── bitwarden.nix             # Password manager
-│           ├── google-japanese-ime.nix   # IME service
+│           ├── raycast.nix               # Launcher & productivity tool
 │           ├── runcat.nix                # System monitor
 │           ├── scroll-reverser.nix       # Scroll direction
 │           └── stats.nix                 # System stats
@@ -229,50 +245,31 @@ flexibility and reproducibility.
 │   └── cpwr-mba2/                        # MacBook Air M2 configuration
 │       └── default.nix                   # Host-specific settings
 │
-├── 📦 Custom Packages (pkgs/)
-│   ├── claude-desktop/                   # Claude Desktop app
-│   ├── google-japanese-ime/              # Google Japanese IME
-│   ├── mactex/                           # MacTeX distribution
-│   ├── microsoft-office/                 # Microsoft Office
-│   ├── obsidian/                         # Obsidian notes
-│   └── spotify/                          # Spotify client
-│
 ├── 🔐 Secrets (secrets/)
 │   ├── secrets.nix                       # agenix secret definitions
 │   └── github-token.age                  # Encrypted GitHub token
 │
-└── 📂 Legacy chezmoi Dotfiles (homedir/)
-    └── (Traditional chezmoi-managed configurations)
+└── 🚀 CI/CD (.github/workflows/)
+    └── ci.yaml                           # GitHub Actions workflow (flake check, format check, install check)
+
+NOTE: Custom packages (Claude Desktop, Google Japanese IME, MacTeX, Microsoft Office,
+Obsidian, Spotify) are managed in the separate cffnpwr-nixpkgs repository.
 ```
 
-### File Naming Patterns
-
-- `dot_*`: Files/directories that become `.` prefixed in home directory
-- `private_*`: Files containing sensitive information
-- `encrypted_*`: Files that are actually encrypted with age
-- `*.tmpl`: Template files with variable expansion (7 files total)
-- `run_once_*`: Scripts that run only once during initial setup
-- `run_onchange_*`: Scripts that run when configuration files change
-
-### Script Execution Order
-
-1. `run_once_before_*` → Pre-setup (key decryption)
-2. `run_once_*` → Initial setup (Homebrew, macOS settings)
-3. `run_onchange_*` → Ongoing maintenance (package updates, mise sync)
-
-### Key Configuration Files
-
-- `.chezmoiroot`: Specifies `homedir` as the source root directory
-- `dot_Brewfile`: Homebrew dependencies (brew, cask, mas packages)
-- `dot_config/mise/config.toml`: Development tools version management
-  (Node.js, Go, Python)
-- `dot_config/sheldon/plugins.toml`: Zsh plugin management with
-  deferred loading
-- `dot_config/starship.toml`: Custom prompt configuration with themes
-- `dot_config/wezterm/`: Terminal configuration with Zellij integration
-- `dot_config/zsh/`: Zsh configuration with plugins and aliases
-
 ## Common Commands
+
+### Automated Installation
+
+**NEW USERS**: Use the installation script for initial setup:
+
+```bash
+# Interactive installation (prompts for hostname, branch)
+curl -fsSL https://raw.githubusercontent.com/cffnpwr/dotfiles/main/install.sh | sh
+
+# Non-interactive installation with options
+curl -fsSL https://raw.githubusercontent.com/cffnpwr/dotfiles/main/install.sh | \
+  sh -s -- --path $HOME/.dotfiles --hostname cpwr-mba2 --branch main --yes
+```
 
 ### Nix Operations (Primary)
 
@@ -286,18 +283,30 @@ nix run nix-darwin -- build --flake .#cpwr-mba2
 # Build and switch to new configuration (requires sudo)
 nix run nix-darwin -- switch --flake .#cpwr-mba2
 
-# Update flake inputs (nixpkgs, home-manager, etc.)
+# Update flake inputs (nixpkgs, home-manager, cffnpwr-nixpkgs, etc.)
 nix flake update
 
-# Check flake for errors
+# Update specific flake input
+nix flake lock --update-input nixpkgs
+
+# Check flake for errors (runs on all systems)
 nix flake check
+
+# Format Nix files with nixfmt-rfc-style
+nix fmt
+
+# Check formatting without modifying files
+nix fmt -- --check .
 
 # Clean up old generations (free disk space)
 nix-collect-garbage -d
 sudo nix-collect-garbage -d
 
-# Show flake outputs
+# Show flake outputs and structure
 nix flake show
+
+# Enter development shell (includes nil, nixd, nixfmt-rfc-style)
+nix develop
 ```
 
 ### agenix Secret Management
@@ -308,28 +317,11 @@ agenix -e secrets/github-token.age
 
 # Rekey all secrets (after age key change)
 agenix --rekey
-```
 
-### chezmoi Operations (Supplementary)
-
-**NOTE**: Some legacy configurations are still managed via chezmoi. Always
-use `--no-tty` option when running chezmoi commands.
-
-```bash
-# Preview changes before applying
-chezmoi diff --no-tty
-
-# Apply changes to home directory
-chezmoi apply --no-tty
-
-# Dry run to check what would be changed
-chezmoi apply --dry-run --no-tty
-
-# Add new file to management
-chezmoi add --no-tty ~/.config/example
-
-# Sync with remote repository
-chezmoi update --no-tty
+# Add new secret
+# 1. Define in secrets/secrets.nix
+# 2. Create encrypted file: agenix -e secrets/<name>.age
+# 3. Reference in Nix modules
 ```
 
 ### Development Tools
@@ -352,14 +344,18 @@ mise ls-remote nodejs
 
 ### Primary Tools
 
-- **Shell**: Zsh + Starship (prompt) + Sheldon
-  (plugin manager with deferred loading)
-- **Terminal**: Wezterm (auto-starts Zellij session)
-- **Multiplexer**: Zellij (attached as "wezterm" session)
-- **Version Manager**: mise (Node.js 22, Go 1.24.1, Python via uv, pnpm 10)
-- **Package Manager**: pnpm (Node.js), Homebrew (system packages)
+- **Shell**: Zsh + Starship (prompt) + Sheldon (plugin manager with deferred loading)
+- **Terminal**: Ghostty (GPU-accelerated, native macOS terminal)
+- **Multiplexer**: Zellij (terminal workspace manager)
+- **Window Manager**: Aerospace (tiling window manager for macOS)
+- **Launcher**: Raycast (productivity tool and app launcher)
+- **Browser**: Zen Browser (privacy-focused browser)
+- **Version Manager**: mise (Node.js, Go, Python, pnpm)
+- **Package Manager**: Nix (system packages), pnpm (Node.js)
 - **File Manager**: eza (with icons and git status)
-- **Editor**: VS Code Insiders (aliased as `code`)
+- **Editor**: Neovim, VS Code (for GUI editing)
+- **Nix LSP**: nil, nixd (Nix language servers)
+- **Formatter**: nixfmt-rfc-style (Nix code formatting)
 
 ### Shell Configuration Architecture
 
@@ -382,11 +378,9 @@ Follow `.editorconfig` in project root:
 
 ### Configuration Management Strategy
 
-This project uses a **hybrid approach** combining Nix and chezmoi:
+This project uses **pure Nix** for all configuration management:
 
-#### Nix Configuration (Primary - Declarative)
-
-**PREFERRED**: Use Nix for all system and package management:
+**ALL CONFIGURATIONS** are managed via Nix modules:
 
 - **System packages**: Edit `modules/common/packages.nix` or `modules/darwin/packages.nix`
 - **Program configurations**: Edit files in `modules/home-manager/programs/`
@@ -397,40 +391,42 @@ This project uses a **hybrid approach** combining Nix and chezmoi:
 **Deployment Workflow**:
 
 1. Edit Nix configuration files in `modules/` directory
-2. Build and test: `nix run nix-darwin -- build --flake .#cpwr-mba2`
-3. Apply changes: `nix run nix-darwin -- switch --flake .#cpwr-mba2` (requires sudo)
-
-#### chezmoi Configuration (Legacy - Imperative)
-
-**USE ONLY FOR**: Configurations not yet migrated to Nix
-
-⛔ **TOTAL PROHIBITION**: NEVER edit files in `/Users/cffnpwr/` (home directory)
-✅ **EXCLUSIVE LOCATION**: ONLY edit in `/Users/cffnpwr/.local/share/chezmoi/homedir/`
-
-**DEPLOYMENT WORKFLOW**:
-
-1. Edit files in `homedir/` directory
-2. Test changes with `chezmoi diff --no-tty`
-3. Validate with `chezmoi apply --dry-run --no-tty`
-4. Deploy with `chezmoi apply --no-tty`
+2. Format code: `nix fmt`
+3. Build and test: `nix run nix-darwin -- build --flake .#cpwr-mba2`
+4. Apply changes: `nix run nix-darwin -- switch --flake .#cpwr-mba2` (requires sudo)
 
 ### Working with Specific Components
 
-#### Nix-Managed Components (Primary)
-
+**System Configuration**:
 - **System packages**: Edit `modules/common/packages.nix` or `modules/darwin/packages.nix`
-- **Claude Code**: Edit `modules/home-manager/programs/claude-code/`
-- **Git config**: Edit `modules/home-manager/programs/git/default.nix`
-- **SSH config**: Edit `modules/home-manager/programs/ssh/default.nix`
+- **System settings**: Edit `modules/darwin/system.nix`
+- **Environment variables**: Edit `modules/common/environment.nix`
+- **User account**: Edit `modules/common/user.nix`
+
+**Program Configurations**:
+- **Git**: Edit `modules/home-manager/programs/git/default.nix`
+- **SSH**: Edit `modules/home-manager/programs/ssh/default.nix`
 - **Shell (Zsh)**: Edit `modules/home-manager/programs/zsh/default.nix`
-- **Terminal**: Edit `modules/home-manager/programs/ghostty/default.nix`
+- **Terminal (Ghostty)**: Edit `modules/home-manager/programs/ghostty/default.nix`
+- **Multiplexer (Zellij)**: Edit `modules/home-manager/programs/zellij/default.nix`
+- **Window Manager (Aerospace)**: Edit `modules/home-manager/programs/aerospace/default.nix`
+- **Browser (Zen)**: Edit `modules/home-manager/programs/zen-browser/default.nix`
+- **Prompt (Starship)**: Edit `modules/home-manager/programs/starship/default.nix`
+- **Plugin Manager (Sheldon)**: Edit `modules/home-manager/programs/sheldon/default.nix`
 - **Development tools (mise)**: Edit `modules/home-manager/programs/mise/default.nix`
-- **Secrets**: Use `agenix -e secrets/<file>.age`
+- **Mac App Store (mas)**: Edit `modules/home-manager/programs/mas/default.nix`
 
-#### Legacy chezmoi Components (Supplementary)
+**Service Configurations** (LaunchAgents):
+- Edit files in `modules/home-manager/services/` for user services
+- Edit `modules/darwin/services.nix` for system services
 
-- **Custom shell plugins**: Edit `homedir/dot_config/zsh/plugins/`
-- **Legacy configs**: Files in `homedir/` not yet migrated to Nix
+**Secrets Management**:
+- **Edit secrets**: Use `agenix -e secrets/<file>.age`
+- **Define secrets**: Edit `secrets/secrets.nix`
+
+**Custom Packages**:
+- Custom packages are managed in [cffnpwr/nixpkgs](https://github.com/cffnpwr/nixpkgs)
+- The repository is integrated via flake inputs and overlays
 
 ### Commit Convention
 
@@ -446,139 +442,136 @@ Examples:
 - `fix 🐛: Zsh補完設定の修正`
 - `perf ⚡: Sheldonプラグイン起動の最適化`
 
-## Claude Code Integration
+## CI/CD Integration
 
-### Advanced Permission System
+### GitHub Actions Workflow
 
-The `dot_config/claude/settings.json` contains 86 granular permission settings that control Claude Code's access to system resources, MCP servers, and tool capabilities. Key permission categories:
+The project includes automated CI/CD pipeline (`.github/workflows/ci.yaml`) that runs on every push:
 
-- **MCP Server Access**: GitHub, Git, IDE, RFC documentation
-- **File System Operations**: Read/write restrictions with path-based controls
-- **Network Access**: Controlled web search and fetch capabilities
-- **Shell Command Execution**: Bash access with security constraints
+**Workflow Jobs**:
 
-### Custom Command System
+1. **Flake Check** (`flake-check`):
+   - Validates Nix flake configuration across all systems
+   - Command: `nix flake check --all-systems`
+   - Runs on: Ubuntu 24.04
 
-Located in `dot_config/claude/commands/`, provides specialized workflows:
+2. **Format Check** (`format-check`):
+   - Ensures all Nix files follow nixfmt-rfc-style formatting
+   - Command: `nix fmt -- --check .`
+   - Runs on: Ubuntu 24.04
 
-#### Git Commands (`git/` directory - 6 commands)
-- **Commit workflows**: Automated staging, conventional commits
-- **Branch management**: Creation, switching, merging operations
-- **Repository operations**: Status checking, diff analysis
-- **Pull request workflows**: Creation, review, merge processes
+3. **Install Check** (`install-check`):
+   - Tests full system installation on actual macOS runner
+   - Runs install.sh script with automated setup
+   - Validates complete deployment including secret management
+   - Matrix: macOS 15 (cpwr-mba2 hostname)
+   - Includes extensive disk cleanup to ensure sufficient space
 
-#### Reflection System (`reflection.md`)
-- **Session analysis**: Task completion tracking
-- **Learning integration**: Pattern recognition for common workflows
-- **Performance optimization**: Command usage analysis
+**CI Configuration Notes**:
+- Paths ignored: `.claude/**`, `.vscode/**`, `.editorconfig`, `CLAUDE.md`, `README.md`, `LICENSE`
+- Uses Determinate Systems Nix Action for Nix installation
+- Secrets: `AGE_SECRET_KEY` for agenix encryption, `GITHUB_TOKEN` for Nix access tokens
+- Concurrency: Cancels in-progress runs for the same ref
 
-### Modular Instruction Architecture
-
-The `instructions/` directory provides specialized guidance modules:
-
-- **`code_quality.md`**: Error handling, debugging protocols, web search requirements
-- **`editor.md`**: EditorConfig enforcement, formatting standards
-- **`reminders.md`**: Task management, file creation constraints
-
-### Template System Integration
-
-Claude Code leverages chezmoi's template system for dynamic configuration:
-
-- **Environment detection**: OS-specific settings (Darwin/Linux)
-- **Conditional loading**: CI environment vs. interactive mode
-- **Variable expansion**: User-specific paths and preferences
-- **Age encryption**: Automatic key management for sensitive files
-
-### MCP Server Configuration
-
-Configured MCP servers provide extended capabilities:
-
-- **GitHub integration**: Repository management, issue tracking, PR workflows
-- **Git operations**: Advanced version control with safety checks
-- **IDE integration**: VS Code diagnostics, code execution
-- **RFC documentation**: Standards lookup and reference
-
-## Container-Use Environment Testing
-
-### Linux Environment Testing Protocol
-
-This section describes how to test dotfiles deployment in Linux environments using Claude Code's container-use functionality.
-
-#### Secret Management for Container Testing
-
-**Encryption Key Injection Method:**
-
+**Local Validation Before Push**:
 ```bash
-# Set environment variable with actual decryption key
-export CHEZMOI_ENCRYPT_KEY="actual-github-actions-secret-key"
-
-# Create environment with secret injection
-environment_create --envs "CHEZMOI_ENCRYPT_KEY=env://CHEZMOI_ENCRYPT_KEY"
+# Run the same checks locally
+nix flake check          # Flake validation
+nix fmt -- --check .     # Format check
 ```
 
-**Container Setup Workflow:**
+## Flake Architecture & Module System
 
-1. **Key Deployment**: Mirror GitHub Actions CI workflow
-   ```bash
-   mkdir -p ~/.config/chezmoi
-   echo "$CHEZMOI_ENCRYPT_KEY" > ~/.config/chezmoi/key.txt
-   chmod 600 ~/.config/chezmoi/key.txt
-   ```
+### Flake Structure
 
-2. **Chezmoi Installation**: Use official installation script
-   ```bash
-   sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply cffnpwr
-   ```
+This project uses **flake-parts** for modular flake organization:
 
-#### Known Linux Environment Issues
+**Key Design Decisions**:
+- **Multi-system support**: `aarch64-darwin`, `x86_64-darwin`, `x86_64-linux`, `aarch64-linux`
+- **Overlay system**: Integrates `cffnpwr-nixpkgs` custom packages via overlays
+- **Per-system configuration**: Development shell and formatter defined per-system
+- **Unified Home Manager**: Home Manager integrated as Darwin module
 
-**Dependency Conflicts:**
-
-- **mise Command Not Found**: Linux containers lack mise installation
-  - Solution: Add Linux-specific mise installation to setup scripts
-  - Workaround: Install mise manually before running chezmoi apply
-
-- **macOS-Specific Packages**: Brewfile contains macOS-only packages
-  - Solution: Use template conditions to separate macOS/Linux packages
-  - Workaround: Skip Brewfile execution on Linux environments
-
-**Encryption/Decryption Status:**
-
-- **Partial Decryption**: Some encrypted files may not decrypt properly
-  - Verification: Check SSH config decryption status
-  - Solution: Verify age key configuration and file permissions
-
-#### Testing Checklist
-
-Before completing container testing:
-
-- [ ] Secret injection working (CHEZMOI_ENCRYPT_KEY available)
-- [ ] Chezmoi repository cloned and initialized
-- [ ] Age key properly configured with correct permissions
-- [ ] mise installation completed (Linux-specific)
-- [ ] SSH configuration decrypted and applied
-- [ ] Basic shell configuration (zsh, starship) functional
-- [ ] Git configuration applied correctly
-
-#### Validation Commands
-
-```bash
-# Check encryption key availability
-ls -la ~/.config/chezmoi/key.txt
-
-# Verify chezmoi configuration
-chezmoi doctor
-
-# Check encrypted file status
-chezmoi cat ~/.ssh/config
-
-# Validate applied configuration
-chezmoi diff --no-tty
+**Flake Inputs**:
+```nix
+nixpkgs              # NixOS/nixpkgs unstable channel
+nix-darwin           # macOS system configuration framework
+home-manager         # User environment management
+zen-browser          # Zen Browser flake
+agenix               # Secret encryption with age
+flake-parts          # Modular flake framework
+cffnpwr-nixpkgs      # Custom packages and modules
 ```
 
-#### Container Environment Advantages
+### Module Organization
 
-- **Safe Testing**: Isolated environment prevents system configuration damage
-- **Reproducible**: Consistent testing environment across different machines
-- **CI/CD Simulation**: Mimics GitHub Actions deployment workflow
-- **Secret Management**: Secure handling of encryption keys via environment variables
+**Three-tier module hierarchy**:
+
+1. **Common modules** (`modules/common/`): Cross-platform configuration
+   - User accounts, environment variables, fonts, base packages
+
+2. **Darwin modules** (`modules/darwin/`): macOS-specific configuration
+   - System preferences, macOS packages, system services
+
+3. **Home Manager modules** (`modules/home-manager/`): User-level configuration
+   - Programs, packages, user services (LaunchAgents)
+   - Further divided into packages/, programs/, services/
+
+**Module Integration**:
+- Darwin modules loaded via `darwinConfigurations`
+- Home Manager loaded as Darwin module with `home-manager.darwinModules.home-manager`
+- Custom modules from `cffnpwr-nixpkgs` loaded via `builtins.attrValues`
+
+### Development Workflow Best Practices
+
+**Adding New Programs**:
+1. Create module in `modules/home-manager/programs/<program-name>/default.nix`
+2. Import in `modules/home-manager/programs/default.nix`
+3. Test with `nix run nix-darwin -- build --flake .#cpwr-mba2`
+4. Apply with `nix run nix-darwin -- switch --flake .#cpwr-mba2`
+
+**Adding New Services**:
+1. Create service in `modules/home-manager/services/<service-name>/default.nix`
+2. Import in `modules/home-manager/services/darwin.nix` (for macOS services)
+3. Test and apply same as programs
+
+**Working with Custom Packages**:
+- Custom packages live in [cffnpwr/nixpkgs](https://github.com/cffnpwr/nixpkgs)
+- Update with `nix flake lock --update-input cffnpwr-nixpkgs`
+- Available via overlay: `pkgs.custom-package-name`
+
+**Formatting & Validation**:
+```bash
+# Format all Nix files
+nix fmt
+
+# Validate flake
+nix flake check
+
+# Build without switching
+nix run nix-darwin -- build --flake .#cpwr-mba2
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Build Failures**:
+- Check flake.lock is up-to-date: `nix flake update`
+- Verify formatting: `nix fmt -- --check .`
+- Run flake check: `nix flake check`
+
+**Installation Issues**:
+- Ensure sudo privileges available
+- Check disk space (macOS runners require significant cleanup)
+- Verify age secret key is properly configured
+
+**Secret Management**:
+- Age key location: `~/.config/age/key.txt` (permissions: 600)
+- Edit secrets: `agenix -e secrets/<file>.age`
+- Rekey after key change: `agenix --rekey`
+
+**Module Conflicts**:
+- Check for duplicate module imports
+- Verify module paths in `default.nix` files
+- Use `nix flake show` to inspect outputs
