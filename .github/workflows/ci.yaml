@@ -52,6 +52,71 @@ jobs:
           - os: macos-15
             hostname: cpwr-mba2
     steps:
+      - name: Free up disk space
+        run: |
+          echo "=== Disk space before cleanup ==="
+          df -h
+          echo "================================="
+
+          echo "=== Removing Android SDK & NDK ==="
+          sudo rm -rf /Users/runner/Library/Android
+          sudo rm -rf $ANDROID_HOME
+          sudo rm -rf $ANDROID_NDK_HOME
+          sudo rm -rf ~/Library/Android
+
+          echo "=== Removing .NET SDK ==="
+          sudo rm -rf /Users/runner/.dotnet
+          sudo rm -rf /usr/local/share/dotnet
+
+          echo "=== Removing Xcode ==="
+          sudo rm -rf /Applications/Xcode_*.app || true
+          sudo rm -rf /Library/Developer/CommandLineTools
+
+          echo "=== Removing Java JDK ==="
+          sudo rm -rf /Library/Java/JavaVirtualMachines/*
+
+          echo "=== Removing cached runtimes ==="
+          sudo rm -rf /Users/runner/.rubies
+          sudo rm -rf /Users/runner/hostedtoolcache/Python
+          sudo rm -rf /Users/runner/hostedtoolcache/node
+          sudo rm -rf /Users/runner/hostedtoolcache/Ruby
+          sudo rm -rf /Users/runner/hostedtoolcache/go
+
+          echo "=== Removing Cloud CLIs ==="
+          sudo rm -rf /usr/local/aws-cli
+          sudo rm -rf /usr/local/bin/aws
+          brew uninstall --force azure-cli || true
+          sudo rm -rf /opt/az
+
+          echo "=== Removing browsers ==="
+          sudo rm -rf /Applications/Google\ Chrome.app
+          sudo rm -rf /Applications/Firefox.app
+          sudo rm -rf /Applications/Microsoft\ Edge.app
+
+          echo "=== Removing build tools ==="
+          brew uninstall --force maven gradle ant || true
+          sudo rm -rf ~/.gradle
+          sudo rm -rf ~/.m2
+
+          echo "=== Removing CocoaPods & Carthage ==="
+          sudo gem uninstall cocoapods -ax || true
+          brew uninstall --force carthage || true
+
+          echo "=== Removing Homebrew packages ==="
+          brew list --formula | xargs -n1 brew uninstall --force --ignore-dependencies || true
+          brew list --cask | xargs -n1 brew uninstall --force || true
+
+          echo "=== Removing system caches ==="
+          sudo rm -rf ~/Library/Caches/Homebrew
+          sudo rm -rf /usr/local/Homebrew
+          sudo rm -rf /opt/homebrew
+          sudo rm -rf /opt/hostedtoolcache
+          sudo rm -rf ~/Library/Caches/*
+
+          echo "=== Disk space after cleanup ==="
+          df -h
+          echo "================================"
+
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
