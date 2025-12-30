@@ -439,10 +439,7 @@ _gather_user_inputs() {
 _clone_repository() {
   gum log --level info "Cloning dotfiles repository..."
 
-  git="git"
-  if ! _is_command "$git"; then
-    git="nix run nixpkgs#git --"
-  fi
+  git="nix run nixpkgs#git --"
 
   # Check if the target directory already exists
   if [ -d "${REPO_PATH}" ]; then
@@ -472,11 +469,7 @@ _decrypt_age_key() {
   key_file="${REPO_PATH}/key.txt.age"
   output_key="${XDG_CONFIG_HOME:-"$HOME/.config"}/age/key.txt"
 
-
-  age="age"
-  if ! _is_command "age"; then
-    age="nix run nixpkgs#age --"
-  fi
+  age="nix run nixpkgs#age --"
 
   if [ ! -f "${output_key}" ]; then
     gum log --level info "Decrypting age key..."
