@@ -4,9 +4,32 @@
   pkgs,
   ...
 }:
+let # Fetch Claude Code skill repositories
+  ccconfigs = pkgs.fetchFromGitHub {
+    owner = "dhruvbaldawa";
+    repo = "ccconfigs";
+    rev = "451b604718d39fcc2c008d22e550bdf60c7115da";
+    hash = "sha256-7V1xG2FmzqWdnWmVV6WWKBAvY6QHWo+UKzh0Uu/Xg/w=";
+  };
+  awesome-claude-code = pkgs.fetchFromGitHub {
+    owner = "ai-digital-architect";
+    repo = "awesome-claude-code";
+    rev = "6b717ff581d27d13e152d65cb00acb5befc37b1f";
+    hash = "sha256-ztIJq8WDHJ2baR/QUf8q7jF4UT661Z5JXElJUiJpd+M=";
+  };
+  anthropic-skills = pkgs.fetchFromGitHub {
+    owner = "anthropics";
+    repo = "skills";
+    rev = "69c0b1a0674149f27b61b2635f935524b6add202";
+    hash = "sha256-pllFZoWRdtLliz/5pLWks0V9nKFMzeWoRcmFgu2UWi8=";
+  };
+in
 {
   programs.claude-code = {
     enable = true;
+
+    # Global CLAUDE.md memory
+    memory.source = ./CLAUDE.md;
 
     settings = {
       env = {
@@ -208,7 +231,57 @@
     };
   };
 
-  # Set environment variable for GitHub MCP token from agenix secret
-  home.sessionVariables.GITHUB_MCP_TOKEN = "$(${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.github-token.path})";
+  home = {
+    # Set environment variable for GitHub MCP token from agenix secret
+    sessionVariables.GITHUB_MCP_TOKEN = "$(${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.github-token.path})";
 
+    # Declaratively manage Claude Code skills using home.file
+    #
+    # NOTE: Cannot use programs.claude-code.skills with fetchFromGitHub
+    #
+    # The home-manager module uses lib.isPath and lib.pathIsDirectory to determine
+    # whether to create a directory (.claude/skills/{name}/) or file (.claude/skills/{name}.md).
+    #
+    # However, fetchFromGitHub results are NOT recognized as path types:
+    # - fetchFromGitHub returns a derivation (set type)
+    # - String concatenation (derivation + "/subdir") produces string type
+    # - builtins.path also results in string type (even though it copies to store)
+    # - lib.isPath returns false for all of the above
+    # - Therefore, skills from fetchFromGitHub are ALWAYS treated as .md files
+    #
+    # This is a limitation of the home-manager module implementation, which only
+    # supports local filesystem paths (./path or /path literals).
+    #
+    # Workaround: Use home.file directly with recursive = true
+    file = {
+      ".claude/skills/writing-documentation" = {
+        source = ccconfigs + "/essentials/skills/writing-documentation";
+        recursive = true;
+      };
+      ".claude/skills/markdown-standards" = {
+        source = awesome-claude-code + "/.claude/skills/markdown-standards";
+        recursive = true;
+      };
+      ".claude/skills/skill-creator" = {
+        source = anthropic-skills + "/skills/skill-creator";
+        recursive = true;
+      };
+      ".claude/skills/writing-japanese-documents" = {
+        source = ./skills/writing-japanese-documents;
+        recursive = true;
+      };
+      ".claude/skills/code-quality-standards" = {
+        source = ./skills/code-quality-standards;
+        recursive = true;
+      };
+      ".claude/skills/research-and-information-gathering" = {
+        source = ./skills/research-and-information-gathering;
+        recursive = true;
+      };
+      ".claude/skills/git-operations" = {
+        source = ./skills/git-operations;
+        recursive = true;
+      };
+    };
+  };
 }
