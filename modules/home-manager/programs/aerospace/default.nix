@@ -252,7 +252,7 @@
             "if" = {
               app-id = "com.microsoft.teams2";
             };
-            run = "move-node-to-workspace D";
+            run = "move-node-to-workspace M";
           }
           {
             "if" = {
