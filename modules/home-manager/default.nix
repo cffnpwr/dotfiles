@@ -50,6 +50,12 @@ in
   # enable fontconfig
   fonts.fontconfig.enable = true;
 
+  # Use symlinks instead of copying apps
+  targets.darwin = {
+    copyApps.enable = false;
+    linkApps.enable = true;
+  };
+
   home = {
     username = osConfig.username;
     homeDirectory = osConfig.homeDirectory;
