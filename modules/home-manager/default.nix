@@ -44,11 +44,6 @@ in
     ./services
   ];
 
-  # Disable home-manager's built-in Claude Code module to use our custom one
-  disabledModules = [
-    "programs/claude-code.nix"
-  ];
-
   # Enable XDG support
   xdg.enable = true;
 

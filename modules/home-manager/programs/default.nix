@@ -2,6 +2,7 @@
 {
   imports = [
     ./aerospace
+    ./claude-code
     ./ghostty
     ./git
     ./mas

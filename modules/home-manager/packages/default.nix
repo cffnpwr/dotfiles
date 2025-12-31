@@ -57,7 +57,7 @@
     obsidian
 
     # LLM Chat
-    claude-desktop
+    claude
 
     # LaTeX
     texliveFull
