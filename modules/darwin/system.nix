@@ -4,7 +4,7 @@
     # The primaryUser property is required for macOS system defaults configuration
     # This property can be removed once the transition to the `users.users.*` namespace is complete.
     # Ref: https://github.com/nix-darwin/nix-darwin/issues/1462
-    primaryUser = "cffnpwr";
+    primaryUser = builtins.getEnv "USER";
 
     # macOS system defaults
     defaults = {
