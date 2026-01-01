@@ -5,140 +5,134 @@
 - Respond in Japanese for user communication
 - Write CLAUDE.md files in English for LLM efficiency
 
-## 🚨 MANDATORY: Before Making ANY Changes
+## 🚨 CRITICAL: No Assumptions - Always Confirm
 
-**CRITICAL CHECKPOINT - Execute BEFORE every implementation:**
+**MANDATORY CHECKPOINT - Execute BEFORE every code change:**
 
-### 1. Requirement Verification
+### Rule 1: Explicit Confirmation Required
 
-❓ Do I have explicit user confirmation for:
-- WHAT to change (exact file/function/feature)?
-- WHY this change is needed?
-- HOW it should behave after the change?
+**NEVER assume. ALWAYS confirm these with user:**
+- **WHAT** to change (exact file/function/feature)
+- **WHY** this change is needed
+- **HOW** it should behave after change
 
-❌ If ANY answer is NO → STOP and ASK user
+❌ **If ANY is unclear → STOP and ASK user**
 
-### 2. Assumption Detection
+### Rule 2: Detect and Reject Assumptions
 
-❓ Am I assuming any of the following?
-- Implementation approach without user confirmation
-- Default values or configurations
-- User's preferred solution among multiple options
+**STOP immediately if you're assuming ANY of:**
+- Implementation approach or technical solution
+- Default values or configuration choices
+- User's preferred option among alternatives
 - Backward compatibility requirements
-- Side effects or related changes needed
+- Related changes or side effects needed
 
-❌ If ANY answer is YES → STOP and ASK user
+❌ **If making ANY assumption → STOP and ASK user**
 
-### 3. Scope Validation
+### Rule 3: Strict Scope Adherence
 
-❓ Have I verified:
-- Only changing what was explicitly requested?
-- Not adding "improvements" or "optimizations" unless asked?
-- Not refactoring unrelated code?
+**PROHIBITED without explicit request:**
+- Adding "improvements" or "optimizations"
+- Refactoring unrelated code
+- Adding features beyond request
+- Changing code style or formatting (unless requested)
 
-❌ If ANY answer is NO → STOP and reduce scope
+✅ **ONLY change what was explicitly requested**
 
-**EXAMPLES OF VIOLATIONS:**
+### Example: Correct Behavior
 
-❌ BAD:
-- User: "Add error handling to login function"
-- Claude: *Adds try-catch, implements retry logic, adds logging, refactors variable names*
-- Violation: Added retry logic and logging without confirmation
+User: "Add error handling to login function"
 
-✅ GOOD:
-- User: "Add error handling to login function"
-- Claude: "I'll add error handling. Should I:
-  1. Only add try-catch with user-facing error messages?
-  2. Include retry logic for network failures?
-  3. Add logging for debugging?
-  Please specify what level of error handling you need."
+❌ **WRONG** (making assumptions):
+```
+Adding error handling with:
+- try-catch blocks
+- retry logic for network failures
+- comprehensive logging
+- input validation
+```
 
-## 🔍 Knowledge and Information Validation
+✅ **CORRECT** (confirming first):
+```
+I'll add error handling to the login function. Please specify:
+1. Only basic try-catch with user-facing error messages?
+2. Include retry logic for network failures?
+3. Add logging for debugging?
+4. Validate inputs as well?
+```
 
-**DECISION FLOW: Do I need to search for information?**
+## 🔍 Knowledge Validation: When to Search
 
-### Step 1: Knowledge Cutoff Check
+**Knowledge cutoff: January 2025** | **Current date: 2026-01-01**
 
-My knowledge cutoff: **January 2025**
-Current date: **Check system date**
+### Search Decision Checklist
 
-❓ Is this about:
-- Technology released/updated after January 2025?
-- Breaking changes in 2025 or later?
-- Current best practices that may have evolved?
+Use this checklist BEFORE answering any technical question:
 
-✅ YES → Proceed to Step 2
-❌ NO → Proceed to Step 3
+**🚨 MUST search (blocking requirement):**
+- [ ] Technology released/updated after January 2025
+- [ ] Uncertain about exact API syntax or method signatures
+- [ ] Library/framework configuration options (may have changed)
+- [ ] Recent deprecations or breaking changes
+- [ ] Error messages from recent package versions
 
-### Step 2: Technology Unfamiliarity Check
+**⚠️ SHOULD search (high risk of outdated info):**
+- [ ] Fast-evolving ecosystems (React, Next.js, TypeScript, AI/ML, Rust)
+- [ ] CLI commands for actively developed tools (npm, pnpm, bun, cargo)
+- [ ] Version-specific behavior mentioned in question
+- [ ] Performance optimization techniques (best practices evolve)
+- [ ] Framework-specific patterns (state management, styling approaches)
 
-❓ Am I uncertain about:
-- Exact API syntax or method signatures?
-- Library/framework configuration options?
-- Compatibility between specific versions?
-- Recent deprecations or migrations?
-- Official recommendations vs community practices?
+**✅ OPTIONAL search (stable information):**
+- [ ] Core language features (JavaScript ES6, Python basics)
+- [ ] Fundamental algorithms and data structures
+- [ ] Well-established design patterns
+- [ ] Mature stable libraries (lodash core, express basics)
 
-✅ YES → **MANDATORY: Execute Web Search BEFORE answering**
-❌ NO → Proceed to Step 3
+### After Searching: Validate Sources
 
-### Step 3: Information Freshness Validation
-
-For technologies I "know", verify freshness:
-
-❓ Check if ANY apply:
-- Fast-evolving ecosystem (React, Next.js, TypeScript, AI/ML libraries)?
-- Version-specific behavior mentioned in user's question?
-- Dependencies with semantic versioning (breaking changes possible)?
-- Ecosystem with competing approaches (state management, styling, etc.)?
-
-✅ YES → **SHOULD: Execute Web Search to verify current information**
-❌ NO → Safe to proceed with existing knowledge
-
-### Step 4: Search Result Validation
-
-After executing Web Search:
-
-❓ Verify:
-- Publication date of sources (within last 12 months preferred)
-- Official documentation vs blog posts (prioritize official)
+**Verify BEFORE using information:**
+- Publication date (prefer within 12 months)
+- Official documentation > blog posts
 - Version compatibility with user's project
 - Consistency across multiple sources
 
-❌ If conflicting information found → Report to user with sources
-
-**INFORMATION FRESHNESS INDICATORS:**
-
-🚨 HIGH RISK (MUST search):
-- "How do I use [new feature in library]?"
-- "What's the best way to [task] in [framework] now?"
-- Error messages from recent package versions
-- Syntax for features released after knowledge cutoff
-
-⚠️ MEDIUM RISK (SHOULD search):
-- Configuration for popular frameworks (Next.js, React, Vue)
-- CLI commands for evolving tools (npm, pnpm, bun)
-- Deprecated APIs in major libraries
-- Performance optimization techniques
-
-✅ LOW RISK (Optional search):
-- Core language features (JavaScript ES6, Python basics)
-- Fundamental algorithms and data structures
-- Well-established design patterns
-- Stable, mature libraries (lodash, express basics)
+❌ **If conflicting information found → Report to user with sources**
 
 ## ⚠️ Error Handling Standards
 
-**Core Principles:**
-- Never use quick fixes or workarounds
-- Always investigate root causes
-- Ask for guidance when unsure about solutions
+**CRITICAL: Never use workarounds or quick fixes**
 
-**Prohibited Actions:**
+**Core Principles:**
+1. Always investigate root causes (never mask symptoms)
+2. Ask for guidance when unsure about proper solution
+3. Fix problems properly or not at all
+
+**ABSOLUTELY PROHIBITED:**
 - Commenting out error-causing code
-- Empty catch blocks
-- Modifying tests to make them pass
-- Temporary patches
+- Empty catch blocks (catching without handling)
+- Modifying tests to make them pass without fixing root cause
+- Temporary patches or "TODO: fix later" solutions
+
+## 🔧 Tool Selection Policy
+
+### GitHub Operations - MANDATORY MCP Usage
+
+**CRITICAL REQUIREMENT**: For ANY GitHub operation, you MUST use GitHub MCP tools.
+
+**Workflow (no exceptions):**
+1. **DETECTION**: Identify task involves GitHub
+2. **SEARCH**: `MCPSearch` to find appropriate MCP tool
+3. **LOAD**: Load MCP tool (mandatory prerequisite)
+4. **EXECUTE**: Use loaded MCP tool
+
+**Examples:**
+- ✅ CORRECT: `mcp__github__search_issues`
+- ❌ WRONG: `gh issue list` or Bash commands
+- ✅ CORRECT: `mcp__github__get_pull_request`
+- ❌ WRONG: `gh pr view` or WebFetch
+
+**Exception**: Git operations (clone, commit, push, status, diff) use `git` commands.
 
 ## 📚 Available Skills
 
