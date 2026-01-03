@@ -50,10 +50,12 @@ in
   # enable fontconfig
   fonts.fontconfig.enable = true;
 
-  # Use symlinks instead of copying apps
+  # Copy apps instead of symlinking to fix macOS privacy permissions (TCC)
+  # Symlinked apps from Nix store are not properly recognized by macOS privacy system
+  # This fixes screen sharing issues with apps like Discord
   targets.darwin = {
-    copyApps.enable = false;
-    linkApps.enable = true;
+    copyApps.enable = true;
+    linkApps.enable = false;
   };
 
   home = {
