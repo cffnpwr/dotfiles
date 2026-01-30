@@ -140,3 +140,4 @@ Execute these for detailed guidance:
 - `code-quality-standards` - Code implementation and review guidelines
 - `research-and-information-gathering` - Deep research methodology
 - `git-operations` - Git workflow and commands
+- `structured-claude-md` - Structured CLAUDE.md and documentation creation

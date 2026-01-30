@@ -226,7 +226,6 @@ in
           "--enable-web-dashboard"
           "false"
         ];
-        env = { };
       };
     };
   };
@@ -280,6 +279,10 @@ in
       };
       ".claude/skills/git-operations" = {
         source = ./skills/git-operations;
+        recursive = true;
+      };
+      ".claude/skills/structured-claude-md" = {
+        source = ./skills/structured-claude-md;
         recursive = true;
       };
     };
