@@ -21,6 +21,7 @@
     # shell tools
     android-tools
     bat
+    coreutils
     eza
     fd
     fzf
