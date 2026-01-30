@@ -35,10 +35,13 @@ mcp__serena__check_onboarding_performed()
 fd -e nix --exec-batch nix fmt
 
 # Build configuration (test without applying)
-nix run nix-darwin -- build --flake .#cpwr-mba2
+nix run .#build
 
 # Deploy configuration (REQUIRES sudo)
-sudo nix run nix-darwin -- switch --flake .#cpwr-mba2
+nix run .#switch
+
+# Clean build artifacts in /nix/var/nix/builds
+nix run .#clean-builds
 ```
 
 **Full command reference**: `.claude/docs/reference/commands.md`
