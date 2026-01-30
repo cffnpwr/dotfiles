@@ -5,7 +5,6 @@
       alt-tab.enable = true;
       amphetamine.enable = true;
       bitwarden.enable = true;
-      google-japanese-ime.enable = true;
       raycast.enable = true;
       runcat.enable = true;
       scroll-reverser.enable = true;

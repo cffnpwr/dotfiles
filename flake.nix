@@ -27,7 +27,7 @@
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
     cffnpwr-nixpkgs = {
-      url = "github:cffnpwr/nixpkgs";
+      url = "github:cffnpwr/nixpkgs/5138f403393b34d5985034e0b1f0486bf8784cff";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     vscode-extensions = {
