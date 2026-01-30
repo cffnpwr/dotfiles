@@ -5,6 +5,7 @@
     ./claude-code
     ./ghostty
     ./git
+    ./jujutsu
     ./mas
     ./mise
     ./sheldon
