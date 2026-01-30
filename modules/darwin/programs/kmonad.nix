@@ -22,7 +22,7 @@
               tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
               caps a    s    d    f    g    h    j    k    l    ;    '    ret
               lsft z    x    c    v    b    n    m    ,    .    /    rsft
-              fn   lctl lalt lmet spc  rmet ralt
+              lctl lalt lmet spc                      rmet fn   ralt
             )
 
             (defalias
@@ -39,7 +39,7 @@
               tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
               lctl a    s    d    f    g    h    j    k    l    ;    '    ret
               lsft z    x    c    v    b    n    m    ,    .    /    rsft
-              fn   lctl lalt @leis spc  @rkna ralt
+              lctl lalt @leis spc                     @rkna fn  ralt
             )
           '';
         };
