@@ -30,6 +30,10 @@
       url = "github:cffnpwr/nixpkgs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -42,11 +46,13 @@
       cffnpwr-nixpkgs,
       flake-parts,
       zen-browser,
+      vscode-extensions,
       ...
     }:
     let
       nixpkgsOverlays = [
         cffnpwr-nixpkgs.overlays.default
+        vscode-extensions.overlays.default
       ];
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
