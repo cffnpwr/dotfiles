@@ -27,10 +27,6 @@ apply = ["defer"]
 github = "psprint/zsh-navigation-tools"
 apply = ["defer"]
 
-[plugins.local-zsh-completions]
-local = "~/.config/zsh/site-functions/"
-apply = ["defer", "fpath"]
-
 [plugins.starship]
 inline = 'eval "$(starship init zsh)"'
 
