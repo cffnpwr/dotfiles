@@ -1,6 +1,8 @@
 {
   "recommendations": [
-    "casualjim.gotemplate",
-    "kdl-org.kdl"
+    "arrterian.nix-env-selector",
+    "jnoortheen.nix-ide",
+    "bbenoist.nix",
+    "brettm12345.nixfmt-vscode"
   ]
 }
