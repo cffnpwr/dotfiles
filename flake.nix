@@ -41,6 +41,7 @@
       agenix,
       cffnpwr-nixpkgs,
       flake-parts,
+      zen-browser,
       ...
     }:
     let
@@ -93,6 +94,7 @@
                           imports = [
                             ./modules/home-manager
                             agenix.homeManagerModules.default
+                            zen-browser.homeModules.default
                           ]
                           ++ (builtins.attrValues cffnpwr-nixpkgs.homeModules);
                         };
