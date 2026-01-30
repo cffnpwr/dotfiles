@@ -1,16 +1,16 @@
-{ ... }:
+{ osConfig, ... }:
 {
   programs.git = {
     enable = true;
 
     settings = {
       user = {
-        name = "CaffeinePower";
-        email = "cffnpwr@gmail.com";
+        name = osConfig.username;
+        email = osConfig.email;
       };
 
       init = {
-        templatedir = "~/.config/git/template";
+        defaultBranch = "main";
       };
 
       ghq = {

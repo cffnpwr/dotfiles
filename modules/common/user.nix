@@ -15,6 +15,12 @@ in
       description = "default username";
     };
 
+    email = lib.mkOption {
+      type = lib.types.str;
+      default = "cffnpwr@gmail.com";
+      description = "default user email";
+    };
+
     homeDirectory = lib.mkOption {
       type = lib.types.str;
       description = "User home directory";
