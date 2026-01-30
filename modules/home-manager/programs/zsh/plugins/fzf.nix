@@ -44,7 +44,7 @@ let
       procedure = ''
         local selected_dir=$(${lib.getExe' pkgs.ghq "ghq"} list -p | ${lib.getExe' pkgs.fzf "fzf"} --layout reverse --height 40% --query "$LBUFFER")
         if [ -n "$selected_dir" ]; then
-            BUFFER="${lib.getExe' pkgs.zoxide "z"} ''${selected_dir}"
+            BUFFER="$(_is_command z && echo "z" || echo "cd") ''${selected_dir}"
             zle accept-line
         fi
       '';
@@ -57,7 +57,7 @@ let
         local selected_dir=$(${lib.getExe' pkgs.git "git"} worktree list | ${lib.getExe' pkgs.fzf "fzf"} --layout reverse --height 40% --query "$LBUFFER")
         if [ -n "$selected_dir" ]; then
             local worktree_path=''${selected_dir%% *}
-            BUFFER="${lib.getExe' pkgs.zoxide "z"} $worktree_path"
+            BUFFER="$(_is_command z && echo "z" || echo "cd") ''$worktree_path"
             zle accept-line
         fi
       '';
@@ -72,6 +72,10 @@ in
     #!${lib.getExe' pkgs.zsh "zsh"}
 
     # fzf plugin functions for zsh
+
+    function _is_command() {
+      command -v "$1" >/dev/null
+    }
 
     ${lib.concatMapStringsSep "\n\n" (fn: fn.function) functions}
 
