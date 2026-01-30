@@ -7,12 +7,12 @@
     settings = {
       # Font Configuration
       font-family = [
-        "0xProto Nerd Font"
+        "0xProto Nerd Font Mono"
         "Koruri"
       ];
-      font-family-bold = "0xProto Nerd Font";
-      font-family-italic = "0xProto Nerd Font";
-      font-family-bold-italic = "0xProto Nerd Font";
+      font-family-bold = "0xProto Nerd Font Mono";
+      font-family-italic = "0xProto Nerd Font Mono";
+      font-family-bold-italic = "0xProto Nerd Font Mono";
       font-size = 13;
 
       # Theme and Appearance
