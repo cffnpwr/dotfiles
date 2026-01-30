@@ -43,6 +43,11 @@
       flake-parts,
       ...
     }:
+    let
+      nixpkgsOverlays = [
+        cffnpwr-nixpkgs.overlays.default
+      ];
+    in
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "aarch64-darwin"
@@ -54,11 +59,7 @@
       flake =
         let
           overlays = [
-            ({
-              nixpkgs.overlays = [
-                cffnpwr-nixpkgs.overlays.default
-              ];
-            })
+            { nixpkgs.overlays = nixpkgsOverlays; }
           ];
         in
         {
@@ -113,7 +114,7 @@
         {
           _module.args.pkgs = import nixpkgs {
             inherit system;
-            overlays = [ cffnpwr-nixpkgs.overlays.default ];
+            overlays = nixpkgsOverlays;
             config.allowUnfree = true;
           };
 
