@@ -1,14 +1,138 @@
-# Structured CLAUDE.md
+---
+name: structured-claude-md
+description: Create well-organized CLAUDE.md files with companion documentation for Claude Code projects. Use when (1) setting up CLAUDE.md for a new project, (2) refactoring large or unstructured CLAUDE.md files, (3) adding new workflow documentation, (4) improving Claude's effectiveness in a project, (5) creating project documentation standards, or (6) organizing project-specific guidance into a structured .claude/docs/ hierarchy.
+---
 
-Create well-organized CLAUDE.md files with companion documentation for Claude Code projects.
+# Structured CLAUDE.md Creation Guide
 
-## Overview
+Create well-organized CLAUDE.md documentation ecosystems for Claude Code projects.
 
-This skill provides a complete workflow for creating structured CLAUDE.md documentation:
+## Core Philosophy
 
-- **Main CLAUDE.md**: Concise entry point with navigation
-- **`.claude/docs/`**: Detailed documentation split by concern
-- **Supports**: New project creation AND existing project refactoring
+CLAUDE.md is not a README for humans. It is an instruction set for Claude Code. Every line should help Claude perform tasks more effectively.
+
+### Documentation Ecosystem
+
+A Claude Code project's documentation consists of three components:
+
+```
+CLAUDE.md                 # Entry point: project identity + navigation
+.claude/docs/             # Detailed reference and workflow documentation
+.claude/skills/           # Reusable behavioral instructions (Skills)
+```
+
+Each component serves a distinct purpose. Do not conflate them.
+
+### Guiding Principles
+
+**Progressive Disclosure**: CLAUDE.md provides overview and navigation. Detailed information lives in `.claude/docs/`. Claude reads CLAUDE.md on every conversation start, but reads linked documents only when relevant tasks arise.
+
+**Task-Oriented Navigation**: Organize documentation around tasks Claude will perform, not around project structure or technology categories.
+
+**Actionable Content**: Every section should contain instructions Claude can act on. Avoid passive descriptions or background information that does not inform action.
+
+**Appropriate Granularity**: Split documentation when content serves different tasks. Keep documentation together when it serves the same task. Do not split purely for line count reduction.
+
+## CLAUDE.md Design
+
+### Required Sections
+
+**Project Summary**: 2-3 sentences describing what the project is and its core architectural principle. This gives Claude essential context for every interaction.
+
+**Critical Rules**: The rules that, if violated, cause the most damage. These belong directly in CLAUDE.md because Claude reads it every time. Link to detailed rules document for elaboration.
+
+**Quick Start**: Essential commands Claude needs to build, test, and deploy. Only include commands Claude will actually use.
+
+**Task Navigation**: The most important section. Maps common tasks to the documentation files that contain detailed guidance. Use "When doing X → Read Y" format.
+
+**Project Structure**: Brief directory overview showing where code lives. Focus on the organizational pattern, not exhaustive listing.
+
+### Optional Sections
+
+- **Development Tools**: Key tools and their roles (only if non-obvious)
+- **Commit Convention**: If the project uses a specific format
+- **Available Skills**: List skills Claude can invoke for specialized guidance
+
+### What Does NOT Belong in CLAUDE.md
+
+- Detailed step-by-step workflows (→ `.claude/docs/workflows/`)
+- Complete architecture documentation (→ `.claude/docs/reference/`)
+- Troubleshooting guides (→ `.claude/docs/troubleshooting.md`)
+- Reusable behavioral rules or standards (→ `.claude/skills/`)
+- Information that only applies to specific tasks
+
+## `.claude/docs/` Organization
+
+### Directory Structure
+
+```
+.claude/docs/
+├── critical/              # Rules that MUST be followed always
+│   └── rules.md
+├── reference/             # Lookup information
+│   ├── architecture.md    # Project architecture details
+│   ├── commands.md        # Full command reference
+│   └── [domain].md        # Domain-specific reference
+├── workflows/             # Step-by-step task guides
+│   ├── [task-name].md
+│   └── [category]/        # Group related workflows
+│       └── [subtask].md
+└── troubleshooting.md     # Common errors and solutions
+```
+
+### Content Categorization
+
+Determine where content belongs based on how Claude uses it:
+
+| Usage Pattern | Location | Example |
+|---|---|---|
+| Must follow on every interaction | CLAUDE.md (Critical Rules) | "Never edit files in home directory directly" |
+| Needed when performing a specific task | `.claude/docs/workflows/` | "How to add a new Nix module" |
+| Needed for understanding context | `.claude/docs/reference/` | "Project architecture overview" |
+| Must never be violated | `.claude/docs/critical/` | "Detailed security requirements" |
+| Needed when debugging | `.claude/docs/troubleshooting.md` | "Common build errors" |
+| Reusable behavioral standards | `.claude/skills/` | "Code quality standards" |
+
+### When to Split Documentation
+
+Split when:
+- Content serves different tasks (a workflow doc and a reference doc)
+- A section is only needed for specific scenarios (not every conversation)
+- Subcategories within a workflow are independent (e.g., "adding programs" vs "adding services")
+
+Keep together when:
+- Content is always needed together for a single task
+- Splitting would force Claude to read multiple files for one operation
+- The content is short enough that splitting adds navigation overhead without benefit
+
+## Skills vs Documentation
+
+### When to Create a Skill
+
+Skills (`.claude/skills/` or project-local) are appropriate for:
+
+- **Reusable behavioral standards**: Code quality rules, writing standards, review checklists
+- **Cross-project guidance**: Standards that apply beyond a single project
+- **On-demand expertise**: Specialized knowledge invoked only when relevant
+- **Workflow protocols**: Multi-step processes with specific rules (e.g., git operations, PR creation)
+
+### When to Use `.claude/docs/` Instead
+
+Documentation is appropriate for:
+
+- **Project-specific context**: Architecture, directory structure, conventions unique to this project
+- **Task instructions**: Step-by-step guides for project operations
+- **Reference material**: Commands, path mappings, configuration details
+- **Troubleshooting**: Project-specific error resolution
+
+### Key Distinction
+
+Skills define **how Claude should behave** (standards, rules, methods).
+Documentation provides **project-specific knowledge** (what exists, where things are, how this project works).
+
+### Creating Skills
+
+Use the built-in `skill-creator` skill for creating new Skills. It provides comprehensive guidance on skill structure, frontmatter, and content design.
 
 ## Workflow
 
@@ -16,397 +140,92 @@ This skill provides a complete workflow for creating structured CLAUDE.md docume
 
 **For New Projects:**
 
-1. Identify project type (library, application, framework, etc.)
-2. Determine primary language and framework
-3. List key workflows users will perform
-4. Identify critical rules or constraints
+1. Identify project type, primary language, and framework
+2. List the tasks Claude will most commonly perform
+3. Identify critical rules and constraints
+4. Determine which standards could be reusable Skills
 
 **For Existing Projects:**
 
-1. Read current CLAUDE.md (if exists)
-2. Analyze codebase structure
-3. Identify undocumented conventions
-4. List pain points or missing guidance
+1. Read current CLAUDE.md and `.claude/docs/` structure
+2. Identify content that is misplaced (e.g., detailed workflows in CLAUDE.md)
+3. Find gaps: what tasks lack documentation?
+4. Check for content that should be a Skill instead of documentation
 
-**Questions to Ask User:**
+**Ask the User:**
 
-```
-Before creating documentation, I need to understand your project:
-
-1. What is the primary purpose of this project?
-2. What are the critical rules Claude must follow? (e.g., "never edit X directly")
-3. What are the main workflows? (e.g., "add feature", "fix bug", "deploy")
-4. Any specific tools or commands Claude should use?
-```
+Before creating documentation, confirm:
+- What are the critical rules Claude must follow?
+- What are the main tasks Claude will perform?
+- Are there reusable standards that should be Skills?
 
 ### Phase 2: Design
 
-**Determine Documentation Structure:**
-
-```
-CLAUDE.md                          # Entry point (keep SHORT)
-.claude/
-├── docs/
-│   ├── critical/                  # Non-negotiable rules
-│   │   └── rules.md
-│   ├── reference/                 # Lookup information
-│   │   ├── architecture.md
-│   │   ├── commands.md
-│   │   └── [domain-specific].md
-│   ├── workflows/                 # Step-by-step guides
-│   │   ├── [workflow-1].md
-│   │   ├── [workflow-2].md
-│   │   └── [category]/
-│   │       └── [sub-workflow].md
-│   └── troubleshooting.md         # Common issues
-└── rules/                         # Auto-loaded rules (optional)
-    └── [context].md
-```
-
-**Section Assignment Guidelines:**
-
-| Content Type | Location |
-|---|---|
-| Project summary | CLAUDE.md |
-| Critical rules (MUST follow) | `.claude/docs/critical/rules.md` |
-| Architecture overview | `.claude/docs/reference/architecture.md` |
-| Command reference | `.claude/docs/reference/commands.md` |
-| Step-by-step workflows | `.claude/docs/workflows/` |
-| Common errors and fixes | `.claude/docs/troubleshooting.md` |
+1. Categorize all content into: critical rules, reference, workflows, troubleshooting, skills
+2. Design the `.claude/docs/` directory structure
+3. Plan CLAUDE.md sections and navigation links
+4. Identify which Skills are needed (if any)
 
 ### Phase 3: Creation
 
-**Step 1: Create Main CLAUDE.md**
+1. Create `.claude/docs/` directory structure
+2. Write detailed documents for each category
+3. Write CLAUDE.md as the entry point with navigation
+4. Create Skills if identified in Phase 2
 
-Use the template in the Templates section below. Keep it SHORT:
-- Project summary (2-3 sentences)
-- Critical rules summary (link to full rules)
-- Quick start section
-- Task navigation with links to `.claude/docs/`
-- Brief structure overview
+### Phase 4: Verification
 
-**Step 2: Create `.claude/docs/` Structure**
+1. Verify all links in CLAUDE.md point to existing files
+2. Check that every common task has a navigation entry
+3. Confirm critical rules are visible in CLAUDE.md
+4. Test discoverability: can Claude find the right document for each task?
 
-Create directories and files based on design phase.
+## Writing Guidelines
 
-**Step 3: Write Content**
+### For Instructions
 
-For each document:
-1. Start with clear heading and purpose
-2. Use consistent formatting
-3. Include examples where helpful
-4. Cross-reference related documents
+- Use imperative mood: "Run `nix build`" not "You should run `nix build`"
+- Be specific: "Edit `modules/home-manager/programs/zsh/default.nix`" not "Edit the Zsh config"
+- Provide the exact command or file path Claude needs
 
-**Step 4: Verify Navigation**
+### For Rules
 
-Ensure all links in CLAUDE.md point to existing files.
+- State what is prohibited and what is required
+- Explain why briefly (Claude follows rules better when it understands the reason)
+- Provide the correct alternative for each prohibition
 
-## Templates
+### For Navigation
 
-### Main CLAUDE.md Template
-
-```markdown
-# CLAUDE.md
-
-This file provides guidance to Claude Code when working with this repository.
-
-## Project Summary
-
-[2-3 sentence description of the project]
-
-**Tech Stack:** [Primary technologies]
-
-## Critical Rules
-
-[Brief summary of most important rules - 3-5 bullet points max]
-
-**Full critical rules**: `.claude/docs/critical/rules.md`
-
-## Quick Start
-
-[Essential commands to get started]
-
-```bash
-# Example commands
-[command 1]
-[command 2]
-```
-
-**Full command reference**: `.claude/docs/reference/commands.md`
-
-## Task Navigation
-
-### [Task Category 1]
-**Task**: [Description of when to use]
-
-→ Read: `.claude/docs/workflows/[workflow].md`
-
-### [Task Category 2]
-**Task**: [Description of when to use]
-
-→ Read: `.claude/docs/workflows/[workflow].md`
-
-### Troubleshooting
-**Task**: Debug errors, fix issues
-
-→ Read: `.claude/docs/troubleshooting.md`
-
-## Project Structure
-
-```
-[Brief directory tree showing key locations]
-```
-
-**Full architecture**: `.claude/docs/reference/architecture.md`
-```
-
-### Critical Rules Template
+Use consistent task-based format:
 
 ```markdown
-# Critical Rules
+### [Task Category]
+**Task**: [When this applies]
 
-Rules that MUST be followed in all circumstances.
-
-## Absolute Requirements
-
-### Rule 1: [Rule Name]
-
-**NEVER:** [What is prohibited]
-**ALWAYS:** [What is required]
-
-**Why:** [Brief explanation]
-
-### Rule 2: [Rule Name]
-
-...
-
-## Common Violations to Avoid
-
-1. [Violation description] → [Correct approach]
-2. [Violation description] → [Correct approach]
+→ Read: `.claude/docs/workflows/[file].md`
 ```
 
-### Workflow Template
+### For Reference Material
 
-```markdown
-# [Workflow Name]
-
-## When to Use
-
-Use this workflow when:
-- [Condition 1]
-- [Condition 2]
-
-## Prerequisites
-
-- [Prerequisite 1]
-- [Prerequisite 2]
-
-## Step-by-Step Process
-
-### Step 1: [Step Name]
-
-[Description]
-
-```bash
-# Commands if applicable
-```
-
-### Step 2: [Step Name]
-
-...
-
-## Common Issues
-
-**Issue:** [Description]
-**Solution:** [How to fix]
-
-## Related Workflows
-
-- [Link to related workflow 1]
-- [Link to related workflow 2]
-```
-
-### Architecture Reference Template
-
-```markdown
-# Architecture Reference
-
-## Project Overview
-
-[Description of project architecture]
-
-**Key Technologies:**
-- **[Tech 1]**: [Purpose]
-- **[Tech 2]**: [Purpose]
-
-## Directory Structure
-
-```
-[Full directory tree with annotations]
-```
-
-## [Component/Module] System
-
-### [Subsystem 1]
-
-[Description]
-
-### [Subsystem 2]
-
-[Description]
-
-## Data Flow
-
-[Description of how data moves through the system]
-
-## Best Practices
-
-### Do
-- [Best practice 1]
-- [Best practice 2]
-
-### Don't
-- [Anti-pattern 1]
-- [Anti-pattern 2]
-```
-
-### Troubleshooting Template
-
-```markdown
-# Troubleshooting
-
-## Common Errors
-
-### Error: [Error Message or Type]
-
-**Cause:** [Why this happens]
-
-**Solution:**
-```bash
-# Fix command
-```
-
-**Prevention:** [How to avoid in future]
-
----
-
-### Error: [Error Message or Type]
-
-...
-
-## Debug Checklist
-
-When encountering issues:
-
-1. [ ] [Check item 1]
-2. [ ] [Check item 2]
-3. [ ] [Check item 3]
-
-## Getting Help
-
-[How to escalate or get additional help]
-```
-
-## Best Practices
-
-### CLAUDE.md Design Principles
-
-**DO:**
-- Keep main CLAUDE.md SHORT (fits in one screen)
-- Use task-based navigation ("When doing X, read Y")
-- Link to detailed docs instead of embedding
-- Update docs when workflows change
-- Include examples in workflow docs
-
-**DON'T:**
-- Put all content in single CLAUDE.md
-- Duplicate information across files
-- Use vague section titles
-- Assume Claude knows project context
-- Forget to update links when restructuring
-
-### Writing Style
-
-**For Instructions:**
-- Use imperative mood ("Run command" not "You should run")
-- Be specific ("Edit `src/config.ts`" not "Edit the config")
+- Use tables for mappings and lookups
 - Include concrete examples
+- Keep structure scannable
 
-**For Rules:**
-- Use NEVER/ALWAYS for absolute rules
-- Explain the "why" briefly
-- Provide correct alternative for each prohibition
+## Refactoring Existing Documentation
 
-### Content Organization
+### Assessment
 
-**Principle: Progressive Disclosure**
+1. **Misplacement**: Is detailed content in CLAUDE.md that belongs in `.claude/docs/`?
+2. **Gaps**: Are there tasks Claude performs without documented guidance?
+3. **Redundancy**: Is the same information in multiple places?
+4. **Discoverability**: Can Claude find the right document via CLAUDE.md navigation?
+5. **Skill Candidates**: Is there behavioral guidance that should be a reusable Skill?
 
-```
-Level 1: CLAUDE.md
-         → What is this project?
-         → What are the critical rules?
-         → Where do I find detailed info?
+### Process
 
-Level 2: docs/workflows/, docs/reference/
-         → Step-by-step guides
-         → Detailed reference information
-
-Level 3: Inline code comments
-         → Implementation-specific notes
-```
-
-## Refactoring Existing CLAUDE.md
-
-### Assessment Checklist
-
-1. **Length Check**: Is CLAUDE.md > 200 lines? → Needs splitting
-2. **Navigation Check**: Can Claude find info for specific tasks? → Needs structure
-3. **Duplicate Check**: Is information repeated? → Needs consolidation
-4. **Currency Check**: Is information outdated? → Needs update
-
-### Refactoring Steps
-
-1. **Inventory** current content sections
-2. **Categorize** into: critical rules, reference, workflows, troubleshooting
-3. **Extract** each category to appropriate `.claude/docs/` file
-4. **Condense** CLAUDE.md to summary + navigation
-5. **Verify** all links work
-6. **Test** by asking Claude to perform common tasks
-
-### Migration Pattern
-
-**Before (monolithic):**
-```markdown
-# CLAUDE.md
-[500 lines of mixed content]
-```
-
-**After (structured):**
-```markdown
-# CLAUDE.md
-[50 lines: summary + navigation]
-
-.claude/docs/
-├── critical/rules.md      [50 lines]
-├── reference/
-│   ├── architecture.md    [100 lines]
-│   └── commands.md        [80 lines]
-├── workflows/
-│   ├── feature.md         [60 lines]
-│   └── bugfix.md          [40 lines]
-└── troubleshooting.md     [70 lines]
-```
-
-## When to Use This Skill
-
-- Setting up CLAUDE.md for a new project
-- Refactoring large/unstructured CLAUDE.md
-- Adding new workflow documentation
-- Improving Claude's effectiveness in a project
-- Creating project documentation standards
-
-## Example Invocation
-
-```
-User: "Help me create a structured CLAUDE.md for this project"
+1. Inventory all existing content
+2. Categorize each piece: critical rules, reference, workflow, troubleshooting, skill
+3. Move content to appropriate locations
+4. Rewrite CLAUDE.md as navigation entry point
+5. Extract reusable standards into Skills
+6. Verify all links and navigation paths

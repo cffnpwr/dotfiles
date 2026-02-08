@@ -1,3 +1,8 @@
+---
+name: git-operations
+description: Git workflow guidelines and slash command usage for version control operations. Use when (1) user requests Git operations (commit, push, PR, branch, etc.), (2) explaining Git workflow or commands, (3) handling Git errors, (4) suggesting appropriate Git commands, (5) reviewing Git history, or (6) guiding users to appropriate slash commands like /commit or /pr instead of natural language requests.
+---
+
 # Git Operations
 
 Git workflow guidelines and slash command usage for version control operations.

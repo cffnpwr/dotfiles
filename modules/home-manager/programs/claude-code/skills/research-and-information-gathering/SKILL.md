@@ -1,3 +1,8 @@
+---
+name: research-and-information-gathering
+description: Deep research methodology for unfamiliar technologies and accurate information retrieval. Use when (1) encountering unfamiliar libraries, frameworks, or technologies, (2) researching API documentation, (3) investigating error messages or debugging guidance, (4) finding best practices for specific implementations, (5) verifying information freshness and source credibility, (6) resolving conflicting information from multiple sources, or (7) needing version-specific or time-sensitive technical information.
+---
+
 # Research and Information Gathering
 
 Deep research methodology for unfamiliar technologies and accurate information retrieval.

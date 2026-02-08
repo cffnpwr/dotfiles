@@ -1,3 +1,8 @@
+---
+name: code-quality-standards
+description: Professional code quality and design principles covering DRY, YAGNI, KISS, SOLID principles, error handling, security considerations, and testing requirements. Use when (1) starting code implementation, (2) reviewing code for quality, (3) refactoring existing code, (4) debugging errors and issues, (5) making architectural decisions, or (6) ensuring code follows best practices and established conventions.
+---
+
 # Code Quality Standards
 
 Professional code quality and design principles for implementation and review.
