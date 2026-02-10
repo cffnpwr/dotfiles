@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 {
   imports = [
     ./user.nix
@@ -7,9 +7,14 @@
     ./services.nix
   ];
 
-  # Let Determinate Nix handle Nix configuration
-  nix = {
-    enable = false;
-    optimise.automatic = false;
+  # Determinate Nix configuration
+  determinateNix = {
+    enable = true;
+    customSettings = {
+      trusted-users = [
+        "root"
+        config.username
+      ];
+    };
   };
 }

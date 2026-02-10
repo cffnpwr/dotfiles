@@ -25,6 +25,7 @@
         home-manager.follows = "home-manager";
       };
     };
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.15.2";
     flake-parts.url = "github:hercules-ci/flake-parts";
     cffnpwr-nixpkgs = {
       url = "github:cffnpwr/nixpkgs-extras/5138f403393b34d5985034e0b1f0486bf8784cff";
@@ -43,6 +44,7 @@
       nix-darwin,
       home-manager,
       agenix,
+      determinate,
       cffnpwr-nixpkgs,
       flake-parts,
       zen-browser,
@@ -80,11 +82,12 @@
                 overlays
                 ++ (builtins.attrValues cffnpwr-nixpkgs.darwinModules)
                 ++ [
+                  inputs.determinate.darwinModules.default
+                  home-manager.darwinModules.home-manager
+
                   ./modules/common
                   ./modules/darwin
                   ./hosts/cpwr-mba2
-
-                  home-manager.darwinModules.home-manager
 
                   (
                     { config, pkgs, ... }:
