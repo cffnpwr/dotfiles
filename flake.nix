@@ -29,7 +29,10 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     cffnpwr-nixpkgs = {
       url = "github:cffnpwr/nixpkgs-extras/5138f403393b34d5985034e0b1f0486bf8784cff";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
     };
     vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
