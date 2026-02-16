@@ -25,6 +25,12 @@ in
       type = lib.types.str;
       description = "User home directory";
     };
+
+    sshPublicKey = lib.mkOption {
+      type = lib.types.str;
+      default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIElBJtWJa3BS8FTy3t7UO31pi/3MsSMHTEkkILOsBQtF";
+      description = "SSH public key";
+    };
   };
 
   config = {

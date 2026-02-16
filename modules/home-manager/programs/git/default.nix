@@ -27,14 +27,14 @@
 
       gpg = {
         ssh = {
-          allowedSignersFile = "~/.config/git/allowed_signers";
+          allowedSignersFile = "${osConfig.homeDirectory}/.config/git/allowed_signers";
         };
       };
     };
 
     signing = {
       format = "ssh";
-      key = "~/.ssh/id_ed25519.pub";
+      key = "${osConfig.homeDirectory}/.ssh/id_ed25519.pub";
       signByDefault = true;
     };
 
@@ -49,4 +49,8 @@
       ".worktrees/"
     ];
   };
+
+  xdg.configFile."git/allowed_signers".text = ''
+    ${osConfig.email} namespaces="git" ${osConfig.sshPublicKey}
+  '';
 }
