@@ -10,5 +10,6 @@
   "explorer.fileNesting.patterns": {
     "*.nix": "${capture}.test.nix",
     "flake.nix": "flake.lock",
+    "AGENTS.md": "CLAUDE.md",
   },
 }

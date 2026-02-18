@@ -8,7 +8,9 @@
     ./git
     ./jujutsu
     ./mas
+    ./mcp
     ./mise
+    ./opencode
     ./sheldon
     ./ssh
     ./starship

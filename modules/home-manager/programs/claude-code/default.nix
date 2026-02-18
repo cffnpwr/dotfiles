@@ -27,6 +27,8 @@ in
 {
   programs.claude-code = {
     enable = true;
+    package = pkgs.llm-agents.claude-code;
+    enableMcpIntegration = true;
 
     # Global CLAUDE.md memory
     memory.source = ./CLAUDE.md;
@@ -205,35 +207,9 @@ in
         command = "mise x -- ccusage statusline";
       };
     };
-
-    mcpServers = {
-      github = {
-        type = "http";
-        url = "https://api.githubcopilot.com/mcp/";
-        headers.Authorization = "Bearer \${GITHUB_MCP_TOKEN}";
-      };
-
-      serena = {
-        type = "stdio";
-        command = lib.getExe' pkgs.uv "uvx";
-        args = [
-          "--from"
-          "git+https://github.com/oraios/serena"
-          "serena"
-          "start-mcp-server"
-          "--context"
-          "ide-assistant"
-          "--enable-web-dashboard"
-          "false"
-        ];
-      };
-    };
   };
 
   home = {
-    # Set environment variable for GitHub MCP token from agenix secret
-    sessionVariables.GITHUB_MCP_TOKEN = "$(${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.github-token.path})";
-
     # Declaratively manage Claude Code skills using home.file
     #
     # NOTE: Cannot use programs.claude-code.skills with fetchFromGitHub

@@ -65,12 +65,6 @@
         $HOME/.local/bin(N-/)
         /usr/local/sbin(N-/)
         /usr/local/bin(N-/)
-        $path
-      )
-
-      # mise - use shims for non-interactive shells, activate for interactive shells
-      eval "$(mise activate zsh)"
-      path=(
         $HOME/.local/share/mise/shims(N-/)
         $path
       )

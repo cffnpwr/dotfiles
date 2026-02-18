@@ -38,6 +38,10 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -52,12 +56,14 @@
       flake-parts,
       zen-browser,
       vscode-extensions,
+      llm-agents,
       ...
     }:
     let
       nixpkgsOverlays = [
-        cffnpwr-nixpkgs.overlays.default
         vscode-extensions.overlays.default
+        llm-agents.overlays.default
+        cffnpwr-nixpkgs.overlays.default
       ];
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
