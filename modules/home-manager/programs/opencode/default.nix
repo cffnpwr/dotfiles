@@ -80,5 +80,9 @@ in
       source = ./skills/structured-claude-md;
       recursive = true;
     };
+    "opencode/skills/jj-reference" = {
+      source = ./skills/jj-reference;
+      recursive = true;
+    };
   };
 }
