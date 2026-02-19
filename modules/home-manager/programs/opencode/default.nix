@@ -2,7 +2,7 @@
   pkgs,
   ...
 }:
-let # Fetch Claude Code skill repositories
+let # Fetch skill repositories
   ccconfigs = pkgs.fetchFromGitHub {
     owner = "dhruvbaldawa";
     repo = "ccconfigs";
@@ -14,12 +14,6 @@ let # Fetch Claude Code skill repositories
     repo = "awesome-claude-code";
     rev = "6b717ff581d27d13e152d65cb00acb5befc37b1f";
     hash = "sha256-ztIJq8WDHJ2baR/QUf8q7jF4UT661Z5JXElJUiJpd+M=";
-  };
-  anthropic-skills = pkgs.fetchFromGitHub {
-    owner = "anthropics";
-    repo = "skills";
-    rev = "69c0b1a0674149f27b61b2635f935524b6add202";
-    hash = "sha256-pllFZoWRdtLliz/5pLWks0V9nKFMzeWoRcmFgu2UWi8=";
   };
 in
 {
@@ -34,9 +28,14 @@ in
     settings = { };
   };
 
-  # Declaratively manage Claude Code skills using home.file
+  home = {
+    # Set environment variable to enable WebSearch tool in opencode
+    sessionVariables.OPENCODE_ENABLE_EXA = "1";
+  };
+
+  # Declaratively manage OpenCode skills using xdg.configFile
   #
-  # NOTE: Cannot use programs.claude-code.skills with fetchFromGitHub
+  # NOTE: Cannot use programs.opencode.skills with fetchFromGitHub
   #
   # The home-manager module uses lib.isPath and lib.pathIsDirectory to determine
   # whether to create a directory (.claude/skills/{name}/) or file (.claude/skills/{name}.md).
@@ -62,7 +61,7 @@ in
       recursive = true;
     };
     "opencode/skills/skill-creator" = {
-      source = anthropic-skills + "/skills/skill-creator";
+      source = ./skills/skill-creator;
       recursive = true;
     };
     "opencode/skills/writing-japanese-documents" = {
@@ -75,10 +74,6 @@ in
     };
     "opencode/skills/research-and-information-gathering" = {
       source = ./skills/research-and-information-gathering;
-      recursive = true;
-    };
-    "opencode/skills/git-operations" = {
-      source = ./skills/git-operations;
       recursive = true;
     };
     "opencode/skills/structured-claude-md" = {

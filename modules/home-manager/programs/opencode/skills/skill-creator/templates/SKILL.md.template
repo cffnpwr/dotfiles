@@ -1,0 +1,146 @@
+---
+name: {{SKILL_NAME}}
+description: TODO - Complete and comprehensive description of what this skill does and when to use it. Include specific scenarios, file types, or tasks that should trigger this skill. The description is the primary mechanism for skill triggering, so be detailed and include all relevant use cases.
+compatibility: |
+  TODO - REQUIRED FIELD - All skills must declare their environment dependencies
+  
+  Assessment checklist:
+  □ Check scripts/ directory for language files (.py, .js, .sh, .rb, .pl, .php, .ps1, .r, .lua)
+  □ Run: python scripts/assess_compatibility.py . (if assess_compatibility.py is available)
+  □ Or follow manual assessment guide in references/compatibility-guide.md
+  □ Or use SubAgent to analyze dependencies
+  
+  Common declaration patterns:
+  - Python scripts: "Required: Python 3.11+, [package-names]"
+  - Node.js scripts: "Required: Node.js 22+, [package-names]"
+  - Bash scripts: "Required: Bash"
+  - Multiple languages: "Required: Python 3.11+, Node.js 22+"
+  - No dependencies: "No external dependencies. Works in all environments with standard AI Agent tools."
+  
+  IMPORTANT: Remove this TODO section and replace with actual compatibility declaration.
+---
+
+# {{SKILL_TITLE}}
+
+## Overview
+
+TODO - 1-2 sentences explaining what this skill enables and its primary purpose.
+
+## Environment Requirements
+
+TODO - If this skill has external dependencies (as declared in compatibility field above):
+
+Include environment check instructions for users. Example for Python-based skill:
+
+```bash
+# Check Python version
+python3 --version  # Should be 3.11 or higher
+
+# Check required packages
+pip3 show package-name
+```
+
+If dependencies are missing, inform the user with clear installation guidance:
+
+> "This skill requires [dependency name and version]. Please install with: [installation command]"
+> 
+> For example:
+> - Python 3.11+: Visit python.org or use your system package manager
+> - Package installation: `pip3 install package-name`
+
+If the skill has NO external dependencies, state:
+
+> "This skill has no external dependencies and works in all environments with standard AI Agent tools."
+
+## Structuring This Skill
+
+TODO - Choose the structure that best fits this skill's purpose. Common patterns:
+
+**1. Workflow-Based** (best for sequential processes)
+- Works well when there are clear step-by-step procedures
+- Example: Document processing with decision tree → reading → creating → editing flows
+- Structure: ## Overview → ## Workflow Decision Tree → ## Step 1 → ## Step 2...
+
+**2. Task-Based** (best for tool collections)
+- Works well when the skill offers different operations/capabilities
+- Example: File manipulation with separate operations for different tasks
+- Structure: ## Overview → ## Quick Start → ## Task Category 1 → ## Task Category 2...
+
+**3. Reference/Guidelines** (best for standards or specifications)
+- Works well for brand guidelines, coding standards, or requirements
+- Example: Brand styling with color palettes, typography, usage guidelines
+- Structure: ## Overview → ## Guidelines → ## Specifications → ## Usage...
+
+**4. Capabilities-Based** (best for integrated systems)
+- Works well when the skill provides multiple interrelated features
+- Example: API integration with numbered capability list
+- Structure: ## Overview → ## Core Capabilities → ### 1. Feature → ### 2. Feature...
+
+Patterns can be mixed and matched as needed. Most skills combine patterns (e.g., start with task-based, add workflow for complex operations).
+
+**Delete this entire "Structuring This Skill" section when done** - it's just guidance for skill development.
+
+## [TODO: Replace with Main Content Sections]
+
+TODO - Implement your skill's main instructions here based on the structure chosen above.
+
+Guidelines:
+- Use concrete examples with realistic user requests
+- Include code samples for technical skills
+- Provide decision trees for complex workflows
+- Reference bundled resources (scripts/, references/, assets/) as needed
+- Keep this file under 500 lines; move detailed content to references/
+
+## Resources
+
+This skill includes example resource directories. Customize or delete as needed:
+
+### scripts/
+Executable code (Python/Bash/Node.js/etc.) for deterministic operations.
+
+**When to include:**
+- Repeated code patterns that would be rewritten each time
+- Operations requiring exact, error-free execution
+- Complex algorithms or data processing
+
+**Benefits:**
+- Token efficient (scripts can execute without loading into context)
+- Deterministic and tested
+- Reusable across multiple skill invocations
+
+**Note:** AI Agents may still read scripts for understanding or patching.
+
+### references/
+Documentation and reference material loaded into context as needed.
+
+**When to include:**
+- Detailed API documentation
+- Database schemas
+- Comprehensive workflow guides
+- Domain knowledge and policies
+- Information too lengthy for SKILL.md
+
+**Benefits:**
+- Keeps SKILL.md concise
+- Progressive disclosure (loaded only when needed)
+- Separate concerns (instructions vs reference material)
+
+**Best practice:** For files >10k words, include grep search patterns in SKILL.md.
+
+### assets/
+Files used in output generation, not loaded into context.
+
+**When to include:**
+- Templates (document templates, boilerplate code)
+- Images, icons, logos
+- Fonts
+- Sample data files
+
+**Benefits:**
+- Separates output resources from documentation
+- Enables file reuse without context window consumption
+- Supports template-based generation
+
+---
+
+**Delete any unneeded resource directories.** Not every skill requires all three types.

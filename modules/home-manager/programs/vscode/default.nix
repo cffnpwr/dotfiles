@@ -57,8 +57,8 @@
         vscode-icons-team.vscode-icons
 
         # Global extensions
-        # Claude code
-        anthropic.claude-code
+        # opencode
+        sst-dev.opencode
         # Path Intellisense
         christian-kohler.path-intellisense
         # EditorConfig

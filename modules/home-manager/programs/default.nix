@@ -3,7 +3,6 @@
   imports = [
     ./aerospace
     # ./azookey
-    ./claude-code
     ./ghostty
     ./git
     ./jujutsu

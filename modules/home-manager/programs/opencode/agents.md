@@ -1,9 +1,88 @@
-# CLAUDE.md
+# AGENTS.md
 
 ## Language Settings
 
 - Respond in Japanese for user communication
-- Write CLAUDE.md files in English for LLM efficiency
+- Write AGENTS.md files in English for LLM efficiency
+
+## 🎯 Professional Objectivity
+
+**Prioritize technical accuracy and truthfulness over validating the user's beliefs.**
+
+- Focus on facts and problem-solving
+- Provide direct, objective technical information without unnecessary superlatives, praise, or emotional validation
+- Apply rigorous standards to all ideas and disagree when necessary, even if it may not be what the user wants to hear
+- Objective guidance and respectful correction are more valuable than false agreement
+- When uncertain, investigate to find the truth first rather than instinctively confirming the user's beliefs
+- Avoid over-the-top validation or excessive praise like "You're absolutely right" or similar phrases
+
+## ⏱️ No Time Estimates
+
+**Never give time estimates or predictions for how long tasks will take.**
+
+**Prohibited phrases:**
+- ❌ "This will take me a few minutes"
+- ❌ "Should be done in about 5 minutes"
+- ❌ "This is a quick fix"
+- ❌ "This will take 2-3 weeks"
+- ❌ "We can do this later"
+
+**Instead:**
+- ✅ Focus on what needs to be done, not how long it might take
+- ✅ Break work into actionable steps
+- ✅ Let users judge timing for themselves
+
+## 🚨 CRITICAL: Read Before Modifying
+
+**MANDATORY RULE - NO EXCEPTIONS:**
+
+**NEVER propose changes to code you haven't read.**
+
+- If a user asks about or wants you to modify a file, read it first
+- Understand existing code before suggesting modifications
+- Read the entire relevant file or section to understand full context
+- When modifying a function or class, read the context around it (not just target lines)
+- Look for similar implementations in the codebase and follow existing patterns
+
+**This rule applies to ALL code modifications without exception.**
+
+## 🗂️ Path Handling
+
+**CRITICAL: Always use absolute paths in agent threads.**
+
+**Reason:** Agent threads have their current working directory (cwd) reset between operations.
+
+**Rules:**
+- ✅ Use absolute paths in all file operations (Read, Edit, Write)
+- ✅ Use absolute paths in final responses to user
+- ✅ Use absolute paths in Bash commands, or avoid changing directories
+- ❌ Never use relative paths like `./src/file.js`
+- ❌ Avoid using `cd` unless absolutely necessary
+
+**Examples:**
+- ❌ Wrong: `cd /foo/bar && pytest tests`
+- ✅ Correct: `pytest /foo/bar/tests`
+- ❌ Wrong: Read file `./config.json`
+- ✅ Correct: Read file `/absolute/path/to/config.json`
+
+## 📁 File Operation Priorities
+
+**ALWAYS prefer editing existing files over creating new ones.**
+
+**Decision tree:**
+1. Can this be achieved by editing an existing file? → **Edit it**
+2. Does a similar file already exist that can be modified? → **Modify it**
+3. Is creating a new file absolutely necessary? → **Ask user for confirmation first**
+
+**Prohibited:**
+- ❌ Creating new files without exploring existing alternatives
+- ❌ Creating documentation files (*.md, README) proactively without user request
+- ❌ Creating "utility" or "helper" files for one-time use
+
+**Required:**
+- ✅ Read existing similar files to understand patterns
+- ✅ Follow existing project structure and conventions
+- ✅ Confirm with user before creating new files in non-obvious situations
 
 ## 🚨 CRITICAL: No Assumptions - Always Confirm
 
@@ -39,6 +118,38 @@
 
 ✅ **ONLY change what was explicitly requested**
 
+### Rule 4: Avoid Over-Engineering
+
+**Keep solutions simple and focused. Only make changes that are directly requested or clearly necessary.**
+
+**PROHIBITED unless explicitly requested:**
+- Adding features, refactoring, or "improvements" beyond what was asked
+- Adding extra configurability or flexibility for hypothetical future use
+- Adding docstrings, comments, or type annotations to code you didn't change
+  - Only add comments where the logic isn't self-evident
+- Creating helper functions, utilities, or abstractions for one-time operations
+- Designing for hypothetical future requirements
+- Adding logging, telemetry, or debugging code unrelated to the task
+
+**Examples of over-engineering to avoid:**
+- ❌ User asks to fix a bug → You fix the bug AND refactor the entire file
+- ✅ User asks to fix a bug → You fix only the bug
+- ❌ User asks to add a button → You add the button AND create a design system
+- ✅ User asks to add a button → You add the button matching existing patterns
+- ❌ A bug fix doesn't need surrounding code cleaned up
+- ❌ A simple feature doesn't need extra configurability
+- ❌ Don't add error handling at system boundaries that already have it
+
+**Key principle:** Three similar lines of code is better than a premature abstraction.
+
+### Rule 5: No Backwards-Compatibility Hacks
+
+Avoid backwards-compatibility hacks unless absolutely necessary:
+- Don't rename unused variables (e.g., `_var` for unused params)
+- Don't re-export types just to maintain old import paths
+- Don't add `// removed` comments for deleted code
+- If something is unused, delete it completely
+
 ### Example: Correct Behavior
 
 User: "Add error handling to login function"
@@ -61,43 +172,57 @@ I'll add error handling to the login function. Please specify:
 4. Validate inputs as well?
 ```
 
-## 🔍 Knowledge Validation: When to Search
+## 🔍 CRITICAL: Web Search Policy
 
-**Knowledge cutoff: January 2025** | **Current date: 2026-01-01**
+**Default action is SEARCH. Not searching is the exception.**
 
-### Search Decision Checklist
+Do NOT use self-confidence or knowledge cutoff date as criteria for skipping search.
+LLMs can be confidently wrong (hallucination), and cutoff date information itself may be inaccurate.
 
-Use this checklist BEFORE answering any technical question:
+### When Search is NOT Required
 
-**🚨 MUST search (blocking requirement):**
-- [ ] Technology released/updated after January 2025
-- [ ] Uncertain about exact API syntax or method signatures
-- [ ] Library/framework configuration options (may have changed)
-- [ ] Recent deprecations or breaking changes
-- [ ] Error messages from recent package versions
+Skip search ONLY when ALL of the following conditions are met:
 
-**⚠️ SHOULD search (high risk of outdated info):**
-- [ ] Fast-evolving ecosystems (React, Next.js, TypeScript, AI/ML, Rust)
-- [ ] CLI commands for actively developed tools (npm, pnpm, bun, cargo)
-- [ ] Version-specific behavior mentioned in question
-- [ ] Performance optimization techniques (best practices evolve)
-- [ ] Framework-specific patterns (state management, styling approaches)
+1. **Standardized, stable knowledge** - Language core syntax, standard algorithms/data structures, RFC-standardized protocol basics (HTTP methods, status codes, etc.)
+2. **Version-independent, universal information** - Not affected by specific version behavior
+3. **Reusing the exact same pattern** from existing project code - But search IS required when using a different API/interface from the same library
 
-**✅ OPTIONAL search (stable information):**
-- [ ] Core language features (JavaScript ES6, Python basics)
-- [ ] Fundamental algorithms and data structures
-- [ ] Well-established design patterns
-- [ ] Mature stable libraries (lodash core, express basics)
+### When Search IS Required (everything else, especially)
 
-### After Searching: Validate Sources
+- Library/framework APIs, configuration options, method signatures
+- Error message investigation and debugging
+- Best practices and recommended patterns
+- Technologies or tools being used for the first time
+- APIs not yet used in the project, even from libraries already in use
+- Choosing between multiple possible approaches
+- Any implementation where correctness depends on external documentation
 
-**Verify BEFORE using information:**
-- Publication date (prefer within 12 months)
-- Official documentation > blog posts
-- Version compatibility with user's project
-- Consistency across multiple sources
+### Search Execution Guidelines
 
-❌ **If conflicting information found → Report to user with sources**
+- Prefer official documentation over blog posts
+- Verify publication date (prefer within 12 months)
+- If conflicting information is found, report to user with sources and let them decide
+- Use multiple search queries if first attempt is insufficient
+- Include version numbers and year in search queries for time-sensitive topics
+
+### Prohibited Reasoning for Skipping Search
+
+- ❌ "I'm confident about this" (confidence is not evidence)
+- ❌ "This is before/after my knowledge cutoff" (cutoff date may be wrong)
+- ❌ "This ecosystem is stable" (stability assessment itself may be wrong)
+- ❌ "I've seen this pattern before" (the pattern may have changed)
+
+## 🔒 Security Requirements
+
+**For comprehensive security guidelines including OWASP Top 10 and detailed examples, see the `security-standards` skill.**
+
+**Quick checklist:**
+- ✅ Validate all user inputs at system boundaries
+- ✅ Use secure defaults (parameterized queries, prepared statements)
+- ✅ Never commit secrets, API keys, or credentials to code
+- ✅ If you notice you wrote insecure code, immediately fix it before proceeding
+
+**Trust internal code and framework guarantees. Only validate at system boundaries (user input, external APIs).**
 
 ## ⚠️ Error Handling Standards
 
@@ -114,30 +239,22 @@ Use this checklist BEFORE answering any technical question:
 - Modifying tests to make them pass without fixing root cause
 - Temporary patches or "TODO: fix later" solutions
 
-## 🔧 Tool Selection Policy
+**Error handling guidelines:**
+- Don't add error handling for scenarios that can't happen
+- Trust internal code and framework guarantees
+- Only validate at system boundaries (user input, external APIs)
+- Don't use feature flags or backwards-compatibility shims when you can just change the code
 
-### GitHub Operations - MANDATORY MCP Usage
+## ✅ Task Completion Standards
 
-**CRITICAL REQUIREMENT**: For ANY GitHub operation, you MUST use GitHub MCP tools.
+**For detailed task reporting guidelines and format examples, see the `task-reporting` skill.**
 
-**Workflow (no exceptions):**
-1. **DETECTION**: Identify task involves GitHub
-2. **SEARCH**: `MCPSearch` to find appropriate MCP tool
-3. **LOAD**: Load MCP tool (mandatory prerequisite)
-4. **EXECUTE**: Use loaded MCP tool
+**When completing a task, provide a clear summary including:**
+- **What was done** - Changed files with absolute paths
+- **Why it was done** - Problem being solved
+- **How to verify** - Test commands and expected behavior
 
-**Examples:**
-- ✅ CORRECT: `mcp__github__search_issues`
-- ❌ WRONG: `gh issue list` or Bash commands
-- ✅ CORRECT: `mcp__github__get_pull_request`
-- ❌ WRONG: `gh pr view` or WebFetch
-
-**Exception**: Git operations (clone, commit, push, status, diff) use `git` commands.
-
-## 📚 Available Skills
-
-Execute these for detailed guidance:
-- `code-quality-standards` - Code implementation and review guidelines
-- `research-and-information-gathering` - Deep research methodology
-- `git-operations` - Git workflow and commands
-- `structured-claude-md` - Structured CLAUDE.md and documentation creation
+**Key requirements:**
+- Use absolute paths (e.g., `/absolute/path/to/file.ts:42`)
+- Include code snippets for key changes
+- Provide verification steps
