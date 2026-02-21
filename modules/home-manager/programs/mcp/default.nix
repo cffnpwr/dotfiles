@@ -22,8 +22,9 @@
           "git+https://github.com/oraios/serena"
           "serena"
           "start-mcp-server"
+          "--project-from-cwd"
           "--context"
-          "ide-assistant"
+          "claude-code"
           "--enable-web-dashboard"
           "false"
         ];
