@@ -47,6 +47,17 @@
 
         # Security settings
         "security.workspace.trust.untrustedFiles" = "open";
+
+        # JSON schema settings
+        # Allow downloading JSON schemas from trusted domains
+        "json.schemaDownload.trustedDomains" = {
+          "https://schemastore.azurewebsites.net/" = true;
+          "https://raw.githubusercontent.com/" = true;
+          "https://www.schemastore.org/" = true;
+          "https://json.schemastore.org/" = true;
+          "https://json-schema.org/" = true;
+          "https://docs.renovatebot.com" = true;
+        };
       };
 
       extensions = with pkgs.nix-vscode-extensions.vscode-marketplace-release; [
