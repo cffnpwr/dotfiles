@@ -40,9 +40,11 @@
         "github.copilot.nextEditSuggestions.enabled" = true;
 
         # File nesting
+        "explorer.fileNesting.enabled" = true;
         "explorer.fileNesting.patterns" = {
           "flake.nix" = "flake.lock";
           "*.nix" = "\${capture}.test.nix";
+          "AGENTS.md" = "CLAUDE.md";
         };
 
         # Security settings
