@@ -8,6 +8,10 @@ let
       installation_mode = "force_installed";
     }
   );
+
+  # Workspace UUIDs
+  defaultSpaceId = "1e9b5412-c41f-47bc-82cf-41248b19ad46";
+  tmcitSpaceId = "e3594164-6dfc-4450-8073-3a25ab5c9f11";
 in
 {
   programs.zen-browser = {
@@ -30,9 +34,9 @@ in
 
         # Zen Workspaces (Spaces) - declarative management
         spaces = {
-          space = {
-            name = "Space";
-            id = "1e9b5412-c41f-47bc-82cf-41248b19ad46";
+          default = {
+            name = "Default space";
+            id = defaultSpaceId;
             position = 1000;
             icon = "chrome://browser/skin/zen-icons/selectable/cafe.svg";
             container = 1;
@@ -83,7 +87,7 @@ in
           };
           tmcit = {
             name = "tmcit";
-            id = "e3594164-6dfc-4450-8073-3a25ab5c9f11";
+            id = tmcitSpaceId;
             position = 2000;
             icon = "chrome://browser/skin/zen-icons/selectable/school.svg";
             container = 2;
@@ -141,6 +145,7 @@ in
             id = "2af105b4-6c89-40cd-aa49-1a81b42344ac";
             url = "https://submarin.online/";
             container = 1;
+            workspace = defaultSpaceId;
             position = 0;
             isEssential = true;
           };
@@ -148,6 +153,7 @@ in
             id = "e0ee94d5-2560-45c8-9ca3-37995a77c132";
             url = "https://www.youtube.com/";
             container = 1;
+            workspace = defaultSpaceId;
             position = 1;
             isEssential = true;
           };
@@ -155,6 +161,7 @@ in
             id = "ae95b3cd-33af-493f-aca0-96e39009e9ef";
             url = "https://mail.google.com/mail/u/0/#inbox";
             container = 1;
+            workspace = defaultSpaceId;
             position = 2;
             isEssential = true;
           };
@@ -162,6 +169,7 @@ in
             id = "e04d0b68-e2a4-4577-a300-fdae82a49260";
             url = "https://github.com/";
             container = 1;
+            workspace = defaultSpaceId;
             position = 3;
             isEssential = true;
           };
@@ -170,6 +178,7 @@ in
             id = "63c76868-9bee-440f-8609-1aedcac43dd7";
             url = "https://calendar.google.com/calendar/u/0/r?pli=1";
             container = 1;
+            workspace = defaultSpaceId;
             position = 4;
             isEssential = true;
           };
@@ -178,6 +187,7 @@ in
             id = "8266cc43-a0f4-4173-9161-4cf8d7822e11";
             url = "https://messages.google.com/web/conversations";
             container = 1;
+            workspace = defaultSpaceId;
             position = 5;
             isEssential = true;
           };
@@ -187,14 +197,16 @@ in
             id = "3ed02d85-2992-4884-a3f2-8f31efa10975";
             url = "https://webcit-5.edu.metro-cit.ac.jp/gnumbers/33729";
             container = 2;
-            position = 0;
+            workspace = tmcitSpaceId;
+            position = 6;
             isEssential = true;
           };
           tmcit-mail = {
             id = "1b2a46a9-c134-4118-9db4-84d40333ddf7";
             url = "https://mail.google.com/mail/u/0/#inbox";
             container = 2;
-            position = 1;
+            workspace = tmcitSpaceId;
+            position = 7;
             isEssential = true;
           };
         };
