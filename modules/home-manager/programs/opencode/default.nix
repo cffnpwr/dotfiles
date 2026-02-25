@@ -76,8 +76,8 @@ in
       source = ./skills/research-and-information-gathering;
       recursive = true;
     };
-    "opencode/skills/structured-claude-md" = {
-      source = ./skills/structured-claude-md;
+    "opencode/skills/structured-agents-md" = {
+      source = ./skills/structured-agents-md;
       recursive = true;
     };
     "opencode/skills/jj-reference" = {
