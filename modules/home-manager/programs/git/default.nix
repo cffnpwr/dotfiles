@@ -47,6 +47,9 @@
 
       # git worktrees and jj workspaces
       ".worktrees/"
+
+      # scratch files
+      ".scratches/"
     ];
   };
 
