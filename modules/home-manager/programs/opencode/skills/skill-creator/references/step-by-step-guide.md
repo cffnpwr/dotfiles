@@ -77,11 +77,27 @@ For each concrete example from Step 1:
 
 ### Decision Framework
 
+**Use a one-off command (no scripts/ directory) when:**
+- An existing package already does what you need
+- `uvx tool@version`, `npx tool@version`, `go run pkg@version`, etc. run it directly
+- The command is simple enough to get right on the first try
+- Pin the version in the command itself (e.g., `npx eslint@9.0.0`)
+
 **Create a script when:**
 - Same code pattern appears in multiple examples
 - Operation requires deterministic, error-free execution
 - Complex algorithm or data processing
 - External tool integration with specific flags/options
+- Command would be hard to get right without a tested, bundled script
+
+**Design scripts for agentic execution:**
+- No interactive prompts (agents operate in non-interactive shells)
+- Accept input via flags, env vars, or stdin
+- Implement `--help` output with usage examples
+- Use structured output (JSON/CSV) to stdout; diagnostics to stderr
+- Support `--dry-run` for destructive operations
+- Use meaningful exit codes and document them
+- Make operations idempotent (agents may retry)
 
 **Create a reference file when:**
 - API documentation or schema information
@@ -303,8 +319,19 @@ Start with scripts, references, and assets (from Step 2).
 1. Implement functionality
 2. Add shebang line (`#!/usr/bin/env python3`)
 3. Add docstring explaining purpose and usage
-4. Test by running directly
-5. Make executable: `chmod +x scripts/script.py`
+4. Implement `--help` output (how agents learn your script's interface)
+5. Ensure no interactive prompts — all input via flags, env vars, or stdin
+6. Use structured output (JSON/CSV) to stdout; diagnostics to stderr
+7. Add `--dry-run` for destructive operations
+8. Use meaningful exit codes; document them in `--help`
+9. Test by running directly
+10. Make executable: `chmod +x scripts/script.py`
+
+**Self-contained scripts (no separate install step):**
+- Python: Use PEP 723 inline metadata, run with `uv run scripts/extract.py`
+- Deno: Use `npm:` or `jsr:` import specifiers, run with `deno run scripts/extract.ts`
+- Bun: Version-pinned imports auto-install at runtime, run with `bun run scripts/extract.ts`
+- Ruby: Use `bundler/inline` gemfile block, run with `ruby scripts/extract.rb`
 
 **For references:**
 1. Write comprehensive documentation

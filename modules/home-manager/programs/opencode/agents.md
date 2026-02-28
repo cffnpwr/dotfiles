@@ -90,6 +90,46 @@ User: "Fix the bug in parseConfig"
 (Done. I also noticed the function could benefit from refactoring — want me to do that?)
 ```
 
+## Temporary Tool Usage: nix-shell
+
+**When a CLI tool is not available in the current environment, use `nix-shell` to run it temporarily. Do NOT install it globally.**
+
+### Why
+
+- The system is managed by Nix. Installing tools globally via `brew install`, `npm install -g`, `pip install`, etc. creates untracked state that may be overwritten or conflict with Nix-managed packages.
+- `nix-shell -p <package>` provides a clean, reproducible, temporary environment with no side effects.
+
+### How
+
+```bash
+# ❌ WRONG — installs globally, creates untracked state
+brew install ripgrep
+npm install -g typescript
+pip install httpie
+
+# ✅ CORRECT — temporary, no side effects
+nix-shell -p ripgrep --run "rg <pattern> <path>"
+nix-shell -p nodePackages.typescript --run "tsc --version"
+nix-shell -p httpie --run "http GET https://example.com"
+```
+
+For interactive use:
+
+```bash
+# Enter a shell with the tool available, then exit when done
+nix-shell -p ripgrep
+```
+
+### Mandatory Pre-Installation Check
+
+**Before running ANY install command**, ask yourself:
+
+1. Is this tool available via `nix-shell -p <package>`? → **Use nix-shell**
+2. Is a permanent installation explicitly requested by the user? → **Ask which Nix module to add it to**
+3. Is there no Nix package available? → **Inform the user and ask how to proceed**
+
+**Never run package manager install commands (`brew`, `npm -g`, `pip`, `cargo install`, etc.) without explicit user instruction.**
+
 ## Version Control: jj-First Policy
 
 **This project uses Jujutsu (jj) as the primary VCS. Always use jj commands instead of git.**

@@ -2,12 +2,50 @@
 
 Complete guide for determining and documenting skill dependencies.
 
+## One-off Commands (No scripts/ Required)
+
+When an existing package already does what you need, instruct agents to run it directly — no `scripts/` directory needed. State the prerequisite in your compatibility field instead.
+
+### Runners by Ecosystem
+
+| Runner | Ecosystem | Prerequisite | Example |
+|--------|-----------|--------------|---------|
+| `uvx` | Python | uv | `uvx ruff@0.8.0 check .` |
+| `pipx run` | Python | pipx | `pipx run 'black==24.10.0' .` |
+| `npx` | Node.js | Node.js + npm | `npx eslint@9.0.0 --fix .` |
+| `bunx` | Node.js (Bun) | Bun | `bunx eslint@9 --fix .` |
+| `deno run` | Deno | Deno | `deno run npm:create-vite@6 my-app` |
+| `go run` | Go | Go | `go run golang.org/x/tools/cmd/goimports@v0.28.0 .` |
+
+**Tips:**
+- Always pin versions (e.g., `npx eslint@9.0.0`) for reproducibility
+- State prerequisites in `compatibility` field (e.g., "Requires Node.js 18+ (npx bundled)")
+- Use one-off commands for simple invocations; move complex commands into a bundled script
+
+**Compatibility declarations for one-off commands:**
+```yaml
+# npm tool via npx
+compatibility: |
+  Required: Node.js 18+ (npx bundled with npm)
+
+# Python tool via uvx
+compatibility: |
+  Required: uv (https://docs.astral.sh/uv/)
+
+# Go tool via go run
+compatibility: |
+  Required: Go 1.21+
+```
+
 ## Quick Reference Decision Tree
 
 ```
 Does scripts/ directory exist?
-├─ No
-│  └─ Compatibility: "No external dependencies. Works in all environments."
+├─ No (using one-off commands or pure instructions)
+│  ├─ Using uvx/pipx → compatibility: uv or pipx required
+│  ├─ Using npx/bunx → compatibility: Node.js/Bun required
+│  ├─ Using go run  → compatibility: Go required
+│  └─ Pure instructions → "No external dependencies."
 │
 └─ Yes
    │
