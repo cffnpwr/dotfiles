@@ -84,5 +84,9 @@ in
       source = ./skills/jj-reference;
       recursive = true;
     };
+    "opencode/skills/problem-investigation" = {
+      source = ./skills/problem-investigation;
+      recursive = true;
+    };
   };
 }
