@@ -54,7 +54,7 @@ If Python 3.11+ is not available:
    ```bash
    python scripts/assess_compatibility.py my-skill-name/
    ```
-   
+
 4. Update compatibility field in SKILL.md based on assessment
 
 5. Validate:
@@ -171,7 +171,7 @@ Files used in output, not loaded into context:
 
 Compiled languages (Go, Rust, C/C++, Java) are **not recommended** due to:
 - Platform-specific binaries
-- Compilation requirements  
+- Compilation requirements
 - Distribution complexity
 
 If compiled tools are necessary:
