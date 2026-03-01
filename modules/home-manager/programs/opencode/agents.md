@@ -130,6 +130,23 @@ nix-shell -p ripgrep
 
 **Never run package manager install commands (`brew`, `npm -g`, `pip`, `cargo install`, etc.) without explicit user instruction.**
 
+## GitHub Resources: Use gh CLI
+
+**When accessing any GitHub resource (issues, PRs, repos, releases, etc.), use `gh` instead of WebFetch.**
+
+**Reason:** GitHub pages use client-side rendering (JavaScript). WebFetch fetches raw HTML without JavaScript execution and will return incomplete or empty content. `gh` calls the GitHub API directly and returns complete, structured data.
+
+- Load the `gh-reference` skill for command details when accessing GitHub resources
+- Use `gh api` for arbitrary GitHub API calls not covered by other subcommands
+
+```bash
+# ❌ WRONG — JavaScript not executed, page content missing
+WebFetch("https://github.com/owner/repo/issues/123")
+
+# ✅ CORRECT — direct API access, complete data
+gh issue view 123 --repo owner/repo
+```
+
 ## Version Control: jj-First Policy
 
 **This project uses Jujutsu (jj) as the primary VCS. Always use jj commands instead of git.**

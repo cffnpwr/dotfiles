@@ -88,5 +88,9 @@ in
       source = ./skills/problem-investigation;
       recursive = true;
     };
+    "opencode/skills/gh-reference" = {
+      source = ./skills/gh-reference;
+      recursive = true;
+    };
   };
 }
