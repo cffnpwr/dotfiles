@@ -9,12 +9,6 @@ let # Fetch skill repositories
     rev = "451b604718d39fcc2c008d22e550bdf60c7115da";
     hash = "sha256-7V1xG2FmzqWdnWmVV6WWKBAvY6QHWo+UKzh0Uu/Xg/w=";
   };
-  awesome-claude-code = pkgs.fetchFromGitHub {
-    owner = "ai-digital-architect";
-    repo = "awesome-claude-code";
-    rev = "6b717ff581d27d13e152d65cb00acb5befc37b1f";
-    hash = "sha256-ztIJq8WDHJ2baR/QUf8q7jF4UT661Z5JXElJUiJpd+M=";
-  };
 in
 {
   programs.opencode = {
@@ -57,7 +51,7 @@ in
       recursive = true;
     };
     "opencode/skills/markdown-standards" = {
-      source = awesome-claude-code + "/.claude/skills/markdown-standards";
+      source = ./skills/markdown-standards;
       recursive = true;
     };
     "opencode/skills/skill-creator" = {
