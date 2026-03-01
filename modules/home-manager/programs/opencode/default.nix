@@ -64,8 +64,8 @@ in
       source = ./skills/skill-creator;
       recursive = true;
     };
-    "opencode/skills/writing-japanese-documents" = {
-      source = ./skills/writing-japanese-documents;
+    "opencode/skills/ja-writing" = {
+      source = ./skills/ja-writing;
       recursive = true;
     };
     "opencode/skills/code-quality-standards" = {
