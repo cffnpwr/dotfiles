@@ -24,6 +24,20 @@
         }
 
         {
+          normal = {
+            _children = [
+              {
+                bind = {
+                  _args = [ "Ctrl f" ];
+                  ToggleFloatingPanes = { };
+                  SwitchToMode = "Normal";
+                };
+              }
+            ];
+          };
+        }
+
+        {
           resize = {
             _children = [
               {
