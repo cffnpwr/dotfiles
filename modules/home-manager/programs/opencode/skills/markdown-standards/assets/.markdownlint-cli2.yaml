@@ -2,3 +2,12 @@ config:
   default: true
   MD024:
     siblings_only: true
+  MD033:
+    allowed_elements:
+      - details
+      - summary
+ignores:
+  - ".agents/**/*.md"
+  - "**/AGENTS.md"
+  - ".claude/**/*.md"
+  - "**/CLAUDE.md"

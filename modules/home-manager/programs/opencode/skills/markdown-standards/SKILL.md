@@ -53,19 +53,32 @@ Configuration below only when no project config exists.
 
 ## Default Rule Configuration
 
-The default config in `assets/.markdownlint-cli2.yaml` enables all rules with one customization:
+The default config in `assets/.markdownlint-cli2.yaml` enables all rules with customizations:
 
 ```yaml
 config:
   default: true
   MD024:
     siblings_only: true
+  MD033:
+    allowed_elements:
+      - details
+      - summary
+ignores:
+  - ".agents/**/*.md"
+  - "**/AGENTS.md"
 ```
 
-All rules are enabled (`default: true`). MD024 is set to `siblings_only: true` to allow
-duplicate headings across different sections (e.g., multiple `### Parameters` in different
-parent sections). The `config:` wrapper is required by the `.markdownlint-cli2.yaml` options
-file format.
+All rules are enabled (`default: true`). Key customizations:
+
+- **MD024** — `siblings_only: true` allows duplicate headings across different sections
+  (e.g., multiple `### Parameters` under different parent headings)
+- **MD033** — `<details>` and `<summary>` HTML elements are allowed for GitHub-compatible
+  collapsible sections; all other inline HTML remains prohibited
+- **ignores** — Coding Agent instruction files (`.agents/**/*.md`, `**/AGENTS.md`) are
+  excluded from linting; these files target LLMs and may use unconventional formatting
+
+The `config:` wrapper is required by the `.markdownlint-cli2.yaml` options file format.
 
 ## Interpreting Results
 

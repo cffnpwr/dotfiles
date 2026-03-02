@@ -185,9 +185,9 @@ no blank line before this block
 
 ---
 
-## MD033 — No inline HTML
+## MD033 — No inline HTML (allowed: details, summary)
 
-NG example (inline HTML):
+NG example (non-allowed inline HTML — note: <details>/<summary> are allowed and must NOT appear here):
 
 <br>Line break via HTML.
 

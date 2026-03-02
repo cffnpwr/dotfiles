@@ -198,9 +198,16 @@ Paragraph after list.
 
 ---
 
-## MD033 — No inline HTML
+## MD033 — No inline HTML (allowed: details, summary)
 
 Plain text without inline HTML.
+
+<details>
+<summary>Collapsible section title</summary>
+
+Content inside a collapsible section.
+
+</details>
 
 ---
 
