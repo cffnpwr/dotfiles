@@ -45,6 +45,7 @@
           "flake.nix" = "flake.lock";
           "*.nix" = "\${capture}.test.nix";
           "AGENTS.md" = "CLAUDE.md";
+          "README.md" = "README-*.md, README.*.md";
         };
 
         # Security settings
