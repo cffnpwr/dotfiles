@@ -14,16 +14,25 @@ compatibility: |
 Enforce Markdown quality through markdownlint-cli2 static analysis combined with
 AI-supplementary rules.
 
-## Setup
+## Running markdownlint-cli2
 
-When no project config exists, copy the default config from this skill's `assets/` directory:
+When no project config exists, use the default config from this skill's `assets/` directory
+via the `--config` flag without copying it to the project:
 
 ```bash
 SKILL_ASSETS="$HOME/.config/opencode/skills/markdown-standards/assets"
-cp "$SKILL_ASSETS/.markdownlint-cli2.yaml" ./.markdownlint-cli2.yaml
+
+# Lint a single file
+markdownlint-cli2 --config "$SKILL_ASSETS/.markdownlint-cli2.yaml" "path/to/file.md"
+
+# Lint all Markdown files recursively
+markdownlint-cli2 --config "$SKILL_ASSETS/.markdownlint-cli2.yaml" "**/*.md" "#node_modules"
+
+# Auto-fix fixable errors
+markdownlint-cli2 --fix --config "$SKILL_ASSETS/.markdownlint-cli2.yaml" "**/*.md" "#node_modules"
 ```
 
-## Running markdownlint-cli2
+When a project config exists, omit `--config` and let markdownlint-cli2 discover it automatically:
 
 ```bash
 # Lint a single file
