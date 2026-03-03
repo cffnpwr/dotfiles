@@ -1,5 +1,8 @@
 {
   "filters": {},
+  "plugins": {
+    "latex2e": true
+  },
   "rules": {
     "preset-ja-technical-writing": {
       "no-mix-dearu-desumasu": {
@@ -12,7 +15,11 @@
     "@textlint-ja/preset-ai-writing": true,
     "preset-ja-spacing": {
       "ja-space-after-exclamation": false,
-      "ja-space-after-question": false
+      "ja-space-after-question": false,
+      "ja-space-around-code": {
+        "before": false,
+        "after": false
+      }
     },
     "prefer-tari-tari": true,
     "no-mixed-zenkaku-and-hankaku-alphabet": true,

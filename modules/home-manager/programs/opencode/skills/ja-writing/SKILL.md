@@ -18,20 +18,18 @@ Enforce Japanese writing quality through textlint static analysis combined with 
 
 ## Setup
 
-Copy the config files from this skill's `assets/` directory into your working directory, then install dependencies:
+Install dependencies from this skill's `assets/` directory without copying files to the project:
 
 ```bash
 SKILL_ASSETS="$HOME/.config/opencode/skills/ja-writing/assets"
-cp "$SKILL_ASSETS/package.json" ./package.json
-cp "$SKILL_ASSETS/.textlintrc.json" ./.textlintrc.json
-pnpm install
+pnpm install --dir "$SKILL_ASSETS"
 ```
 
 Verify all rules are active with the bundled test file:
 
 ```bash
 SKILL_ASSETS="$HOME/.config/opencode/skills/ja-writing/assets"
-pnpm exec textlint "$SKILL_ASSETS/examples-ng.md"
+pnpm --dir "$SKILL_ASSETS" exec textlint --config "$SKILL_ASSETS/.textlintrc.json" "$SKILL_ASSETS/examples-ng.md"
 ```
 
 Expect errors on every section — this confirms all rules are active.
@@ -39,14 +37,16 @@ Expect errors on every section — this confirms all rules are active.
 ## Running textlint
 
 ```bash
+SKILL_ASSETS="$HOME/.config/opencode/skills/ja-writing/assets"
+
 # Lint a single file
-pnpm exec textlint path/to/file.md
+pnpm --dir "$SKILL_ASSETS" exec textlint --config "$SKILL_ASSETS/.textlintrc.json" path/to/file.md
 
 # Lint all markdown files recursively
-pnpm exec textlint "**/*.md"
+pnpm --dir "$SKILL_ASSETS" exec textlint --config "$SKILL_ASSETS/.textlintrc.json" "**/*.md"
 
 # Auto-fix fixable errors
-pnpm exec textlint --fix path/to/file.md
+pnpm --dir "$SKILL_ASSETS" exec textlint --fix --config "$SKILL_ASSETS/.textlintrc.json" path/to/file.md
 ```
 
 ## Interpreting Results

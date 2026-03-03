@@ -16,6 +16,7 @@
     "textlint-rule-prefer-tari-tari": "1.0.3",
     "textlint-rule-preset-ja-spacing": "2.4.3",
     "textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet": "1.0.1",
-    "textlint-rule-preset-ja-technical-writing": "12.0.2"
+    "textlint-rule-preset-ja-technical-writing": "12.0.2",
+    "textlint-plugin-latex2e": "1.2.1"
   }
 }

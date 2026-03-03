@@ -29,6 +29,9 @@ importers:
       textlint:
         specifier: 15.5.2
         version: 15.5.2
+      textlint-plugin-latex2e:
+        specifier: 1.2.1
+        version: 1.2.1
       textlint-rule-ja-no-orthographic-variants:
         specifier: 2.0.0
         version: 2.0.0
@@ -149,6 +152,9 @@ packages:
 
   '@textlint-rule/textlint-rule-no-unmatched-pair@2.0.4':
     resolution: {integrity: sha512-g9Ge1xUV9xJy8T7nuutF/2J6Cg2mmPx4gKsC3dCdxVxuL0wMqOOnAi8l6psFpAQ5UFtQuAzwkdclrehPtBT5tg==}
+
+  '@textlint/ast-node-types@12.6.1':
+    resolution: {integrity: sha512-uzlJ+ZsCAyJm+lBi7j0UeBbj+Oy6w/VWoGJ3iHRHE5eZ8Z4iK66mq+PG/spupmbllLtz77OJbY89BYqgFyjXmA==}
 
   '@textlint/ast-node-types@13.4.1':
     resolution: {integrity: sha512-qrZyhCh8Ekk6nwArx3BROybm9BnX6vF7VcZbijetV/OM3yfS4rTYhoMWISmhVEP2H2re0CtWEyMl/XF+WdvVLQ==}
@@ -404,6 +410,13 @@ packages:
   comma-separated-tokens@1.0.8:
     resolution: {integrity: sha512-GHuDRO12Sypu2cV70d1dkA2EUmXHgntrzbpvOB+Qy+49ypNfGgFQIC2fhhXbnyrJRynDCAARsT7Ou0M6hirpfw==}
 
+  commander@2.20.3:
+    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
+
+  commander@9.5.0:
+    resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
+    engines: {node: ^12.20.0 || >=14}
+
   commandpost@1.4.0:
     resolution: {integrity: sha512-aE2Y4MTFJ870NuB/+2z1cXBhSBBzRydVVjzhFC4gtenEhpnj15yu0qptWGJsO9YGrcPZ3ezX8AWb1VA391MKpQ==}
 
@@ -633,6 +646,9 @@ packages:
   forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
+
+  fp-ts@2.16.11:
+    resolution: {integrity: sha512-LaI+KaX2NFkfn1ZGHoKCmcfv7yrZsC3b8NtWsTVQeHkq4F27vI5igUuO53sxqDEa2gNQMHFPmpojDw/1zmUK7w==}
 
   fresh@2.0.0:
     resolution: {integrity: sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==}
@@ -958,6 +974,10 @@ packages:
   kuromojin@3.0.1:
     resolution: {integrity: sha512-E4rLmbTid8ZGH8Fw421UXvfgCe0IXGFKhUw/IosBVW6ootxVGKGbtb0UPQAvPswgsXX/8UuPiE+amz1NN11Uzg==}
 
+  latex-utensils@3.0.0:
+    resolution: {integrity: sha512-IhjvVxOPBgSSg1qkS4ytM4wrnwK3sQFR0WGfU2zB18zAcjs7/8cRMfrIDNjugiskoID8HiQlOQR8SnbKQ2owYg==}
+    hasBin: true
+
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -1195,6 +1215,9 @@ packages:
 
   path-to-regexp@8.3.0:
     resolution: {integrity: sha512-7jdwVIRtsP8MYpdXSwOS0YdD0Du+qOoF/AEPIt88PcCFrZCzx41oxku1jD88hZBwbNUIEfpqvuhjFaMAqMTWnA==}
+
+  pegjs-backtrace@0.2.1:
+    resolution: {integrity: sha512-rnVQiHyTE1wZG14Vl3Xk33ecrF7ZJ7ZW7jSgSlw4LdzBuhbyGVQ+oVApQ6tRi4QsII/xHgByHb6Ax68K6SPLhw==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -1447,6 +1470,10 @@ packages:
 
   text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
+
+  textlint-plugin-latex2e@1.2.1:
+    resolution: {integrity: sha512-/4cE0TmgvXCzhPz3KfPoqXRGp0tReHP84KpNigt5KfAPInFoFu/AvUGl0wwOtg9jBKEtOmn+rEllze2Ql80Smw==}
+    hasBin: true
 
   textlint-rule-helper@2.5.0:
     resolution: {integrity: sha512-QIbFPtyqLy0g5BJn8mryk9iHzGYicNaFIpLFPiEnb4RXxrEGeQ2W2aARQ9yEXLIAqo+OwK4ndWBAWkbgJEPzTQ==}
@@ -1866,6 +1893,8 @@ snapshots:
       sentence-splitter: 5.0.0
       textlint-rule-helper: 2.5.0
 
+  '@textlint/ast-node-types@12.6.1': {}
+
   '@textlint/ast-node-types@13.4.1': {}
 
   '@textlint/ast-node-types@15.5.2': {}
@@ -2239,6 +2268,12 @@ snapshots:
 
   comma-separated-tokens@1.0.8: {}
 
+  commander@2.20.3:
+    optional: true
+
+  commander@9.5.0:
+    optional: true
+
   commandpost@1.4.0: {}
 
   content-disposition@1.0.1: {}
@@ -2523,6 +2558,8 @@ snapshots:
   format@0.2.2: {}
 
   forwarded@0.2.0: {}
+
+  fp-ts@2.16.11: {}
 
   fresh@2.0.0: {}
 
@@ -2859,6 +2896,11 @@ snapshots:
       kuromoji: 0.1.2
       lru_map: 0.4.1
 
+  latex-utensils@3.0.0:
+    optionalDependencies:
+      commander: 2.20.3
+      pegjs-backtrace: 0.2.1
+
   levn@0.4.1:
     dependencies:
       prelude-ls: 1.2.1
@@ -3162,6 +3204,9 @@ snapshots:
   path-to-glob-pattern@2.0.1: {}
 
   path-to-regexp@8.3.0: {}
+
+  pegjs-backtrace@0.2.1:
+    optional: true
 
   picocolors@1.1.1: {}
 
@@ -3508,6 +3553,14 @@ snapshots:
       strip-ansi: 6.0.1
 
   text-table@0.2.0: {}
+
+  textlint-plugin-latex2e@1.2.1:
+    dependencies:
+      '@textlint/ast-node-types': 12.6.1
+      fp-ts: 2.16.11
+      latex-utensils: 3.0.0
+    optionalDependencies:
+      commander: 9.5.0
 
   textlint-rule-helper@2.5.0:
     dependencies:
