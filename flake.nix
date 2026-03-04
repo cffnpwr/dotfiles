@@ -65,6 +65,12 @@
         llm-agents.overlays.default
         cffnpwr-nixpkgs.overlays.default
       ];
+      extraSubstituters = [
+        "https://nix-cache.cffnpwr.dev"
+      ];
+      extraTrustedPublicKeys = [
+        "cffnpwr-nixpkgs-extras:dmp2DUGwdqawLCPOsOcRxU/NpCO/qA1jha/8rmoSzvA="
+      ];
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
@@ -86,7 +92,9 @@
           darwinConfigurations = {
             "cpwr-mba2" = nix-darwin.lib.darwinSystem {
               system = "aarch64-darwin";
-              specialArgs = inputs;
+              specialArgs = inputs // {
+                inherit extraSubstituters extraTrustedPublicKeys;
+              };
               modules =
                 overlays
                 ++ (builtins.attrValues cffnpwr-nixpkgs.darwinModules)
@@ -126,7 +134,6 @@
 
       perSystem =
         {
-          config,
           pkgs,
           system,
           ...
@@ -143,93 +150,94 @@
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
               git
-              nil
               nixd
               nixfmt
             ];
           };
 
-          apps = {
-            build = {
-              type = "app";
-              program =
-                let
-                  osName = if pkgs.stdenv.isDarwin then "macOS" else "nixos";
-                  buildCmd = if pkgs.stdenv.isDarwin then "darwin-rebuild" else "nixos-rebuild";
+          apps =
+            let
+              osName = if pkgs.stdenv.isDarwin then "macOS" else "nixos";
+              buildCmd = if pkgs.stdenv.isDarwin then "darwin-rebuild" else "nixos-rebuild";
+              extraOptions = ''
+                --option extra-substituters "${builtins.concatStringsSep " " extraSubstituters}" \
+                --option extra-trusted-public-keys "${builtins.concatStringsSep " " extraTrustedPublicKeys}"'';
+            in
+            {
+              build = {
+                type = "app";
+                program =
+                  let
+                    script = pkgs.writeShellScriptBin "build-nix-system" ''
+                      set -euo pipefail
 
-                  script = pkgs.writeShellScriptBin "build-nix-system" ''
-                    set -euo pipefail
+                      HOST=$(hostname -s)
 
-                    HOST=$(hostname -s)
+                      ${pkgs.gum}/bin/gum log -l info "Building ${osName} system for $HOST..."
 
-                    ${pkgs.gum}/bin/gum log -l info "Building ${osName} system for $HOST..."
+                      ${buildCmd} build --flake ${self}#$HOST ${extraOptions}
 
-                    ${buildCmd} build --flake ${self}#$HOST
+                      ${pkgs.gum}/bin/gum log -l info "Build complete."
+                      ${pkgs.gum}/bin/gum log -l info "To switch to the new configuration, run: \`nix run .#switch\`"
+                    '';
+                  in
+                  script;
+              };
 
-                    ${pkgs.gum}/bin/gum log -l info "Build complete."
-                    ${pkgs.gum}/bin/gum log -l info "To switch to the new configuration, run: \`nix run .#switch\`"
-                  '';
-                in
-                script;
+              switch = {
+                type = "app";
+                program =
+                  let
+                    script = pkgs.writeShellScriptBin "build-nix-system" ''
+                      set -euo pipefail
+
+                      HOST=$(hostname -s)
+
+                      ${pkgs.gum}/bin/gum log -l info "Switching ${osName} system for $HOST..."
+
+                      sudo ${buildCmd} switch --flake ${self}#$HOST ${extraOptions}
+
+                      ${pkgs.gum}/bin/gum log -l info "Switch complete."
+                    '';
+                  in
+                  script;
+              };
+
+              clean-builds = {
+                type = "app";
+                program =
+                  let
+                    script = pkgs.writeShellScriptBin "clean-nix-builds" ''
+                      set -euo pipefail
+
+                      BUILDS_DIR="/nix/var/nix/builds"
+
+                      if [ ! -d "$BUILDS_DIR" ]; then
+                        ${pkgs.gum}/bin/gum log -l info "No builds directory found."
+                        exit 0
+                      fi
+
+                      SIZE=$(sudo du -sh "$BUILDS_DIR" 2>/dev/null | cut -f1)
+                      COUNT=$(ls "$BUILDS_DIR" 2>/dev/null | wc -l | tr -d ' ')
+
+                      if [ "$COUNT" -eq 0 ]; then
+                        ${pkgs.gum}/bin/gum log -l info "No build artifacts to clean."
+                        exit 0
+                      fi
+
+                      ${pkgs.gum}/bin/gum log -l info "Found $COUNT build artifacts ($SIZE)"
+
+                      if ${pkgs.gum}/bin/gum confirm "Delete all build artifacts?"; then
+                        ${pkgs.gum}/bin/gum spin --spinner dot --title "Cleaning build artifacts..." -- sudo rm -rf "$BUILDS_DIR"/*
+                        ${pkgs.gum}/bin/gum log -l info "Build artifacts cleaned."
+                      else
+                        ${pkgs.gum}/bin/gum log -l info "Cancelled."
+                      fi
+                    '';
+                  in
+                  script;
+              };
             };
-
-            switch = {
-              type = "app";
-              program =
-                let
-                  osName = if pkgs.stdenv.isDarwin then "macOS" else "nixos";
-                  buildCmd = if pkgs.stdenv.isDarwin then "darwin-rebuild" else "nixos-rebuild";
-
-                  script = pkgs.writeShellScriptBin "build-nix-system" ''
-                    set -euo pipefail
-
-                    HOST=$(hostname -s)
-
-                    ${pkgs.gum}/bin/gum log -l info "Switching ${osName} system for $HOST..."
-
-                    sudo ${buildCmd} switch --flake ${self}#$HOST
-
-                    ${pkgs.gum}/bin/gum log -l info "Switch complete."
-                  '';
-                in
-                script;
-            };
-
-            clean-builds = {
-              type = "app";
-              program =
-                let
-                  script = pkgs.writeShellScriptBin "clean-nix-builds" ''
-                    set -euo pipefail
-
-                    BUILDS_DIR="/nix/var/nix/builds"
-
-                    if [ ! -d "$BUILDS_DIR" ]; then
-                      ${pkgs.gum}/bin/gum log -l info "No builds directory found."
-                      exit 0
-                    fi
-
-                    SIZE=$(sudo du -sh "$BUILDS_DIR" 2>/dev/null | cut -f1)
-                    COUNT=$(ls "$BUILDS_DIR" 2>/dev/null | wc -l | tr -d ' ')
-
-                    if [ "$COUNT" -eq 0 ]; then
-                      ${pkgs.gum}/bin/gum log -l info "No build artifacts to clean."
-                      exit 0
-                    fi
-
-                    ${pkgs.gum}/bin/gum log -l info "Found $COUNT build artifacts ($SIZE)"
-
-                    if ${pkgs.gum}/bin/gum confirm "Delete all build artifacts?"; then
-                      ${pkgs.gum}/bin/gum spin --spinner dot --title "Cleaning build artifacts..." -- sudo rm -rf "$BUILDS_DIR"/*
-                      ${pkgs.gum}/bin/gum log -l info "Build artifacts cleaned."
-                    else
-                      ${pkgs.gum}/bin/gum log -l info "Cancelled."
-                    fi
-                  '';
-                in
-                script;
-            };
-          };
         };
     };
 }

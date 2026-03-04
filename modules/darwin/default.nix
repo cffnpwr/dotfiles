@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, extraSubstituters, extraTrustedPublicKeys, ... }:
 {
   imports = [
     ./user.nix
@@ -15,6 +15,8 @@
         "root"
         config.username
       ];
+      extra-substituters = extraSubstituters;
+      extra-trusted-public-keys = extraTrustedPublicKeys;
     };
   };
 }
