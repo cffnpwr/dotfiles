@@ -1,9 +1,9 @@
 ---
 name: skill-creator
-description: Guide for creating effective skills with explicit dependency management. Use when creating new skills or updating existing skills. Key improvements over official skill-creator include mandatory compatibility field with assessment workflow, multi-language support (Python 3.11+, Node.js 22+, Bash, Ruby, Perl, PHP, PowerShell, R, Lua), automated dependency detection via assess_compatibility.py, SubAgent review integration, strict validation requiring compatibility declarations, one-off command patterns (uvx/npx/go run), self-contained scripts with inline dependencies (PEP 723/Deno/Bun/Ruby), and agentic script design guidelines. Essential for skill development with proper dependency documentation. Triggers when user wants to create a new skill, package an existing skill, or needs guidance on skill structure, compatibility requirements, or script design for agents.
+description: Guide for creating effective skills with explicit dependency management and eval framework. Use when creating new skills, updating existing skills, or testing skill quality with evals. Key features: mandatory compatibility field, multi-language support (Python 3.11+, Node.js 22+, Bash, Ruby, Perl, PHP, PowerShell, R, Lua), automated dependency detection via assess_compatibility.py, SubAgent review integration, strict validation, one-off command patterns (uvx/npx/go run), self-contained scripts with inline dependencies (PEP 723/Deno/Bun/Ruby), agentic script design guidelines, agent environment detection via detect_env.py, and eval framework for measuring and improving skill quality. Triggers when user wants to create a new skill, package an existing skill, test or improve a skill with evals, or needs guidance on skill structure, compatibility requirements, or script design for agents.
 compatibility: |
   Required: Python 3.11+, PyYAML
-  Scripts: init_skill.py, assess_compatibility.py, quick_validate.py, package_skill.py
+  Scripts: init_skill.py, assess_compatibility.py, quick_validate.py, package_skill.py, detect_env.py, aggregate_benchmark.py
   Note: Python 3.10 may work but reaches EOL in October 2026.
 ---
 
@@ -77,10 +77,33 @@ For comprehensive guidance, see:
 - **[Step-by-Step Guide](references/step-by-step-guide.md)** - Complete workflow from conception to packaging
 - **[Compatibility Assessment](references/compatibility-guide.md)** - Detailed guide for determining dependencies
 - **[Scripting Guide](references/scripting-guide.md)** - One-off commands, self-contained scripts, agentic design
+- **[Scripts Reference](references/scripts-reference.md)** - Full CLI usage for all bundled scripts
 - **[Workflows](references/workflows.md)** - Sequential and conditional workflow patterns
 - **[Output Patterns](references/output-patterns.md)** - Template and example-based skill design
+- **[Eval Guide](references/eval-guide.md)** - Testing, measuring, and improving skills with evals
+- **[Eval Schemas](references/schemas.md)** - JSON schemas for evals.json, grading.json, benchmark.json
 
 ## Core Principles
+
+### Skill Types
+
+Skills fall into two categories. Knowing which type you're building shapes every design decision.
+
+**Capability uplift skills** give agents knowledge or tools they don't already have:
+- Domain-specific APIs, schemas, workflows
+- Bundled scripts for complex operations
+- Reference documentation too large to memorize
+- Examples: pdf-editor, github-workflow, database-migration
+
+**Encoded preference skills** adjust how agents behave, not what they can do:
+- Coding style guides, naming conventions
+- Output format preferences
+- Communication tone or language rules
+- Examples: ja-writing, code-quality-standards, commit-conventions
+
+The distinction matters because:
+- Capability uplift skills need thorough coverage of their domain
+- Encoded preference skills need precise, unambiguous rules (vague preferences produce inconsistent behavior)
 
 ### Concise is Key
 
@@ -111,6 +134,63 @@ This ensures AI Agents can:
 - Provide installation guidance
 
 See [Compatibility Assessment Guide](references/compatibility-guide.md) for details.
+
+### Description Design Philosophy
+
+The `description` field is the agent's only signal for deciding whether to load the skill.
+A poorly written description causes **undertriggering** (skill never loads when needed) or
+**overtriggering** (skill loads on irrelevant tasks, wasting context).
+
+**Guidelines:**
+
+- **100–200 words is the target range.** Too short → undertrigger. Too long → dilutes signal.
+- **"When to use" belongs in `description`, not in SKILL.md body.** The agent reads the description
+  before deciding to load the skill. If trigger conditions are buried in the body, the skill
+  never loads for them.
+- **List concrete triggering scenarios explicitly.** "Use when (1) creating a new skill,
+  (2) packaging an existing skill, (3) testing skill quality" outperforms vague language like
+  "Use for skill-related tasks."
+- **Avoid MUSTs and NEVERs in descriptions.** Strong rules in the description sound like constraints
+  on the agent's general behavior, not guidance on when to load the skill.
+- **Don't optimize for a single phrasing.** Users phrase the same intent many ways. Cover the
+  semantic space, not specific words.
+- **Test with evals.** If triggering is unreliable, run the eval framework with
+  `run_type: "without_skill"` as baseline to confirm the skill is the variable.
+
+**Anti-patterns:**
+- "Use this skill for all skill-related tasks" — too vague, undertriggers
+- Repeating the skill name multiple times — wastes tokens, no signal gain
+- Listing every feature instead of describing when to load — overtriggers on tangential matches
+
+## Eval Framework
+
+Evals measure whether a skill actually improves agent behavior. Use them when:
+- A skill's trigger reliability is uncertain
+- You want to compare two description variants
+- You're making significant changes and need a regression check
+
+**Quick workflow:**
+
+1. Define test cases in `evals/evals.json`
+2. Run each case with the agent (with skill loaded)
+3. Grade results with `agents/grader.md`
+4. Aggregate with `scripts/aggregate_benchmark.py`
+5. Analyze trends with `agents/analyzer.md`
+6. Iterate on description or skill content
+
+The `evals/` directory is **excluded from packaging** — it is a development artifact.
+
+**For the full workflow:** See [references/eval-guide.md](references/eval-guide.md)
+
+**For JSON schemas:** See [references/schemas.md](references/schemas.md)
+
+**Agent environment detection** (required before running evals):
+
+```bash
+python scripts/detect_env.py
+```
+
+Output identifies your agent and the correct headless command for running eval cases.
 
 ## Skill Anatomy
 
@@ -230,71 +310,37 @@ Skills use three-level loading to manage context efficiently:
 - **API Reference**: See [references/api.md](references/api.md)
 ```
 
-## Scripts Documentation
+## Scripts Quick Reference
 
-### init_skill.py
+| Script | Purpose | Run `--help` for full usage |
+|---|---|---|
+| `init_skill.py` | Initialize new skill directory with templates | `python scripts/init_skill.py --help` |
+| `assess_compatibility.py` | Analyze skill for dependencies, output JSON report | `python scripts/assess_compatibility.py --help` |
+| `quick_validate.py` | Validate SKILL.md structure; errors block packaging | `python scripts/quick_validate.py --help` |
+| `package_skill.py` | Package skill into distributable .skill file | `python scripts/package_skill.py --help` |
+| `detect_env.py` | Detect agent environment and headless command | *(see below)* |
+| `aggregate_benchmark.py` | Aggregate grading results into benchmark.json | `python scripts/aggregate_benchmark.py --help` |
 
-Initialize new skill with template structure.
+**Full usage details:** See [references/scripts-reference.md](references/scripts-reference.md)
 
-**Usage:**
+### detect_env.py — Agent Environment Detection
+
+Required before running evals. Run once to identify your agent and headless command:
+
 ```bash
-python scripts/init_skill.py <skill-name> --path <output-directory>
+python scripts/detect_env.py
 ```
 
-**What it creates:**
-- Skill directory with SKILL.md (includes compatibility template)
-- scripts/, references/, assets/ directories with examples
-- Example files demonstrating each resource type
+| Agent | Env var / required value | `agent` field | Headless command |
+|---|---|---|---|
+| Claude Code | `CLAUDECODE` (any) | `claude-code` | `claude -p` |
+| opencode | `OPENCODE` (any) | `opencode` | `opencode run` |
+| Amp | `AGENT=amp` | `amp` | `amp -x` |
+| Goose | `AGENT=goose` | `goose` | `goose run --text` |
+| Codex CLI | `AGENT=codex` | `codex` | `codex exec` |
 
-### assess_compatibility.py
-
-Analyze skill directory for dependencies, output JSON report.
-
-**Usage:**
-```bash
-python scripts/assess_compatibility.py <skill-directory>
-```
-
-**Output:**
-- Detected languages and versions
-- External dependencies (packages, tools)
-- Suggested compatibility declaration
-- Confidence level and warnings
-
-**Supports:** Python, Node.js, Bash analysis; other languages via extension detection
-
-### quick_validate.py
-
-Validate SKILL.md structure and compatibility declarations.
-
-**Usage:**
-```bash
-python scripts/quick_validate.py <skill-directory>
-```
-
-**Validates:**
-- YAML frontmatter format
-- Required fields presence (name, description, compatibility)
-- Field constraints (naming, length, format)
-- Script-dependency consistency
-- Environment check instructions presence
-
-**Errors block packaging. Warnings should be addressed for quality.**
-
-### package_skill.py
-
-Package skill into distributable .skill file.
-
-**Usage:**
-```bash
-python scripts/package_skill.py <skill-directory> [output-directory]
-```
-
-**Process:**
-1. Runs validation automatically
-2. Creates ZIP archive with .skill extension
-3. Maintains directory structure
-4. Only succeeds if validation passes
+`CLAUDECODE` and `OPENCODE` match when set to any value. `AGENT` requires a specific value.
+Use `headless_command` when building eval scripts. Check `subagent_support` before parallel runs.
 
 ## Getting Help
 
@@ -304,9 +350,15 @@ python scripts/package_skill.py <skill-directory> [output-directory]
 
 **For scripting patterns:** See [references/scripting-guide.md](references/scripting-guide.md)
 
+**For script CLI usage:** See [references/scripts-reference.md](references/scripts-reference.md)
+
 **For workflow patterns:** See [references/workflows.md](references/workflows.md)
 
 **For output patterns:** See [references/output-patterns.md](references/output-patterns.md)
+
+**For eval workflow:** See [references/eval-guide.md](references/eval-guide.md)
+
+**For eval schemas:** See [references/schemas.md](references/schemas.md)
 
 **Common issues:**
 - Validation errors → Check SKILL.md frontmatter format and required fields
@@ -314,3 +366,4 @@ python scripts/package_skill.py <skill-directory> [output-directory]
 - Python version error → Upgrade to Python 3.11+
 - PyYAML missing → Install with `pip3 install PyYAML`
 - Script hangs → Check for interactive prompts; all input must come from flags/env/stdin
+- Skill not triggering → Check description covers the scenario; run evals to measure

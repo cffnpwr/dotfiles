@@ -6,13 +6,14 @@ Complete workflow for creating Agent Skills from conception to distribution.
 
 1. Understanding the Skill with Concrete Examples
 2. Planning Reusable Skill Contents
-3. Assessing Compatibility Requirements (NEW in improved-skill-creator)
+3. Assessing Compatibility Requirements
 4. Initializing the Skill
 5. Editing the Skill
 6. Validating the Skill
-7. SubAgent Review (Recommended, NEW)
+7. SubAgent Review
 8. Packaging the Skill
-9. Iteration
+9. Eval Testing
+10. Iteration
 
 ## Step 1: Understanding the Skill with Concrete Examples
 
@@ -25,12 +26,14 @@ Complete workflow for creating Agent Skills from conception to distribution.
 Gather or generate concrete examples of skill usage:
 
 **If working with a user:**
+
 - "What functionality should this skill support?"
 - "Can you give specific examples of how this would be used?"
 - "What would a user say that should trigger this skill?"
 - "Are there edge cases or variations to consider?"
 
 **If creating independently:**
+
 - Generate realistic usage scenarios
 - Imagine different user intents and phrasings
 - Consider variations in complexity and context
@@ -39,6 +42,7 @@ Gather or generate concrete examples of skill usage:
 ### Example: Image Editor Skill
 
 **Questions to answer:**
+
 - Functionality: Editing, rotating, resizing, filtering, format conversion
 - Usage examples:
   - "Remove red-eye from this photo"
@@ -57,6 +61,7 @@ Gather or generate concrete examples of skill usage:
 ### Completion Criteria
 
 You have clear understanding of:
+
 - What the skill does
 - How users will invoke it
 - What variations exist
@@ -78,12 +83,14 @@ For each concrete example from Step 1:
 ### Decision Framework
 
 **Use a one-off command (no scripts/ directory) when:**
+
 - An existing package already does what you need
 - `uvx tool@version`, `npx tool@version`, `go run pkg@version`, etc. run it directly
 - The command is simple enough to get right on the first try
 - Pin the version in the command itself (e.g., `npx eslint@9.0.0`)
 
 **Create a script when:**
+
 - Same code pattern appears in multiple examples
 - Operation requires deterministic, error-free execution
 - Complex algorithm or data processing
@@ -91,6 +98,7 @@ For each concrete example from Step 1:
 - Command would be hard to get right without a tested, bundled script
 
 **Design scripts for agentic execution:**
+
 - No interactive prompts (agents operate in non-interactive shells)
 - Accept input via flags, env vars, or stdin
 - Implement `--help` output with usage examples
@@ -100,6 +108,7 @@ For each concrete example from Step 1:
 - Make operations idempotent (agents may retry)
 
 **Create a reference file when:**
+
 - API documentation or schema information
 - Comprehensive workflow guides
 - Domain knowledge or policies
@@ -107,6 +116,7 @@ For each concrete example from Step 1:
 - Content too detailed for SKILL.md
 
 **Create an asset when:**
+
 - Templates that get copied or customized
 - Images, icons, fonts
 - Boilerplate code or project structures
@@ -117,22 +127,26 @@ For each concrete example from Step 1:
 **Analysis:**
 
 "Rotate this PDF 90 degrees":
+
 - From scratch: Would write Python code each time with PyPDF2
 - Repetition: PDF rotation code pattern
 - Decision: Create `scripts/rotate_pdf.py`
 
 "Fill out this PDF form":
+
 - From scratch: Would discover field names, then write fill code
 - Repetition: Form filling logic
 - Bulk content: Common field name mappings
 - Decision: Create `scripts/fill_form.py` and `references/common-fields.md`
 
 "Merge multiple PDFs":
+
 - From scratch: Would write merge logic with PyPDF2
 - Repetition: Merge code pattern
 - Decision: Create `scripts/merge_pdfs.py`
 
 **Result:**
+
 ```
 pdf-editor/
 ├── scripts/
@@ -153,6 +167,7 @@ pdf-editor/
 ### Completion Criteria
 
 You have a clear list of:
+
 - Scripts to create (with language choice)
 - Reference files to include (with content outline)
 - Assets to bundle (with source identification)
@@ -166,6 +181,7 @@ This is a NEW step in improved-skill-creator. Official skill-creator makes compa
 ### Why This Matters
 
 Without explicit compatibility:
+
 - AI Agents can't check prerequisites before execution
 - Users encounter cryptic errors when dependencies are missing
 - Support burden increases
@@ -183,8 +199,8 @@ python scripts/assess_compatibility.py <skill-directory>
 
 Review JSON output and use suggested compatibility text.
 
-**Pros:** Fast, consistent, catches obvious dependencies  
-**Cons:** May miss dynamic imports, subprocess-invoked tools  
+**Pros:** Fast, consistent, catches obvious dependencies
+**Cons:** May miss dynamic imports, subprocess-invoked tools
 **Best for:** Python/Node.js/Bash skills with straightforward dependencies
 
 #### Method B: SubAgent Delegation
@@ -193,16 +209,16 @@ Use SubAgent to analyze scripts and generate compatibility declaration.
 
 **Prompt template in:** [compatibility-guide.md](compatibility-guide.md#method-2-subagent-delegation)
 
-**Pros:** Thorough, catches complex patterns, provides reasoning  
-**Cons:** Requires SubAgent capability, slower  
+**Pros:** Thorough, catches complex patterns, provides reasoning
+**Cons:** Requires SubAgent capability, slower
 **Best for:** Complex multi-language skills, when thoroughness matters
 
 #### Method C: Manual Checklist
 
 Follow manual assessment guide in [compatibility-guide.md](compatibility-guide.md#method-3-manual-assessment).
 
-**Pros:** Works without tools, educational  
-**Cons:** Time-consuming, error-prone  
+**Pros:** Works without tools, educational
+**Cons:** Time-consuming, error-prone
 **Best for:** Simple skills, learning workflow, no automation available
 
 ### Decision Tree
@@ -276,6 +292,7 @@ python scripts/init_skill.py <skill-name> --path <output-directory>
 ```
 
 **Skill name requirements:**
+
 - Kebab-case (lowercase, hyphens)
 - Max 64 characters
 - No leading/trailing hyphens
@@ -316,6 +333,7 @@ python scripts/init_skill.py <skill-name> --path <output-directory>
 Start with scripts, references, and assets (from Step 2).
 
 **For scripts:**
+
 1. Implement functionality
 2. Add shebang line (`#!/usr/bin/env python3`)
 3. Add docstring explaining purpose and usage
@@ -328,18 +346,21 @@ Start with scripts, references, and assets (from Step 2).
 10. Make executable: `chmod +x scripts/script.py`
 
 **Self-contained scripts (no separate install step):**
+
 - Python: Use PEP 723 inline metadata, run with `uv run scripts/extract.py`
 - Deno: Use `npm:` or `jsr:` import specifiers, run with `deno run scripts/extract.ts`
 - Bun: Version-pinned imports auto-install at runtime, run with `bun run scripts/extract.ts`
 - Ruby: Use `bundler/inline` gemfile block, run with `ruby scripts/extract.rb`
 
 **For references:**
+
 1. Write comprehensive documentation
 2. Add table of contents if >100 lines
 3. Include examples and code samples
 4. Structure for easy grep if >10k words
 
 **For assets:**
+
 1. Copy/create template files
 2. Ensure files are in final usable form
 3. Document any customization needed
@@ -351,17 +372,19 @@ Start with scripts, references, and assets (from Step 2).
 **name:** Should match directory name (already set by init_skill.py)
 
 **description:** Update the TODO with comprehensive description:
+
 - What the skill does (functionality)
 - When to use it (triggers and contexts)
 - Key capabilities or features
-- Target: 50-500 characters, be thorough
+- Target: 100–200 words (~500–1000 chars); hard limit is 1024 chars
 - Include ALL triggering scenarios
 
 **Example:**
+
 ```yaml
 description: |
   Comprehensive PDF document processing with rotation, merging, splitting, form filling,
-  and text extraction. Use when working with PDF files for: (1) rotating pages, 
+  and text extraction. Use when working with PDF files for: (1) rotating pages,
   (2) combining multiple PDFs, (3) extracting pages or content, (4) filling form fields,
   (5) extracting text for analysis. Triggers on "PDF", "rotate", "merge", "extract", "form".
 ```
@@ -394,11 +417,13 @@ compatibility: |
 4. **Resources** (optional) - Document bundled scripts/references/assets
 
 **Keep SKILL.md under 500 lines:**
+
 - Move detailed content to references/
 - Link to references clearly
 - Explain when to read each reference
 
 **Writing style:**
+
 - Imperative form ("Run the script", not "You should run")
 - Concise and actionable
 - Examples over explanations
@@ -408,7 +433,7 @@ compatibility: |
 
 If you have dependencies, add this section after Overview:
 
-```markdown
+````markdown
 ## Environment Requirements
 
 Check Python and packages:
@@ -417,12 +442,14 @@ Check Python and packages:
 python3 --version  # Should be 3.11+
 pip3 show PyPDF2 pdfplumber
 ```
+````
 
 If dependencies are missing:
 
 > "This skill requires Python 3.11+ and packages: PyPDF2, pdfplumber"
 > "Install with: pip3 install PyPDF2 pdfplumber"
-```
+
+````
 
 Make it copy-pasteable and clear.
 
@@ -443,11 +470,12 @@ Make it copy-pasteable and clear.
 
 ```bash
 python scripts/quick_validate.py <skill-directory>
-```
+````
 
 ### What Gets Validated
 
 **Errors (block packaging):**
+
 - SKILL.md exists
 - Valid YAML frontmatter format
 - Required fields present: name, description, compatibility
@@ -457,6 +485,7 @@ python scripts/quick_validate.py <skill-directory>
 - No unexpected frontmatter fields
 
 **Warnings (should address):**
+
 - Description too short (<50 chars)
 - Scripts present but language not mentioned in compatibility
 - Dependencies declared but no environment check instructions
@@ -465,20 +494,25 @@ python scripts/quick_validate.py <skill-directory>
 ### Fixing Validation Errors
 
 **"Missing required 'compatibility' field":**
+
 - Action: Add compatibility field to frontmatter
 - See: Step 3 or [compatibility-guide.md](compatibility-guide.md)
 
 **"'name' should be kebab-case":**
+
 - Action: Rename directory and update name field to use lowercase and hyphens only
 
 **"'compatibility' field contains TODO":**
+
 - Action: Complete compatibility assessment (Step 3)
 
 **"Found Python files but compatibility doesn't mention Python":**
+
 - Action: Add "Python 3.11+" to compatibility field
 - Verify with assess_compatibility.py
 
 **"No environment check instructions found":**
+
 - Action: Add Environment Requirements section to SKILL.md body
 
 ### Completion Criteria
@@ -503,6 +537,7 @@ This is a NEW step in improved-skill-creator for additional quality assurance.
 ### Review Task 1: Compatibility Validation
 
 **Task:**
+
 ```
 Review compatibility field accuracy for skill at [path].
 
@@ -534,6 +569,7 @@ Report format:
 ### Review Task 2: General Quality (Optional)
 
 **Task:**
+
 ```
 Perform quality review of skill at [path].
 
@@ -581,7 +617,8 @@ python scripts/package_skill.py <skill-directory> [output-directory]
 
 ### What Gets Packaged
 
-Everything in skill directory:
+Everything in skill directory **except `evals/`** (development artifact):
+
 - SKILL.md
 - scripts/ and all contents
 - references/ and all contents
@@ -591,6 +628,7 @@ Everything in skill directory:
 ### Distribution
 
 The .skill file can be:
+
 - Shared directly with users
 - Posted to skill repositories
 - Distributed via package managers
@@ -602,7 +640,100 @@ The .skill file can be:
 - File is distributable and self-contained
 - Ready for testing or deployment
 
-## Step 9: Iteration
+## Step 9: Eval Testing (NEW)
+
+**Goal:** Measure whether the skill actually improves agent behavior.
+
+This is a NEW step in improved-skill-creator. Evals provide objective evidence that the skill
+works as intended and catch regressions before they reach users.
+
+### When to Run Evals
+
+- After packaging, before announcing or distributing
+- After significant description changes (trigger reliability check)
+- After skill content changes (regression check)
+- When users report unexpected behavior
+
+### Setup
+
+First, detect your agent environment:
+
+```bash
+python scripts/detect_env.py
+```
+
+This tells you the `headless_command` for running eval cases and whether `subagent_support`
+is available for parallel execution.
+
+### Workflow
+
+**1. Define test cases** in `evals/evals.json`:
+
+- Cover all scenarios mentioned in the description
+- Write expectations that require genuine task completion (not just file existence)
+- Include at least one edge case per major feature
+
+**2. Run eval cases:**
+
+- Create isolated working directory per case under `evals/runs/run-001/`
+- Execute each case using the agent with the skill loaded
+- Save transcript and output files
+
+**3. Grade with Grader agent:**
+
+```
+Use agents/grader.md with the transcript and outputs for each case
+```
+
+**4. Aggregate results:**
+
+```bash
+python scripts/aggregate_benchmark.py evals/runs/run-001/
+```
+
+**5. Archive for trend tracking:**
+
+```bash
+cp evals/runs/run-001/benchmark.json evals/benchmarks/$(date +%Y-%m-%d).json
+```
+
+**6. Review and act on findings:**
+
+- Read `benchmark.json` for pass rates
+- Check `grading.json` per case for failure details and eval feedback
+- If trigger failures: revise description (see Description Design Philosophy in SKILL.md)
+- If content failures: revise the relevant SKILL.md section
+- If eval feedback flags weak assertions: strengthen `evals.json`
+
+### Description Optimization Loop
+
+If trigger reliability is below target (< 80% pass rate on triggering cases):
+
+1. Run baseline without skill to confirm the gap:
+   ```bash
+   python scripts/aggregate_benchmark.py evals/runs/run-NNN/ --run-type without_skill
+   ```
+2. Generate 2–3 description variants targeting weak triggers
+3. Run the affected cases with each variant
+4. Keep the best-performing variant
+5. Repeat up to 5 iterations or until pass rate plateaus
+
+**Warning against overfitting:** Only optimize on cases that reflect real usage.
+If you add cases specifically to pass after each iteration, you're overfitting.
+
+### For the Full Eval Workflow
+
+See [eval-guide.md](eval-guide.md) for detailed instructions.
+See [schemas.md](schemas.md) for JSON schemas.
+
+### Completion Criteria
+
+- At least one eval run completed
+- Pass rate documented in archived `benchmark.json`
+- Significant failures addressed or consciously deferred
+- Eval feedback reviewed (weak assertions strengthened or accepted)
+
+## Step 10: Iteration
 
 **Goal:** Improve skill based on real-world usage.
 
@@ -625,21 +756,25 @@ The .skill file can be:
 ### Common Iteration Triggers
 
 **"AI Agent keeps asking for clarification":**
+
 - SKILL.md examples may be too vague
 - Add more concrete examples
 - Clarify decision points
 
 **"Scripts frequently need patching":**
+
 - Consider adding parameters to scripts
 - Document common variations in references/
 - Add script usage examples
 
 **"Skill is slow (high token usage)":**
+
 - SKILL.md may be too verbose
 - Move details to references/
 - Improve progressive disclosure
 
 **"Users can't install dependencies":**
+
 - Environment check instructions may be unclear
 - Add platform-specific guidance
 - Include troubleshooting section
@@ -647,6 +782,7 @@ The .skill file can be:
 ### Completion Criteria
 
 Skill works reliably in production:
+
 - AI Agents use it successfully
 - Users can install dependencies
 - Error rates are low
@@ -657,15 +793,18 @@ Skill works reliably in production:
 Before considering a skill complete:
 
 **Step 1-2: Planning**
+
 - [ ] Concrete usage examples documented
 - [ ] Scripts/references/assets planned
 
 **Step 3: Compatibility**
+
 - [ ] Assessment method chosen and executed
 - [ ] Compatibility field drafted
 - [ ] Environment check instructions planned
 
 **Step 4-5: Implementation**
+
 - [ ] Skill initialized with init_skill.py
 - [ ] Resources implemented and tested
 - [ ] SKILL.md frontmatter complete
@@ -673,17 +812,28 @@ Before considering a skill complete:
 - [ ] Environment check instructions added
 
 **Step 6-7: Validation**
+
 - [ ] quick_validate.py passes without errors
 - [ ] Warnings addressed
 - [ ] SubAgent review completed (or skipped)
 - [ ] Critical issues resolved
 
 **Step 8: Packaging**
+
 - [ ] package_skill.py succeeds
 - [ ] .skill file created
 - [ ] Ready for distribution
 
-**Step 9: Iteration**
+**Step 9: Eval Testing**
+
+- [ ] evals/evals.json defined with cases covering all description scenarios
+- [ ] At least one eval run completed
+- [ ] Pass rate documented in archived benchmark.json
+- [ ] Significant failures addressed (trigger issues → description; content issues → SKILL.md)
+- [ ] Eval feedback reviewed
+
+**Step 10: Iteration**
+
 - [ ] Tested on real tasks
 - [ ] Issues noted for future iteration
 

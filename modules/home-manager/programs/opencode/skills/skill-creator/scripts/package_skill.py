@@ -87,6 +87,9 @@ def package_skill(skill_dir, output_dir=None):
     else:
         print("✅ Validation passed\n")
 
+    # Directories excluded from packaging (development artifacts)
+    _EXCLUDED_DIRS = {"evals"}
+
     # Create .skill file (ZIP format)
     print(f"📦 Packaging skill: {skill_name}")
 
@@ -94,11 +97,17 @@ def package_skill(skill_dir, output_dir=None):
         with zipfile.ZipFile(skill_file, "w", zipfile.ZIP_DEFLATED) as zf:
             # Add all files maintaining directory structure
             for file_path in skill_path.rglob("*"):
-                if file_path.is_file():
-                    # Calculate relative path for archive
-                    arcname = skill_name / file_path.relative_to(skill_path)
-                    zf.write(file_path, arcname)
-                    print(f"   Added: {file_path.relative_to(skill_path)}")
+                if not file_path.is_file():
+                    continue
+                # Skip excluded directories (check every path component)
+                relative = file_path.relative_to(skill_path)
+                if any(part in _EXCLUDED_DIRS for part in relative.parts):
+                    print(f"   Skipped: {relative} (excluded directory)")
+                    continue
+                # Calculate relative path for archive
+                arcname = skill_name / relative
+                zf.write(file_path, arcname)
+                print(f"   Added: {relative}")
 
         print(f"\n✅ Successfully packaged: {skill_file}")
         print(f"   Size: {skill_file.stat().st_size:,} bytes")
