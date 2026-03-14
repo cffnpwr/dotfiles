@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   homeDir = config.users.users.${config.username}.home;
   homeManagerAppsDir = "${homeDir}/Applications/Home Manager Apps";
@@ -9,6 +9,22 @@ in
     # This property can be removed once the transition to the `users.users.*` namespace is complete.
     # Ref: https://github.com/nix-darwin/nix-darwin/issues/1462\
     primaryUser = config.username;
+
+    activationScripts = {
+      # Set Zen Browser as the default browser
+      # "zen" is derived from the last component of its bundle ID (app.zen-browser.zen)
+      # Use launchctl asuser to run in the user's session context (required for LaunchServices API)
+      defaultBrowser.text = ''
+        launchctl asuser "$(id -u -- ${config.username})" sudo --user=${config.username} -- ${pkgs.defaultbrowser}/bin/defaultbrowser zen
+      '';
+
+      # Hide Spotlight from menu bar
+      # CustomUserPreferences with ~/... path expands to /var/root when run as root,
+      # so use defaults -currentHost write via launchctl asuser instead
+      spotlightMenuItemHidden.text = ''
+        launchctl asuser "$(id -u -- ${config.username})" sudo --user=${config.username} -- defaults -currentHost write com.apple.Spotlight MenuItemHidden -int 1
+      '';
+    };
 
     # macOS system defaults
     defaults = {

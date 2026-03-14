@@ -175,7 +175,7 @@
 
                       ${pkgs.gum}/bin/gum log -l info "Building ${osName} system for $HOST..."
 
-                      ${buildCmd} build --flake ${self}#$HOST ${extraOptions}
+                      ${buildCmd} build --impure --flake ${self}#$HOST ${extraOptions}
 
                       ${pkgs.gum}/bin/gum log -l info "Build complete."
                       ${pkgs.gum}/bin/gum log -l info "To switch to the new configuration, run: \`nix run .#switch\`"
@@ -195,7 +195,7 @@
 
                       ${pkgs.gum}/bin/gum log -l info "Switching ${osName} system for $HOST..."
 
-                      sudo ${buildCmd} switch --flake ${self}#$HOST ${extraOptions}
+                      sudo ${buildCmd} switch --impure --flake ${self}#$HOST ${extraOptions}
 
                       ${pkgs.gum}/bin/gum log -l info "Switch complete."
                     '';
