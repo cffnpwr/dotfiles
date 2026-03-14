@@ -90,7 +90,7 @@
           # Build darwin flake using:
           # $ darwin-rebuild switch --flake .#cpwr-mba2
           darwinConfigurations = {
-            "cpwr-mba2" = nix-darwin.lib.darwinSystem {
+            "cpwr-mba5" = nix-darwin.lib.darwinSystem {
               system = "aarch64-darwin";
               specialArgs = inputs // {
                 inherit extraSubstituters extraTrustedPublicKeys;
@@ -104,7 +104,7 @@
 
                   ./modules/common
                   ./modules/darwin
-                  ./hosts/cpwr-mba2
+                  ./hosts/cpwr-mba5
 
                   (
                     { config, pkgs, ... }:

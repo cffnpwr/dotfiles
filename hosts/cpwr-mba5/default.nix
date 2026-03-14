@@ -4,8 +4,8 @@
 
   # ホスト名設定
   networking = {
-    hostName = "cpwr-mba2";
-    computerName = "cpwr-mba2";
+    hostName = "cpwr-mba5";
+    computerName = "cpwr-mba5";
 
     knownNetworkServices = [
       "Wi-Fi"

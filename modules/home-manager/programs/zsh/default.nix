@@ -93,6 +93,7 @@
 
       # History settings
       # システムのHISTFILE設定を上書き
+      mkdir -p ''${XDG_STATE_HOME}/zsh
       export HISTFILE=''${XDG_STATE_HOME}/zsh/.zsh_history
       # メモリに保存される履歴の件数
       export HISTSIZE=1000
