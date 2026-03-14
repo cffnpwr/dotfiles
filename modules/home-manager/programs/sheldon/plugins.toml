@@ -14,6 +14,7 @@ github = "zsh-users/zsh-syntax-highlighting"
 
 [plugins.zsh-autocomplete]
 github = "marlonrichert/zsh-autocomplete"
+rev = "bb08a40" # 2be4e7fでstderrが表示されなくなるバグが導入されたため固定 (https://github.com/marlonrichert/zsh-autocomplete/issues/848)
 
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
