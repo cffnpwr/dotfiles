@@ -28,7 +28,7 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.15.2";
     flake-parts.url = "github:hercules-ci/flake-parts";
     cffnpwr-nixpkgs = {
-      url = "github:cffnpwr/nixpkgs-extras/5138f403393b34d5985034e0b1f0486bf8784cff";
+      url = "github:cffnpwr/nixpkgs-extras/feature/add_azookey";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         flake-parts.follows = "flake-parts";
