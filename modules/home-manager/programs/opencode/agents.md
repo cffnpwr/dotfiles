@@ -440,6 +440,39 @@ Skip search ONLY when ALL of the following conditions are met:
 - Only validate at system boundaries (user input, external APIs)
 - Don't use feature flags or backwards-compatibility shims when you can just change the code
 
+## Task List: MANDATORY for Multiple Tasks
+
+**When handling 2 or more tasks in a single session, creating a task list is REQUIRED — not optional.**
+
+**When to create a task list:**
+- The user provides multiple tasks (numbered list, comma-separated, or sequential instructions)
+- A single request requires 2 or more distinct steps to complete
+- Any multi-step implementation, refactoring, or investigation
+
+**Rules:**
+- Create the task list BEFORE starting any work
+- Mark each task as in-progress when you begin it
+- Mark each task as completed IMMEDIATELY after finishing it (do not batch completions)
+- Only one task may be in-progress at a time
+- Complete the current task before starting the next
+
+**WRONG** — Starts work without a task list:
+```
+User: "Fix the login bug and update the README"
+Assistant: I'll fix the login bug first...
+```
+
+**CORRECT** — Creates task list first:
+```
+User: "Fix the login bug and update the README"
+Assistant: [Creates task list]
+1. Fix the login bug
+2. Update the README
+[Marks task 1 as in-progress, begins work]
+```
+
+**Skipping the task list when there are multiple tasks is a violation of this rule.**
+
 ## Task Completion Standards
 
 **When completing a task, provide a clear summary including:**

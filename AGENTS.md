@@ -38,6 +38,12 @@ Is the target path inside /Users/cffnpwr/ (home directory)?
 If you are unsure which Nix module corresponds to a home directory path,
 read `.agents/docs/reference/path-mapping.md` before proceeding.
 
+**How to find the correct Nix module:**
+The home directory path structure mirrors the module structure. For example:
+- `~/.config/<program>/` → `modules/home-manager/programs/<program>/`
+- Config files managed via `settings` option in the module (e.g., `opencode.json` → `settings = { ... }`)
+- Standalone files managed via source files in the module directory (e.g., `AGENTS.md` → `agents.md`)
+
 **Full critical rules**: `.agents/docs/critical/rules.md`
 
 ### Deployment Requires sudo
