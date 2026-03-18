@@ -30,6 +30,14 @@ The following actions are **ABSOLUTELY FORBIDDEN** unless the user explicitly re
 - NEVER rebase, squash, or merge without request
 - Any other destructive or state-changing VCS command
 
+**GitHub operations (gh CLI and GitHub MCP tools):**
+- NEVER create pull requests (`gh pr create`, `mcp_github_create_pull_request`, etc.)
+- NEVER create or push branches (`gh api`, `mcp_github_create_branch`, etc.)
+- NEVER create, close, or edit issues without request
+- NEVER merge, close, or edit pull requests without request
+- NEVER push files or commits to remote without request
+- Any write operation to GitHub (POST/PUT/PATCH/DELETE via `gh api`)
+
 **Build / Deploy / Format / Test:**
 - Running build commands (e.g., `nix build`, `npm run build`, `cargo build`)
 - Running deploy commands (e.g., `nix run .#switch`, `npm run deploy`)
