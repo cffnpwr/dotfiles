@@ -4,6 +4,7 @@
     ./aerospace
     ./direnv
     # ./azookey
+    ./claude-code
     ./ghostty
     ./git
     ./jujutsu
