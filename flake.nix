@@ -42,6 +42,10 @@
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agent-skills-nix = {
+      url = "github:Kyure-A/agent-skills-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -51,6 +55,7 @@
       nix-darwin,
       home-manager,
       agenix,
+      agent-skills-nix,
       determinate,
       cffnpwr-nixpkgs,
       flake-parts,
@@ -113,6 +118,7 @@
                         useGlobalPkgs = true;
                         useUserPackages = true;
                         extraSpecialArgs = {
+                          inherit inputs;
                           inherit (inputs) zen-browser;
                           packages = pkgs;
                         };
@@ -120,6 +126,7 @@
                           imports = [
                             ./modules/home-manager
                             agenix.homeManagerModules.default
+                            agent-skills-nix.homeManagerModules.default
                             zen-browser.homeModules.default
                           ]
                           ++ (builtins.attrValues cffnpwr-nixpkgs.homeModules);

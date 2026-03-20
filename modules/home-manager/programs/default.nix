@@ -8,8 +8,8 @@
     ./ghostty
     ./git
     ./jujutsu
+    ./llm-agents
     ./mas
-    ./mcp
     ./mise
     ./opencode
     ./sheldon

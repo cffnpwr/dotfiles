@@ -8,12 +8,6 @@
     enable = true;
 
     servers = {
-      github = {
-        type = "http";
-        url = "https://api.githubcopilot.com/mcp/";
-        headers.Authorization = "Bearer {env:GITHUB_MCP_TOKEN}";
-      };
-
       serena = {
         type = "stdio";
         command = "${pkgs.uv}/bin/uvx";
