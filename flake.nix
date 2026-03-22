@@ -25,7 +25,7 @@
         home-manager.follows = "home-manager";
       };
     };
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.15.2";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/=3.16.3";
     flake-parts.url = "github:hercules-ci/flake-parts";
     cffnpwr-nixpkgs = {
       url = "github:cffnpwr/nixpkgs-extras/feature/add_azookey";
