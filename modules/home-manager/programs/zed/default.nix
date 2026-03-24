@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.zed-editor = {
     enable = true;
@@ -99,6 +99,24 @@
         include_warnings = true;
         inline = {
           enabled = true;
+        };
+      };
+
+      # Language-specific settings
+      languages = {
+        Nix = {
+          language_servers = [ "nixd" "!nil" ];
+        };
+      };
+
+      # LSP settings
+      lsp = {
+        nixd = {
+          settings = {
+            formatting = {
+              command = [ "${pkgs.nixfmt}/bin/nixfmt" ];
+            };
+          };
         };
       };
     };
