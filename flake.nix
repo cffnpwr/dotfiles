@@ -25,6 +25,10 @@
         home-manager.follows = "home-manager";
       };
     };
+    kanata-darwin = {
+      url = "github:not-in-stock/kanata-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/=3.16.3";
     flake-parts.url = "github:hercules-ci/flake-parts";
     cffnpwr-nixpkgs = {
@@ -105,6 +109,7 @@
                 ++ (builtins.attrValues cffnpwr-nixpkgs.darwinModules)
                 ++ [
                   inputs.determinate.darwinModules.default
+                  inputs.kanata-darwin.darwinModules.default
                   home-manager.darwinModules.home-manager
 
                   ./modules/common

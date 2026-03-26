@@ -3,7 +3,7 @@
   imports = [
     ./user.nix
     ./system.nix
-    ./programs/kmonad.nix
+    ./programs/kanata.nix
     ./services.nix
   ];
 
