@@ -117,11 +117,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774611318,
-        "narHash": "sha256-4iRTndWLpyK78SWAMPihDH++qs9Aztu5haxCkir4De4=",
+        "lastModified": 1774628052,
+        "narHash": "sha256-/+BGruCcJPLr+ipcoR5GN2FuZvAzThzd/YEfEQCBOpg=",
         "owner": "cffnpwr",
         "repo": "nixpkgs-extras",
-        "rev": "e5d2e9500463fdc0469849128579a0e9ab92694f",
+        "rev": "5783db60b6658931e4edb4d04d8e709917c0e749",
         "type": "github"
       },
       "original": {

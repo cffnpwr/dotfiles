@@ -7,8 +7,8 @@
     "preset-ja-technical-writing": {
       "no-mix-dearu-desumasu": {
         "preferInHeader": "",
-        "preferInBody": "である",
-        "preferInList": "である",
+        "preferInBody": "",
+        "preferInList": "",
         "strict": false
       }
     },

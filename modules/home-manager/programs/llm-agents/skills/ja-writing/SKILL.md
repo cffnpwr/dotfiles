@@ -8,8 +8,9 @@ description: >
   Covers: textlint setup and execution, interpretation of lint results, rules textlint cannot detect
   (false-negative patterns), false-positive handling, and writing style standards.
 compatibility: |
-  Required: Node.js 22+, pnpm
+  Required: Node.js 22+, pnpm (or Nix for auto-provisioning via nix-shell)
   Packages: see assets/package.json (textlint + ja-specific rule presets)
+  Note: assets/ is inside the Nix store (read-only) — do not run pnpm install against it directly
 ---
 
 # Japanese Writing Quality — ja-writing
@@ -18,36 +19,80 @@ Enforce Japanese writing quality through textlint static analysis combined with 
 
 ## Setup
 
-Install dependencies from this skill's `assets/` directory without copying files to the project:
+### Step 1 — Determine how to run pnpm
+
+Check runtime availability in this order:
+
+1. **pnpm and node are available in PATH** — use them directly (proceed to Step 2)
+2. **pnpm/node not found, `nix` command is available** — use `nix-shell` for a temporary environment.
+   Prepend all pnpm commands with:
+   ```bash
+   nix-shell -p nodejs pnpm --run "<command>"
+   ```
+   Also note: in Nix-managed environments `assets/` is inside the Nix store and **read-only** —
+   proceed to the Nix-specific install instructions below.
+3. **pnpm/node not found, Nix not available** — report to the user that Node.js 22+ and pnpm are
+   required and cannot be installed automatically in this environment
+
+### Step 2 — Install dependencies
+
+**Normal environment** (assets/ is writable):
 
 ```bash
-SKILL_ASSETS="$HOME/.config/opencode/skills/ja-writing/assets"
+SKILL_ASSETS="$HOME/.claude/skills/ja-writing/assets"
 pnpm install --dir "$SKILL_ASSETS"
 ```
 
-Verify all rules are active with the bundled test file:
+**Nix environment** (assets/ is read-only — copy to a writable cache directory first):
 
 ```bash
-SKILL_ASSETS="$HOME/.config/opencode/skills/ja-writing/assets"
-pnpm --dir "$SKILL_ASSETS" exec textlint --config "$SKILL_ASSETS/.textlintrc.json" "$SKILL_ASSETS/examples-ng.md"
+SKILL_ASSETS="$HOME/.claude/skills/ja-writing/assets"
+WORK_DIR="$HOME/.cache/ja-writing-linter"
+mkdir -p "$WORK_DIR"
+cp "$SKILL_ASSETS/package.json" "$SKILL_ASSETS/pnpm-lock.yaml" "$WORK_DIR/"
+nix-shell -p nodejs pnpm --run "pnpm install --dir \"$WORK_DIR\""
+```
+
+After installing, set `WORK_DIR` to the directory that contains `node_modules/`:
+
+- Normal: `WORK_DIR="$SKILL_ASSETS"`
+- Nix: `WORK_DIR="$HOME/.cache/ja-writing-linter"`
+
+### Step 3 — Verify installation
+
+```bash
+SKILL_ASSETS="$HOME/.claude/skills/ja-writing/assets"
+# WORK_DIR set as above
+pnpm --dir "$WORK_DIR" exec textlint --config "$SKILL_ASSETS/.textlintrc.json" "$SKILL_ASSETS/examples-ng.md"
 ```
 
 Expect errors on every section — this confirms all rules are active.
 
 ## Running textlint
 
-```bash
-SKILL_ASSETS="$HOME/.config/opencode/skills/ja-writing/assets"
+Use `SKILL_ASSETS` and `WORK_DIR` as set during Setup.
 
+```bash
 # Lint a single file
-pnpm --dir "$SKILL_ASSETS" exec textlint --config "$SKILL_ASSETS/.textlintrc.json" path/to/file.md
+pnpm --dir "$WORK_DIR" exec textlint --config "$SKILL_ASSETS/.textlintrc.json" /absolute/path/to/file.md
 
 # Lint all markdown files recursively
-pnpm --dir "$SKILL_ASSETS" exec textlint --config "$SKILL_ASSETS/.textlintrc.json" "**/*.md"
+pnpm --dir "$WORK_DIR" exec textlint --config "$SKILL_ASSETS/.textlintrc.json" "**/*.md"
 
 # Auto-fix fixable errors
-pnpm --dir "$SKILL_ASSETS" exec textlint --fix --config "$SKILL_ASSETS/.textlintrc.json" path/to/file.md
+pnpm --dir "$WORK_DIR" exec textlint --fix --config "$SKILL_ASSETS/.textlintrc.json" /absolute/path/to/file.md
 ```
+
+In Nix environment, wrap with nix-shell:
+
+```bash
+nix-shell -p nodejs pnpm --run \
+  "pnpm --dir \"$WORK_DIR\" exec textlint --config \"$SKILL_ASSETS/.textlintrc.json\" /absolute/path/to/file.md"
+```
+
+> **Hint for Markdown files**: When linting `.md` files, also run `markdownlint` to catch structural
+> Markdown issues (heading levels, list formatting, etc.) that textlint does not cover. See the
+> `markdown-standards` skill for details.
 
 ## Interpreting Results
 
@@ -60,6 +105,7 @@ Example:
 ```
 
 Severity levels:
+
 - `error` — must fix
 - `warning` — should review
 
@@ -69,7 +115,9 @@ When textlint incorrectly flags valid content (proper nouns, code terms, intenti
 
 ```markdown
 <!-- textlint-disable rule-name -->
+
 False positive content here.
+
 <!-- textlint-enable rule-name -->
 ```
 
@@ -80,6 +128,7 @@ Content here. <!-- textlint-disable-line rule-name -->
 ```
 
 Common false-positive cases:
+
 - Long kanji sequences that are proper nouns (e.g., `日本電信電話株式会社`) — suppress `preset-ja-technical-writing/max-kanji-continuous-len`
 - List items that intentionally end with a period — suppress `period-in-list-item`
 
@@ -93,26 +142,32 @@ The following must be checked manually or by AI, as textlint has no coverage:
 
 Always omit the trailing long vowel mark (ー) from loanword endings:
 
-| Wrong | Correct |
-|---|---|
-| サーバー | サーバ |
+| Wrong          | Correct      |
+| -------------- | ------------ |
+| サーバー       | サーバ       |
 | コンピューター | コンピュータ |
-| ユーザー | ユーザ |
-| フォルダー | フォルダ |
-| プリンター | プリンタ |
+| ユーザー       | ユーザ       |
+| フォルダー     | フォルダ     |
+| プリンター     | プリンタ     |
 
 Rule: drop trailing ー when the word ends in a long vowel sound in Japanese. Apply consistently within a document — use `@textlint-ja/no-synonyms` as a first pass, then manually review remaining loanwords.
 
-### Plain form (常体) consistency
+### Style consistency (文体統一)
 
-The `.textlintrc.json` configures `no-mix-dearu-desumasu` with `preferInBody: "である"`, but does NOT catch:
-- Polite form in code comments
-- Polite form inside blockquotes
+The `.textlintrc.json` configures `no-mix-dearu-desumasu` to detect mixing of plain and polite form within
+a document. It does NOT catch:
+
+- Style mix in code comments
+- Style mix inside blockquotes
 - Mixed style when a document has no body text (e.g., pure list)
 
-Always use plain form (だ・である):
-- Correct: `設定する`, `変更できる`, `動作する`
-- Wrong: `設定します`, `変更できます`, `動作します`
+Either style is acceptable — choose one and apply it consistently throughout the document:
+
+- Plain form (常体): `設定する`, `変更できる`, `動作する`
+- Polite form (敬体): `設定します`, `変更できます`, `動作します`
+
+Typical conventions: READMEs and user-facing documents often use polite form; technical specs and
+internal docs typically use plain form.
 
 ### Structural AI-writing patterns not in preset
 
@@ -125,11 +180,13 @@ Always use plain form (だ・である):
 
 ## Writing Standards Reference
 
-### Plain Form (常体) Only
+### Writing Style (文体)
 
-Use plain form (だ/である) consistently:
-- Correct: である、だ、〜する
-- Wrong: です、ます (polite form — never use)
+Choose either plain form (常体) or polite form (敬体) and apply it consistently throughout the document.
+Mixing styles within a document is prohibited.
+
+- Plain form (常体): である、だ、〜する — typical for technical specs, internal docs
+- Polite form (敬体): です、ます — typical for READMEs, user-facing documentation
 
 ### Sentence Length
 
@@ -162,15 +219,15 @@ Maximum 100 characters per sentence. Break long sentences at natural clause boun
 
 ### Prohibited Grammar
 
-| Pattern | Wrong | Correct |
-|---|---|---|
-| Double negative | ないわけではない | 肯定表現に書き換える |
-| Ra-nuki | 見れる、食べれる | 見られる、食べられる |
-| I-nuki | 開発してます | 開発しています |
-| Re-tashi (れ足す) | 飲めれない | 飲めない |
-| Sa-ire/nuki | 暖かさそう | 暖かそう |
-| Single tari | 読んだりする | 読んだり〜したりする |
-| Weak expression | かもしれない、と思います | 断定表現、または根拠を示す |
-| Redundancy | することができる | できる |
-| Consecutive ga | AだがBだが | 接続詞を変える |
-| Consecutive conjunction | しかし〜しかし | 接続詞を変える |
+| Pattern                 | Wrong                    | Correct                    |
+| ----------------------- | ------------------------ | -------------------------- |
+| Double negative         | ないわけではない         | 肯定表現に書き換える       |
+| Ra-nuki                 | 見れる、食べれる         | 見られる、食べられる       |
+| I-nuki                  | 開発してます             | 開発しています             |
+| Re-tashi (れ足す)       | 飲めれない               | 飲めない                   |
+| Sa-ire/nuki             | 暖かさそう               | 暖かそう                   |
+| Single tari             | 読んだりする             | 読んだり〜したりする       |
+| Weak expression         | かもしれない、と思います | 断定表現、または根拠を示す |
+| Redundancy              | することができる         | できる                     |
+| Consecutive ga          | AだがBだが               | 接続詞を変える             |
+| Consecutive conjunction | しかし〜しかし           | 接続詞を変える             |
