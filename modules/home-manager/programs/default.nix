@@ -15,7 +15,6 @@
     ./sheldon
     ./ssh
     ./starship
-    ./vscode
     ./zed
     ./zen-browser
     ./zellij

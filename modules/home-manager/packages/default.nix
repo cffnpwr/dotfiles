@@ -16,7 +16,6 @@
 
     # editor
     neovim
-    vscode
 
     # shell tools
     android-tools

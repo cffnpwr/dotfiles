@@ -38,10 +38,6 @@
         flake-parts.follows = "flake-parts";
       };
     };
-    vscode-extensions = {
-      url = "github:nix-community/nix-vscode-extensions";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,17 +56,14 @@
       home-manager,
       agenix,
       agent-skills-nix,
-      determinate,
       cffnpwr-nixpkgs,
       flake-parts,
       zen-browser,
-      vscode-extensions,
       llm-agents,
       ...
     }:
     let
       nixpkgsOverlays = [
-        vscode-extensions.overlays.default
         llm-agents.overlays.default
         cffnpwr-nixpkgs.overlays.default
       ];
