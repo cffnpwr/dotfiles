@@ -8,7 +8,7 @@
     package = pkgs.llm-agents.opencode;
     enableMcpIntegration = true;
 
-    rules = import ../llm-agents/agents-md.nix;
+    context = import ../llm-agents/agents-md.nix;
 
     settings = {
       permission = {

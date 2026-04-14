@@ -4,7 +4,7 @@
     enable = true;
     package = pkgs.llm-agents.claude-code;
     enableMcpIntegration = true;
-    memory.source = import ../llm-agents/agents-md.nix;
+    context = import ../llm-agents/agents-md.nix;
 
     settings = {
       alwaysThinkingEnabled = false;
