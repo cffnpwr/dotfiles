@@ -28,6 +28,12 @@
 
       # macOS Specific
       macos-option-as-alt = "left";
+
+      # Send CSI u sequence for cmd+enter (super modifier)
+      # Used by Claude Code / opencode to distinguish from plain enter
+      keybind = [
+        "cmd+enter=text:\\x1b[13;9u"
+      ];
     };
   };
 }

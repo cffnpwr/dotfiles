@@ -3,6 +3,7 @@
   programs.zed-editor = {
     enable = true;
     mutableUserSettings = false;
+    mutableUserKeymaps = false;
 
     extensions = [
       # Theme
@@ -105,7 +106,10 @@
       # Language-specific settings
       languages = {
         Nix = {
-          language_servers = [ "nixd" "!nil" ];
+          language_servers = [
+            "nixd"
+            "!nil"
+          ];
         };
       };
 
@@ -120,5 +124,19 @@
         };
       };
     };
+
+    userKeymaps = [
+      {
+        context = "Terminal";
+        bindings = {
+          # Send CSI u sequence for cmd+enter (super modifier)
+          # Used by Claude Code / opencode to distinguish from plain enter
+          "cmd-enter" = [
+            "terminal::SendText"
+            (builtins.fromJSON ''"\u001b[13;9u"'')
+          ];
+        };
+      }
+    ];
   };
 }
