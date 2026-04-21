@@ -70,4 +70,9 @@
     # Set environment variable to enable WebSearch tool in opencode
     sessionVariables.OPENCODE_ENABLE_EXA = "1";
   };
+
+  xdg.configFile."opencode/docs" = {
+    source = ../llm-agents/docs;
+    recursive = true;
+  };
 }
