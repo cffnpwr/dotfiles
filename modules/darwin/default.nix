@@ -1,4 +1,9 @@
-{ config, extraSubstituters, extraTrustedPublicKeys, ... }:
+{
+  config,
+  extraSubstituters,
+  extraTrustedPublicKeys,
+  ...
+}:
 {
   imports = [
     ./user.nix

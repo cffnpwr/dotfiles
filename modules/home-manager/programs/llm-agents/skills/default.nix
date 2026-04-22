@@ -19,11 +19,17 @@
       explicit = {
         ja-writing = {
           from = "local";
-          packages = with pkgs; [ nodejs_22 pnpm ];
+          packages = with pkgs; [
+            nodejs_22
+            pnpm
+          ];
         };
         markdown-standards = {
           from = "local";
-          packages = with pkgs; [ nodejs_22 markdownlint-cli2 ];
+          packages = with pkgs; [
+            nodejs_22
+            markdownlint-cli2
+          ];
         };
         skill-creator = {
           from = "local";
@@ -38,6 +44,13 @@
         jj-reference = {
           from = "local";
           packages = with pkgs; [ jujutsu ];
+        };
+        issue-creator = {
+          from = "local";
+          packages = with pkgs; [
+            gh
+            glab
+          ];
         };
       };
     };
