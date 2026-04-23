@@ -29,7 +29,13 @@
       url = "github:not-in-stock/kanata-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/=3.16.3";
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/=3.16.3";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nix.inputs.nixpkgs.follows = "nixpkgs";
+      };
+    };
     flake-parts.url = "github:hercules-ci/flake-parts";
     cffnpwr-nixpkgs = {
       url = "github:cffnpwr/nixpkgs-extras/feature/add_azookey";

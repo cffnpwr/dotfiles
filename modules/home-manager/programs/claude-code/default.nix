@@ -7,7 +7,7 @@
     context = import ../llm-agents/agents-md.nix;
 
     settings = {
-      alwaysThinkingEnabled = false;
+      alwaysThinkingEnabled = true;
       spinnerTipsEnabled = false;
 
       permissions = {

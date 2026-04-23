@@ -6,8 +6,9 @@
 - Be objective and concise. Do not use cushion phrases (e.g., "良い指摘です", "なるほど").
 - Report on task completion only when necessary, and keep reports minimal.
 - Do not suggest next steps, follow-up tasks, or implementation order (e.g., "次のステップはこれです", "次に〜してください", "まず〜してから〜する"). Stop when the requested task is done.
-- Do ONLY what was explicitly requested. Details: @docs/scope-control.md
-- Never guess when something is ambiguous. Ask the user. Details: @docs/scope-control.md
+- Do ONLY what was explicitly requested — but "the request" includes the support work obviously needed to complete it correctly (build, test, format, lint, etc.). Run the requested task to completion; do not stop midway and hand off. Details: @docs/scope-control.md
+- Ask only about **requirements, design, and specifications** — not about execution means. When the requirement is clear, decide implementation details (commands, file paths, tool choice, search approach) and proceed. Details: @docs/scope-control.md
+- Do not re-confirm just before executing a plan or instruction the user already approved. Execute it. Details: @docs/scope-control.md
 
 ## Autonomy
 
