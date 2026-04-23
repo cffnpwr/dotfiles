@@ -14,6 +14,8 @@
       "opencode"
       # Nix
       "nix"
+      # Markdown
+      "markdownlint"
     ];
 
     userSettings = {
@@ -105,6 +107,10 @@
 
       # Language-specific settings
       languages = {
+        Markdown = {
+          formatter = "none";
+          format_on_save = "off";
+        };
         Nix = {
           language_servers = [
             "nixd"
@@ -120,6 +126,32 @@
             formatting = {
               command = [ "${pkgs.nixfmt}/bin/nixfmt" ];
             };
+          };
+        };
+        # Mirrors skills/markdown-standards/assets/.markdownlint-cli2.yaml
+        markdownlint = {
+          settings = {
+            config = {
+              default = true;
+              MD013 = {
+                tables = false;
+              };
+              MD024 = {
+                siblings_only = true;
+              };
+              MD033 = {
+                allowed_elements = [
+                  "details"
+                  "summary"
+                ];
+              };
+            };
+            ignores = [
+              ".agents/**/*.md"
+              "**/AGENTS.md"
+              ".claude/**/*.md"
+              "**/CLAUDE.md"
+            ];
           };
         };
       };
