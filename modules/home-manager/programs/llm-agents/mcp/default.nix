@@ -7,23 +7,7 @@
   programs.mcp = {
     enable = true;
 
-    servers = {
-      serena = {
-        type = "stdio";
-        command = "${pkgs.uv}/bin/uvx";
-        args = [
-          "--from"
-          "git+https://github.com/oraios/serena"
-          "serena"
-          "start-mcp-server"
-          "--project-from-cwd"
-          "--context"
-          "claude-code"
-          "--enable-web-dashboard"
-          "false"
-        ];
-      };
-    };
+    servers = { };
   };
 
   home = {

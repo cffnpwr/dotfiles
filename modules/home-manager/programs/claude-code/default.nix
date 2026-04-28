@@ -68,17 +68,6 @@
           "Bash(cargo publish *)"
           "Bash(cargo login *)"
           "Bash(cargo logout)"
-
-          # Serena MCP write operations
-          "mcp__plugin_claude-code-home-manager_serena__write_memory"
-          "mcp__plugin_claude-code-home-manager_serena__edit_memory"
-          "mcp__plugin_claude-code-home-manager_serena__delete_memory"
-          "mcp__plugin_claude-code-home-manager_serena__rename_memory"
-          "mcp__plugin_claude-code-home-manager_serena__replace_symbol_body"
-          "mcp__plugin_claude-code-home-manager_serena__insert_after_symbol"
-          "mcp__plugin_claude-code-home-manager_serena__insert_before_symbol"
-          "mcp__plugin_claude-code-home-manager_serena__rename_symbol"
-          "mcp__plugin_claude-code-home-manager_serena__onboarding"
         ];
 
         allow = [
@@ -192,18 +181,6 @@
           # Web tools
           "WebFetch"
           "WebSearch"
-
-          # Serena MCP read-only tools
-          "mcp__plugin_claude-code-home-manager_serena__check_onboarding_performed"
-          "mcp__plugin_claude-code-home-manager_serena__list_memories"
-          "mcp__plugin_claude-code-home-manager_serena__read_memory"
-          "mcp__plugin_claude-code-home-manager_serena__find_file"
-          "mcp__plugin_claude-code-home-manager_serena__find_symbol"
-          "mcp__plugin_claude-code-home-manager_serena__find_referencing_symbols"
-          "mcp__plugin_claude-code-home-manager_serena__get_symbols_overview"
-          "mcp__plugin_claude-code-home-manager_serena__list_dir"
-          "mcp__plugin_claude-code-home-manager_serena__search_for_pattern"
-          "mcp__plugin_claude-code-home-manager_serena__initial_instructions"
         ];
       };
     };
