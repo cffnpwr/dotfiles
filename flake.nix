@@ -2,14 +2,7 @@
   description = "cffnpwr nix system flake";
 
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    # 一時的にコミット指定。nixpkgs-unstable には PR #508474 (darwin stdenv 移行) の影響で
-    # darwin の zsh が壊れたコード経路でビルドされ、direnv の checkPhase
-    # (zsh ./test/direnv-test.zsh) がデッドロックする問題がある。
-    # 修正PR #513971 (zsh: fix sigsuspend probe under autoconf 2.73 / C23) が master に
-    # 入った時点のコミットを直接指定。nixpkgs-unstable チャネルに反映されたら戻す。
-    # 関連: https://github.com/NixOS/nixpkgs/issues/513543
-    nixpkgs.url = "github:NixOS/nixpkgs/a504cf2719ebe4a488dbf07f3d9cdd1461543017";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
