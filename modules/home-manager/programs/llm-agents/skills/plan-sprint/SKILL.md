@@ -34,10 +34,10 @@ Default: no.
 
 ### Step 3: Determine sprint ID and start date
 
-Sprint ID format: `YYYY-SNN` where:
+Sprint ID format: `YYYY-SN` where:
 
 - `YYYY` = calendar year of the start date
-- `NN` = ISO week number of the start date, zero-padded
+- `N` = sequential sprint number within that calendar year, **not zero-padded** (`S1`, `S2`, ..., `S10`, `S11`, ...). The counter resets at each calendar-year boundary.
 
 Ask the user:
 
@@ -45,7 +45,15 @@ Ask the user:
 
 If no input, use today.
 
-Compute sprint ID. If a sprint with the same ID already exists in `velocity.md` or as an iteration in the Project, append a suffix (`-2`, `-3`) to disambiguate.
+Compute sprint ID:
+
+1. Determine the year `YYYY` from the start date.
+2. Find the highest existing sprint number for `YYYY` by checking, in order:
+   - The Project's Sprint iteration field (both active and completed iterations) for titles matching `^YYYY-S(\d+)$`.
+   - `velocity.md` (per `storage.paths.velocity`) for rows whose first column matches `^YYYY-S(\d+)$`.
+3. Use the next integer (`max + 1`, or `1` if none found).
+
+If a sprint with the same computed ID somehow already exists, append a suffix (`-2`, `-3`) to disambiguate.
 
 ### Step 4: Generate calendar file
 

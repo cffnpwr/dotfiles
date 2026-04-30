@@ -73,9 +73,9 @@ Category is derived as: take the first label matching `^type:(bug|feature|improv
 ```
 | #    | T   | Cat   | U? | Title                  | Repo            | Pri | Est  | Act  | Carry | Status   | Sprint   |
 |------|-----|-------|----|------------------------|-----------------|-----|------|------|-------|----------|----------|
-| #42  | sbi | task  | -  | Aerospace 設定見直し    | cffnpwr/dotfiles| 1   | 2h   | 2.5h | 0     | Done     | 2026-S09 |
+| #42  | sbi | task  | -  | Aerospace 設定見直し    | cffnpwr/dotfiles| 1   | 2h   | 2.5h | 0     | Done     | 2026-S9  |
 | #43  | pbi | feat  | -  | 認証MVP                | cffnpwr/webapp  | 2   | -    | -    | 0     | Backlog  | -        |
-| #48  | sbi | bug   | Y  | プロダクション緊急修正   | cffnpwr/webapp  | 1   | 1h   | 1.5h | 0     | Done     | 2026-S09 |
+| #48  | sbi | bug   | Y  | プロダクション緊急修正   | cffnpwr/webapp  | 1   | 1h   | 1.5h | 0     | Done     | 2026-S9  |
 | #50  | sbi | impr  | -  | 旧ライブラリ撤去        | cffnpwr/webapp  | 4   | 4h   | -    | 3 ⚠   | Backlog  | -        |
 ```
 

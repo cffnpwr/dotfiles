@@ -6,7 +6,7 @@ Template-string syntax used in `storage.paths.velocity`, `storage.paths.retros`,
 
 | Variable | Meaning | Format |
 |---|---|---|
-| `{sprint_id}` | Sprint identifier | Fixed: `YYYY-SNN` (e.g., `2026-S18`) |
+| `{sprint_id}` | Sprint identifier | Fixed: `YYYY-SN` where `N` is a 1-based sequential number per calendar year, not zero-padded (e.g., `2026-S1`, `2026-S10`) |
 | `{date:FORMAT}` | A date, formatted by tokens | See below |
 
 The base date for `{date:...}`:
