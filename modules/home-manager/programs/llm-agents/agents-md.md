@@ -20,7 +20,7 @@
 ## Tool Usage
 
 - Missing CLI tool → use `nix-shell -p <pkg>`. Details: @docs/tool-usage.md
-- Reading GitHub resources → use `gh` CLI, not WebFetch. Details: @docs/tool-usage.md
+- Investigating external GitHub repositories → prefer `deepwiki` MCP, fall back to `gh` CLI. Other GitHub resources (issues, PRs, runs) → `gh` CLI, not WebFetch. Details: @docs/tool-usage.md
 
 ## Artifact Cleanliness
 

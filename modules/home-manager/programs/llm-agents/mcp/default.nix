@@ -7,7 +7,12 @@
   programs.mcp = {
     enable = true;
 
-    servers = { };
+    servers = {
+      deepwiki = {
+        type = "http";
+        url = "https://mcp.deepwiki.com/mcp";
+      };
+    };
   };
 
   home = {

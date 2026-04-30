@@ -11,6 +11,8 @@
       spinnerTipsEnabled = false;
 
       permissions = {
+        defaultMode = "auto";
+
         ask = [
           # git write operations
           "Bash(git commit *)"
@@ -181,6 +183,11 @@
           # Web tools
           "WebFetch"
           "WebSearch"
+
+          # deepwiki MCP (external GitHub repo research)
+          "mcp__deepwiki__ask_question"
+          "mcp__deepwiki__read_wiki_contents"
+          "mcp__deepwiki__read_wiki_structure"
         ];
       };
     };
