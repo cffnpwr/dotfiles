@@ -38,7 +38,7 @@ Ask the user, in **one consolidated message**:
 > 2. 分類: bug / feature / improvement / task（迷ったら task）
 > 3. 粒度: sbi / pbi（迷ったら sbi。4h超や複数サブタスクに分解できそうなら pbi）
 > 4. 対象リポジトリ: `<owner>/<repo>` 形式で指定（登録済み一覧は後述。未登録の場合は自動で登録する）
-> 5. Priority: 自然数（小さいほど高優先度）
+> 5. Priority: 0--100の整数（小さいほど高優先度。デフォルト値は設けない — 必ず帯を判断する。帯の目安は `references/priority-guide.md`）
 > 6. Estimate: 0.5h / 1h / 2h / 4h（pbi の場合は不要）
 > 7. テンプレートに沿った本文情報（後述、分類により異なる）
 > 8. (進行中スプリントがある場合のみ) これは現スプリント `<sprint-id>` への割り込みタスクか？(y/n)
@@ -70,7 +70,7 @@ If `register-project` fails (repository does not exist, GraphQL error, etc.), su
 - Category: exactly one of `bug`, `feature`, `improvement`, `task`.
 - Type (粒度): exactly `sbi` or `pbi`.
 - Repository: matches `^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$`. Registration is auto-handled in Step 2.5 if the option does not yet exist.
-- Priority: positive integer.
+- Priority: integer in `0..100`. See `references/priority-guide.md` for band guidance.
 - Estimate (sbi only): exactly one of `0.5h`, `1h`, `2h`, `4h`.
 - Acceptance Criteria: at least one non-empty line.
 - Category-specific mandatory sections (see template files): all required sections must be filled.

@@ -16,7 +16,7 @@ Fields (defined by `bootstrap-solo-sprint`):
 | Actual | Number | Hours actually spent. SBIs only. Set by `review-sprint` when transitioning an item to Done; PBIs leave it unset. Decimals allowed (e.g., `2.5`). |
 | Carry Count | Number | Non-negative integer. Counts how many times this item has been carried over (or kept-in-sprint) without being completed. Incremented by `review-sprint`. Empty is treated as `0`. |
 | Unplanned | Single select | `yes` / `no`. Marks items that surfaced as interruptions during a running sprint and were injected directly into it (bypassing `plan-sprint`). Empty is treated as `no`. |
-| Priority | Number | Natural number. **Smaller is higher priority.** No fixed range. |
+| Priority | Number | Integer in `0..100`. **Smaller is higher priority.** No default — band-based, see `create-backlog-item/references/priority-guide.md`. |
 | Project | Single select | `<owner>/<repo>` form. Options added by `register-project`. |
 | Sprint | Iteration | Variable-length iterations. Created by `plan-sprint`. |
 
