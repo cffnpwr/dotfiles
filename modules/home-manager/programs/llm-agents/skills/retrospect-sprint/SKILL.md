@@ -27,9 +27,10 @@ Default: the most recently reviewed sprint (look for `sprint-<id>.toml` files in
 
 If the user passes a sprint ID as argument, use it.
 
-If no reviewed sprint is found:
+If no reviewed sprint is found, look for an **unreviewed** sprint (a `sprint-<id>.toml` without a `[review]` section, or an iteration in the Project that has items in Sprint/Doing/Done):
 
-> 振り返り対象のスプリントが見つからない。先に `review-sprint` を実行してほしい。
+- **Unreviewed sprint exists**: invoke the `review-sprint` workflow inline for that sprint, then return here and use it as the target. Briefly notify the user (one line, e.g. `スプリント <sprint-id> は未レビューのため review-sprint を先に実行する`). `review-sprint` is interactive (per-item disposition, Actual collection); run it to completion before resuming. If the user aborts review-sprint, stop retrospect-sprint as well.
+- **No sprint at all**: abort with `振り返り対象のスプリントもアクティブなスプリントもない。先に plan-sprint でスプリントを開始する必要がある。` (this is genuinely a setup-state issue, not a self-driving handoff).
 
 ### Step 3: Resolve the destination
 

@@ -37,7 +37,7 @@ Ask the user, in **one consolidated message**:
 > 1. タイトル（72文字以内推奨）
 > 2. 分類: bug / feature / improvement / task（迷ったら task）
 > 3. 粒度: sbi / pbi（迷ったら sbi。4h超や複数サブタスクに分解できそうなら pbi）
-> 4. 対象リポジトリ: 登録済み一覧から選択（後述）
+> 4. 対象リポジトリ: `<owner>/<repo>` 形式で指定（登録済み一覧は後述。未登録の場合は自動で登録する）
 > 5. Priority: 自然数（小さいほど高優先度）
 > 6. Estimate: 0.5h / 1h / 2h / 4h（pbi の場合は不要）
 > 7. テンプレートに沿った本文情報（後述、分類により異なる）
@@ -45,25 +45,31 @@ Ask the user, in **one consolidated message**:
 >    - yes: 即スプリントに投入、`Unplanned = yes` をマーク（投入上限チェックは行わない）
 >    - no: 通常通り Backlog に積む
 
-For (4), fetch and display the registered repositories:
+For (4), fetch the registered repositories and present them as a hint:
 
 ```bash
 gh project field-list "$PROJECT_NUMBER" --owner "$OWNER" --format json \
   | jq -r '.fields[] | select(.id == "<project-field-id>") | .options[].name'
 ```
 
-If the list is empty (only `__placeholder__` exists), abort:
-
-> Project フィールドにリポジトリが登録されていない。先に `register-project` を実行してほしい。
+Display the list (or note that it is empty) so the user can pick one, but accept any `<owner>/<repo>` value as input. **Never** abort because of an unregistered repository — instead, auto-register inline (see Step 2.5).
 
 For (7), the body fields depend on the chosen category. Read the corresponding template (see Step 5) and prompt for each section it defines. Acceptance Criteria is mandatory for all four templates.
+
+### Step 2.5: Auto-register the repository if missing
+
+After collecting the user's repository choice, compare it (case-sensitive) against the option list fetched in Step 2. If the chosen `<owner>/<repo>` is **not** present (including when the list is empty or only contains `__placeholder__`), invoke the `register-project` workflow inline with that repository as the argument — do not stop and ask the user to run it manually.
+
+Run through `register-project` end-to-end (repository existence check, option append, label provisioning, post-mutation verification). On success, briefly inform the user (one line, e.g. `<owner>/<repo> を Project に自動登録した`) and continue to Step 3.
+
+If `register-project` fails (repository does not exist, GraphQL error, etc.), surface the error and stop — do not silently fall back to a different repository.
 
 ### Step 3: Validate inputs
 
 - Title: non-empty, ≤ 200 characters.
 - Category: exactly one of `bug`, `feature`, `improvement`, `task`.
 - Type (粒度): exactly `sbi` or `pbi`.
-- Repository: must match a registered option (case-sensitive).
+- Repository: matches `^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$`. Registration is auto-handled in Step 2.5 if the option does not yet exist.
 - Priority: positive integer.
 - Estimate (sbi only): exactly one of `0.5h`, `1h`, `2h`, `4h`.
 - Acceptance Criteria: at least one non-empty line.
@@ -134,7 +140,7 @@ gh issue create \
   --label "type:$CATEGORY"
 ```
 
-If the label does not exist on the repository, fall back to creating the Issue without `--label` and warn the user to run `register-project` to set up labels. Do NOT auto-create the label here (that's `register-project`'s job).
+If the label does not exist on the repository (this can happen when the repo was registered before the label-provisioning step was added, or labels were deleted manually), invoke the `register-project` workflow inline for `<owner>/<repo>` first — `register-project` is idempotent and will only create the missing labels (and skip the option-add since it is already registered). Then retry the Issue creation with `--label`. Do NOT inline the label creation here directly (label provisioning is `register-project`'s contract).
 
 Capture the Issue URL from stdout.
 
@@ -196,7 +202,7 @@ Project item: configured (Status=Backlog, Type=<type>, Priority=<N>, Estimate=<v
 ## Anti-patterns
 
 - ❌ Skip Acceptance Criteria entry or accept empty AC
-- ❌ Use a repository that is not registered in the Project field
+- ❌ Abort and ask the user to run `register-project` manually when the chosen repository is unregistered (auto-register inline via Step 2.5 instead)
 - ❌ Set Estimate on a PBI
 - ❌ Set Actual at creation time (Actual is collected by review-sprint at Done transition)
 - ❌ Apply the investment ceiling check to unplanned items (interrupts are intentional overflow)
