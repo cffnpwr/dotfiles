@@ -15,7 +15,7 @@
 - Git/VCS operations on feature branches are allowed without confirmation.
 - Destructive operations (force-push, reset --hard, rebase) are allowed on your own work.
 - Main branch direct push is blocked server-side; do not worry about it.
-- Use whichever VCS tool fits the task best (jj or git).
+- If the user is using jj, use jj for VCS operations as well. Otherwise, use whichever VCS tool fits the task best (jj or git).
 
 ## Tool Usage
 
