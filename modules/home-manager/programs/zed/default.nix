@@ -60,6 +60,23 @@
       ensure_final_newline_on_save = true;
       restore_on_startup = "last_session";
 
+      # Panel dock positions
+      project_panel = {
+        dock = "left";
+      };
+      outline_panel = {
+        dock = "left";
+      };
+      collaboration_panel = {
+        dock = "left";
+      };
+      git_panel = {
+        dock = "left";
+      };
+      agent = {
+        dock = "right";
+      };
+
       # Minimap
       minimap = {
         show = "always";
