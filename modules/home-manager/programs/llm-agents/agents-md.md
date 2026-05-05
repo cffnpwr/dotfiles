@@ -12,10 +12,14 @@
 
 ## Autonomy
 
-- Git/VCS operations on feature branches are allowed without confirmation.
-- Destructive operations (force-push, reset --hard, rebase) are allowed on your own work.
+- VCS operations on feature branches are allowed without confirmation.
+- Destructive operations (force-push, `reset --hard`, rebase, `jj abandon`, `jj op restore`) are allowed on your own work.
 - Main branch direct push is blocked server-side; do not worry about it.
-- If the user is using jj, use jj for VCS operations as well. Otherwise, use whichever VCS tool fits the task best (jj or git).
+- **Default to jj for all VCS operations.** Use git only when the repository has no `.jj` directory at the root.
+  - Detection: check for `.jj` at the repository root before any VCS command. `.jj` and `.git` coexisting (colocated repo) still means use jj.
+  - This applies to read-only inspection too: prefer `jj st` / `jj log` / `jj diff` over their git equivalents in jj-managed repos.
+  - Refer to the `jj-reference` skill for command translation when unsure.
+  - GitHub-side operations (PR creation, issue handling, etc.) still use `gh` CLI regardless of jj/git.
 
 ## Tool Usage
 
