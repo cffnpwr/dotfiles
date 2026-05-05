@@ -3,7 +3,7 @@ name: plan-sprint
 description: Plan and start a new solo-sprint sprint. Generates a per-day calendar template for the user to edit, parses available hours, creates a variable-length Iteration in the GitHub Project, and pulls backlog items by priority within the investment ceiling. Use when (1) the user wants to start a new sprint, (2) the user says "plan a sprint", "新しいスプリントを始める", "sprint planning", (3) the previous sprint has been reviewed and a new one is due.
 compatibility: |
   Required: gh CLI, jq, mktemp.
-  Requires solo-sprint bootstrap, registered projects, and a backlog with items.
+  Requires solo-sprint bootstrap and a backlog with items.
 ---
 
 # Plan Sprint

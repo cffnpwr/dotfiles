@@ -128,7 +128,7 @@ Sprint <sprint-id> closed.
 
 If any Try item points to a recurring pattern, consider:
   - Adjusting an existing solo-sprint skill's behavior
-  - Adding a structural constraint (Project field options, validation in a skill)
+  - Adding a structural constraint (Project custom field options, validation in a skill)
   - Creating a new skill that encapsulates the new pattern
 
 These are user actions, not actions this skill performs.

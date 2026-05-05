@@ -1,6 +1,6 @@
 ---
 name: register-project
-description: Register a new repository as a Project field option in the solo-sprint GitHub Project, so it can be selected when creating backlog items. Use when (1) the user wants to start tracking a new repository in solo-sprint, (2) the user says "register a project", "プロジェクトを登録", "<owner>/<repo>を追加", (3) create-backlog-item reports that a repository is not yet registered.
+description: Provision the canonical `type:*` Issue Labels on a target repository so solo-sprint backlog items can be filed there. Use when (1) the user explicitly asks to register a repository ("register-project", "プロジェクトを登録", "<owner>/<repo>を登録"), (2) `create-backlog-item` invokes this inline because the chosen repository lacks the labels. Always confirms the plan with the user before making any change.
 compatibility: |
   Required: gh CLI (authenticated, scopes project + repo), jq.
   Requires solo-sprint to be bootstrapped (config.toml exists).
@@ -8,7 +8,15 @@ compatibility: |
 
 # Register Project
 
-Adds a `<owner>/<repo>` value as a new Single select option on the Project field of the solo-sprint Project.
+Provisions the four canonical `type:*` Issue Labels on a GitHub repository. Idempotent: only creates labels that are missing.
+
+This skill does **not** maintain any separate registration list. The built-in `Repository` field on Project items is the canonical source of which repositories are in use.
+
+## Conservative behavior
+
+- This skill **always shows the planned changes and asks for explicit approval** before creating anything.
+- It does not pass through silently — even when invoked inline from another skill, the user is asked to confirm.
+- If there are no changes to make (all labels already exist with matching color/description), it reports that and exits without prompting.
 
 ## Workflow
 
@@ -18,7 +26,6 @@ Read `${XDG_CONFIG_HOME:-$HOME/.config}/solo-sprint/config.toml`. Required keys:
 
 - `github.owner`
 - `github.project_number`
-- `github.fields.project.id`
 
 If config is missing, abort with:
 
@@ -42,69 +49,15 @@ If the command fails, abort:
 
 > リポジトリ `<owner>/<repo>` が存在しない、またはアクセス権限がない。指定を見直してほしい。
 
-### Step 4: Check for duplicate registration
+### Step 4: Diff the label state
+
+List existing labels on the repository:
 
 ```bash
-gh project field-list "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --format json
+gh label list --repo "$OWNER/$REPO" --json name,color,description
 ```
 
-Find the Project field by ID (from config). Inspect its `options` array.
-
-If `<owner>/<repo>` already exists in the options, report and exit:
-
-> `<owner>/<repo>` は既に登録済み。何もしない。
-
-### Step 5: Add the option
-
-GitHub's GraphQL API for Single select fields requires sending the **full options list** including existing options when updating. Read the existing option list, append the new entry, and send the union.
-
-Use:
-
-```bash
-gh api graphql -f query='
-  mutation($fieldId: ID!, $options: [ProjectV2SingleSelectFieldOptionInput!]!) {
-    updateProjectV2SingleSelectField(input: {
-      fieldId: $fieldId,
-      options: $options
-    }) {
-      projectV2SingleSelectField { id }
-    }
-  }
-' -f fieldId="$FIELD_ID" -f options="$OPTIONS_JSON"
-```
-
-Where `OPTIONS_JSON` is a JSON array of `{ name, color, description }` objects. Reuse existing colors/descriptions; for the new entry, use `color: GRAY` and `description: ""` unless the user specifies otherwise.
-
-If the schema variant in use does not accept this mutation (older versions), inspect the schema:
-
-```bash
-gh api graphql -f query='{__type(name:"updateProjectV2SingleSelectField"){...}}'
-```
-
-Adjust accordingly. Report any failure with the raw error.
-
-### Step 6: Verify
-
-Re-run `field-list` to confirm the option was added. Report:
-
-```
-Registered: <owner>/<repo>
-Field: Project
-```
-
-If the new option does not appear, abort and report the failure.
-
-### Step 7: Optional placeholder cleanup
-
-If the Project field still contains the placeholder option `__placeholder__` (created during bootstrap when initial options were required), and at least one real option now exists, ask the user:
-
-> `__placeholder__` オプションを削除してよいか？
-
-If yes, send the same mutation with the placeholder excluded.
-
-### Step 8: Ensure type labels exist on the repository
-
-Solo-sprint uses GitHub Issue Labels to classify items by category. Ensure the four canonical labels exist on `<owner>/<repo>`:
+Compare against the canonical label set:
 
 | Label | Color (hex) | Description |
 |---|---|---|
@@ -113,13 +66,37 @@ Solo-sprint uses GitHub Issue Labels to classify items by category. Ensure the f
 | `type:improvement` | `a2eeef` | Enhancement to existing functionality |
 | `type:task` | `c5def5` | Internal work (refactor, deps, docs, chore) |
 
-For each label, check existence and create if missing:
+For each canonical label, classify as:
 
-```bash
-gh label list --repo "$OWNER/$REPO" --json name --jq '.[].name'
+- **missing** — label does not exist; will be created.
+- **matches** — label exists with the same color and description; nothing to do.
+- **diverges** — label exists with a different color or description; **do not overwrite** (the user may have customized it). Reported informationally only.
+
+If all four labels fall into `matches`, report:
+
+> `<owner>/<repo>` の `type:*` ラベルは既に揃っている。何もしない。
+
+…and exit without prompting.
+
+### Step 5: Confirm the plan
+
+Show the diff and ask for explicit approval:
+
+```
+<owner>/<repo> に以下の変更を加える:
+  + 作成: <comma-separated missing labels, with color>
+  ~ 既存(変更しない): <diverges labels, with note "color/description が canonical と異なる">
+
+実行してよいか？(y/n)
 ```
 
-If a label is missing:
+Only proceed on explicit `y` / `yes`. Any other answer (including `n`, empty, or unrelated text) aborts:
+
+> 中止した。何も変更していない。
+
+### Step 6: Create missing labels
+
+For each `missing` label:
 
 ```bash
 gh label create "type:bug" \
@@ -128,24 +105,23 @@ gh label create "type:bug" \
   --description "Bug report or fix"
 ```
 
-If a label already exists with a different color/description, do NOT overwrite — leave the existing one alone (the user may have customized it). Report the discrepancy as informational.
+If a single creation fails, surface the error, stop the loop, and report which labels were created and which were not.
 
-If the repository has its own label conventions (e.g., `bug` without prefix), the user can set up alias labels manually; solo-sprint always sets the `type:` prefix variants.
-
-### Step 9: Report
+### Step 7: Report
 
 ```
 Registered: <owner>/<repo>
-- Project field option: added
-- Repository labels: <created/exists> (type:bug, type:feature, type:improvement, type:task)
+- Created: <created labels>
+- Existing (matches): <matches labels>
+- Existing (diverges, left alone): <diverges labels, with the actual color seen>
 ```
+
+If no changes were made (all canonical), the report is the early exit in Step 4.
 
 ## Anti-patterns
 
-- ❌ Add an option without verifying the repository exists
-- ❌ Use a duplicate name (case-sensitive comparison)
-- ❌ Drop existing options when calling the mutation (must include the full list)
-- ❌ Skip the post-mutation verification
-- ❌ Auto-delete placeholders without user consent
-- ❌ Overwrite existing labels with different colors/descriptions
-- ❌ Skip the label creation step (templates rely on these labels existing)
+- ❌ Skip the confirmation step in Step 5 — even when invoked inline
+- ❌ Overwrite existing labels with different colors/descriptions (treat as `diverges`, leave alone)
+- ❌ Maintain a separate "registered repositories" list anywhere (the Project's built-in `Repository` field is canonical)
+- ❌ Touch the Project's custom fields in any way (this skill is label-only)
+- ❌ Create labels not in the canonical set

@@ -1,6 +1,6 @@
 ---
 name: bootstrap-solo-sprint
-description: Initialize the solo-sprint workflow. Creates (or registers an existing) GitHub user-level Project (v2), defines the required custom fields (Status / Type / Estimate / Priority / Project / Sprint), configures the storage backend (local filesystem or git repository, optionally with PR-based push), and writes the configuration file. Use when (1) the user wants to set up solo-sprint for the first time, (2) the user wants to reset or reconfigure the existing solo-sprint setup, (3) the user says "bootstrap solo-sprint", "solo-sprintを初期化", "solo-sprintをセットアップ".
+description: Initialize the solo-sprint workflow. Creates (or registers an existing) GitHub user-level Project (v2), defines the required custom fields (Status / Type / Estimate / Actual / Carry Count / Unplanned / Priority / Sprint), configures the storage backend (local filesystem or git repository, optionally with PR-based push), and writes the configuration file. Use when (1) the user wants to set up solo-sprint for the first time, (2) the user wants to reset or reconfigure the existing solo-sprint setup, (3) the user says "bootstrap solo-sprint", "solo-sprintを初期化", "solo-sprintをセットアップ".
 compatibility: |
   Required: gh CLI (authenticated with scopes: project, repo, read:user), jq.
   No language runtime required.
@@ -145,7 +145,6 @@ Required fields:
 | Carry Count | NUMBER | (none) |
 | Unplanned | SINGLE_SELECT | yes, no |
 | Priority | NUMBER | (none) |
-| Project | SINGLE_SELECT | (no initial options — added by `register-project`) |
 | Sprint | ITERATION | (managed by `plan-sprint`) |
 
 Create with `gh project field-create`:
@@ -158,9 +157,9 @@ gh project field-create "$NUMBER" \
   [--single-select-options "$OPT1,$OPT2,..."]
 ```
 
-For SINGLE_SELECT fields with no initial options (Project), `gh project field-create` may require at least one option. If it does, create with a placeholder like `__placeholder__` and instruct the user that `register-project` will add real options.
-
 For ITERATION fields, fall back to GraphQL `createProjectV2Field` mutation if `gh` does not support creation. See `solo-sprint-spec/references/gh-commands.md`.
+
+The built-in `Repository` field is populated automatically when an Issue is added to the Project; no custom Project-side configuration is required for it.
 
 After creation, capture each field's `id` and (for SINGLE_SELECT) the option IDs by re-running `field-list`.
 
@@ -200,7 +199,7 @@ chmod 600 "${XDG_CONFIG_HOME:-$HOME/.config}/solo-sprint/config.toml"
 Solo Sprint setup complete.
 - Project: <owner>/<project-number> (<url>)
 - Config: ${XDG_CONFIG_HOME:-$HOME/.config}/solo-sprint/config.toml
-- Fields registered: Status, Type, Estimate, Priority, Project, Sprint
+- Fields registered: Status, Type, Estimate, Actual, Carry Count, Unplanned, Priority, Sprint
 - Storage: <backend>
   [local]  Path: <storage.path>
   [git]    Repo: <storage.repo>, base: <base_branch>, mode: <push_mode>
@@ -209,8 +208,7 @@ Solo Sprint setup complete.
   Retros:   <storage.paths.retros>
 
 Next steps:
-- Run `register-project` to add a repository to the Project field.
-- Run `create-backlog-item` to add your first backlog item.
+- Run `create-backlog-item` to add your first backlog item. (Each new repository's `type:*` labels are provisioned on first use via `register-project`.)
 ```
 
 Do not proceed to those next steps automatically.

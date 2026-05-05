@@ -143,24 +143,24 @@ gh issue view "$NUMBER" --repo "$OWNER/$REPO" --json id --jq .id
 
 If `addSubIssue` is unavailable in the user's GitHub plan/region, fall back to a `Parent: #<num>` line in the SBI body and a checklist in the PBI body. Detect availability with the introspection query above.
 
-## Single Select Option Management
+## Issue Label Management
 
-Add a new option to a Single select field (used by `register-project`):
+List labels on a repository (used by `register-project` to diff against the canonical `type:*` set):
 
 ```bash
-gh api graphql -f query='
-  mutation($fieldId: ID!, $name: String!) {
-    updateProjectV2SingleSelectField(input: {
-      fieldId: $fieldId,
-      options: { name: $name }
-    }) {
-      projectV2SingleSelectField { id }
-    }
-  }
-' -f fieldId="$FIELD_ID" -f name="$OWNER/$REPO"
+gh label list --repo "$OWNER/$REPO" --json name,color,description
 ```
 
-Note: depending on schema version, the mutation may require resending the full options list rather than a single new entry. Verify before relying on incremental adds.
+Create a label on a repository:
+
+```bash
+gh label create "$LABEL_NAME" \
+  --repo "$OWNER/$REPO" \
+  --color "$HEX_COLOR" \
+  --description "$DESCRIPTION"
+```
+
+`gh label create` is idempotent only when the label is missing; calling it on an existing label fails. Always list-then-create.
 
 ## Repository File Operations (storage backend = "git")
 

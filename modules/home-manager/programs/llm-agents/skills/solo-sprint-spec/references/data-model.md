@@ -17,18 +17,17 @@ Fields (defined by `bootstrap-solo-sprint`):
 | Carry Count | Number | Non-negative integer. Counts how many times this item has been carried over (or kept-in-sprint) without being completed. Incremented by `review-sprint`. Empty is treated as `0`. |
 | Unplanned | Single select | `yes` / `no`. Marks items that surfaced as interruptions during a running sprint and were injected directly into it (bypassing `plan-sprint`). Empty is treated as `no`. |
 | Priority | Number | Integer in `0..100`. **Smaller is higher priority.** No default — band-based, see `create-backlog-item/references/priority-guide.md`. |
-| Project | Single select | `<owner>/<repo>` form. Options added by `register-project`. |
 | Sprint | Iteration | Variable-length iterations. Created by `plan-sprint`. |
 
 Field IDs and option IDs are persisted in `config.toml` under `[github.fields]` so skills do not need to look them up on every invocation.
 
-The default `Title` field is the Issue title. The default `Assignees`, `Labels`, `Milestone`, `Repository`, `Linked pull requests` fields are not used by solo-sprint logic.
+The default `Title` field is the Issue title. The default `Repository` field is **the canonical source of which repository an item belongs to** — populated automatically when an Issue is added to the Project. The default `Assignees`, `Labels`, `Milestone`, `Linked pull requests` fields are not used by solo-sprint logic.
 
 ## Repository Mapping
 
-The Project field's value (`<owner>/<repo>`) is the canonical source of which repository an item belongs to. There is no separate `[[projects]]` mapping in `config.toml` — the Project field's Single select options enumerate all registered repositories.
+The built-in `Repository` field on each Project item identifies the owning repository. There is no separate registration list of "tracked repositories" — any repository the user references will appear once an Issue from it is added to the Project.
 
-`register-project` adds new options to this field. `create-backlog-item` reads the option list to let the user choose where to file the Issue.
+`register-project` provisions the canonical `type:*` labels on a repository (it does **not** maintain a separate list anywhere). `create-backlog-item` derives a hint list of previously-used repositories by inspecting existing Project items.
 
 ## Issue Body Schema
 
@@ -53,7 +52,7 @@ Solo-sprint uses GitHub Issue Labels — not a Project field — for category. R
 - `gh issue list --label type:bug` works out of the box.
 - issue-creator skill (and other workflows) can interoperate with the same convention.
 
-Canonical labels (created by `register-project` on each registered repository):
+Canonical labels (provisioned by `register-project` on a target repository):
 
 | Label | Color | Description |
 |---|---|---|
@@ -145,7 +144,6 @@ actual = { id = "PVTF_..." }
 carry_count = { id = "PVTF_..." }
 unplanned = { id = "PVTSSF_...", options = { yes = "...", no = "..." } }
 priority = { id = "PVTF_..." }
-project = { id = "PVTSSF_..." }    # options enumerated dynamically via gh project field-list
 sprint = { id = "PVTIF_..." }
 
 [sprint]

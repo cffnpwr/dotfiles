@@ -3,7 +3,7 @@ name: create-backlog-item
 description: Create a new backlog item (SBI or PBI) in the solo-sprint GitHub Project. Files an Issue in the chosen repository using the appropriate template, adds it to the Project, and sets all required fields. Promotes a PBI when effort exceeds 4h or the work decomposes naturally. Use when (1) the user wants to add a backlog item, (2) the user says "add a backlog item", "バックログに追加", "Issueを作って積んでおいて", (3) the user describes new work to track in solo-sprint.
 compatibility: |
   Required: gh CLI (authenticated, scopes project + repo), jq.
-  Requires solo-sprint bootstrap and at least one project registered.
+  Requires solo-sprint bootstrap.
 ---
 
 # Create Backlog Item
@@ -17,7 +17,7 @@ Creates an Issue and registers it in the solo-sprint Project with all required f
 Read `${XDG_CONFIG_HOME:-$HOME/.config}/solo-sprint/config.toml`. Required keys:
 
 - `github.owner`, `github.project_number`
-- `github.fields.{status,type,estimate,priority,project,sprint,unplanned}.id`
+- `github.fields.{status,type,estimate,priority,sprint,unplanned}.id`
 - All option IDs for status / type / estimate / unplanned
 
 If config is missing, abort and instruct user to run `bootstrap-solo-sprint`.
@@ -37,7 +37,7 @@ Ask the user, in **one consolidated message**:
 > 1. タイトル（72文字以内推奨）
 > 2. 分類: bug / feature / improvement / task（迷ったら task）
 > 3. 粒度: sbi / pbi（迷ったら sbi。4h超や複数サブタスクに分解できそうなら pbi）
-> 4. 対象リポジトリ: `<owner>/<repo>` 形式で指定（登録済み一覧は後述。未登録の場合は自動で登録する）
+> 4. 対象リポジトリ: `<owner>/<repo>` 形式で指定（過去使用したリポジトリの一覧は後述。`type:*` ラベルが未整備の場合は確認のうえ整備する）
 > 5. Priority: 0--100の整数（小さいほど高優先度。デフォルト値は設けない — 必ず帯を判断する。帯の目安は `references/priority-guide.md`）
 > 6. Estimate: 0.5h / 1h / 2h / 4h（pbi の場合は不要）
 > 7. テンプレートに沿った本文情報（後述、分類により異なる）
@@ -45,31 +45,46 @@ Ask the user, in **one consolidated message**:
 >    - yes: 即スプリントに投入、`Unplanned = yes` をマーク（投入上限チェックは行わない）
 >    - no: 通常通り Backlog に積む
 
-For (4), fetch the registered repositories and present them as a hint:
+For (4), derive the hint list from previously-used repositories by inspecting the Project's existing items:
 
 ```bash
-gh project field-list "$PROJECT_NUMBER" --owner "$OWNER" --format json \
-  | jq -r '.fields[] | select(.id == "<project-field-id>") | .options[].name'
+gh project item-list "$PROJECT_NUMBER" --owner "$OWNER" --format json --limit 500 \
+  | jq -r '.items[].content.repository' \
+  | sort -u
 ```
 
-Display the list (or note that it is empty) so the user can pick one, but accept any `<owner>/<repo>` value as input. **Never** abort because of an unregistered repository — instead, auto-register inline (see Step 2.5).
+Display the list (or note that it is empty) so the user can pick one, but accept any `<owner>/<repo>` value as input. The list is purely informational — there is no "registered" gating; any reachable repository may be used.
 
 For (7), the body fields depend on the chosen category. Read the corresponding template (see Step 5) and prompt for each section it defines. Acceptance Criteria is mandatory for all four templates.
 
-### Step 2.5: Auto-register the repository if missing
+### Step 2.5: Ensure type:* labels exist on the chosen repository
 
-After collecting the user's repository choice, compare it (case-sensitive) against the option list fetched in Step 2. If the chosen `<owner>/<repo>` is **not** present (including when the list is empty or only contains `__placeholder__`), invoke the `register-project` workflow inline with that repository as the argument — do not stop and ask the user to run it manually.
+Before creating the Issue, verify the four canonical `type:*` labels exist on `<owner>/<repo>`:
 
-Run through `register-project` end-to-end (repository existence check, option append, label provisioning, post-mutation verification). On success, briefly inform the user (one line, e.g. `<owner>/<repo> を Project に自動登録した`) and continue to Step 3.
+```bash
+gh label list --repo "$OWNER/$REPO" --json name --jq '[.[].name] | map(select(startswith("type:"))) | sort'
+```
 
-If `register-project` fails (repository does not exist, GraphQL error, etc.), surface the error and stop — do not silently fall back to a different repository.
+If all of `type:bug`, `type:feature`, `type:improvement`, `type:task` are present, continue to Step 3.
+
+Otherwise, do **not** auto-create the labels here. Inform the user and invoke `register-project` inline:
+
+> `<owner>/<repo>` に `type:*` ラベルが揃っていない。`register-project` を実行してラベルを整備する。
+
+Then run `register-project` with `<owner>/<repo>` as its argument. `register-project` itself will display the diff and prompt for explicit approval — do not pre-approve on the user's behalf.
+
+If the user declines `register-project`'s confirmation prompt, abort this skill as well:
+
+> ラベルが整備されていないため、Issue を作成できない。中止した。
+
+If `register-project` succeeds, continue to Step 3. If it errors (repository missing, network error, etc.), surface the error and stop.
 
 ### Step 3: Validate inputs
 
 - Title: non-empty, ≤ 200 characters.
 - Category: exactly one of `bug`, `feature`, `improvement`, `task`.
 - Type (粒度): exactly `sbi` or `pbi`.
-- Repository: matches `^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$`. Registration is auto-handled in Step 2.5 if the option does not yet exist.
+- Repository: matches `^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$`. Label provisioning is handled in Step 2.5 (with explicit user confirmation).
 - Priority: integer in `0..100`. See `references/priority-guide.md` for band guidance.
 - Estimate (sbi only): exactly one of `0.5h`, `1h`, `2h`, `4h`.
 - Acceptance Criteria: at least one non-empty line.
@@ -98,7 +113,7 @@ Read the template corresponding to the chosen category (relative to this skill d
 
 Render the body following the template **exactly**: same headings, same order. Sections marked optional in the template's "Section Rules" may be omitted when empty (do not write "なし" or "N/A"). All other sections must be populated.
 
-Templates are written for both SBI and PBI use. The 粒度 (sbi/pbi) is recorded as a Project field, not in the Issue body. Section content depth may differ between SBI and PBI:
+Templates are written for both SBI and PBI use. The 粒度 (sbi/pbi) is recorded as a Project custom field, not in the Issue body. Section content depth may differ between SBI and PBI:
 
 - **SBI**: keep each section terse (1〜3行)
 - **PBI**: more elaborate, especially Background / Scope / Out of Scope
@@ -140,7 +155,7 @@ gh issue create \
   --label "type:$CATEGORY"
 ```
 
-If the label does not exist on the repository (this can happen when the repo was registered before the label-provisioning step was added, or labels were deleted manually), invoke the `register-project` workflow inline for `<owner>/<repo>` first — `register-project` is idempotent and will only create the missing labels (and skip the option-add since it is already registered). Then retry the Issue creation with `--label`. Do NOT inline the label creation here directly (label provisioning is `register-project`'s contract).
+If the label creation fails because the label does not exist (this should not happen — Step 2.5 should have caught it — but could occur if the label was deleted between Step 2.5 and now), invoke `register-project` inline for `<owner>/<repo>` and retry. Do NOT inline the label creation here directly (label provisioning is `register-project`'s contract).
 
 Capture the Issue URL from stdout.
 
@@ -158,15 +173,16 @@ Clean up the temp file.
 ITEM_ID=$(gh project item-add "$PROJECT_NUMBER" --owner "$OWNER" --url "$ISSUE_URL" --format json | jq -r .id)
 ```
 
-Set fields (run in this order — Type before Estimate, since Estimate may be skipped for PBI):
+The built-in `Repository` field is populated automatically by `gh project item-add`; it requires no explicit set step.
+
+Set the custom fields (run in this order — Type before Estimate, since Estimate may be skipped for PBI):
 
 1. Status → `Backlog` if not unplanned; `Sprint` if unplanned
 2. Type → `sbi` or `pbi`
-3. Project → `<owner>/<repo>` (Single select option)
-4. Priority → number
-5. Estimate → option (SBI only)
-6. Unplanned → `yes` if injecting into running sprint, otherwise `no`
-7. Sprint → current iteration ID (only when unplanned = yes)
+3. Priority → number
+4. Estimate → option (SBI only)
+5. Unplanned → `yes` if injecting into running sprint, otherwise `no`
+6. Sprint → current iteration ID (only when unplanned = yes)
 
 Use `gh project item-edit` for each. See `solo-sprint-spec/references/gh-commands.md` for exact command form.
 
@@ -202,7 +218,8 @@ Project item: configured (Status=Backlog, Type=<type>, Priority=<N>, Estimate=<v
 ## Anti-patterns
 
 - ❌ Skip Acceptance Criteria entry or accept empty AC
-- ❌ Abort and ask the user to run `register-project` manually when the chosen repository is unregistered (auto-register inline via Step 2.5 instead)
+- ❌ Pre-approve `register-project`'s confirmation prompt on the user's behalf (Step 2.5 must let the user see and approve the diff)
+- ❌ Auto-create `type:*` labels inline (delegated to `register-project`)
 - ❌ Set Estimate on a PBI
 - ❌ Set Actual at creation time (Actual is collected by review-sprint at Done transition)
 - ❌ Apply the investment ceiling check to unplanned items (interrupts are intentional overflow)
@@ -213,5 +230,4 @@ Project item: configured (Status=Backlog, Type=<type>, Priority=<N>, Estimate=<v
 - ❌ Create 1-to-1 PBI/SBI structures (a PBI must have ≥ 2 children, or be planned to)
 - ❌ Pause for additional confirmations after the user approves the draft
 - ❌ Skip the `type:<category>` label on the Issue (categorization is the contract)
-- ❌ Auto-create labels on the repository (delegated to `register-project`)
 - ❌ Use a category not in {bug, feature, improvement, task}

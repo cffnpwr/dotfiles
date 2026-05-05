@@ -27,7 +27,7 @@ Accept any of these (passed as arguments or asked interactively):
 
 | Filter | Form | Semantics |
 |---|---|---|
-| `--project <owner/repo>` | repeatable | Match Project field exactly |
+| `--project <owner/repo>` | repeatable | Match the built-in `Repository` field exactly (case-sensitive `<owner>/<repo>`) |
 | `--priority <op><N>` | e.g., `<3`, `=1`, `>=2` | Compare against Priority field |
 | `--carry-count <op><N>` | e.g., `>=3`, `=0` | Compare against Carry Count field (empty treated as 0) |
 | `--unplanned <yes\|no>` | one value | Match Unplanned field (empty treated as `no`) |
