@@ -8,6 +8,7 @@
 
     settings = {
       alwaysThinkingEnabled = true;
+      autoMemoryEnabled = false;
       includeCoAuthoredBy = false;
       spinnerTipsEnabled = false;
 
