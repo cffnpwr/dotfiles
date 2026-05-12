@@ -8,13 +8,9 @@
     skills = {
       # Skills with no external dependencies
       enable = [
-        "code-quality-standards"
         "problem-investigation"
         "research-and-information-gathering"
-        "security-standards"
-        "socratic-sparring"
         "structured-agents-md"
-        "task-reporting"
       ];
       # Skills with external dependencies
       explicit = {

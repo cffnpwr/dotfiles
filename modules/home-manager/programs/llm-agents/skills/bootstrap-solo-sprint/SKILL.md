@@ -1,6 +1,7 @@
 ---
 name: bootstrap-solo-sprint
 description: Initialize the solo-sprint workflow. Creates (or registers an existing) GitHub user-level Project (v2), defines the required custom fields (Status / Type / Estimate / Actual / Carry Count / Unplanned / Priority / Sprint), configures the storage backend (local filesystem or git repository, optionally with PR-based push), and writes the configuration file. Use when (1) the user wants to set up solo-sprint for the first time, (2) the user wants to reset or reconfigure the existing solo-sprint setup, (3) the user says "bootstrap solo-sprint", "solo-sprintを初期化", "solo-sprintをセットアップ".
+disable-model-invocation: true
 compatibility: |
   Required: gh CLI (authenticated with scopes: project, repo, read:user), jq.
   No language runtime required.
