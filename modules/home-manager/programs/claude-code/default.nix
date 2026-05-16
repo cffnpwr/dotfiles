@@ -11,6 +11,7 @@
       autoMemoryEnabled = false;
       includeCoAuthoredBy = false;
       spinnerTipsEnabled = false;
+      useAutoModeDuringPlan = true;
 
       permissions = {
         defaultMode = "auto";
