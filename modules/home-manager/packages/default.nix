@@ -19,6 +19,7 @@
 
     # shell tools
     android-tools
+    apm
     bat
     coreutils
     eza
