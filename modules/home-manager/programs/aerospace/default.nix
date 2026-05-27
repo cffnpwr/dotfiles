@@ -125,8 +125,10 @@
               alt-shift-z = "move-node-to-workspace Z";
 
               # workspace navigation
+              alt-enter = "workspace-back-and-forth";
               alt-tab = "workspace-back-and-forth";
               alt-shift-tab = "move-workspace-to-monitor --wrap-around next";
+              alt-shift-enter = "move-workspace-to-monitor --wrap-around next";
 
               # change mode
               alt-shift-semicolon = "mode service";
