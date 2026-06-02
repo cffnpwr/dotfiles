@@ -1,4 +1,17 @@
-encryption = "age"
-[age]
-  identity = "~/.config/chezmoi/key.txt"
-  recipient = "age1x0v0aahyqnhn3m3kp204ek530kky03z2vhyxs7evnrk0a4g0gs9sv2ad35"
+{{/* apply時の変数定義。対象OSを判定して内部キー `os` に対応付け、非対象OSでは実行を止める。 */}}
+{{- $os := "" -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $os = "darwin" -}}
+{{- else if eq .chezmoi.os "linux" -}}
+{{-   $id := .chezmoi.osRelease.id | default "" -}}
+{{-   $idLike := .chezmoi.osRelease.idLike | default "" -}}
+{{-   if or (eq $id "debian") (contains "debian" $idLike) -}}
+{{-     $os = "debian" -}}
+{{-   end -}}
+{{- end -}}
+{{- if eq $os "" -}}
+{{-   fail (printf "unsupported platform: %s; only macOS and debian-based Linux are supported" .chezmoi.os) -}}
+{{- end -}}
+
+[data]
+os = {{ $os | quote }}

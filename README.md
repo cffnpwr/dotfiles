@@ -3,7 +3,7 @@
 ## これはなに
 
 個人用のdotfilesです。
-chezmoiを使って管理しています。
+[chezmoi](https://www.chezmoi.io/)を使って管理しています。
 
 ## 使い方
 
