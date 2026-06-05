@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# fetch経路: URLから取得し、必要に応じ展開して配置する汎用処理。
+# 配置物の中身が変わったときのみ再実行されるよう、解決済みURL・配置条件を
+# このスクリプト本文へ展開する(run_onchangeはレンダリング結果のハッシュで判定)。
+
+place_file() {
+  # place_file <src> <dest_dir> <executable> <basename?>
+  local src="$1" dest="$2" exe="$3" name="${4:-}"
+  local target
+  if [[ -n "$name" ]]; then
+    target="$dest/$name"
+  else
+    target="$dest/$(basename "$src")"
+  fi
+  mkdir -p "$dest"
+  cp -f "$src" "$target"
+  if [[ "$exe" == "true" ]]; then
+    chmod +x "$target"
+  fi
+}
+
+place_glob() {
+  # place_glob <extract_root> <dest_dir> <executable> <select_glob?>
+  # select有り: ブレース展開を含むglobで取り出して配置。
+  # select無し: 展開物すべてを配置(ディレクトリ構造は保たずファイル単位)。
+  local root="$1" dest="$2" exe="$3" sel="${4:-}"
+  mkdir -p "$dest"
+  local matched=0 f
+  shopt -s globstar nullglob extglob
+  local saved_brace=on
+  shopt -q -o braceexpand || saved_brace=off
+  set -B
+  local patterns=()
+  if [[ -n "$sel" ]]; then
+    # ${root}/**/${sel} に対しブレース展開を効かせる
+    eval "patterns=( \"\$root\"/**/$sel )"
+  else
+    patterns=("$root"/**/*)
+  fi
+  for f in "${patterns[@]}"; do
+    [[ -f "$f" ]] || continue
+    place_file "$f" "$dest" "$exe"
+    matched=1
+  done
+  [[ "$saved_brace" == "off" ]] && set +B
+  if [[ "$matched" -eq 0 ]]; then
+    echo "fetch: no files matched in archive (select='${sel}')" >&2
+    return 1
+  fi
+}
+
+run_post() {
+  # run_post <dest_dir> <post_item...>
+  local dest="$1"
+  shift
+  local item
+  for item in "$@"; do
+    case "$item" in
+    fc-cache)
+      if command -v fc-cache >/dev/null 2>&1; then
+        fc-cache -f "$dest"
+      fi
+      ;;
+    esac
+  done
+}
+{{ $os := .os -}}
+{{ range $pkg := .packages -}}
+{{   if hasKey $pkg $os -}}
+{{     $inst := index $pkg $os -}}
+{{     if eq (get $inst "method" | default "") "fetch" -}}
+{{/* プレースホルダ解決: vars写像 > 既定(.chezmoi.os/.chezmoi.arch) */ -}}
+{{       $version := get $inst "version" | default "" -}}
+{{       $osVal := $.chezmoi.os -}}
+{{       $archVal := $.chezmoi.arch -}}
+{{       $vars := get $inst "vars" | default dict -}}
+{{       if hasKey $vars "os" -}}
+{{         $osMap := index $vars "os" -}}
+{{         if hasKey $osMap $.chezmoi.os -}}{{ $osVal = index $osMap $.chezmoi.os }}{{ end -}}
+{{       end -}}
+{{       if hasKey $vars "arch" -}}
+{{         $archMap := index $vars "arch" -}}
+{{         if hasKey $archMap $.chezmoi.arch -}}{{ $archVal = index $archMap $.chezmoi.arch }}{{ end -}}
+{{       end -}}
+{{       $url := $inst.url | replace "${os}" $osVal | replace "${arch}" $archVal | replace "${version}" $version -}}
+{{       $extract := get $inst "extract" | default "" -}}
+{{       $select := get $inst "select" | default "" -}}
+{{       $dest := $inst.dest -}}
+{{       $executable := get $inst "executable" | default false -}}
+{{       $post := get $inst "post" | default (list) -}}
+
+# {{ $pkg.name }}
+(
+  url={{ $url | quote }}
+  # shellcheck disable=SC2088 # 直後の行で ~ を $HOME へ展開する
+  dest={{ $dest | quote }}
+  dest="${dest/#\~/$HOME}"
+  tmp="$(mktemp -d)"
+  trap 'rm -rf "$tmp"' EXIT
+  archive="$tmp/$(basename "$url")"
+  curl -fsSL -o "$archive" "$url"
+{{- if eq $extract "tar.gz" }}
+  ex="$tmp/extract"
+  mkdir -p "$ex"
+  tar -xzf "$archive" -C "$ex"
+  place_glob "$ex" "$dest" {{ $executable | toString | quote }} {{ $select | quote }}
+{{- else if eq $extract "tar.xz" }}
+  ex="$tmp/extract"
+  mkdir -p "$ex"
+  tar -xJf "$archive" -C "$ex"
+  place_glob "$ex" "$dest" {{ $executable | toString | quote }} {{ $select | quote }}
+{{- else if eq $extract "zip" }}
+  ex="$tmp/extract"
+  mkdir -p "$ex"
+  unzip -oq "$archive" -d "$ex"
+  place_glob "$ex" "$dest" {{ $executable | toString | quote }} {{ $select | quote }}
+{{- else }}
+{{-   if $select }}
+  place_file "$archive" "$dest" {{ $executable | toString | quote }} {{ $select | quote }}
+{{-   else }}
+  place_file "$archive" "$dest" {{ $executable | toString | quote }}
+{{-   end }}
+{{- end }}
+{{- if $post }}
+  run_post "$dest"{{ range $p := $post }} {{ $p | quote }}{{ end }}
+{{- end }}
+)
+{{     end -}}
+{{   end -}}
+{{ end -}}

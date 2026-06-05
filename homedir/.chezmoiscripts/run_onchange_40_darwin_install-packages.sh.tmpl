@@ -1,0 +1,128 @@
+{{ if eq .os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# brew のパスを解決する。優先度: PATH > HOMEBREW_PREFIX > 既定(/opt/homebrew)。
+brew_path() {
+  if command -v brew >/dev/null 2>&1; then
+    command -v brew
+  elif [[ -n "${HOMEBREW_PREFIX:-}" && -x "${HOMEBREW_PREFIX}/bin/brew" ]]; then
+    printf '%s\n' "${HOMEBREW_PREFIX}/bin/brew"
+  else
+    printf '%s\n' "/opt/homebrew/bin/brew"
+  fi
+}
+
+brew_bin="$(brew_path)"
+eval "$("$brew_bin" shellenv)"
+
+# 宣言formula(brew leavesでの照合用)
+declared_formulae=(
+{{- range .packages }}
+{{- if hasKey . "darwin" }}
+{{- $d := .darwin }}
+{{- if and (eq $d.method "brew") (not (default false (get $d "cask"))) }}
+  {{ (default .name (get $d "name")) | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+)
+
+# 宣言cask(brew list --caskでの照合用)
+declared_casks=(
+{{- range .packages }}
+{{- if hasKey . "darwin" }}
+{{- $d := .darwin }}
+{{- if and (eq $d.method "brew") (default false (get $d "cask")) }}
+  {{ (default .name (get $d "name")) | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+)
+
+# クリーンアップ除外glob
+ignore_patterns=(
+{{- range (default (list) (get .ignore "darwin")) }}
+  {{ . | quote }}
+{{- end }}
+)
+
+# Brewfileを生成しstdin経由で適用(インストールのみ)
+brew bundle --file=- <<'BREWFILE'
+{{- range .packages }}
+{{- if hasKey . "darwin" }}
+{{- $d := .darwin }}
+{{- if eq $d.method "brew" }}
+{{- if default false (get $d "cask") }}
+cask {{ (default .name (get $d "name")) | quote }}
+{{- else }}
+brew {{ (default .name (get $d "name")) | quote }}
+{{- end }}
+{{- else if eq $d.method "mas" }}
+mas {{ (default .name (get $d "name")) | quote }}, id: {{ $d.id }}
+{{- end }}
+{{- end }}
+{{- end }}
+BREWFILE
+
+# globパターン配列のいずれかに一致するか
+matches_ignore() {
+  local name="$1" pat
+  for pat in ${ignore_patterns[@]+"${ignore_patterns[@]}"}; do
+    # shellcheck disable=SC2053
+    if [[ "$name" == $pat ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+# 第1引数が宣言formulaに厳密一致で含まれるか
+is_declared_formula() {
+  local name="$1" elem
+  for elem in ${declared_formulae[@]+"${declared_formulae[@]}"}; do
+    if [[ "$name" == "$elem" ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+# 第1引数が宣言caskに厳密一致で含まれるか
+is_declared_cask() {
+  local name="$1" elem
+  for elem in ${declared_casks[@]+"${declared_casks[@]}"}; do
+    if [[ "$name" == "$elem" ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+# formulaクリーンアップ: 明示インストールのリーフから、宣言にもignoreにも無いものを削除
+while IFS= read -r name; do
+  [[ -z "$name" ]] && continue
+  if is_declared_formula "$name"; then
+    continue
+  fi
+  if matches_ignore "$name"; then
+    continue
+  fi
+  brew uninstall "$name"
+done < <(brew leaves --installed-on-request)
+
+# caskクリーンアップ: 宣言にもignoreにも無いものを削除
+while IFS= read -r name; do
+  [[ -z "$name" ]] && continue
+  if is_declared_cask "$name"; then
+    continue
+  fi
+  if matches_ignore "$name"; then
+    continue
+  fi
+  brew uninstall --cask "$name"
+done < <(brew list --cask -1)
+
+# 不要になった依存を除去
+brew autoremove
+{{- end }}

@@ -1,0 +1,120 @@
+packages:
+  # バリアント1: brew formula + apt(両OS同名)
+  - name: ripgrep
+    darwin:
+      method: brew
+    debian:
+      method: apt
+
+  # バリアント2: apt実名上書き(fd -> debian fd-find)
+  - name: fd
+    darwin:
+      method: brew
+    debian:
+      method: apt
+      name: fd-find
+
+  # バリアント3: brew cask(macOS専用GUI)
+  - name: ghostty
+    darwin:
+      method: brew
+      cask: true
+
+  # バリアント4: tap配下の formula(完全名)
+  - name: yabai
+    darwin:
+      method: brew
+      name: koekeishiya/formulae/yabai
+
+  # バリアント5: tap配下の cask(完全名 + cask: true)
+  - name: aerospace
+    darwin:
+      method: brew
+      name: nikitabobko/tap/aerospace
+      cask: true
+
+  # バリアント6: mas(id)。Xcode の App Store アプリID。
+  - name: xcode
+    darwin:
+      method: mas
+      id: "497799835"
+
+  # バリアント7: apt外部リポジトリ由来 + macOS側は brew cask
+  #   VS Code: darwin は cask、debian は外部aptリポジトリの実名 code。
+  #   repositories.example.yaml に vscode を定義する。
+  - name: visual-studio-code
+    darwin:
+      method: brew
+      cask: true
+    debian:
+      method: apt
+      name: code
+
+  # バリアント8: fetch アーカイブ(tar.gz, select, dest, executable, 両OS)
+  - name: fzf
+    darwin:
+      method: fetch
+      url: https://github.com/junegunn/fzf/releases/download/v${version}/fzf-${version}-${os}_${arch}.tar.gz
+      version: "0.73.1"
+      extract: tar.gz
+      select: fzf
+      dest: ~/.local/bin
+      executable: true
+    debian:
+      method: fetch
+      url: https://github.com/junegunn/fzf/releases/download/v${version}/fzf-${version}-${os}_${arch}.tar.gz
+      version: "0.73.1"
+      extract: tar.gz
+      select: fzf
+      dest: ~/.local/bin
+      executable: true
+
+  # バリアント9: fetch 単体ファイル(extract 省略 = 展開なし。URLのファイル名 mc で配置)
+  - name: mc
+    darwin:
+      method: fetch
+      url: https://dl.min.io/client/mc/release/${os}-${arch}/mc
+      dest: ~/.local/bin
+      executable: true
+    debian:
+      method: fetch
+      url: https://dl.min.io/client/mc/release/${os}-${arch}/mc
+      dest: ~/.local/bin
+      executable: true
+
+  # バリアント10: fetch フォント(zip, select *.ttf/*.otf, OS別フォントディレクトリ,
+  #   debian は post: [fc-cache])
+  - name: jetbrains-mono-nerd-font
+    darwin:
+      method: fetch
+      url: https://github.com/ryanoasis/nerd-fonts/releases/download/v${version}/JetBrainsMono.zip
+      version: "3.4.0"
+      extract: zip
+      select: "*.{ttf,otf}"
+      dest: ~/Library/Fonts
+    debian:
+      method: fetch
+      url: https://github.com/ryanoasis/nerd-fonts/releases/download/v${version}/JetBrainsMono.zip
+      version: "3.4.0"
+      extract: zip
+      select: "*.{ttf,otf}"
+      dest: ~/.local/share/fonts
+      post:
+        - fc-cache
+
+  # バリアント11: fetch + vars の arch 上書き(amd64->x86_64, arm64->aarch64)
+  #   eza の Linux アセットは x86_64 / aarch64 命名のため vars で吸収する。
+  #   eza は darwin アセットを配布しないため debian のみの fetch エントリとする。
+  - name: eza
+    debian:
+      method: fetch
+      url: https://github.com/eza-community/eza/releases/download/v${version}/eza_${arch}-unknown-linux-gnu.tar.gz
+      version: "0.23.4"
+      extract: tar.gz
+      select: eza
+      dest: ~/.local/bin
+      executable: true
+      vars:
+        arch:
+          amd64: x86_64
+          arm64: aarch64

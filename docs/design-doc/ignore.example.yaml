@@ -1,0 +1,7 @@
+ignore:
+  darwin:
+    - "docker*" # 前方一致(docker, docker-compose など)
+    - "*-dev" # 後方一致(開発用パッケージ群)
+  debian:
+    - "docker*" # 前方一致
+    - "*-dev" # 後方一致
