@@ -1,0 +1,192 @@
+Package:
+  type: object
+  required:
+    - name
+  anyOf:
+    - required:
+        - darwin
+    - required:
+        - debian
+  properties:
+    name:
+      type: string
+      description: 論理名
+    darwin:
+      $ref: "#/DarwinInstall"
+    debian:
+      $ref: "#/DebianInstall"
+
+DarwinInstall:
+  oneOf:
+    - $ref: "#/Brew"
+    - $ref: "#/Mas"
+    - $ref: "#/Fetch"
+  discriminator:
+    propertyName: method
+    mapping:
+      brew: "#/Brew"
+      mas: "#/Mas"
+      fetch: "#/Fetch"
+
+DebianInstall:
+  oneOf:
+    - $ref: "#/Apt"
+    - $ref: "#/Fetch"
+  discriminator:
+    propertyName: method
+    mapping:
+      apt: "#/Apt"
+      fetch: "#/Fetch"
+
+Common:
+  type: object
+  required:
+    - method
+  properties:
+    name:
+      type: string
+      default: null
+      description: 導入手段での実名。省略時はエントリの`name`を用いる
+
+Brew:
+  allOf:
+    - $ref: "#/Common"
+    - type: object
+      description: tap配下は`name`に完全名`owner/repo/name`を入れる
+      properties:
+        method:
+          type: string
+          enum:
+            - brew
+        cask:
+          type: boolean
+          default: false
+          description: GUIアプリケーション(cask)なら`true`。省略時は`false`でformula
+
+Mas:
+  allOf:
+    - $ref: "#/Common"
+    - type: object
+      required:
+        - id
+      properties:
+        method:
+          type: string
+          enum:
+            - mas
+        id:
+          type: string
+          description: App StoreのアプリID
+
+Apt:
+  allOf:
+    - $ref: "#/Common"
+    - type: object
+      properties:
+        method:
+          type: string
+          enum:
+            - apt
+
+Fetch:
+  allOf:
+    - $ref: "#/Common"
+    - type: object
+      required:
+        - url
+        - dest
+      properties:
+        method:
+          type: string
+          enum:
+            - fetch
+        url:
+          type: string
+          description: 取得元。`${os}`・`${arch}`・`${version}`を展開
+        version:
+          type: string
+          default: null
+          description: "`${version}`へ展開する版。省略時は版を固定しない"
+        extract:
+          type: string
+          enum:
+            - tar.gz
+            - tar.xz
+            - zip
+          default: null
+          description: アーカイブ形式。省略時は展開せず単体ファイルとして配置
+        select:
+          type: string
+          default: null
+          description: 取り出すファイルの`glob`。省略時は展開物すべて、非展開時は`url`のファイル名で配置
+        dest:
+          type: string
+          description: 配置先ディレクトリ
+        executable:
+          type: boolean
+          default: false
+          description: 実行権限付与の要否。省略時は`false`
+        post:
+          type: array
+          items:
+            type: string
+          default: []
+          description: 配置後処理(`fc-cache`など)。省略時は後処理なし
+        vars:
+          type: object
+          default: {}
+          description: プレースホルダ値の写像。省略時は既定の写像を用いる
+          properties:
+            os:
+              type: object
+              properties:
+                darwin:
+                  type: string
+                linux:
+                  type: string
+            arch:
+              type: object
+              properties:
+                amd64:
+                  type: string
+                arm64:
+                  type: string
+
+Repository:
+  type: object
+  required:
+    - id
+    - url
+    - key_url
+    - suite
+    - components
+  properties:
+    id:
+      type: string
+    url:
+      type: string
+    key_url:
+      type: string
+      description: 署名鍵(GPG)のURL
+    suite:
+      type: string
+    components:
+      type: array
+      items:
+        type: string
+
+Ignore:
+  type: object
+  properties:
+    darwin:
+      type: array
+      items:
+        type: string
+      default: []
+      description: 除外する`glob`の配列。省略時は除外なし
+    debian:
+      type: array
+      items:
+        type: string
+      default: []
+      description: 除外する`glob`の配列。省略時は除外なし
