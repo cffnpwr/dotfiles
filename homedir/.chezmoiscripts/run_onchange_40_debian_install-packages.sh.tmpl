@@ -1,0 +1,113 @@
+{{ if eq .os "debian" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# 宣言: .packages のうち debian.method == apt のもの。実名(debian.name)優先、無ければ論理 name。
+declared=(
+{{- range .packages }}
+{{- $debian := get . "debian" }}
+{{- if and $debian (eq (get $debian "method" | default "") "apt") }}
+  {{ (get $debian "name" | default .name) | quote }}
+{{- end }}
+{{- end }}
+)
+
+# 保護対象 = 宣言 ∪ ブートストラップ最小パッケージ。
+# 最小パッケージはベースライン記録の後に導入されるため、クリーンアップで消えないよう保護する。
+protected=("${declared[@]}" curl gnupg ca-certificates)
+
+# ignore: クリーンアップで削除しない glob パターン。
+ignore=(
+{{- range .ignore.debian }}
+  {{ . | quote }}
+{{- end }}
+)
+
+# インストール: 宣言が非空のときのみ実行する。
+if ((${#declared[@]} > 0)); then
+  sudo apt-get install -y "${declared[@]}"
+fi
+
+# クリーンアップ(ベースラインignore方式)。
+# ベースラインが無ければ削除対象を確定できないため、安全側に倒してスキップする。
+BASELINE="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/apt-baseline"
+if [[ -f "$BASELINE" ]]; then
+  current=$(apt-mark showmanual | sort)
+  baseline=$(cat "$BASELINE")
+
+  # ベースラインのプルーニング(永続化)。
+  # 宣言(declared)に一致 または ignore glob に一致するエントリをベースラインから除き、
+  # 残りを新ベースラインとして書き戻す。これにより宣言したパッケージの所有権が
+  # dotfiles へ移り、後で宣言から外した際に削除対象となる。
+  pruned=()
+  while IFS= read -r name; do
+    [[ -z "$name" ]] && continue
+
+    drop=false
+    if ((${#declared[@]} > 0)); then
+      for d in "${declared[@]}"; do
+        if [[ "$name" == "$d" ]]; then
+          drop=true
+          break
+        fi
+      done
+    fi
+    if ! $drop && ((${#ignore[@]} > 0)); then
+      for pat in "${ignore[@]}"; do
+        # shellcheck disable=SC2053
+        if [[ "$name" == $pat ]]; then
+          drop=true
+          break
+        fi
+      done
+    fi
+    $drop && continue
+
+    pruned+=("$name")
+  done <<<"$baseline"
+
+  if ((${#pruned[@]} > 0)); then
+    printf '%s\n' "${pruned[@]}" >"$BASELINE"
+  else
+    : >"$BASELINE"
+  fi
+  baseline=$(cat "$BASELINE")
+
+  remove=()
+  while IFS= read -r name; do
+    [[ -z "$name" ]] && continue
+
+    # ベースライン(元システム)に含まれるものは保護する。
+    if grep -qxF "$name" <<<"$baseline"; then
+      continue
+    fi
+
+    # 保護対象(宣言 ∪ 最小)は削除しない。
+    keep=false
+    for p in "${protected[@]}"; do
+      if [[ "$name" == "$p" ]]; then
+        keep=true
+        break
+      fi
+    done
+    $keep && continue
+
+    # ignore glob に一致するものは削除しない。
+    for pat in "${ignore[@]}"; do
+      # shellcheck disable=SC2053
+      if [[ "$name" == $pat ]]; then
+        keep=true
+        break
+      fi
+    done
+    $keep && continue
+
+    remove+=("$name")
+  done <<<"$current"
+
+  if ((${#remove[@]} > 0)); then
+    sudo apt-get remove -y "${remove[@]}"
+    sudo apt-get autoremove -y
+  fi
+fi
+{{- end }}

@@ -1,0 +1,24 @@
+{{ if eq .os "debian" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+{{- if .repositories }}
+
+sudo install -m 0755 -d /etc/apt/keyrings
+
+{{ range .repositories -}}
+curl -fsSL {{ .key_url | quote }} | sudo gpg --dearmor -o /etc/apt/keyrings/{{ .id }}.gpg
+sudo chmod a+r /etc/apt/keyrings/{{ .id }}.gpg
+
+sudo tee /etc/apt/sources.list.d/{{ .id }}.sources >/dev/null <<EOF
+Types: deb
+URIs: {{ .url }}
+Suites: {{ .suite }}
+Components: {{ range $i, $c := .components }}{{ if $i }} {{ end }}{{ $c }}{{ end }}
+Signed-By: /etc/apt/keyrings/{{ .id }}.gpg
+Architectures: $(dpkg --print-architecture)
+EOF
+
+{{ end -}}
+sudo apt-get update
+{{- end }}
+{{- end }}
