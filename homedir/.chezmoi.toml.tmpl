@@ -13,5 +13,11 @@
 {{-   fail (printf "unsupported platform: %s; only macOS and debian-based Linux are supported" .chezmoi.os) -}}
 {{- end -}}
 
+encryption = "age"
+
+[age]
+identity = {{ (joinPath .chezmoi.homeDir ".config/chezmoi/key.txt") | quote }}
+recipient = "age187rfgkna3ch3vlhgmc90vhp0fyllwetauww8yx7gs07h24ev5cfq5hrnez"
+
 [data]
 os = {{ $os | quote }}
