@@ -23,5 +23,5 @@ chezmoiを使用したmacOSとLinuxの開発環境を宣言的に構築するdot
 | [全体アーキテクチャ](./architecture.md) | ディレクトリ構成、命名規約、プラットフォーム分岐 |
 | [パッケージ管理](./packages.md) | OSごとのパッケージ管理 |
 | [シークレット管理](./secrets.md) | シークレットの暗号化 |
-| [ブートストラップ](./bootstrap.md) | run_onceとrun_onchangeの規約、システム設定とログイン項目の適用 |
+| [ブートストラップ](./bootstrap.md) | run_onceとrun_onchangeの規約、システム設定の適用と自動起動の登録 |
 | [運用](./operations.md) | 設定追加、適用方法、新環境セットアップ |

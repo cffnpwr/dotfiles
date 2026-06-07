@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# 対象ログインシェルの論理コマンド名。空文字は「変更しない」を意味する。
+# 値をスクリプト本文へ展開し、その変化を run_onchange が検知して再適用する。
+login_shell="{{ .login_shell }}"
+
+# 空文字なら段階をスキップする。
+if [[ -z "$login_shell" ]]; then
+  exit 0
+fi
+
+# 対象シェルの実体パスを解決する。導入はパッケージ段階の責務のため、ここでは導入しない。
+shell_path="$(command -v "$login_shell")"
+
+# /etc/shells に無ければ追記する。
+if ! grep -qxF "$shell_path" /etc/shells; then
+  printf '%s\n' "$shell_path" | sudo tee -a /etc/shells >/dev/null
+fi
+
+# 現在のログインシェルを取得する。
+{{ if eq .os "darwin" -}}
+current_shell="$(dscl . -read /Users/"$USER" UserShell | awk '{print $2}')"
+{{- else if eq .os "debian" -}}
+current_shell="$(getent passwd "$USER" | awk -F: '{print $NF}')"
+{{- end }}
+
+# 現在のログインシェルが対象と異なるときのみ変更する。
+if [[ "$current_shell" != "$shell_path" ]]; then
+  chsh -s "$shell_path"
+fi

@@ -1,0 +1,32 @@
+SystemSetting:
+  type: object
+  required:
+    - domain
+    - key
+    - type
+    - value
+  properties:
+    domain:
+      type: string
+      description: "`defaults`のドメイン"
+    key:
+      type: string
+      description: 設定キー
+    type:
+      type: string
+      enum:
+        - bool
+        - int
+        - float
+        - string
+      description: 値の型
+    value:
+      description: スカラ値。`type`に対応する値を入れる
+    currentHost:
+      type: boolean
+      default: false
+      description: "`true`のとき`defaults -currentHost write`を用いる。省略時は`false`"
+    killall:
+      type: string
+      default: null
+      description: 適用後に`killall`する対象プロセス名。省略時は再起動なし

@@ -1,0 +1,22 @@
+Autostart:
+  type: object
+  required:
+    - label
+    - command
+  properties:
+    label:
+      type: string
+      description: 逆DNS形式の識別子。macOSは`<label>.plist`、Linuxは`<label>.service`のファイル名・ユニット名に用いる
+    command:
+      type: array
+      items:
+        type: string
+      description: argv。先頭要素が実行プログラム
+    run_at_load:
+      type: boolean
+      default: true
+      description: macOSのRunAtLoad、Linuxの`enable --now`相当。省略時は`true`
+    keep_alive:
+      type: boolean
+      default: false
+      description: macOSのKeepAlive、LinuxのRestart=always相当。省略時は`false`
