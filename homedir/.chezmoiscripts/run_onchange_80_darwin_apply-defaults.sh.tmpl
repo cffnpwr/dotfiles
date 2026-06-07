@@ -16,10 +16,33 @@ add_killall_target() {
   killall_targets+=("$target")
 }
 
+# JSONをplist(xml1)へ変換し、defaults writeで全体置換する
+# 配列・辞書のような複合値を冪等に書き込むために用いる
+write_defaults_plist() {
+  local current_host="$1" domain="$2" key="$3" json="$4" plist
+  plist="$(printf '%s' "$json" | plutil -convert xml1 -o - -)"
+  if [[ "$current_host" == "true" ]]; then
+    defaults -currentHost write "$domain" "$key" "$plist"
+  else
+    defaults write "$domain" "$key" "$plist"
+  fi
+}
+
 {{ range .system_settings }}
+{{- if eq (default "defaults" (get . "kind")) "defaultBrowser" }}
+# デフォルトブラウザを設定する(defaultbrowserツールが必要)
+defaultbrowser {{ .browser | quote }}
+{{- else if or (eq .type "array") (eq .type "dict") }}
+# 複合値(array/dict)はplist文字列として全体置換する
+write_defaults_plist {{ default false (get . "currentHost") | quote }} {{ .domain | quote }} {{ .key | quote }} {{ .value | toJson | quote }}
+{{- if hasKey . "killall" }}
+add_killall_target {{ .killall | quote }}
+{{- end }}
+{{- else }}
 defaults {{ if default false (get . "currentHost") }}-currentHost {{ end }}write {{ .domain | quote }} {{ .key | quote }} -{{ .type }} {{ if eq .type "string" }}{{ .value | quote }}{{ else }}{{ .value }}{{ end }}
 {{- if hasKey . "killall" }}
 add_killall_target {{ .killall | quote }}
+{{- end }}
 {{- end }}
 {{ end }}
 # 設定変更を反映するため対象プロセスを終了する
