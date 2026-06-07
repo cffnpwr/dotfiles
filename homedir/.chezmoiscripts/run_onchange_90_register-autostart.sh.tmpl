@@ -1,0 +1,165 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# 自動起動の登録: バックグラウンド常駐サービスを宣言データから生成・登録する。
+# 宣言(.autostart)の各エントリ値をスクリプト本文へ展開し、その変化を
+# run_onchange が検知して再適用する。
+# 所有モデル: dotfiles が生成するユニットファイル名に suffix マーカー
+# `.dotfiles` を付け、ファイルシステム自体を所有の単一の真実とする。管理
+# ディレクトリを suffix glob で走査し、宣言から外れたものを撤去する。
+# 起動方式: launchd の ProgramArguments[0] も systemd の ExecStart[0] も PATH を
+# 探索せず絶対パスを要求するため、ログインシェルをログインモードで噛ませて
+# PATH を解決させる。exec で置換起動し、実プロセスを監視対象にする。
+
+# ログインシェルの実体パスを解決する。論理コマンド名を command -v で実体化し、
+# 解決できない/空なら sh にフォールバックする。値をスクリプト本文へ展開して
+# run_onchange の差分検知対象に含める。
+login_shell="{{ .login_shell }}"
+if [[ -n "$login_shell" ]]; then
+  shell_bin="$(command -v "$login_shell" 2>/dev/null || true)"
+else
+  shell_bin=""
+fi
+if [[ -z "$shell_bin" ]]; then
+  shell_bin="$(command -v sh)"
+fi
+
+# 宣言された label の集合。membership 判定と run_onchange 差分検知を兼ねる。
+declared_labels=(
+{{- range .autostart }}
+  {{ .label | quote }}
+{{- end }}
+)
+
+# 第1引数が宣言 label に厳密一致で含まれるか。
+is_declared_label() {
+  local name="$1" elem
+  for elem in ${declared_labels[@]+"${declared_labels[@]}"}; do
+    if [[ "$name" == "$elem" ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+{{ if eq .os "darwin" -}}
+uid="$(id -u)"
+
+# 撤去: `.dotfiles` 付きの管理 plist を glob で走査し、ファイル名から復元した
+# label が宣言に無いものを取り除く。nullglob でマッチ無し時は空回りさせる。
+shopt -s nullglob
+for f in "$HOME"/Library/LaunchAgents/*.dotfiles.plist; do
+  base="$(basename "$f")"
+  label="${base%.dotfiles.plist}"
+  if is_declared_label "$label"; then
+    continue
+  fi
+  launchctl bootout "gui/${uid}/${label}" 2>/dev/null || true
+  rm -f "$f"
+done
+shopt -u nullglob
+
+# 生成・(再)登録: 宣言された各ユニットの plist を `.dotfiles` 付きで生成し
+# 読み込み直す。plist 内の Label キーは綺麗な label のままにする。
+mkdir -p "$HOME/Library/LaunchAgents"
+{{- range .autostart }}
+{{- $label := .label }}
+{{- $runAtLoad := true }}{{ if hasKey . "run_at_load" }}{{ $runAtLoad = .run_at_load }}{{ end }}
+{{- $keepAlive := false }}{{ if hasKey . "keep_alive" }}{{ $keepAlive = .keep_alive }}{{ end }}
+(
+  label={{ $label | quote }}
+  plist="$HOME/Library/LaunchAgents/${label}.dotfiles.plist"
+  # command 配列を bash 配列へ展開し、printf '%q' でシェル安全な単一文字列に組む。
+  cmd_argv=(
+{{- range .command }}
+    {{ . | quote }}
+{{- end }}
+  )
+  cmd="$(printf '%q ' ${cmd_argv[@]+"${cmd_argv[@]}"})"
+  cmd="${cmd% }"
+  # ログインシェルをログインモードで噛ませ、exec で置換起動する。
+  cat >"$plist" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>{{ $label }}</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>${shell_bin}</string>
+		<string>-l</string>
+		<string>-c</string>
+		<string>exec ${cmd}</string>
+	</array>
+	<key>RunAtLoad</key>
+	<{{ $runAtLoad }}/>
+	<key>KeepAlive</key>
+	<{{ $keepAlive }}/>
+</dict>
+</plist>
+PLIST
+  launchctl bootout "gui/${uid}/${label}" 2>/dev/null || true
+  launchctl bootstrap "gui/${uid}" "$plist"
+)
+{{- end }}
+{{ else if eq .os "debian" -}}
+unit_dir="$HOME/.config/systemd/user"
+
+# 撤去: `.dotfiles` 付きの管理ユニットを glob で走査し、ファイル名から復元した
+# label が宣言に無いものを取り除く。nullglob でマッチ無し時は空回りさせる。
+shopt -s nullglob
+for f in "$unit_dir"/*.dotfiles.service; do
+  base="$(basename "$f")"
+  label="${base%.dotfiles.service}"
+  if is_declared_label "$label"; then
+    continue
+  fi
+  systemctl --user disable --now "$base" 2>/dev/null || true
+  rm -f "$f"
+done
+shopt -u nullglob
+
+# 生成・(再)登録: 宣言された各ユニットの service を `.dotfiles` 付きで生成し
+# 有効化する。ユニット名は <label>.dotfiles.service になる。
+mkdir -p "$unit_dir"
+{{- range .autostart }}
+{{- $label := .label }}
+{{- $runAtLoad := true }}{{ if hasKey . "run_at_load" }}{{ $runAtLoad = .run_at_load }}{{ end }}
+{{- $keepAlive := false }}{{ if hasKey . "keep_alive" }}{{ $keepAlive = .keep_alive }}{{ end }}
+(
+  label={{ $label | quote }}
+  unit_name="${label}.dotfiles.service"
+  unit="${unit_dir}/${unit_name}"
+  # command 配列を bash 配列へ展開し、printf '%q' でシェル安全な単一文字列に組む。
+  cmd_argv=(
+{{- range .command }}
+    {{ . | quote }}
+{{- end }}
+  )
+  cmd="$(printf '%q ' ${cmd_argv[@]+"${cmd_argv[@]}"})"
+  cmd="${cmd% }"
+  # ログインシェルをログインモードで噛ませ、exec で置換起動する。
+  # shell_bin は command -v 解決で絶対パスになり systemd の絶対パス要件を満たす。
+  cat >"$unit" <<UNIT
+[Unit]
+Description={{ $label }}
+
+[Service]
+ExecStart=${shell_bin} -l -c "exec ${cmd}"
+{{- if $keepAlive }}
+Restart=always
+{{- end }}
+
+[Install]
+WantedBy=default.target
+UNIT
+  systemctl --user daemon-reload
+{{- if $runAtLoad }}
+  systemctl --user enable --now "$unit_name"
+{{- else }}
+  systemctl --user enable "$unit_name"
+{{- end }}
+)
+{{- end }}
+{{ end -}}
