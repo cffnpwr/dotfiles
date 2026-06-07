@@ -1,0 +1,13 @@
+background-opacity = 0.900000
+command = /bin/zsh -l -c zellij attach wezterm --create
+font-family = 0xProto Nerd Font Mono
+font-family = Koruri
+font-family-bold = 0xProto Nerd Font Mono
+font-family-bold-italic = 0xProto Nerd Font Mono
+font-family-italic = 0xProto Nerd Font Mono
+font-size = 13
+keybind = cmd+enter=text:\x1b[13;9u
+macos-option-as-alt = left
+theme = tokyonight
+window-height = 64
+window-width = 192

@@ -1,0 +1,11 @@
+[
+  {
+    "bindings": {
+      "cmd-enter": [
+        "terminal::SendText",
+        "\u001b[13;9u"
+      ]
+    },
+    "context": "Terminal"
+  }
+]
