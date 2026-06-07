@@ -1,0 +1,35 @@
+system_settings:
+  # Dockの自動非表示。適用後にDockを再起動する
+  - domain: com.apple.dock
+    key: autohide
+    type: bool
+    value: true
+    killall: Dock
+
+  # Dockのアイコンサイズ
+  - domain: com.apple.dock
+    key: tilesize
+    type: int
+    value: 48
+    killall: Dock
+
+  # Finderで全拡張子を表示
+  - domain: NSGlobalDomain
+    key: AppleShowAllExtensions
+    type: bool
+    value: true
+    killall: Finder
+
+  # スクリーンショットの保存先(絶対パスで指定する。`~`は展開されない)
+  - domain: com.apple.screencapture
+    key: location
+    type: string
+    value: /Users/Shared/Screenshots
+    killall: SystemUIServer
+
+  # トラックパッドのタップでクリック(カレントホスト固有)
+  - domain: com.apple.AppleMultitouchTrackpad
+    key: Clicking
+    type: bool
+    value: true
+    currentHost: true

@@ -1,0 +1,15 @@
+autostart:
+  # syncthingの常駐。クラッシュ時は再起動する
+  - label: net.syncthing.syncthing
+    command:
+      - syncthing
+      - serve
+      - --no-browser
+    keep_alive: true
+
+  # ssh-agentの常駐
+  - label: com.openssh.ssh-agent
+    command:
+      - ssh-agent
+      - -D
+    keep_alive: true
