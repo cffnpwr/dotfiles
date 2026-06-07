@@ -1,0 +1,124 @@
+{
+  "agent": {
+    "dock": "right"
+  },
+  "auto_install_extensions": {
+    "markdownlint": true,
+    "opencode": true,
+    "tokyo-night": true,
+    "vscode-icons": true
+  },
+  "auto_update": false,
+  "buffer_font_fallbacks": [
+    "Koruri"
+  ],
+  "buffer_font_family": "0xProto Nerd Font Mono",
+  "buffer_font_features": {
+    "calt": true,
+    "liga": true
+  },
+  "buffer_font_size": 13,
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "cursor_blink": true,
+  "diagnostics": {
+    "include_warnings": true,
+    "inline": {
+      "enabled": true
+    }
+  },
+  "edit_predictions": {
+    "provider": "copilot"
+  },
+  "ensure_final_newline_on_save": true,
+  "format_on_save": "on",
+  "git": {
+    "git_gutter": "tracked_files",
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "icon_theme": {
+    "dark": "VSCode Icons for Zed (Dark)",
+    "light": "VSCode Icons for Zed (Light)",
+    "mode": "dark"
+  },
+  "indent_guides": {
+    "active_line_width": 2,
+    "background_coloring": "indent_aware",
+    "coloring": "indent_aware",
+    "enabled": true,
+    "line_width": 1
+  },
+  "languages": {
+    "Markdown": {
+      "format_on_save": "off",
+      "formatter": "none"
+    }
+  },
+  "lsp": {
+    "markdownlint": {
+      "settings": {
+        "config": {
+          "MD013": {
+            "tables": false
+          },
+          "MD024": {
+            "siblings_only": true
+          },
+          "MD033": {
+            "allowed_elements": [
+              "details",
+              "summary"
+            ]
+          },
+          "default": true
+        },
+        "ignores": [
+          ".agents/**/*.md",
+          "**/AGENTS.md",
+          ".claude/**/*.md",
+          "**/CLAUDE.md"
+        ]
+      }
+    }
+  },
+  "minimap": {
+    "show": "always"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "project_panel": {
+    "dock": "left"
+  },
+  "remove_trailing_whitespace_on_save": true,
+  "restore_on_startup": "last_session",
+  "show_whitespaces": "boundary",
+  "terminal": {
+    "font_family": "0xProto Nerd Font Mono",
+    "font_features": {
+      "calt": true,
+      "liga": true
+    },
+    "font_size": 13
+  },
+  "theme": {
+    "dark": "Tokyo Night Moon",
+    "light": "Tokyo Night Light",
+    "mode": "dark"
+  },
+  "ui_font_fallbacks": [
+    "Koruri"
+  ],
+  "ui_font_family": "0xProto Nerd Font Mono",
+  "ui_font_features": {
+    "calt": true,
+    "liga": true
+  },
+  "ui_font_size": 15
+}

@@ -1,0 +1,25 @@
+[commit]
+	gpgSign = true
+
+[credential]
+	helper = "manager"
+
+[ghq]
+	root = "~/git"
+
+[gpg]
+	format = "ssh"
+
+[gpg "ssh"]
+	allowedSignersFile = "{{ .chezmoi.homeDir }}/.config/git/allowed_signers"
+
+[init]
+	defaultBranch = "main"
+
+[tag]
+	gpgSign = true
+
+[user]
+	email = "{{ .email }}"
+	name = "{{ .name }}"
+	signingKey = "{{ .chezmoi.homeDir }}/.ssh/id_ed25519.pub"

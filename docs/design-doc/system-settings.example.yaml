@@ -33,3 +33,50 @@ system_settings:
     type: bool
     value: true
     currentHost: true
+
+  # Dockの常駐アプリ(配列値)。
+  # 各要素はtile-data内にfile-dataを持つ辞書。_CFURLStringTypeはアプリパスでは0
+  - domain: com.apple.dock
+    key: persistent-apps
+    type: array
+    value:
+      - tile-data:
+          file-data:
+            _CFURLString: /Applications/Zen.app
+            _CFURLStringType: 0
+      - tile-data:
+          file-data:
+            _CFURLString: /Applications/Ghostty.app
+            _CFURLStringType: 0
+      - tile-data:
+          file-data:
+            _CFURLString: /System/Applications/System Settings.app
+            _CFURLStringType: 0
+    killall: Dock
+
+  # Dock右側の常駐フォルダ(配列値)。
+  # Downloadsをグリッド表示する。file://付きパスで_CFURLStringTypeは15、showasの2はgrid
+  - domain: com.apple.dock
+    key: persistent-others
+    type: array
+    value:
+      - tile-data:
+          file-data:
+            _CFURLString: file:///Users/example/Downloads
+            _CFURLStringType: 15
+          showas: 2
+        tile-type: directory-tile
+    killall: Dock
+
+  # 辞書値の例
+  - domain: com.apple.example
+    key: SomeDictionary
+    type: dict
+    value:
+      enabled: true
+      threshold: 10
+
+  # デフォルトブラウザ(defaultbrowserツールで適用)。
+  # bundle id `app.zen-browser.zen` の末尾要素を指定する
+  - kind: defaultBrowser
+    browser: zen

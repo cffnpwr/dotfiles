@@ -1,1 +1,225 @@
-packages: []
+packages:
+  # git tools
+  - name: gh
+    darwin:
+      method: brew
+  - name: ghq
+    darwin:
+      method: brew
+  - name: git-credential-manager
+    darwin:
+      method: brew
+      cask: true
+
+  # editor
+  - name: neovim
+    darwin:
+      method: brew
+
+  # shell tools
+  - name: android-tools
+    darwin:
+      method: brew
+      name: android-platform-tools
+      cask: true
+  - name: bat
+    darwin:
+      method: brew
+  - name: coreutils
+    darwin:
+      method: brew
+  - name: eza
+    darwin:
+      method: brew
+  - name: fd
+    darwin:
+      method: brew
+  - name: fzf
+    darwin:
+      method: brew
+  - name: ripgrep
+    darwin:
+      method: brew
+  - name: tree
+    darwin:
+      method: brew
+  - name: xh
+    darwin:
+      method: brew
+  - name: zoxide
+    darwin:
+      method: brew
+
+  # data processing
+  - name: jq
+    darwin:
+      method: brew
+  - name: yq
+    darwin:
+      method: brew
+
+  # utilities
+  - name: fastfetch
+    darwin:
+      method: brew
+
+  # container tools
+  - name: docker
+    darwin:
+      method: brew
+  - name: docker-compose
+    darwin:
+      method: brew
+  - name: podman
+    darwin:
+      method: brew
+
+  # network tools
+  - name: wakeonlan
+    darwin:
+      method: brew
+  - name: wireshark
+    darwin:
+      method: brew
+      name: wireshark-app
+      cask: true
+
+  # media
+  - name: spotify
+    darwin:
+      method: brew
+      cask: true
+
+  # knowledge management
+  - name: obsidian
+    darwin:
+      method: brew
+      cask: true
+
+  # LaTeX
+  - name: texlive
+    darwin:
+      method: brew
+
+  # communication
+  - name: discord
+    darwin:
+      method: brew
+      cask: true
+  - name: microsoft-teams
+    darwin:
+      method: brew
+      cask: true
+  - name: microsoft-office
+    darwin:
+      method: brew
+      cask: true
+
+  # fonts
+  - name: font-0xproto-nerd-font
+    darwin:
+      method: brew
+      cask: true
+  - name: koruri
+    darwin:
+      method: fetch
+      url: https://github.com/Koruri/Koruri/releases/download/${version}/Koruri-${version}.tar.xz
+      version: "20210720"
+      extract: tar.xz
+      select: "*.ttf"
+      dest: ~/Library/Fonts
+
+  # CLI ツール
+  - name: git
+    darwin:
+      method: brew
+  - name: starship
+    darwin:
+      method: brew
+  - name: sheldon
+    darwin:
+      method: brew
+  - name: mise
+    darwin:
+      method: brew
+  - name: jj
+    darwin:
+      method: brew
+  - name: direnv
+    darwin:
+      method: brew
+  - name: zellij
+    darwin:
+      method: brew
+  - name: ghostty
+    darwin:
+      method: brew
+      cask: true
+  - name: zen-browser
+    darwin:
+      method: brew
+      name: zen
+      cask: true
+  - name: zed
+    darwin:
+      method: brew
+      cask: true
+
+  # macOS-specific
+  - name: aerospace
+    darwin:
+      method: brew
+      name: nikitabobko/tap/aerospace
+      cask: true
+  - name: alt-tab
+    darwin:
+      method: brew
+      cask: true
+  - name: iproute2mac
+    darwin:
+      method: brew
+  - name: pinentry-mac
+    darwin:
+      method: brew
+  - name: raycast
+    darwin:
+      method: brew
+      cask: true
+  - name: defaultbrowser
+    darwin:
+      method: brew
+
+  # AI tools
+  - name: claude-code
+    darwin:
+      method: brew
+      cask: true
+  - name: apm
+    darwin:
+      method: brew
+      name: microsoft/apm/apm
+
+  # input method
+  - name: azookey
+    darwin:
+      method: brew
+      cask: true
+
+  # keyboard / input
+  - name: karabiner-elements
+    darwin:
+      method: brew
+      cask: true
+
+  # Mac App Store
+  - name: mas
+    darwin:
+      method: brew
+  - name: amphetamine
+    darwin:
+      method: mas
+      id: "937984704"
+  - name: bitwarden
+    darwin:
+      method: mas
+      id: "1352778147"

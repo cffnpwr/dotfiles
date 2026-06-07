@@ -1,11 +1,28 @@
 SystemSetting:
+  oneOf:
+    - $ref: "#/DefaultsSetting"
+    - $ref: "#/DefaultBrowserSetting"
+  discriminator:
+    propertyName: kind
+  description: >-
+    システム設定の1項目。`kind`で種別を判別する。
+    `kind`省略時は`defaults`(`defaults write`による設定)とみなす
+
+DefaultsSetting:
   type: object
+  description: "`defaults write`で適用する設定"
   required:
     - domain
     - key
     - type
     - value
   properties:
+    kind:
+      type: string
+      enum:
+        - defaults
+      default: defaults
+      description: 種別。省略可
     domain:
       type: string
       description: "`defaults`のドメイン"
@@ -19,9 +36,17 @@ SystemSetting:
         - int
         - float
         - string
-      description: 値の型
+        - array
+        - dict
+      description: >-
+        値の型。`array`/`dict`は入れ子の複合値を表す。
+        スカラ(`bool`/`int`/`float`/`string`)は`defaults write -<type>`で書き、
+        `array`/`dict`は`value`をplist文字列に変換して`defaults write`へ全体置換で渡す
     value:
-      description: スカラ値。`type`に対応する値を入れる
+      description: >-
+        値。`type`に対応する値を入れる。
+        スカラ型ではスカラ値、`array`では配列、`dict`では辞書を入れる。
+        `array`/`dict`の要素には入れ子の配列・辞書・スカラを含められる
     currentHost:
       type: boolean
       default: false
@@ -30,3 +55,23 @@ SystemSetting:
       type: string
       default: null
       description: 適用後に`killall`する対象プロセス名。省略時は再起動なし
+
+DefaultBrowserSetting:
+  type: object
+  description: >-
+    デフォルトブラウザの設定。`defaultbrowser`コマンドで適用する。
+    適用には`defaultbrowser`ツールの導入が前提
+  required:
+    - kind
+    - browser
+  properties:
+    kind:
+      type: string
+      enum:
+        - defaultBrowser
+      description: 種別。`defaultBrowser`を指定する
+    browser:
+      type: string
+      description: >-
+        `defaultbrowser`に渡すブラウザ識別子。
+        bundle id末尾の要素を用いる(例: `app.zen-browser.zen`なら`zen`)

@@ -1,0 +1,29 @@
+Host cpwr-dev0
+  ForwardAgent yes
+  ForwardX11 yes
+  ForwardX11Trusted yes
+  HostName 192.168.0.131
+  IdentitiesOnly yes
+  User cffnpwr
+
+Host cpwr-rpi0
+  ForwardAgent yes
+  ForwardX11 yes
+  ForwardX11Trusted yes
+  HostName 192.168.0.129
+  IdentitiesOnly yes
+  User cffnpwr
+
+Host github
+  HostName github.com
+  IdentitiesOnly yes
+  User git
+
+Host *
+{{- if eq .chezmoi.os "darwin" }}
+  IgnoreUnknown UseKeychain
+{{- end }}
+  AddKeysToAgent yes
+{{- if eq .chezmoi.os "darwin" }}
+  UseKeychain yes
+{{- end }}
