@@ -1,1 +1,28 @@
-autostart: []
+autostart:
+  # AltTab
+  - label: com.lwouis.alt-tab-macos
+    command:
+      - /Applications/AltTab.app/Contents/MacOS/AltTab
+    run_at_load: true
+    keep_alive: false
+
+  # Amphetamine
+  - label: com.if.Amphetamine
+    command:
+      - /Applications/Amphetamine.app/Contents/MacOS/Amphetamine
+    run_at_load: true
+    keep_alive: false
+
+  # Bitwarden
+  - label: com.bitwarden.desktop
+    command:
+      - /Applications/Bitwarden.app/Contents/MacOS/Bitwarden
+    run_at_load: true
+    keep_alive: false
+
+  # Raycast
+  - label: com.raycast.macos
+    command:
+      - /Applications/Raycast.app/Contents/MacOS/Raycast
+    run_at_load: true
+    keep_alive: false

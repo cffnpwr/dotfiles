@@ -1,1 +1,219 @@
-system_settings: []
+system_settings:
+  # Control Center
+  # メニューバーにバッテリー残量(%)を表示する
+  - domain: com.apple.controlcenter
+    key: BatteryShowPercentage
+    type: bool
+    value: true
+    killall: ControlCenter
+
+  # Dock
+  # Dockを自動的に隠す
+  - domain: com.apple.dock
+    key: autohide
+    type: bool
+    value: true
+    killall: Dock
+
+  # Mission Controlでウィンドウをアプリごとにグループ化する
+  - domain: com.apple.dock
+    key: expose-group-apps
+    type: bool
+    value: true
+    killall: Dock
+
+  # 最小化エフェクト: scale
+  - domain: com.apple.dock
+    key: mineffect
+    type: string
+    value: scale
+    killall: Dock
+
+  # Dockの位置: 下
+  - domain: com.apple.dock
+    key: orientation
+    type: string
+    value: bottom
+    killall: Dock
+
+  # 最近使ったアプリをDockに表示しない
+  - domain: com.apple.dock
+    key: show-recents
+    type: bool
+    value: false
+    killall: Dock
+
+  # ホットコーナー: 全コーナーを無効化(1 = Disabled)
+  - domain: com.apple.dock
+    key: wvous-bl-corner
+    type: int
+    value: 1
+    killall: Dock
+  - domain: com.apple.dock
+    key: wvous-br-corner
+    type: int
+    value: 1
+    killall: Dock
+  - domain: com.apple.dock
+    key: wvous-tl-corner
+    type: int
+    value: 1
+    killall: Dock
+  - domain: com.apple.dock
+    key: wvous-tr-corner
+    type: int
+    value: 1
+    killall: Dock
+
+  # Dockの常駐アプリ(配列値)。
+  # 各要素はtile-data内にfile-dataを持つ辞書。_CFURLStringTypeはアプリパスでは0
+  - domain: com.apple.dock
+    key: persistent-apps
+    type: array
+    value:
+      - tile-data:
+          file-data:
+            _CFURLString: /Applications/Zen.app
+            _CFURLStringType: 0
+      - tile-data:
+          file-data:
+            _CFURLString: /Applications/Ghostty.app
+            _CFURLStringType: 0
+      - tile-data:
+          file-data:
+            _CFURLString: /System/Applications/System Settings.app
+            _CFURLStringType: 0
+    killall: Dock
+
+  # Dock右側の常駐フォルダ(配列値)。
+  # Downloadsをグリッド表示する。file://付きパスで_CFURLStringTypeは15、showasの2はgrid。
+  # 適用スクリプトが値を二重引用符のbash文字列として展開するため、$HOMEは実行時に展開される。
+  - domain: com.apple.dock
+    key: persistent-others
+    type: array
+    value:
+      - tile-data:
+          file-data:
+            _CFURLString: file://$HOME/Downloads/
+            _CFURLStringType: 15
+          showas: 2
+        tile-type: directory-tile
+    killall: Dock
+
+  # Finder
+  # タイトルバーにフルPOSIXパスを表示する
+  - domain: com.apple.finder
+    key: _FXShowPosixPathInTitle
+    type: bool
+    value: true
+    killall: Finder
+
+  # 全拡張子を表示する
+  - domain: com.apple.finder
+    key: AppleShowAllExtensions
+    type: bool
+    value: true
+    killall: Finder
+
+  # 隠しファイルを表示する
+  - domain: com.apple.finder
+    key: AppleShowAllFiles
+    type: bool
+    value: true
+    killall: Finder
+
+  # デスクトップにアイコンを表示しない
+  - domain: com.apple.finder
+    key: CreateDesktop
+    type: bool
+    value: false
+    killall: Finder
+
+  # 拡張子変更時の警告を無効化する
+  - domain: com.apple.finder
+    key: FXEnableExtensionChangeWarning
+    type: bool
+    value: false
+    killall: Finder
+
+  # 外付けドライブをデスクトップに表示しない
+  - domain: com.apple.finder
+    key: ShowExternalHardDrivesOnDesktop
+    type: bool
+    value: false
+    killall: Finder
+
+  # パスバーを表示する
+  - domain: com.apple.finder
+    key: ShowPathbar
+    type: bool
+    value: true
+    killall: Finder
+
+  # ステータスバーを表示する
+  - domain: com.apple.finder
+    key: ShowStatusBar
+    type: bool
+    value: true
+    killall: Finder
+
+  # Menu bar clock
+  # メニューバーの時計に秒を表示する
+  - domain: com.apple.menuextra.clock
+    key: ShowSeconds
+    type: bool
+    value: true
+    killall: SystemUIServer
+
+  # NSGlobalDomain
+  - domain: NSGlobalDomain
+    key: AppleShowAllExtensions
+    type: bool
+    value: true
+
+  - domain: NSGlobalDomain
+    key: AppleShowAllFiles
+    type: bool
+    value: true
+
+  - domain: NSGlobalDomain
+    key: InitialKeyRepeat
+    type: int
+    value: 15
+
+  - domain: NSGlobalDomain
+    key: KeyRepeat
+    type: int
+    value: 2
+
+  # F1, F2などを標準ファンクションキーとして使う
+  - domain: NSGlobalDomain
+    key: com.apple.keyboard.fnState
+    type: bool
+    value: true
+
+  # Trackpad
+  # タップでクリック
+  - domain: com.apple.AppleMultitouchTrackpad
+    key: Clicking
+    type: bool
+    value: true
+
+  # 3本指スワイプ: 下でMission Control、上でApp Exposé
+  - domain: com.apple.AppleMultitouchTrackpad
+    key: TrackpadThreeFingerVertSwipeGesture
+    type: int
+    value: 2
+
+  # Spotlight
+  # Spotlightをメニューバーから隠す(currentHost固有、int 1)
+  - domain: com.apple.Spotlight
+    key: MenuItemHidden
+    type: int
+    value: 1
+    currentHost: true
+
+  # デフォルトブラウザ
+  # Zen Browser(bundle id `app.zen-browser.zen` の末尾要素)
+  - kind: defaultBrowser
+    browser: zen
