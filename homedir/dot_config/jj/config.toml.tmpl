@@ -1,0 +1,14 @@
+[signing]
+backend = "ssh"
+behavior = "own"
+key = "{{ .chezmoi.homeDir }}/.ssh/id_ed25519.pub"
+
+[signing.backends.ssh]
+allowed-signers = "{{ .chezmoi.homeDir }}/.config/git/allowed_signers"
+
+[ui]
+default-command = "log"
+
+[user]
+email = "{{ .email }}"
+name = "{{ .name }}"
