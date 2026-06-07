@@ -1,0 +1,29 @@
+# Environment variables
+export CVSEDITOR="vim"
+export EDITOR="vim"
+export GIT_EDITOR="vim"
+export LANG="ja_JP.UTF-8"
+export LANGUAGE="ja_JP.UTF-8"
+export LC_CTYPE="ja_JP.UTF-8"
+{{- if eq .chezmoi.os "darwin" }}
+export SSH_AUTH_SOCK="$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+{{- end }}
+export SVN_EDITOR="vim"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+export ZDOTDIR="$HOME/.config/zsh"
+
+# 重複排除
+typeset -Ug path PATH fpath FPATH
+
+# PATH設定
+path=(
+  $HOME/.local/bin(N-/)
+  /usr/local/sbin(N-/)
+  /usr/local/bin(N-/)
+  $HOME/.local/share/mise/shims(N-/)
+  $path
+)

@@ -1,0 +1,18 @@
+{{- if eq .chezmoi.os "darwin" }}
+# Homebrew
+# brewのパスを解決する。優先度: PATH > HOMEBREW_PREFIX > 既定(/opt/homebrew)。
+brew_path() {
+  if command -v brew >/dev/null 2>&1; then
+    command -v brew
+  elif [[ -n "${HOMEBREW_PREFIX:-}" && -x "${HOMEBREW_PREFIX}/bin/brew" ]]; then
+    printf '%s\n' "${HOMEBREW_PREFIX}/bin/brew"
+  else
+    printf '%s\n' "/opt/homebrew/bin/brew"
+  fi
+}
+eval "$("$(brew_path)" shellenv)"
+unset -f brew_path
+{{- end }}
+
+# mise shims
+eval "$(mise activate zsh --shims)"
