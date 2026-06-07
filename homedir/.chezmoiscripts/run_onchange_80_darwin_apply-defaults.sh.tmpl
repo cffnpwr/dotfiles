@@ -1,0 +1,29 @@
+{{ if eq .os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# killall対象プロセス名(重複排除のため蓄積)
+killall_targets=()
+
+# killall対象を重複なく登録する
+add_killall_target() {
+  local target="$1" elem
+  for elem in ${killall_targets[@]+"${killall_targets[@]}"}; do
+    if [[ "$elem" == "$target" ]]; then
+      return 0
+    fi
+  done
+  killall_targets+=("$target")
+}
+
+{{ range .system_settings }}
+defaults {{ if default false (get . "currentHost") }}-currentHost {{ end }}write {{ .domain | quote }} {{ .key | quote }} -{{ .type }} {{ if eq .type "string" }}{{ .value | quote }}{{ else }}{{ .value }}{{ end }}
+{{- if hasKey . "killall" }}
+add_killall_target {{ .killall | quote }}
+{{- end }}
+{{ end }}
+# 設定変更を反映するため対象プロセスを終了する
+for target in ${killall_targets[@]+"${killall_targets[@]}"}; do
+  killall "$target" || true
+done
+{{- end }}
