@@ -17,23 +17,36 @@ zen:
         rotation: null
         texture: 0.0
         colors:
-          - { red: 197, green: 175, blue: 233, custom: false, algorithm: analogous, primary: true,  lightness: 80, x: 172, y: 103, type: explicit-lightness }
-          - { red: 237, green: 171, blue: 228, custom: false, algorithm: analogous, primary: false, lightness: 80, x: 222, y: 128, type: explicit-lightness }
-          - { red: 176, green: 192, blue: 232, custom: false, algorithm: analogous, primary: false, lightness: 80, x: 120, y: 124, type: explicit-lightness }
-    - id: e3594164-6dfc-4450-8073-3a25ab5c9f11
-      name: tmcit
-      position: 2000
-      icon: chrome://browser/skin/zen-icons/selectable/school.svg
-      container: 2
-      theme:
-        type: gradient
-        opacity: 0.362
-        rotation: null
-        texture: 0.0
-        colors:
-          - { red: 76,  green: 230, blue: 204, custom: false, algorithm: analogous, primary: true,  lightness: 60, x: 138, y: 189, type: explicit-lightness }
-          - { red: 80,  green: 163, blue: 226, custom: false, algorithm: analogous, primary: false, lightness: 60, x: 133, y: 158, type: explicit-lightness }
-          - { red: 68,  green: 238, blue: 79,  custom: false, algorithm: analogous, primary: false, lightness: 60, x: 164, y: 206, type: explicit-lightness }
+          - red: 197,
+            green: 175,
+            blue: 233,
+            custom: false,
+            algorithm: analogous,
+            primary: true,
+            lightness: 80,
+            x: 172,
+            y: 103,
+            type: explicit-lightness,
+          - red: 237,
+            green: 171,
+            blue: 228,
+            custom: false,
+            algorithm: analogous,
+            primary: false,
+            lightness: 80,
+            x: 222,
+            y: 128,
+            type: explicit-lightness,
+          - red: 176,
+            green: 192,
+            blue: 232,
+            custom: false,
+            algorithm: analogous,
+            primary: false,
+            lightness: 80,
+            x: 120,
+            y: 124,
+            type: explicit-lightness,
 
   # Pins(全て isEssential=true)。id は zenSyncId、workspace は対象 space の id。
   # position はタブ並び順(index)に対応。title 未指定なら null。
@@ -79,20 +92,6 @@ zen:
       container: 1
       workspace: 1e9b5412-c41f-47bc-82cf-41248b19ad46
       position: 5
-      isEssential: true
-    - id: 3ed02d85-2992-4884-a3f2-8f31efa10975
-      title: null
-      url: https://webcit-5.edu.metro-cit.ac.jp/gnumbers/33729
-      container: 2
-      workspace: e3594164-6dfc-4450-8073-3a25ab5c9f11
-      position: 6
-      isEssential: true
-    - id: 1b2a46a9-c134-4118-9db4-84d40333ddf7
-      title: null
-      url: https://mail.google.com/mail/u/0/#inbox
-      container: 2
-      workspace: e3594164-6dfc-4450-8073-3a25ab5c9f11
-      position: 7
       isEssential: true
 
   # 拡張機能。pluginId は AMO の latest.xpi スラッグ。
