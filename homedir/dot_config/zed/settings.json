@@ -4,7 +4,6 @@
   },
   "auto_install_extensions": {
     "markdownlint": true,
-    "opencode": true,
     "tokyo-night": true,
     "vscode-icons": true
   },
