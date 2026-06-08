@@ -2,6 +2,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# defaultbrowserなどbrew導入ツールを使うため、brewのbinをPATHに通す。
+# 各chezmoiスクリプトは独立プロセスでbrew shellenvを引き継がないため都度補う。
+brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"
+[ -d "$brew_prefix/bin" ] && PATH="$brew_prefix/bin:$PATH"
+
 # killall対象プロセス名(重複排除のため蓄積)
 killall_targets=()
 
