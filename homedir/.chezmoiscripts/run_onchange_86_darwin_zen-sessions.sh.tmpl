@@ -1,0 +1,45 @@
+{{ if eq .os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Zen の spaces / pins(essential)を宣言データから zen-sessions.jsonlz4 へマージする。
+# 全置換ではなくマージ: 宣言した space を uuid 一致で更新/追加、宣言した pin を
+# zenSyncId 一致で対象タブへ上書き/追加し、未宣言のタブ・folders・groups・通常タブ
+# (ユーザーの作業状態)は保持する。
+# データ保全: Zen 起動中はセッション競合を避けるためスキップ。処理前に必ずバックアップ。
+# 宣言データはスクリプト本文へ JSON 展開され、その変化を run_onchange が検知する。
+# マージ本体の Python は .chezmoitemplates/zen-sessions-merge.py に分離している。
+
+profile_dir="${HOME}/Library/Application Support/Zen/Profiles/default"
+sessions_file="${profile_dir}/zen-sessions.jsonlz4"
+
+# Zen 起動中はスキップ(セッション上書き競合を避ける)。
+if pgrep -x zen >/dev/null 2>&1; then
+  echo "zen-sessions: zen is running; skipping (reapplied after it quits)" >&2
+  exit 0
+fi
+
+# セッションファイルが無ければ Zen 初回起動で生成されるため何もしない。
+if [ ! -f "$sessions_file" ]; then
+  echo "zen-sessions: session file not found; skipping: $sessions_file" >&2
+  exit 0
+fi
+
+# 宣言データ(差分検知のトリガも兼ねる)。Python へ環境変数で渡す。
+read -r -d '' declared_json <<'ZEN_DECLARED_EOF' || true
+{{ dict "spaces" .zen.spaces "pins" .zen.pins | toJson }}
+ZEN_DECLARED_EOF
+
+# 処理前バックアップ(タイムスタンプ付き)。最新5世代のみ保持。
+cp -p "$sessions_file" "${sessions_file}.bak.$(date +%Y%m%d%H%M%S)"
+ls -1t "${sessions_file}.bak."* 2>/dev/null | awk 'NR>5' | xargs -I{} rm -f -- {}
+
+# マージ本体を一時展開して実行(引数: <入力 mozlz4> <出力 mozlz4>)。
+merge_py="$(mktemp -t zen-sessions-merge)"
+trap 'rm -f "$merge_py"' EXIT
+cat >"$merge_py" <<'ZEN_MERGE_PY'
+{{ includeTemplate "zen-sessions-merge.py" }}
+ZEN_MERGE_PY
+
+ZEN_DECLARED_JSON="$declared_json" python3 "$merge_py" "$sessions_file" "$sessions_file"
+{{- end }}
