@@ -1,1 +1,13 @@
-ln -nsf $(gpgconf --list-dir agent-socket) $(gpgconf --list-dir agent-extra-socket)
+# GPGエージェントのソケットをリンクする
+# sshdはログインシェルを介さずこのスクリプトを実行するためzprofileが読まれず、
+# brewのbinがPATHに入らない。gpgconfを解決できるようPATHにbrewのbinを足す。
+# 非darwinでは$brew_prefix/binが存在しないため、この前置は自然にno-opになる。
+brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"
+[ -d "$brew_prefix/bin" ] && PATH="$brew_prefix/bin:$PATH"
+if command -v gpgconf >/dev/null 2>&1; then
+  agent_socket="$(gpgconf --list-dir agent-socket)"
+  agent_extra_socket="$(gpgconf --list-dir agent-extra-socket)"
+  if [ -S "$agent_socket" ]; then
+    ln -nsf "$agent_socket" "$agent_extra_socket"
+  fi
+fi

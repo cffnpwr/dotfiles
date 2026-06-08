@@ -164,12 +164,6 @@ run = "layout floating"
 [on-window-detected.if]
 app-id = "com.bitwarden.desktop"
 
-[[on-window-detected]]
-run = "layout floating"
-
-[on-window-detected.if]
-app-id = "dev.mandre.rquickshare"
-
 [workspace-to-monitor-force-assignment]
 0 = ["mi monitor", "MSI MP251"]
 1 = ["mi monitor", "MSI MP251"]

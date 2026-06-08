@@ -1,4 +1,11 @@
 autostart:
+  # AeroSpace
+  - label: bobko.aerospace
+    command:
+      - /Applications/AeroSpace.app/Contents/MacOS/AeroSpace
+    run_at_load: true
+    keep_alive: false
+
   # AltTab
   - label: com.lwouis.alt-tab-macos
     command:

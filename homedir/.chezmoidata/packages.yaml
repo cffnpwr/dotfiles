@@ -74,6 +74,24 @@ packages:
     darwin:
       method: brew
 
+  # base / network
+  - name: openssh
+    darwin:
+      method: brew
+  - name: openssl
+    darwin:
+      method: brew
+      name: openssl@3
+  - name: curl
+    darwin:
+      method: brew
+  - name: wget
+    darwin:
+      method: brew
+  - name: ca-certificates
+    darwin:
+      method: brew
+
   # network tools
   - name: wakeonlan
     darwin:
@@ -176,6 +194,9 @@ packages:
       method: brew
       cask: true
   - name: iproute2mac
+    darwin:
+      method: brew
+  - name: gnupg
     darwin:
       method: brew
   - name: pinentry-mac
