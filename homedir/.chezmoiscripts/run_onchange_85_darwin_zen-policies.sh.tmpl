@@ -1,0 +1,35 @@
+{{ if eq .os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Zen 拡張機能の宣言インストール: .chezmoidata.zen.extensions から policies.json を
+# 生成し、Zen.app バンドル内の distribution/ へ配置する。
+# ExtensionSettings の force_installed により、起動時に AMO から自動導入・固定される。
+# バンドル内のため Zen/brew 更新で消える前提で、run_onchange により再配置する。
+# 宣言データはスクリプト本文へ JSON 展開され、その変化を run_onchange が検知する。
+
+policies_dir="/Applications/Zen.app/Contents/Resources/distribution"
+
+# Zen.app 未導入なら何もしない。
+if [ ! -d "/Applications/Zen.app" ]; then
+  echo "zen-policies: Zen.app not found; skipping" >&2
+  exit 0
+fi
+
+mkdir -p "$policies_dir"
+cat >"${policies_dir}/policies.json" <<'ZEN_POLICIES_EOF'
+{
+  "policies": {
+    "ExtensionSettings": {
+{{- range $i, $e := .zen.extensions }}
+{{- if $i }},{{ end }}
+      {{ $e.extId | quote }}: {
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/{{ $e.pluginId }}/latest.xpi",
+        "installation_mode": "force_installed"
+      }
+{{- end }}
+    }
+  }
+}
+ZEN_POLICIES_EOF
+{{- end }}

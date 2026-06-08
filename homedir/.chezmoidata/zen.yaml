@@ -1,0 +1,112 @@
+# Zen Browser の宣言的状態管理。
+# spaces / pins(essential)は zen-sessions.jsonlz4 へマージ適用する。
+# extensions は policies.json(force_installed)へ展開する。
+# プロファイルは Profiles/default 固定。
+zen:
+  # Zen Workspaces (Spaces)。uuid は中括弧無しの素の id を保持し、
+  # スクリプト側で `{...}` を付与する。container は containerTabId に対応。
+  spaces:
+    - id: 1e9b5412-c41f-47bc-82cf-41248b19ad46
+      name: Default space
+      position: 1000
+      icon: chrome://browser/skin/zen-icons/selectable/cafe.svg
+      container: 1
+      theme:
+        type: gradient
+        opacity: 0.339
+        rotation: null
+        texture: 0.0
+        colors:
+          - { red: 197, green: 175, blue: 233, custom: false, algorithm: analogous, primary: true,  lightness: 80, x: 172, y: 103, type: explicit-lightness }
+          - { red: 237, green: 171, blue: 228, custom: false, algorithm: analogous, primary: false, lightness: 80, x: 222, y: 128, type: explicit-lightness }
+          - { red: 176, green: 192, blue: 232, custom: false, algorithm: analogous, primary: false, lightness: 80, x: 120, y: 124, type: explicit-lightness }
+    - id: e3594164-6dfc-4450-8073-3a25ab5c9f11
+      name: tmcit
+      position: 2000
+      icon: chrome://browser/skin/zen-icons/selectable/school.svg
+      container: 2
+      theme:
+        type: gradient
+        opacity: 0.362
+        rotation: null
+        texture: 0.0
+        colors:
+          - { red: 76,  green: 230, blue: 204, custom: false, algorithm: analogous, primary: true,  lightness: 60, x: 138, y: 189, type: explicit-lightness }
+          - { red: 80,  green: 163, blue: 226, custom: false, algorithm: analogous, primary: false, lightness: 60, x: 133, y: 158, type: explicit-lightness }
+          - { red: 68,  green: 238, blue: 79,  custom: false, algorithm: analogous, primary: false, lightness: 60, x: 164, y: 206, type: explicit-lightness }
+
+  # Pins(全て isEssential=true)。id は zenSyncId、workspace は対象 space の id。
+  # position はタブ並び順(index)に対応。title 未指定なら null。
+  pins:
+    - id: 2af105b4-6c89-40cd-aa49-1a81b42344ac
+      title: null
+      url: https://submarin.online/
+      container: 1
+      workspace: 1e9b5412-c41f-47bc-82cf-41248b19ad46
+      position: 0
+      isEssential: true
+    - id: e0ee94d5-2560-45c8-9ca3-37995a77c132
+      title: null
+      url: https://www.youtube.com/
+      container: 1
+      workspace: 1e9b5412-c41f-47bc-82cf-41248b19ad46
+      position: 1
+      isEssential: true
+    - id: ae95b3cd-33af-493f-aca0-96e39009e9ef
+      title: null
+      url: https://mail.google.com/mail/u/0/#inbox
+      container: 1
+      workspace: 1e9b5412-c41f-47bc-82cf-41248b19ad46
+      position: 2
+      isEssential: true
+    - id: e04d0b68-e2a4-4577-a300-fdae82a49260
+      title: null
+      url: https://github.com/
+      container: 1
+      workspace: 1e9b5412-c41f-47bc-82cf-41248b19ad46
+      position: 3
+      isEssential: true
+    - id: 63c76868-9bee-440f-8609-1aedcac43dd7
+      title: Google カレンダー
+      url: https://calendar.google.com/calendar/u/0/r?pli=1
+      container: 1
+      workspace: 1e9b5412-c41f-47bc-82cf-41248b19ad46
+      position: 4
+      isEssential: true
+    - id: 8266cc43-a0f4-4173-9161-4cf8d7822e11
+      title: Google メッセージ
+      url: https://messages.google.com/web/conversations
+      container: 1
+      workspace: 1e9b5412-c41f-47bc-82cf-41248b19ad46
+      position: 5
+      isEssential: true
+    - id: 3ed02d85-2992-4884-a3f2-8f31efa10975
+      title: null
+      url: https://webcit-5.edu.metro-cit.ac.jp/gnumbers/33729
+      container: 2
+      workspace: e3594164-6dfc-4450-8073-3a25ab5c9f11
+      position: 6
+      isEssential: true
+    - id: 1b2a46a9-c134-4118-9db4-84d40333ddf7
+      title: null
+      url: https://mail.google.com/mail/u/0/#inbox
+      container: 2
+      workspace: e3594164-6dfc-4450-8073-3a25ab5c9f11
+      position: 7
+      isEssential: true
+
+  # 拡張機能。pluginId は AMO の latest.xpi スラッグ。
+  # extId(キー)は ExtensionSettings のエントリ ID。
+  extensions:
+    - extId: "{3c6bf0cc-3ae2-42fb-9993-0d33104fdcaf}"
+      pluginId: youtube_addon
+    - extId: "{c2c003ee-bd69-42a2-b0e9-6f34222cb046}"
+      pluginId: auto-tab-discard
+    - extId: "{446900e4-71c2-419f-a6a7-df9c091e268b}"
+      pluginId: bitwarden
+    - extId: "clipper@obsidian.md"
+      pluginId: web-clipper-obsidian
+    - extId: "simple-translate@sienori"
+      pluginId: simple-translate
+    - extId: "uBlock0@raymondhill.net"
+      pluginId: ublock-origin
