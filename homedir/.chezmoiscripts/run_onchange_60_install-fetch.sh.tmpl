@@ -25,26 +25,39 @@ place_glob() {
   # place_glob <extract_root> <dest_dir> <executable> <select_glob?>
   # select有り: ブレース展開を含むglobで取り出して配置。
   # select無し: 展開物すべてを配置(ディレクトリ構造は保たずファイル単位)。
+  # bash 3.2(macOS同梱)でも動くようglobstarに依存せずfindで再帰探索する。
   local root="$1" dest="$2" exe="$3" sel="${4:-}"
   mkdir -p "$dest"
   local matched=0 f
-  shopt -s globstar nullglob extglob
-  local saved_brace=on
-  shopt -q -o braceexpand || saved_brace=off
-  set -B
-  local patterns=()
   if [[ -n "$sel" ]]; then
-    # ${root}/**/${sel} に対しブレース展開を効かせる
-    eval "patterns=( \"\$root\"/**/$sel )"
+    # selectのブレース展開のみ効かせ(パス名展開は抑止)、各パターンを
+    # findの-name述語に組み立てる
+    local pats=()
+    local saved_noglob=off
+    [[ -o noglob ]] && saved_noglob=on
+    set -f
+    eval "pats=( $sel )"
+    [[ "$saved_noglob" == "off" ]] && set +f
+    local find_args=()
+    local i=0
+    for pat in "${pats[@]}"; do
+      if [[ "$i" -eq 0 ]]; then
+        find_args+=(-name "$pat")
+      else
+        find_args+=(-o -name "$pat")
+      fi
+      i=$((i + 1))
+    done
+    while IFS= read -r f; do
+      place_file "$f" "$dest" "$exe"
+      matched=1
+    done < <(find "$root" -type f \( "${find_args[@]}" \))
   else
-    patterns=("$root"/**/*)
+    while IFS= read -r f; do
+      place_file "$f" "$dest" "$exe"
+      matched=1
+    done < <(find "$root" -type f)
   fi
-  for f in "${patterns[@]}"; do
-    [[ -f "$f" ]] || continue
-    place_file "$f" "$dest" "$exe"
-    matched=1
-  done
-  [[ "$saved_brace" == "off" ]] && set +B
   if [[ "$matched" -eq 0 ]]; then
     echo "fetch: no files matched in archive (select='${sel}')" >&2
     return 1
