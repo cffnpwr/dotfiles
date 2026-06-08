@@ -178,6 +178,9 @@ packages:
   - name: iproute2mac
     darwin:
       method: brew
+  - name: gnupg
+    darwin:
+      method: brew
   - name: pinentry-mac
     darwin:
       method: brew
