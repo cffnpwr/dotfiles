@@ -77,22 +77,29 @@ matches_ignore() {
   return 1
 }
 
-# 第1引数が宣言formulaに厳密一致で含まれるか
+# tap 接頭辞(`org/tap/name` 等)を取り除いた短名を返す。
+# `brew leaves` / `brew list --cask` は短名で返すため、宣言名と照合する際は
+# こちらに揃える。tap が無い名前はそのまま返る。
+short_name() {
+  printf '%s\n' "${1##*/}"
+}
+
+# 第1引数が宣言formulaに厳密一致で含まれるか(tap接頭辞は無視)
 is_declared_formula() {
   local name="$1" elem
   for elem in ${declared_formulae[@]+"${declared_formulae[@]}"}; do
-    if [[ "$name" == "$elem" ]]; then
+    if [[ "$name" == "$(short_name "$elem")" ]]; then
       return 0
     fi
   done
   return 1
 }
 
-# 第1引数が宣言caskに厳密一致で含まれるか
+# 第1引数が宣言caskに厳密一致で含まれるか(tap接頭辞は無視)
 is_declared_cask() {
   local name="$1" elem
   for elem in ${declared_casks[@]+"${declared_casks[@]}"}; do
-    if [[ "$name" == "$elem" ]]; then
+    if [[ "$name" == "$(short_name "$elem")" ]]; then
       return 0
     fi
   done
