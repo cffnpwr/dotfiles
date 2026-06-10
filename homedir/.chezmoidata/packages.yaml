@@ -211,9 +211,14 @@ packages:
       method: brew
 
   # AI tools
+  - name: claude
+    darwin:
+      method: brew
+      cask: true
   - name: claude-code
     darwin:
       method: brew
+      name: claude-code@latest
       cask: true
   - name: apm
     darwin:
