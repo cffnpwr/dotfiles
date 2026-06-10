@@ -47,6 +47,18 @@ ignore_patterns=(
 {{- end }}
 )
 
+# サードパーティtapをtrust登録する。未信頼tapのformula/caskは
+# Homebrewのtap trust機構によりロード時にスキップされるため、
+# brew bundleの前に登録しておく必要がある。
+trusted_taps=""
+for name in ${declared_formulae[@]+"${declared_formulae[@]}"} ${declared_casks[@]+"${declared_casks[@]}"}; do
+  [[ "$name" == */*/* ]] || continue
+  tap="${name%/*}"
+  [[ " $trusted_taps " == *" $tap "* ]] && continue
+  brew trust --tap "$tap"
+  trusted_taps="$trusted_taps $tap"
+done
+
 # Brewfileを生成しstdin経由で適用(インストールのみ)
 brew bundle --file=- <<'BREWFILE'
 {{- range .packages }}
