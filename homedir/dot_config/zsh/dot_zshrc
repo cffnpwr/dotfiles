@@ -4,14 +4,27 @@ typeset -U path cdpath fpath manpath
 cache_dir=${XDG_CACHE_HOME:-$HOME/.cache}
 sheldon_cache="$cache_dir/sheldon.zsh"
 sheldon_toml="$HOME/.config/sheldon/plugins.toml"
-# キャッシュがない、またはキャッシュが古い場合にキャッシュを作成
-if [[ ! -r "$sheldon_cache" || "$sheldon_toml" -nt "$sheldon_cache" ]]; then
+zsh_plugins_dir="$HOME/.config/zsh/plugins"
+# キャッシュがない、または設定・ローカルプラグインがキャッシュより新しい場合にキャッシュを作成
+sheldon_cache_stale=
+if [[ ! -r "$sheldon_cache" ]]; then
+  sheldon_cache_stale=1
+else
+  # ディレクトリ自体のmtimeでファイルの追加・削除を、各ファイルのmtimeで編集を検知
+  for sheldon_src in "$sheldon_toml" "$zsh_plugins_dir" "$zsh_plugins_dir"/*(N); do
+    if [[ "$sheldon_src" -nt "$sheldon_cache" ]]; then
+      sheldon_cache_stale=1
+      break
+    fi
+  done
+fi
+if [[ -n "$sheldon_cache_stale" ]]; then
   mkdir -p $cache_dir
   sheldon source > $sheldon_cache
 fi
 source "$sheldon_cache"
 # 使い終わった変数を削除
-unset cache_dir sheldon_cache sheldon_toml
+unset cache_dir sheldon_cache sheldon_toml zsh_plugins_dir sheldon_cache_stale sheldon_src
 
 # History settings
 # システムのHISTFILE設定を上書き
