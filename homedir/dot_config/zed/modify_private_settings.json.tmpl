@@ -1,0 +1,33 @@
+#!/bin/sh
+# ~/.config/zed/settings.json は Zed 自身が UI 操作などで書き換える。
+# 宣言したフィールドをディープマージで強制し、ローカルで追加されたフィールドは保持する。
+# dotfiles から削除されたフィールドの検知には、前回適用時の宣言内容のスナップショット
+# (~/.local/state/chezmoi/zed-settings-last.json、chezmoi が配置)を用いる。
+# ターゲット名の ASCII 順により .config が .local より先に適用されるため、
+# このスクリプト実行時のスナップショットは常に前回適用時の内容になる。
+# jq は brew 導入のため PATH を補う。
+set -euo pipefail
+
+brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"
+[ -d "$brew_prefix/bin" ] && PATH="$brew_prefix/bin:$PATH"
+
+desired="$(
+  cat <<'JSON'
+{{ includeTemplate "zed-settings.json" -}}
+JSON
+)"
+
+input="$(cat)"
+[ -z "$input" ] && input='{}'
+
+state_file="$HOME/.local/state/chezmoi/zed-settings-last.json"
+if [ -f "$state_file" ]; then
+  last="$(cat "$state_file")"
+else
+  last='{}'
+fi
+
+printf '%s' "$input" | jq \
+  --argjson desired "$desired" \
+  --argjson last "$last" \
+  'delpaths([$last | paths] - [$desired | paths]) * $desired'
