@@ -1,0 +1,26 @@
+#!/bin/sh
+# ~/.config/karabiner/karabiner.json は Karabiner-Elements が独自フォーマットで書き換える。
+# バイト一致は要求せず、JSON 構造が一致していれば現在値を保ち、不一致なら宣言内容で上書きする。
+# jq は brew 導入のため PATH を補う。
+set -euo pipefail
+
+brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"
+[ -d "$brew_prefix/bin" ] && PATH="$brew_prefix/bin:$PATH"
+
+desired="$(
+  cat <<'JSON'
+{{ includeTemplate "karabiner.json" -}}
+JSON
+)"
+
+# 末尾改行を保持したまま stdin を読む(コマンド置換は末尾改行を除去するため番兵を付ける)
+input="$(cat && printf x)"
+input="${input%x}"
+
+if [ -n "$input" ] \
+  && printf '%s' "$input" | jq -e . >/dev/null 2>&1 \
+  && [ "$(printf '%s' "$input" | jq -cS .)" = "$(printf '%s' "$desired" | jq -cS .)" ]; then
+  printf '%s' "$input"
+else
+  printf '%s\n' "$desired"
+fi
