@@ -2,7 +2,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# brew のパスを解決する。優先度: PATH > HOMEBREW_PREFIX > 既定(/opt/homebrew)。
+# パッケージ状態フィンガープリント。変化時にrun_onchangeが本スクリプトを再実行する。
+{{ includeTemplate "darwin-package-state.tmpl" . }}
+
+# brew のパスを解決する。
 brew_path() {
   if command -v brew >/dev/null 2>&1; then
     command -v brew
@@ -16,7 +19,7 @@ brew_path() {
 brew_bin="$(brew_path)"
 eval "$("$brew_bin" shellenv)"
 
-# 宣言formula(brew leavesでの照合用)
+# 宣言formula
 declared_formulae=(
 {{- range .packages }}
 {{- if hasKey . "darwin" }}
@@ -28,7 +31,7 @@ declared_formulae=(
 {{- end }}
 )
 
-# 宣言cask(brew list --caskでの照合用)
+# 宣言cask
 declared_casks=(
 {{- range .packages }}
 {{- if hasKey . "darwin" }}
@@ -47,9 +50,7 @@ ignore_patterns=(
 {{- end }}
 )
 
-# サードパーティtapをtrust登録する。未信頼tapのformula/caskは
-# Homebrewのtap trust機構によりロード時にスキップされるため、
-# brew bundleの前に登録しておく必要がある。
+# サードパーティtapをtrust登録する(未信頼tapはbundleのロード時にスキップされるため)。
 trusted_taps=""
 for name in ${declared_formulae[@]+"${declared_formulae[@]}"} ${declared_casks[@]+"${declared_casks[@]}"}; do
   [[ "$name" == */*/* ]] || continue
@@ -59,7 +60,7 @@ for name in ${declared_formulae[@]+"${declared_formulae[@]}"} ${declared_casks[@
   trusted_taps="$trusted_taps $tap"
 done
 
-# Brewfileを生成しstdin経由で適用(インストールのみ)
+# Brewfileを生成しstdin経由で適用
 brew bundle --file=- <<'BREWFILE'
 {{- range .packages }}
 {{- if hasKey . "darwin" }}
@@ -77,7 +78,6 @@ mas {{ (default .name (get $d "name")) | quote }}, id: {{ $d.id }}
 {{- end }}
 BREWFILE
 
-# globパターン配列のいずれかに一致するか
 matches_ignore() {
   local name="$1" pat
   for pat in ${ignore_patterns[@]+"${ignore_patterns[@]}"}; do
@@ -89,14 +89,11 @@ matches_ignore() {
   return 1
 }
 
-# tap 接頭辞(`org/tap/name` 等)を取り除いた短名を返す。
-# `brew leaves` / `brew list --cask` は短名で返すため、宣言名と照合する際は
-# こちらに揃える。tap が無い名前はそのまま返る。
+# tap接頭辞を除いた短名。brew leaves / brew list --cask の出力と宣言名を揃える。
 short_name() {
   printf '%s\n' "${1##*/}"
 }
 
-# 第1引数が宣言formulaに厳密一致で含まれるか(tap接頭辞は無視)
 is_declared_formula() {
   local name="$1" elem
   for elem in ${declared_formulae[@]+"${declared_formulae[@]}"}; do
@@ -107,7 +104,6 @@ is_declared_formula() {
   return 1
 }
 
-# 第1引数が宣言caskに厳密一致で含まれるか(tap接頭辞は無視)
 is_declared_cask() {
   local name="$1" elem
   for elem in ${declared_casks[@]+"${declared_casks[@]}"}; do
@@ -118,10 +114,10 @@ is_declared_cask() {
   return 1
 }
 
-# formulaクリーンアップ: 明示インストールのリーフから、宣言にもignoreにも無いものを削除
+# formulaクリーンアップ(leavesは完全名で返るため短名化して照合する)
 while IFS= read -r name; do
   [[ -z "$name" ]] && continue
-  if is_declared_formula "$name"; then
+  if is_declared_formula "$(short_name "$name")"; then
     continue
   fi
   if matches_ignore "$name"; then
@@ -130,10 +126,10 @@ while IFS= read -r name; do
   brew uninstall "$name"
 done < <(brew leaves --installed-on-request)
 
-# caskクリーンアップ: 宣言にもignoreにも無いものを削除
+# caskクリーンアップ
 while IFS= read -r name; do
   [[ -z "$name" ]] && continue
-  if is_declared_cask "$name"; then
+  if is_declared_cask "$(short_name "$name")"; then
     continue
   fi
   if matches_ignore "$name"; then
@@ -142,6 +138,6 @@ while IFS= read -r name; do
   brew uninstall --cask "$name"
 done < <(brew list --cask -1)
 
-# 不要になった依存を除去
+# 不要な依存を除去
 brew autoremove
 {{- end }}

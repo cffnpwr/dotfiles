@@ -1,0 +1,31 @@
+{{- /* 宣言集合と実体状態(brew/mas)のフィンガープリント。run_onchangeの再実行判定に用い、宣言変更と実体ドリフトの両方を検知する。 */ -}}
+{{- $df := list -}}
+{{- $dc := list -}}
+{{- $dm := list -}}
+{{- range .packages -}}
+{{- if hasKey . "darwin" -}}
+{{- $d := .darwin -}}
+{{- if eq $d.method "brew" -}}
+{{- if default false (get $d "cask") -}}
+{{- $dc = append $dc (default .name (get $d "name")) -}}
+{{- else -}}
+{{- $df = append $df (default .name (get $d "name")) -}}
+{{- end -}}
+{{- else if eq $d.method "mas" -}}
+{{- $dm = append $dm (toString $d.id) -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+# darwin package-state fingerprint
+# declared-formulae: {{ $df | sortAlpha | join "\n" | sha256sum }}
+# declared-casks: {{ $dc | sortAlpha | join "\n" | sha256sum }}
+# declared-mas: {{ $dm | sortAlpha | join "\n" | sha256sum }}
+{{- if lookPath "brew" }}
+# installed-formulae: {{ output "brew" "list" "--formula" "-1" | sha256sum }}
+# installed-casks: {{ output "brew" "list" "--cask" "-1" | sha256sum }}
+{{- else }}
+# installed-brew: n/a
+{{- end }}
+{{- if lookPath "mas" }}
+# installed-mas: {{ output "sh" "-c" "mas list | awk '{print $1}'" | sha256sum }}
+{{- end }}

@@ -1,0 +1,24 @@
+{{ if eq .os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# outdated状態フィンガープリント。更新可能なパッケージが現れると再実行する。
+{{ includeTemplate "darwin-outdated-state.tmpl" . }}
+
+# brew のパスを解決する。
+brew_path() {
+  if command -v brew >/dev/null 2>&1; then
+    command -v brew
+  elif [[ -n "${HOMEBREW_PREFIX:-}" && -x "${HOMEBREW_PREFIX}/bin/brew" ]]; then
+    printf '%s\n' "${HOMEBREW_PREFIX}/bin/brew"
+  else
+    printf '%s\n' "/opt/homebrew/bin/brew"
+  fi
+}
+
+brew_bin="$(brew_path)"
+eval "$("$brew_bin" shellenv)"
+
+# 非greedy。auto_updates/version :latestのcaskはアプリ自身の更新機構に委ねる。
+brew upgrade -y
+{{- end }}

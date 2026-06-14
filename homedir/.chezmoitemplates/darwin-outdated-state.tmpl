@@ -1,0 +1,7 @@
+{{- /* outdatedなformula/caskのフィンガープリント。run_onchangeの再実行判定に用い、更新可能なパッケージが現れたときにupgradeを実行する。 */ -}}
+{{- if lookPath "brew" }}
+# darwin outdated-state fingerprint
+# outdated: {{ output "brew" "outdated" "--quiet" | sha256sum }}
+{{- else }}
+# outdated: n/a
+{{- end }}

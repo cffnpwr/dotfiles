@@ -61,6 +61,10 @@ tap配下のものはformula・caskのいずれも完全名で表現し、`brew 
 削除候補は「インストール済み − 宣言 − ignore」とする。
 未宣言のものはcleanupで削除し、不要になった依存は`brew autoremove`で除去する。これにより宣言した集合とignoreだけが残る。
 
+インストールは`brew bundle`が宣言に追従するため`run_onchange`とするが、upstreamのバージョン更新は宣言に現れない。このため最新版への追従は毎回applyで実行する独立した段階とする。
+`brew outdated`で更新の有無を先に判定し、対象があるときだけ`brew upgrade`を実行する。`brew outdated`はauto-updateを内蔵し既定24h間隔へスロットルされるため、定常時のapplyは安価に終わる。
+caskは非greedyとし、`auto_updates`や`version :latest`のcaskはアプリ自身の更新機構に委ねる。brewが版を管理しないこれらをgreedyで再取得すると、アプリ側の自動更新と二重管理になりダウンロード負荷が増えるため。
+
 Mac App Storeのアプリケーションは事前にApp Storeへサインインしている必要がある。未サインインの場合、当該エントリで`brew bundle`が失敗する。
 
 ## debian系Linux
