@@ -12,3 +12,90 @@ default-command = "log"
 [user]
 email = "{{ .email }}"
 name = "{{ .name }}"
+
+[templates]
+log = "custom_log_compact"
+
+[aliases]
+log-full = ["log", "--template", "custom_log_full"]
+
+[colors]
+signed_marker = "green"
+
+[template-aliases]
+# 時刻はRFC3339形式で表示する
+"format_timestamp(timestamp)" = 'timestamp.local().format("%Y-%m-%dT%H:%M:%S%:z")'
+
+# jj log / jj log-full の1行目で共通利用するヘッダ。
+# 署名マーカー・暗号署名は含めない。
+"format_custom_header(commit)" = '''
+separate(" ",
+  format_short_change_id_with_change_offset(commit),
+  format_short_signature(commit.author()),
+  format_timestamp(commit_timestamp(commit)),
+  commit.bookmarks(),
+  commit.tags(),
+  commit.working_copies(),
+  format_short_commit_id(commit.commit_id()),
+  format_commit_labels(commit),
+)
+'''
+
+# jj log: デフォルト表示を踏襲しつつ、署名済みなら末尾に (signed)、
+# 複数行メッセージなら1行目のみ + (and more...) を表示する。
+custom_log_compact = "custom_log_compact(self)"
+"custom_log_compact(commit)" = '''
+if(commit.root(),
+  format_root_commit(commit),
+  label(
+    separate(" ",
+      if(commit.current_working_copy(), "working_copy"),
+      if(commit.immutable(), "immutable", "mutable"),
+      if(commit.conflict(), "conflicted"),
+    ),
+    concat(
+      separate(" ",
+        format_custom_header(commit),
+        if(commit.signature(), label("signed_marker", "(signed)")),
+      ) ++ "\n",
+      separate(" ",
+        if(commit.empty(), empty_commit_marker),
+        if(commit.description(),
+          separate(" ",
+            commit.description().first_line(),
+            if(commit.description().first_line() != commit.description().trim_end(),
+              "(and more...)"),
+          ),
+          label(if(commit.empty(), "empty"), description_placeholder),
+        ),
+      ) ++ "\n",
+    ),
+  )
+)
+'''
+
+# jj log-full: 1行目は jj log と同じヘッダ。
+# 2行目に署名の詳細、続けてコミットメッセージを全文表示する。
+custom_log_full = "custom_log_full(self)"
+"custom_log_full(commit)" = '''
+if(commit.root(),
+  format_root_commit(commit),
+  label(
+    separate(" ",
+      if(commit.current_working_copy(), "working_copy"),
+      if(commit.immutable(), "immutable", "mutable"),
+      if(commit.conflict(), "conflicted"),
+    ),
+    concat(
+      format_custom_header(commit) ++ "\n",
+      "Signature: " ++ format_detailed_cryptographic_signature(commit.signature()) ++ "\n",
+      if(commit.empty(), empty_commit_marker ++ "\n"),
+        if(commit.description(),
+          commit.description().trim_end(),
+          label(if(commit.empty(), "empty"), description_placeholder),
+        ) ++ "\n",
+      "\n",
+    ),
+  )
+)
+'''
