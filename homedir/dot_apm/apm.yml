@@ -1,17 +1,13 @@
-name: dotfiles-agent-skills
+name: agent-skills-for-cffnpwr
 version: 1.0.0
-description: AI エージェント向け公開スキルの依存宣言(ユーザ環境スコープ)
+description: Agent Skills for cffnpwr.
 author: cffnpwr
 
-# 配備先ハーネス。Claude Code のみを対象とする。
 targets:
   - claude
 
 dependencies:
   apm:
-    # 公開・サードパーティ由来のスキルのみを宣言する。
-    # ユーザ自作スキル(solo-sprint 一式・issue-creator・gh-reference・
-    # jj-reference・ja-writing・markdown-standards・skill-creator など)は
-    # 別リポジトリ管理のため含めない。
+    - cffnpwr/agent-skills#feat/global_agents_md_creator
     - mattpocock/skills/skills/productivity/grill-me
   mcp: []
