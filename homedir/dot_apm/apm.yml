@@ -8,6 +8,6 @@ targets:
 
 dependencies:
   apm:
-    - cffnpwr/agent-skills#feat/global_agents_md_creator
+    - cffnpwr/agent-skills
     - mattpocock/skills/skills/productivity/grill-me
   mcp: []
