@@ -10,4 +10,8 @@ dependencies:
   apm:
     - cffnpwr/agent-skills
     - mattpocock/skills/skills/productivity/grill-me
-  mcp: []
+  mcp:
+    - name: deepwiki
+      registry: false
+      transport: http
+      url: https://mcp.deepwiki.com/mcp
