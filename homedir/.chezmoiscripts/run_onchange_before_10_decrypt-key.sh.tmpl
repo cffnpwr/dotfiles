@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+{{ includeTemplate "path.sh" . }}
 
 # パスフレーズ暗号化された age 鍵を復号し、identity を所定の位置へ配置する。
 # encrypted_ ファイルの適用より前に走らせるため before とする。

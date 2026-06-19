@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
+{{ includeTemplate "path.sh" . }}
 
-printf '==> [ensure-gnupg] %s\n' "checking ~/.gnupg permissions" >&2
+{{ includeTemplate "log.sh" }}
+STEP="ensure-gnupg"
+log "checking ~/.gnupg permissions"
 
 # gpg は ~/.gnupg のパーミッションが緩いと警告・拒否するため、
 # 存在と権限を毎回検査して満たされていなければmode 700でディレクトリを作成。

@@ -1,6 +1,7 @@
 {{ if eq .os "debian" -}}
 #!/usr/bin/env bash
 set -euo pipefail
+{{ includeTemplate "path.sh" . }}
 
 {{ includeTemplate "log.sh" }}
 STEP="install-packages"

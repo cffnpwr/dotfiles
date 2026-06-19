@@ -1,6 +1,7 @@
 {{ if eq .os "darwin" -}}
 #!/usr/bin/env bash
 set -euo pipefail
+{{ includeTemplate "path.sh" . }}
 
 {{ includeTemplate "log.sh" }}
 STEP="zen-sessions"
