@@ -2,6 +2,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="zen-policies"
+
 # Zen 拡張機能の宣言インストール: .chezmoidata.zen.extensions から policies.json を
 # 生成し、Zen.app バンドル内の distribution/ へ配置する。
 # ExtensionSettings の force_installed により、起動時に AMO から自動導入・固定される。
@@ -12,10 +15,11 @@ policies_dir="/Applications/Zen.app/Contents/Resources/distribution"
 
 # Zen.app 未導入なら何もしない。
 if [ ! -d "/Applications/Zen.app" ]; then
-  echo "zen-policies: Zen.app not found; skipping" >&2
+  log "Zen.app not found; skipping"
   exit 0
 fi
 
+log "placing Zen extension policies"
 mkdir -p "$policies_dir"
 cat >"${policies_dir}/policies.json" <<'ZEN_POLICIES_EOF'
 {

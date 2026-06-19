@@ -2,6 +2,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="install-packages"
+log "applying APT packages"
+
 # 宣言: .packages のうち debian.method == apt のもの。実名(debian.name)優先、無ければ論理 name。
 declared=(
 {{- range .packages }}
@@ -25,6 +29,7 @@ ignore=(
 
 # インストール: 宣言が非空のときのみ実行する。
 if ((${#declared[@]} > 0)); then
+  log "installing declared packages (${#declared[@]})"
   sudo apt-get install -y "${declared[@]}"
 fi
 
@@ -106,6 +111,7 @@ if [[ -f "$BASELINE" ]]; then
   done <<<"$current"
 
   if ((${#remove[@]} > 0)); then
+    log "removing undeclared packages (${#remove[@]}): ${remove[*]}"
     sudo apt-get remove -y "${remove[@]}"
     sudo apt-get autoremove -y
   fi

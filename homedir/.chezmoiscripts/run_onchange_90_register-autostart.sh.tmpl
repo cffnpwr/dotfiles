@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="autostart"
+log "registering autostart services"
+
 # 自動起動の登録: バックグラウンド常駐サービスを宣言データから生成・登録する。
 # 宣言(.autostart)の各エントリ値をスクリプト本文へ展開し、その変化を
 # run_onchange が検知して再適用する。
@@ -54,6 +58,7 @@ for f in "$HOME"/Library/LaunchAgents/*.dotfiles.plist; do
   if is_declared_label "$label"; then
     continue
   fi
+  log "removing launchd agent: $label"
   launchctl bootout "gui/${uid}/${label}" 2>/dev/null || true
   rm -f "$f"
 done
@@ -68,6 +73,7 @@ mkdir -p "$HOME/Library/LaunchAgents"
 {{- $keepAlive := false }}{{ if hasKey . "keep_alive" }}{{ $keepAlive = .keep_alive }}{{ end }}
 (
   label={{ $label | quote }}
+  log "registering launchd agent: $label"
   plist="$HOME/Library/LaunchAgents/${label}.dotfiles.plist"
   # command 配列を bash 配列へ展開し、printf '%q' でシェル安全な単一文字列に組む。
   cmd_argv=(
@@ -120,6 +126,7 @@ for f in "$unit_dir"/*.dotfiles.service; do
   if is_declared_label "$label"; then
     continue
   fi
+  log "removing systemd user unit: $label"
   systemctl --user disable --now "$base" 2>/dev/null || true
   rm -f "$f"
 done
@@ -134,6 +141,7 @@ mkdir -p "$unit_dir"
 {{- $keepAlive := false }}{{ if hasKey . "keep_alive" }}{{ $keepAlive = .keep_alive }}{{ end }}
 (
   label={{ $label | quote }}
+  log "registering systemd user unit: $label"
   unit_name="${label}.dotfiles.service"
   unit="${unit_dir}/${unit_name}"
   # command 配列を bash 配列へ展開し、printf '%q' でシェル安全な単一文字列に組む。

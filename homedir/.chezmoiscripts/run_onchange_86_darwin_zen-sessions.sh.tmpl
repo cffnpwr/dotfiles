@@ -2,6 +2,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="zen-sessions"
+
 # Zen の spaces / pins(essential)を宣言データから zen-sessions.jsonlz4 へマージする。
 # 全置換ではなくマージ: 宣言した space を uuid 一致で更新/追加、宣言した pin を
 # zenSyncId 一致で対象タブへ上書き/追加し、未宣言のタブ・folders・groups・通常タブ
@@ -15,13 +18,13 @@ sessions_file="${profile_dir}/zen-sessions.jsonlz4"
 
 # Zen 起動中はスキップ(セッション上書き競合を避ける)。
 if pgrep -x zen >/dev/null 2>&1; then
-  echo "zen-sessions: zen is running; skipping (reapplied after it quits)" >&2
+  log "zen is running; skipping (reapplied after it quits)"
   exit 0
 fi
 
 # セッションファイルが無ければ Zen 初回起動で生成されるため何もしない。
 if [ ! -f "$sessions_file" ]; then
-  echo "zen-sessions: session file not found; skipping: $sessions_file" >&2
+  log "session file not found; skipping: $sessions_file"
   exit 0
 fi
 
@@ -41,5 +44,6 @@ cat >"$merge_py" <<'ZEN_MERGE_PY'
 {{ includeTemplate "zen-sessions-merge.py" }}
 ZEN_MERGE_PY
 
+log "merging Zen sessions"
 ZEN_DECLARED_JSON="$declared_json" python3 "$merge_py" "$sessions_file" "$sessions_file"
 {{- end }}

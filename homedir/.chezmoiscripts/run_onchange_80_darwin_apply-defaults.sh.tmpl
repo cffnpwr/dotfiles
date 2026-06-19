@@ -2,6 +2,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="apply-defaults"
+log "applying macOS defaults"
+
 # defaultbrowserなどbrew導入ツールを使うため、brewのbinをPATHに通す。
 # 各chezmoiスクリプトは独立プロセスでbrew shellenvを引き継がないため都度補う。
 brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"
@@ -52,6 +56,7 @@ add_killall_target {{ .killall | quote }}
 {{ end }}
 # 設定変更を反映するため対象プロセスを終了する
 for target in ${killall_targets[@]+"${killall_targets[@]}"}; do
+  log "restarting process: $target"
   killall "$target" || true
 done
 {{- end }}

@@ -2,6 +2,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="upgrade-packages"
+
 # outdated状態フィンガープリント。更新可能なパッケージが現れると再実行する。
 {{ includeTemplate "darwin-outdated-state.tmpl" . }}
 
@@ -20,5 +23,6 @@ brew_bin="$(brew_path)"
 eval "$("$brew_bin" shellenv)"
 
 # 非greedy。auto_updates/version :latestのcaskはアプリ自身の更新機構に委ねる。
+log "upgrading packages (brew upgrade)"
 brew upgrade -y
 {{- end }}

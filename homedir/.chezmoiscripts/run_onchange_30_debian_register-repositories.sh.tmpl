@@ -3,9 +3,14 @@
 set -euo pipefail
 {{- if .repositories }}
 
+{{ includeTemplate "log.sh" }}
+STEP="register-repos"
+log "registering APT repositories"
+
 sudo install -m 0755 -d /etc/apt/keyrings
 
 {{ range .repositories -}}
+log "repo: {{ .id }}"
 curl -fsSL {{ .key_url | quote }} | sudo gpg --dearmor -o /etc/apt/keyrings/{{ .id }}.gpg
 sudo chmod a+r /etc/apt/keyrings/{{ .id }}.gpg
 
@@ -19,6 +24,7 @@ Architectures: $(dpkg --print-architecture)
 EOF
 
 {{ end -}}
+log "updating APT index"
 sudo apt-get update
 {{- end }}
 {{- end }}

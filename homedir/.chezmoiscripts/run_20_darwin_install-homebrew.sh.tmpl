@@ -2,6 +2,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="install-homebrew"
+log "checking Homebrew"
+
 # brew のパスを解決する。優先度: PATH > HOMEBREW_PREFIX > 既定(/opt/homebrew)。
 brew_path() {
   if command -v brew >/dev/null 2>&1; then
@@ -15,6 +19,7 @@ brew_path() {
 
 brew_bin="$(brew_path)"
 if [[ ! -x "$brew_bin" ]]; then
+  log "installing Homebrew"
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   brew_bin="$(brew_path)"
 fi

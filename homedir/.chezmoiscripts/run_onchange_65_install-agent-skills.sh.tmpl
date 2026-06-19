@@ -2,6 +2,9 @@
 # apm.yml hash: {{ include "dot_apm/apm.yml" | sha256sum }}
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="agent-skills"
+
 # apm マニフェスト(~/.apm/apm.yml)で宣言した公開スキルを導入する。
 # apm 本体の導入はパッケージ段階の責務のため、ここでは導入しない。
 # 上のハッシュコメントでマニフェスト本文の変化(宣言スキルの増減・
@@ -10,9 +13,10 @@ set -euo pipefail
 
 # apm 未導入なら段階をスキップする。
 if ! command -v apm >/dev/null 2>&1; then
-  echo "apm: not installed; skipping agent skill installation" >&2
+  log "apm not installed; skipping"
   exit 0
 fi
 
 # user scope のマニフェスト(~/.apm/apm.yml)を読み、user scope へ導入する。
+log "installing agent skills (apm install --global)"
 apm install --global

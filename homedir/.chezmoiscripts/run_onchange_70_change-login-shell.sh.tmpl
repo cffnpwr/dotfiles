@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="login-shell"
+
 # 対象ログインシェルの論理コマンド名。空文字は「変更しない」を意味する。
 # 値をスクリプト本文へ展開し、その変化を run_onchange が検知して再適用する。
 login_shell="{{ .login_shell }}"
@@ -27,5 +30,6 @@ current_shell="$(getent passwd "$USER" | awk -F: '{print $NF}')"
 
 # 現在のログインシェルが対象と異なるときのみ変更する。
 if [[ "$current_shell" != "$shell_path" ]]; then
+  log "changing login shell: $current_shell -> $shell_path"
   chsh -s "$shell_path"
 fi

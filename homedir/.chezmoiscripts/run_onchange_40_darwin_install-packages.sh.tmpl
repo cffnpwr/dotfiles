@@ -2,6 +2,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="install-packages"
+log "applying macOS packages (brew)"
+
 # パッケージ状態フィンガープリント。変化時にrun_onchangeが本スクリプトを再実行する。
 {{ includeTemplate "darwin-package-state.tmpl" . }}
 
@@ -61,6 +65,7 @@ for name in ${declared_formulae[@]+"${declared_formulae[@]}"} ${declared_casks[@
 done
 
 # Brewfileを生成しstdin経由で適用
+log "installing declared packages (brew bundle)"
 brew bundle --file=- <<'BREWFILE'
 {{- range .packages }}
 {{- if hasKey . "darwin" }}
@@ -115,6 +120,7 @@ is_declared_cask() {
 }
 
 # formulaクリーンアップ(leavesは完全名で返るため短名化して照合する)
+log "cleaning up undeclared formulae"
 while IFS= read -r name; do
   [[ -z "$name" ]] && continue
   if is_declared_formula "$(short_name "$name")"; then
@@ -123,10 +129,12 @@ while IFS= read -r name; do
   if matches_ignore "$name"; then
     continue
   fi
+  log "removing formula: $name"
   brew uninstall "$name"
 done < <(brew leaves --installed-on-request)
 
 # caskクリーンアップ
+log "cleaning up undeclared casks"
 while IFS= read -r name; do
   [[ -z "$name" ]] && continue
   if is_declared_cask "$(short_name "$name")"; then
@@ -135,9 +143,11 @@ while IFS= read -r name; do
   if matches_ignore "$name"; then
     continue
   fi
+  log "removing cask: $name"
   brew uninstall --cask "$name"
 done < <(brew list --cask -1)
 
 # 不要な依存を除去
+log "removing unused dependencies (brew autoremove)"
 brew autoremove
 {{- end }}

@@ -2,6 +2,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="bootstrap"
+log "checking base packages (curl/gnupg/ca-certificates)"
+
 # 削除クリーンアップの基準となる手動導入パッケージのベースライン。
 # 元のシステムを保護するため、最小パッケージの導入より前に、初回のみ記録する。
 BASELINE="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/apt-baseline"
@@ -15,6 +19,7 @@ for p in curl gnupg ca-certificates; do
   dpkg-query -W -f='${Status}' "$p" 2>/dev/null | grep -q "install ok installed" || missing+=("$p")
 done
 if ((${#missing[@]} > 0)); then
+  log "installing base packages: ${missing[*]}"
   sudo apt-get update
   sudo apt-get install -y "${missing[@]}"
 fi

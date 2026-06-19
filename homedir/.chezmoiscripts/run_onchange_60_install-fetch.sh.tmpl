@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+{{ includeTemplate "log.sh" }}
+STEP="install-fetch"
+
 # fetch経路: URLから取得し、必要に応じ展開して配置する汎用処理。
 # 配置物の中身が変わったときのみ再実行されるよう、解決済みURL・配置条件を
 # このスクリプト本文へ展開する(run_onchangeはレンダリング結果のハッシュで判定)。
@@ -106,6 +109,7 @@ run_post() {
 
 # {{ $pkg.name }}
 (
+  log {{ printf "fetching and placing %s" $pkg.name | quote }}
   url={{ $url | quote }}
   # shellcheck disable=SC2088 # 直後の行で ~ を $HOME へ展開する
   dest={{ $dest | quote }}
