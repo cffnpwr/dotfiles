@@ -5,19 +5,20 @@ set -euo pipefail
 {{ includeTemplate "log.sh" }}
 STEP="login-shell"
 
-# 対象ログインシェルの論理コマンド名。空文字は「変更しない」を意味する。
-# 値をスクリプト本文へ展開し、その変化を run_onchange が検知して再適用する。
+# 対象ログインシェルのコマンド名
+# 値をスクリプト本文へ展開し、その変化を run_onchange が検知して再適用
 login_shell="{{ .login_shell }}"
 
-# 空文字なら段階をスキップする。
+# 空文字なら異常終了する
 if [[ -z "$login_shell" ]]; then
-  exit 0
+  log "error: login shell is not specified"
+  exit 1
 fi
 
-# 対象シェルの実体パスを解決する。導入はパッケージ段階の責務のため、ここでは導入しない。
+# 対象シェルの実体パスを解決
 shell_path="$(command -v "$login_shell")"
 
-# /etc/shells に無ければ追記する。
+# /etc/shells に無ければ追記
 if ! grep -qxF "$shell_path" /etc/shells; then
   printf '%s\n' "$shell_path" | sudo tee -a /etc/shells >/dev/null
 fi
@@ -29,7 +30,7 @@ current_shell="$(dscl . -read /Users/"$USER" UserShell | awk '{print $2}')"
 current_shell="$(getent passwd "$USER" | awk -F: '{print $NF}')"
 {{- end }}
 
-# 現在のログインシェルが対象と異なるときのみ変更する。
+# 現在のログインシェルが対象と異なるときのみ変更
 if [[ "$current_shell" != "$shell_path" ]]; then
   log "changing login shell: $current_shell -> $shell_path"
   chsh -s "$shell_path"

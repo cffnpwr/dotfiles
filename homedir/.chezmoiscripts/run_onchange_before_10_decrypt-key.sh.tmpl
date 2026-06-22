@@ -2,11 +2,9 @@
 set -euo pipefail
 {{ includeTemplate "path.sh" . }}
 
-# パスフレーズ暗号化された age 鍵を復号し、identity を所定の位置へ配置する。
+# パスフレーズ暗号化された age 鍵を復号し、所定の位置へ配置する。
 # encrypted_ ファイルの適用より前に走らせるため before とする。
-# 暗号鍵本文を includeTemplate で展開し、その変化(鍵のローテーション)を
-# run_onchange が検知して再復号する。復号は chezmoi の組み込み実装で行い、
-# 外部 age バイナリを必要としない。パスフレーズは端末から、暗号文は標準入力から読む。
+# 暗号鍵本文を includeTemplate で展開し、その変化(鍵のローテーション)を run_onchange が検知して再復号する。
 
 key="{{ joinPath .chezmoi.homeDir ".config/chezmoi/key.txt" }}"
 mkdir -p "$(dirname "$key")"
