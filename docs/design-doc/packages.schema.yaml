@@ -62,6 +62,13 @@ Brew:
           type: boolean
           default: false
           description: GUIアプリケーション(cask)なら`true`。省略時は`false`でformula
+        url:
+          type: string
+          default: null
+          description: |
+            tapのclone元。
+            省略時は`brew bundle`が完全名から既定のHTTPSで自動登録する。
+            private tapなどclone元の明示が要る場合のみ与え、`Brewfile`に`tap "owner/repo", "<url>"`を明示生成する
 
 Mas:
   allOf:

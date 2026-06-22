@@ -33,6 +33,15 @@ packages:
       name: nikitabobko/tap/aerospace
       cask: true
 
+  # バリアント5b: private tap 配下の formula(完全名 + url で clone 元を明示)
+  #   url 省略時は HTTPS 自動登録だが、private tap は clone 元を明示する。
+  #   接続可能性は前提条件とし、tap 登録の失敗は apply を無条件に失敗させる。
+  - name: internal-tool
+    darwin:
+      method: brew
+      name: cffnpwr/private/internal-tool
+      url: git@github.com:cffnpwr/homebrew-private.git
+
   # バリアント6: mas(id)。Xcode の App Store アプリID。
   - name: xcode
     darwin:

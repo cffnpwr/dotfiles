@@ -65,9 +65,26 @@ for name in ${declared_formulae[@]+"${declared_formulae[@]}"} ${declared_casks[@
   trusted_taps="$trusted_taps $tap"
 done
 
+# clone元の明示が要るtap(private tapなど)のtap登録行を構築する。
+# brew bundleの暗黙auto-tapはHTTPSのため、urlを与えたものはBrewfileにtap行を明示生成する。
+{{- $tap_lines := list }}
+{{- range .packages }}
+{{- if hasKey . "darwin" }}
+{{- $d := .darwin }}
+{{- if and (eq $d.method "brew") (get $d "url") }}
+{{- $parts := splitList "/" (default .name (get $d "name")) }}
+{{- $tap := printf "%s/%s" (index $parts 0) (index $parts 1) }}
+{{- $tap_lines = append $tap_lines (printf "tap %s, %s" ($tap | quote) ($d.url | quote)) }}
+{{- end }}
+{{- end }}
+{{- end }}
+
 # Brewfileを生成しstdin経由で適用
 log "installing declared packages (brew bundle)"
 brew bundle --file=- <<'BREWFILE'
+{{- range ($tap_lines | uniq) }}
+{{ . }}
+{{- end }}
 {{- range .packages }}
 {{- if hasKey . "darwin" }}
 {{- $d := .darwin }}
