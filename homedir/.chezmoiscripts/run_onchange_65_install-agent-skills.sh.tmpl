@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # apm.yml hash: {{ include "dot_apm/apm.yml" | sha256sum }}
+# apm.lock.yaml hash: {{ include "dot_apm/apm.lock.yaml" | sha256sum }}
 set -euo pipefail
 {{ includeTemplate "path.sh" . }}
 
 {{ includeTemplate "log.sh" }}
 STEP="agent-skills"
 
-# user scope のマニフェスト(~/.apm/apm.yml)を読み、user scope へ導入する。
-log "installing agent skills (apm install --global)"
-apm install --global
+log "installing agent skills (apm install --global --frozen)"
+apm install --global --frozen

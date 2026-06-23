@@ -1,0 +1,4 @@
+# プロジェクトスコープで apm を誤実行した際の生成物。ソース管理するのは apm.lock.yaml のみ。
+# apm_modules/ は apm 自身が追記する行と一致させ、再追記による差分を避ける。
+.claude/
+apm_modules/

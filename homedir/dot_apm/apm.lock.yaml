@@ -1,0 +1,84 @@
+lockfile_version: '1'
+generated_at: '2026-06-22T22:09:39.554412+00:00'
+apm_version: 0.21.0
+dependencies:
+- repo_url: cffnpwr/agent-skills
+  host: github.com
+  resolved_commit: 9ff903f05d8914144142115cc1ac4294eb602520
+  package_type: apm_package
+  deployed_files:
+  - .claude/skills/agents-md-creator
+  - .claude/skills/agents-md-creator/SKILL.md
+  - .claude/skills/agents-md-creator/references/claude-md-entrypoint.md
+  - .claude/skills/agents-md-creator/references/content-gathering.md
+  - .claude/skills/agents-md-creator/references/global-content-gathering.md
+  - .claude/skills/agents-md-creator/references/global-entrypoint.md
+  - .claude/skills/agents-md-creator/references/global-recommended-skeleton.md
+  - .claude/skills/agents-md-creator/references/global-rubric-audit.md
+  - .claude/skills/agents-md-creator/references/progressive-disclosure.md
+  - .claude/skills/agents-md-creator/references/recommended-skeleton.md
+  - .claude/skills/agents-md-creator/references/rubric-audit.md
+  - .claude/skills/agents-md-creator/scripts/check_references.sh
+  - .claude/skills/agents-md-creator/templates/AGENTS.md.template
+  - .claude/skills/agents-md-creator/templates/global-AGENTS.md.template
+  - .claude/skills/issue-creator
+  - .claude/skills/issue-creator/SKILL.md
+  - .claude/skills/issue-creator/references/implicit-info-checklist.md
+  - .claude/skills/issue-creator/references/platform-detection.md
+  - .claude/skills/issue-creator/references/templates/bug.md
+  - .claude/skills/issue-creator/references/templates/feature.md
+  - .claude/skills/issue-creator/references/templates/improvement.md
+  - .claude/skills/issue-creator/references/templates/task.md
+  - .claude/skills/pr-creator
+  - .claude/skills/pr-creator/SKILL.md
+  - .claude/skills/pr-creator/references/platform-detection.md
+  - .claude/skills/pr-creator/templates/default.md
+  - .claude/skills/shell-scripting
+  - .claude/skills/shell-scripting/SKILL.md
+  deployed_file_hashes:
+    .claude/skills/agents-md-creator/SKILL.md: sha256:f9b77e4bc0278631673cebf3451e4c75b011d314de487501cb8a91d463bcf893
+    .claude/skills/agents-md-creator/references/claude-md-entrypoint.md: sha256:7c9254639fd662d5b112b4ca726a706de01e5b2a7b7d0b041e0707f50c6e88c0
+    .claude/skills/agents-md-creator/references/content-gathering.md: sha256:aa07d3faa4e1a7b39feaa3ccb2eacf14d47fd2eae401d908ecfaebf54fb3c443
+    .claude/skills/agents-md-creator/references/global-content-gathering.md: sha256:2fdf641dcfb47767d931d3195b6837e17278caffa44b6b47a2630a77dbb616a3
+    .claude/skills/agents-md-creator/references/global-entrypoint.md: sha256:68e85a2dedb62a33e0739c381319aa0d5f5ad9c618ea274c381c573c417eb5a7
+    .claude/skills/agents-md-creator/references/global-recommended-skeleton.md: sha256:d584f0b79454578cd4acce55a4d7db344243dcbf1c3ee04e604158832ec9589a
+    .claude/skills/agents-md-creator/references/global-rubric-audit.md: sha256:06807cca7671316986b139f039971a5ad5a1797b17eb417452f76fa17332d89b
+    .claude/skills/agents-md-creator/references/progressive-disclosure.md: sha256:88a83558fe63ce3417e4b9266c8cacd381e4c1e75484db71c1221433164c5074
+    .claude/skills/agents-md-creator/references/recommended-skeleton.md: sha256:d3e009e28327c140613bc8169a514f814e4c5e4f7f16dd8056c01c9fc8a1a14c
+    .claude/skills/agents-md-creator/references/rubric-audit.md: sha256:630b1e1e478b35d23548845fb636923634e8214fc0d12023fb1277782932f515
+    .claude/skills/agents-md-creator/scripts/check_references.sh: sha256:9e015bf11aae4a0a0cc1c14f33dac74938ccdbad05a88ddeb46459a8e45e739a
+    .claude/skills/agents-md-creator/templates/AGENTS.md.template: sha256:cf489d1be6b62aae108a0afcbc10f4054c1eec408ec32b8cddebc8bf9e1cbaff
+    .claude/skills/agents-md-creator/templates/global-AGENTS.md.template: sha256:aa82ce12eca8d833761ed1b3d5df8711d5a381417ee14cf47245a8c5b1cc8a77
+    .claude/skills/issue-creator/SKILL.md: sha256:388baf574f58cb3f6a5145ccdebdfb5a3e112806514cf5a65566054fd1162fb7
+    .claude/skills/issue-creator/references/implicit-info-checklist.md: sha256:b2840f0a52af7a2b9829c6ab7687623475b4ce397c61b081fc479d3ba6c82c87
+    .claude/skills/issue-creator/references/platform-detection.md: sha256:2d56358132d0ac1b8e095509d03d89fa5b3c7441707f6d446d1c379367c7a0fa
+    .claude/skills/issue-creator/references/templates/bug.md: sha256:f5d54d9a56b12745fec6e7575d21ae32306ab48b4d117c11ea9de1e79415c843
+    .claude/skills/issue-creator/references/templates/feature.md: sha256:4c13e126eb0ad5ca2bf0c4c370f0af3c7913bb9406580e91703e6ce281d1aa21
+    .claude/skills/issue-creator/references/templates/improvement.md: sha256:68673f56713e4f77b6c263541bee343dfa3e5bb5d78e173858b13eda52c11945
+    .claude/skills/issue-creator/references/templates/task.md: sha256:3a87d9735ece9ceb78e44669606bacde9eef287ebcac35dca2707638cf8979eb
+    .claude/skills/pr-creator/SKILL.md: sha256:a7d598f955079b4f2d5e05d4ab32fbd0b5766b4e67d5c08ed53e6f75dd3b6c05
+    .claude/skills/pr-creator/references/platform-detection.md: sha256:76972c5605081ea4fa8cc2c5a25444b05ef9e85e6ec6334218b6c9a334aecdb0
+    .claude/skills/pr-creator/templates/default.md: sha256:4836793eb5196fd109efca888dda6b429681ba555c070d203aef5803fdf58205
+    .claude/skills/shell-scripting/SKILL.md: sha256:995d1a316010deedb6600560d3331cc633d4b7494da9b1921b6a0ba67ea76536
+  content_hash: sha256:3f7d4052b3657a4585e30b0bdd215e36944a9aa452661b49cf7718dd34d063f8
+  declared_license: MIT
+- repo_url: mattpocock/skills
+  host: github.com
+  resolved_commit: 6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461
+  virtual_path: skills/productivity/grill-me
+  is_virtual: true
+  package_type: claude_skill
+  deployed_files:
+  - .claude/skills/grill-me
+  - .claude/skills/grill-me/SKILL.md
+  deployed_file_hashes:
+    .claude/skills/grill-me/SKILL.md: sha256:6189dfceb7304a6e5558f75d87e68fa3bc7fcf7ba120e44f21f8a61fe01eba54
+  content_hash: sha256:f321507f77702a54af1db66549ec1685fc625390d06c57d7949cdcda8eb1b5c7
+mcp_servers:
+- deepwiki
+mcp_configs:
+  deepwiki:
+    name: deepwiki
+    transport: http
+    registry: false
+    url: https://mcp.deepwiki.com/mcp
