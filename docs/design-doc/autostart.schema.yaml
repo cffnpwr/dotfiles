@@ -20,3 +20,8 @@ Autostart:
       type: boolean
       default: false
       description: macOSのKeepAlive、LinuxのRestart=always相当。省略時は`false`
+    env:
+      type: object
+      additionalProperties:
+        type: string
+      description: サービスへ渡す環境変数。macOSのEnvironmentVariables、LinuxのEnvironment=相当。省略時は無し

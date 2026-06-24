@@ -103,6 +103,15 @@ mkdir -p "$HOME/Library/LaunchAgents"
 	<{{ $runAtLoad }}/>
 	<key>KeepAlive</key>
 	<{{ $keepAlive }}/>
+{{- if hasKey . "env" }}
+	<key>EnvironmentVariables</key>
+	<dict>
+{{- range $k, $v := .env }}
+		<key>{{ $k }}</key>
+		<string>{{ $v }}</string>
+{{- end }}
+	</dict>
+{{- end }}
 </dict>
 </plist>
 PLIST
@@ -160,6 +169,11 @@ mkdir -p "$unit_dir"
 Description={{ $label }}
 
 [Service]
+{{- if hasKey . "env" }}
+{{- range $k, $v := .env }}
+Environment="{{ $k }}={{ $v }}"
+{{- end }}
+{{- end }}
 ExecStart=${shell_bin} -l -c "exec ${cmd}"
 {{- if $keepAlive }}
 Restart=always
