@@ -103,10 +103,8 @@ cleanup_undeclared() {
   fi
 }
 
-# 未宣言パッケージのクリーンアップをインストール前に行う。
-# 競合するパッケージの入れ替え(例: claude-code → claude-code@latest)で、旧パッケージが
-# 残ったまま新パッケージをインストールすると競合で失敗するため、先に旧パッケージを除去する。
-# formulaのインストール済み一覧はleaves(完全名で返る)、caskはbrew list --caskから得る。
+# 競合するパッケージの入れ替え時、旧パッケージが残ったままだと新パッケージのインストールが
+# 競合で失敗するため、bundleでのインストールより前に未宣言パッケージを削除する。
 log "cleaning up undeclared formulae"
 cleanup_undeclared "formulae" "" ${declared_formulae[@]+"${declared_formulae[@]}"} < <(brew leaves --installed-on-request)
 
