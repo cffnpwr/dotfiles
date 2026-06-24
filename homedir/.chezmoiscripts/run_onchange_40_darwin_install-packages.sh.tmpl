@@ -65,6 +65,54 @@ for name in ${declared_formulae[@]+"${declared_formulae[@]}"} ${declared_casks[@
   trusted_taps="$trusted_taps $tap"
 done
 
+matches_ignore() {
+  local name="$1" pat
+  for pat in ${ignore_patterns[@]+"${ignore_patterns[@]}"}; do
+    # shellcheck disable=SC2053
+    if [[ "$name" == $pat ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+# 未宣言パッケージを一括削除する。
+# $1: ログ用ラベル, $2: brew uninstallの追加フラグ(空 or --cask), 残り: 宣言済み名。
+# インストール済み一覧はstdinから1行1名で受ける。tap接頭辞を除いた短名で宣言名と照合する。
+cleanup_undeclared() {
+  local label="$1" uninstall_flag="$2"
+  shift 2
+  local declared=("$@")
+  local name elem to_remove=()
+  while IFS= read -r name; do
+    [[ -z "$name" ]] && continue
+    matches_ignore "$name" && continue
+    for elem in ${declared[@]+"${declared[@]}"}; do
+      if [[ "${name##*/}" == "${elem##*/}" ]]; then
+        continue 2
+      fi
+    done
+    to_remove+=("$name")
+  done
+  [[ ${#to_remove[@]} -eq 0 ]] && return 0
+  log "removing undeclared ${label}: ${to_remove[*]}"
+  if [[ -n "$uninstall_flag" ]]; then
+    brew uninstall "$uninstall_flag" "${to_remove[@]}"
+  else
+    brew uninstall "${to_remove[@]}"
+  fi
+}
+
+# 未宣言パッケージのクリーンアップをインストール前に行う。
+# 競合するパッケージの入れ替え(例: claude-code → claude-code@latest)で、旧パッケージが
+# 残ったまま新パッケージをインストールすると競合で失敗するため、先に旧パッケージを除去する。
+# formulaのインストール済み一覧はleaves(完全名で返る)、caskはbrew list --caskから得る。
+log "cleaning up undeclared formulae"
+cleanup_undeclared "formulae" "" ${declared_formulae[@]+"${declared_formulae[@]}"} < <(brew leaves --installed-on-request)
+
+log "cleaning up undeclared casks"
+cleanup_undeclared "casks" "--cask" ${declared_casks[@]+"${declared_casks[@]}"} < <(brew list --cask -1)
+
 # clone元の明示が要るtap(private tapなど)のtap登録行を構築する。
 # brew bundleの暗黙auto-tapはHTTPSのため、urlを与えたものはBrewfileにtap行を明示生成する。
 {{- $tap_lines := list }}
@@ -100,70 +148,6 @@ mas {{ (default .name (get $d "name")) | quote }}, id: {{ $d.id }}
 {{- end }}
 {{- end }}
 BREWFILE
-
-matches_ignore() {
-  local name="$1" pat
-  for pat in ${ignore_patterns[@]+"${ignore_patterns[@]}"}; do
-    # shellcheck disable=SC2053
-    if [[ "$name" == $pat ]]; then
-      return 0
-    fi
-  done
-  return 1
-}
-
-# tap接頭辞を除いた短名。brew leaves / brew list --cask の出力と宣言名を揃える。
-short_name() {
-  printf '%s\n' "${1##*/}"
-}
-
-is_declared_formula() {
-  local name="$1" elem
-  for elem in ${declared_formulae[@]+"${declared_formulae[@]}"}; do
-    if [[ "$name" == "$(short_name "$elem")" ]]; then
-      return 0
-    fi
-  done
-  return 1
-}
-
-is_declared_cask() {
-  local name="$1" elem
-  for elem in ${declared_casks[@]+"${declared_casks[@]}"}; do
-    if [[ "$name" == "$(short_name "$elem")" ]]; then
-      return 0
-    fi
-  done
-  return 1
-}
-
-# formulaクリーンアップ(leavesは完全名で返るため短名化して照合する)
-log "cleaning up undeclared formulae"
-while IFS= read -r name; do
-  [[ -z "$name" ]] && continue
-  if is_declared_formula "$(short_name "$name")"; then
-    continue
-  fi
-  if matches_ignore "$name"; then
-    continue
-  fi
-  log "removing formula: $name"
-  brew uninstall "$name"
-done < <(brew leaves --installed-on-request)
-
-# caskクリーンアップ
-log "cleaning up undeclared casks"
-while IFS= read -r name; do
-  [[ -z "$name" ]] && continue
-  if is_declared_cask "$(short_name "$name")"; then
-    continue
-  fi
-  if matches_ignore "$name"; then
-    continue
-  fi
-  log "removing cask: $name"
-  brew uninstall --cask "$name"
-done < <(brew list --cask -1)
 
 # 不要な依存を除去
 log "removing unused dependencies (brew autoremove)"
