@@ -39,6 +39,29 @@ jobs:
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin" -t "$CHEZMOI_VERSION"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
+      - name: Install ShellCheck
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHELLCHECK_VERSION: v0.11.0
+          RUNNER_OS: ${{ runner.os }}
+          RUNNER_ARCH: ${{ runner.arch }}
+        run: |
+          case "$RUNNER_OS" in
+            Linux) os="linux" ;;
+            macOS) os="darwin" ;;
+            *) echo "Unsupported OS: $RUNNER_OS" && exit 1 ;;
+          esac
+          case "$RUNNER_ARCH" in
+            X64)   arch="x86_64" ;;
+            ARM64) arch="aarch64" ;;
+            *) echo "Unsupported architecture: $RUNNER_ARCH" && exit 1 ;;
+          esac
+          asset="shellcheck-${SHELLCHECK_VERSION}.${os}.${arch}.tar.xz"
+          gh release download "$SHELLCHECK_VERSION" -R koalaman/shellcheck -p "$asset"
+          tar -xf "$asset"
+          sudo mv "shellcheck-${SHELLCHECK_VERSION}/shellcheck" /usr/local/bin/
+          shellcheck --version
+
       - name: Render templates and run ShellCheck
         run: |
           # chezmoi スクリプトは Go テンプレート（{{ }}・includeTemplate）を含むため

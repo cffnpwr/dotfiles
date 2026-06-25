@@ -36,6 +36,8 @@ ZEN_DECLARED_EOF
 
 # 処理前バックアップ(タイムスタンプ付き)。最新5世代のみ保持。
 cp -p "$sessions_file" "${sessions_file}.bak.$(date +%Y%m%d%H%M%S)"
+# mtime 順の世代管理のため ls を使用
+# shellcheck disable=SC2012
 ls -1t "${sessions_file}.bak."* 2>/dev/null | awk 'NR>5' | xargs -I{} rm -f -- {}
 
 # マージ本体を一時展開して実行(引数: <入力 mozlz4> <出力 mozlz4>)。
