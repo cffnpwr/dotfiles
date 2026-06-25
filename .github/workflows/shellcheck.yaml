@@ -1,0 +1,62 @@
+name: ShellCheck
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  shellcheck:
+    name: Render chezmoi scripts and run ShellCheck
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+          - macos-15
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Install chezmoi
+        env:
+          CHEZMOI_VERSION: v2.70.5
+        run: |
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin" -t "$CHEZMOI_VERSION"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Render templates and run ShellCheck
+        run: |
+          # chezmoi スクリプトは Go テンプレート（{{ }}・includeTemplate）を含むため
+          # 直接 ShellCheck にかけられない。execute-template でレンダリングしてから検査する。
+          # init で実行 OS から os データを確定し、execute-template で .chezmoidata を読み込む。
+          # runner の OS によりレンダリングされる分岐が決まる（ubuntu→debian / macos→darwin）。
+          chezmoi init --source "$PWD"
+          workdir="$(mktemp -d)"
+          rc=0
+          for f in homedir/.chezmoiscripts/*.sh.tmpl; do
+            base="$(basename "$f" .tmpl)"
+            out="$workdir/$base"
+            chezmoi execute-template --source "$PWD" <"$f" >"$out"
+            # 対象外 OS の分岐は空にレンダリングされるため、検査をスキップする。
+            if grep -q '[^[:space:]]' "$out"; then
+              echo "::group::shellcheck ${base}"
+              shellcheck "$out" || rc=1
+              echo "::endgroup::"
+            fi
+          done
+          exit "$rc"
