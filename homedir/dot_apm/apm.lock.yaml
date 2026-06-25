@@ -1,10 +1,10 @@
 lockfile_version: '1'
-generated_at: '2026-06-24T13:32:50.015219+00:00'
+generated_at: '2026-06-25T15:42:05.059754+00:00'
 apm_version: 0.21.0
 dependencies:
 - repo_url: cffnpwr/agent-skills
   host: github.com
-  resolved_commit: 761de7b76c2e185d3174cf46ac616f03fe2c64a8
+  resolved_commit: f2bd401368a5fb3cb4a9a31a772f88678c388e97
   package_type: apm_package
   deployed_files:
   - .claude/skills/agents-md-creator
@@ -63,7 +63,7 @@ dependencies:
     .claude/skills/agents-md-creator/scripts/check_references.sh: sha256:9e015bf11aae4a0a0cc1c14f33dac74938ccdbad05a88ddeb46459a8e45e739a
     .claude/skills/agents-md-creator/templates/AGENTS.md.template: sha256:cf489d1be6b62aae108a0afcbc10f4054c1eec408ec32b8cddebc8bf9e1cbaff
     .claude/skills/agents-md-creator/templates/global-AGENTS.md.template: sha256:aa82ce12eca8d833761ed1b3d5df8711d5a381417ee14cf47245a8c5b1cc8a77
-    .claude/skills/flat-review/SKILL.md: sha256:cc8e6d063ebc4733a00f8178125b9b1dcb53b02bc8841ea102d694efcf421a16
+    .claude/skills/flat-review/SKILL.md: sha256:574c495fb682ed0c72fd6fa745ac5c7df415aa9b6fb5499df55ffc77784117a7
     .claude/skills/issue-creator/SKILL.md: sha256:388baf574f58cb3f6a5145ccdebdfb5a3e112806514cf5a65566054fd1162fb7
     .claude/skills/issue-creator/references/implicit-info-checklist.md: sha256:b2840f0a52af7a2b9829c6ab7687623475b4ce397c61b081fc479d3ba6c82c87
     .claude/skills/issue-creator/references/platform-detection.md: sha256:2d56358132d0ac1b8e095509d03d89fa5b3c7441707f6d446d1c379367c7a0fa
@@ -86,20 +86,20 @@ dependencies:
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:c9b2762a33841c12106c81b0c8bcea8db029434b7e5dd0d69e4b91a498c69dd5
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:9fad4baf9ad5489ffc7e2ba7753c4989e852cf75f282d6de6fc5ca5a248a68b9
     .claude/skills/skill-creator/uv.lock: sha256:405a6ac9db358d49f3d57d4fdcda11c99dd7d56340d1545daa33fd9a0c9d4fa9
-  content_hash: sha256:68e5055ed44a2a73fcba7ea78615da7a93df8de8b9965482c6c81a119221c2f1
+  content_hash: sha256:fcc7a8a91126535ce9dd412971df4a8227dd1c482b3091c7ba75d633e09f275b
   declared_license: MIT
 - repo_url: mattpocock/skills
   host: github.com
-  resolved_commit: 8370e760d0251a3738e006aeacec6d1cb31dd208
-  virtual_path: skills/productivity/grill-me
+  resolved_commit: 5d78bd0903420f97c791f834201e550c765699f8
+  virtual_path: skills/productivity/grilling
   is_virtual: true
   package_type: claude_skill
   deployed_files:
-  - .claude/skills/grill-me
-  - .claude/skills/grill-me/SKILL.md
+  - .claude/skills/grilling
+  - .claude/skills/grilling/SKILL.md
   deployed_file_hashes:
-    .claude/skills/grill-me/SKILL.md: sha256:6189dfceb7304a6e5558f75d87e68fa3bc7fcf7ba120e44f21f8a61fe01eba54
-  content_hash: sha256:f321507f77702a54af1db66549ec1685fc625390d06c57d7949cdcda8eb1b5c7
+    .claude/skills/grilling/SKILL.md: sha256:fe00af3e1815f97c0a7644605479328a726b5cd95ba6ef56a4be2a92fae6c20f
+  content_hash: sha256:ef685a6fa0bbe73b05bbd8dc1ec97258191587f07c6aa7dbc9006675ceb8f90f
 mcp_servers:
 - deepwiki
 mcp_configs:
