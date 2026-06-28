@@ -1,12 +1,21 @@
 lockfile_version: '1'
-generated_at: '2026-06-28T16:36:38.312236+00:00'
-apm_version: 0.21.0
+generated_at: '2026-06-29T06:47:12.727191+00:00'
+apm_version: 0.23.0
 dependencies:
 - repo_url: cffnpwr/agent-skills
+  name: agent-skills
   host: github.com
-  resolved_commit: 6af4eb49a7adba74abac8b362502f374855435ea
+  resolved_commit: 5ce0a5e96d9bec09b38d5c679d3e7c27ed046b57
+  version: 1.0.0
   package_type: apm_package
   deployed_files:
+  - .claude/hooks/agent-skills/scripts/jj-commitlint/command.ts
+  - .claude/hooks/agent-skills/scripts/jj-commitlint/commitlint.sh
+  - .claude/hooks/agent-skills/scripts/jj-commitlint/config.ts
+  - .claude/hooks/agent-skills/scripts/jj-commitlint/input.ts
+  - .claude/hooks/agent-skills/scripts/jj-commitlint/lint.ts
+  - .claude/hooks/agent-skills/scripts/jj-commitlint/main.ts
+  - .claude/hooks/agent-skills/scripts/jj-commitlint/types.ts
   - .claude/skills/agents-md-creator
   - .claude/skills/agents-md-creator/SKILL.md
   - .claude/skills/agents-md-creator/references/claude-md-entrypoint.md
@@ -52,6 +61,13 @@ dependencies:
   - .claude/skills/skill-creator/templates/SKILL.md.template
   - .claude/skills/skill-creator/uv.lock
   deployed_file_hashes:
+    .claude/hooks/agent-skills/scripts/jj-commitlint/command.ts: sha256:8bc43da6e4a1ef624f0cc1c0bd02d4ece793adbc6e4dba6de97b8b3130bc40e8
+    .claude/hooks/agent-skills/scripts/jj-commitlint/commitlint.sh: sha256:a09b6843be716a74a5d81a7111c50618e57df13521b0c6020d890b9abc9a2e2e
+    .claude/hooks/agent-skills/scripts/jj-commitlint/config.ts: sha256:4a407ab2b5419aefe78345e1747b393547278da87345f26f81ca5b5d5a67f12a
+    .claude/hooks/agent-skills/scripts/jj-commitlint/input.ts: sha256:73ac5788be6eb4b439abb0948a8c06f8a4fe987edfe5e2ce596e1919f89c76da
+    .claude/hooks/agent-skills/scripts/jj-commitlint/lint.ts: sha256:96eefbff6c8a5304bb0dce70860c83552db586e2ab096f4a27df6c7a8f99f43c
+    .claude/hooks/agent-skills/scripts/jj-commitlint/main.ts: sha256:4b3d334b9755b1648e766a4604d1b1f333d8ca9f5253cb69beca892097a55a04
+    .claude/hooks/agent-skills/scripts/jj-commitlint/types.ts: sha256:5d37880ab8c543f6b0075eaf8e59dda3d7a411dd57eebd0ef3b9731e64e0ae4c
     .claude/skills/agents-md-creator/SKILL.md: sha256:f9b77e4bc0278631673cebf3451e4c75b011d314de487501cb8a91d463bcf893
     .claude/skills/agents-md-creator/references/claude-md-entrypoint.md: sha256:7c9254639fd662d5b112b4ca726a706de01e5b2a7b7d0b041e0707f50c6e88c0
     .claude/skills/agents-md-creator/references/content-gathering.md: sha256:aa07d3faa4e1a7b39feaa3ccb2eacf14d47fd2eae401d908ecfaebf54fb3c443
@@ -89,22 +105,26 @@ dependencies:
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:c9b2762a33841c12106c81b0c8bcea8db029434b7e5dd0d69e4b91a498c69dd5
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:9fad4baf9ad5489ffc7e2ba7753c4989e852cf75f282d6de6fc5ca5a248a68b9
     .claude/skills/skill-creator/uv.lock: sha256:405a6ac9db358d49f3d57d4fdcda11c99dd7d56340d1545daa33fd9a0c9d4fa9
-  content_hash: sha256:28ae80880a0940214411ade67bd4462f72ca0a475e308e93f057a3a603ae9e94
+  content_hash: sha256:dd5a4d47cd5f1dd96519886f4aeadf474b9b242d5cd44dfca7b9c76d83d62dc8
   declared_license: MIT
 - repo_url: cffnpwr/agent-work-logs
+  name: agent-work-logs
   host: github.com
-  resolved_commit: 81ddf3287dfd918539d00f58a76f3789b93b7bda
+  resolved_commit: 6b94cc7b03dccdd9502373fa17bf79e9a6e6099e
+  version: 1.1.0
   package_type: apm_package
   deployed_files:
   - .claude/skills/work-logs
   - .claude/skills/work-logs/SKILL.md
   deployed_file_hashes:
-    .claude/skills/work-logs/SKILL.md: sha256:2c4e4a6dd23d649bad03462165cc1fc62e3581a6d83bc5d869cdd14ff5892506
-  content_hash: sha256:1d668b34feac10824a9117af5d709fb44186534e76457fd9d8753d2ca900ec8e
+    .claude/skills/work-logs/SKILL.md: sha256:3a9fac767d8af500e530273356180c5286582982c4c291a2b2a15425bb523e1a
+  content_hash: sha256:94aaada1cec80bf443a893c738d2d6c7a3ed3a0636cbf9faaa750d329541de8a
   declared_license: MIT
 - repo_url: mattpocock/skills
+  name: skills
   host: github.com
   resolved_commit: 5d78bd0903420f97c791f834201e550c765699f8
+  version: unknown
   virtual_path: skills/productivity/grilling
   is_virtual: true
   package_type: claude_skill
