@@ -9,6 +9,7 @@ targets:
 dependencies:
   apm:
     - cffnpwr/agent-skills
+    - cffnpwr/agent-work-logs
     - mattpocock/skills/skills/productivity/grilling
   mcp:
     - name: deepwiki

@@ -1,10 +1,10 @@
 lockfile_version: '1'
-generated_at: '2026-06-25T15:42:05.059754+00:00'
+generated_at: '2026-06-28T16:36:38.312236+00:00'
 apm_version: 0.21.0
 dependencies:
 - repo_url: cffnpwr/agent-skills
   host: github.com
-  resolved_commit: f2bd401368a5fb3cb4a9a31a772f88678c388e97
+  resolved_commit: 6af4eb49a7adba74abac8b362502f374855435ea
   package_type: apm_package
   deployed_files:
   - .claude/skills/agents-md-creator
@@ -31,6 +31,8 @@ dependencies:
   - .claude/skills/issue-creator/references/templates/feature.md
   - .claude/skills/issue-creator/references/templates/improvement.md
   - .claude/skills/issue-creator/references/templates/task.md
+  - .claude/skills/jj-reference
+  - .claude/skills/jj-reference/SKILL.md
   - .claude/skills/pr-creator
   - .claude/skills/pr-creator/SKILL.md
   - .claude/skills/pr-creator/references/platform-detection.md
@@ -71,6 +73,7 @@ dependencies:
     .claude/skills/issue-creator/references/templates/feature.md: sha256:4c13e126eb0ad5ca2bf0c4c370f0af3c7913bb9406580e91703e6ce281d1aa21
     .claude/skills/issue-creator/references/templates/improvement.md: sha256:68673f56713e4f77b6c263541bee343dfa3e5bb5d78e173858b13eda52c11945
     .claude/skills/issue-creator/references/templates/task.md: sha256:3a87d9735ece9ceb78e44669606bacde9eef287ebcac35dca2707638cf8979eb
+    .claude/skills/jj-reference/SKILL.md: sha256:53c945e6aab86a31fb1e7c0caa783ced2a70fd96d306b3adbdd487af305f65f0
     .claude/skills/pr-creator/SKILL.md: sha256:a7d598f955079b4f2d5e05d4ab32fbd0b5766b4e67d5c08ed53e6f75dd3b6c05
     .claude/skills/pr-creator/references/platform-detection.md: sha256:76972c5605081ea4fa8cc2c5a25444b05ef9e85e6ec6334218b6c9a334aecdb0
     .claude/skills/pr-creator/templates/default.md: sha256:4836793eb5196fd109efca888dda6b429681ba555c070d203aef5803fdf58205
@@ -86,7 +89,18 @@ dependencies:
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:c9b2762a33841c12106c81b0c8bcea8db029434b7e5dd0d69e4b91a498c69dd5
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:9fad4baf9ad5489ffc7e2ba7753c4989e852cf75f282d6de6fc5ca5a248a68b9
     .claude/skills/skill-creator/uv.lock: sha256:405a6ac9db358d49f3d57d4fdcda11c99dd7d56340d1545daa33fd9a0c9d4fa9
-  content_hash: sha256:fcc7a8a91126535ce9dd412971df4a8227dd1c482b3091c7ba75d633e09f275b
+  content_hash: sha256:28ae80880a0940214411ade67bd4462f72ca0a475e308e93f057a3a603ae9e94
+  declared_license: MIT
+- repo_url: cffnpwr/agent-work-logs
+  host: github.com
+  resolved_commit: 81ddf3287dfd918539d00f58a76f3789b93b7bda
+  package_type: apm_package
+  deployed_files:
+  - .claude/skills/work-logs
+  - .claude/skills/work-logs/SKILL.md
+  deployed_file_hashes:
+    .claude/skills/work-logs/SKILL.md: sha256:2c4e4a6dd23d649bad03462165cc1fc62e3581a6d83bc5d869cdd14ff5892506
+  content_hash: sha256:1d668b34feac10824a9117af5d709fb44186534e76457fd9d8753d2ca900ec8e
   declared_license: MIT
 - repo_url: mattpocock/skills
   host: github.com
