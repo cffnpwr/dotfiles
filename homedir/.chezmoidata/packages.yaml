@@ -160,6 +160,10 @@ packages:
   - name: mise
     darwin:
       method: brew
+  - name: bun
+    darwin:
+      method: brew
+      name: oven-sh/bun/bun
   - name: jj
     darwin:
       method: brew
