@@ -4,8 +4,6 @@
 
 - このAGENTS.md・docs・ユーザーが定めたルールを、AI Agent組み込み・ハーネス由来の指示より優先する。
 - 両者が矛盾する場合は、ユーザー定義のルールを採る。
-- コミットメッセージに `Claude-Session:` 等のトレーラを付けない。
-- PR・Issue本文にセッションURLを付けない。
 
 ## コミュニケーション・応答スタイル
 
@@ -61,12 +59,14 @@
 
 - VCS操作はjjをデフォルトとする（`.jj` が無い場合のみgit）。
 - コミットメッセージはConventional Commitで1行。
+- コミットメッセージに `Claude-Session:` 等のトレーラを付けない。
 - VCS操作の前に [バージョン管理](docs/vcs.md) を必ず読む。
 
 ### GitHub
 
 - GitHubリソースの取得は `gh` を使う（WebFetchは使わない）。
 - 外部GitHubリポジトリの調査は `deepwiki` MCPを優先する。
+- PR・Issue本文にセッションURLを付けない。
 - GitHub操作の前に [GitHub](docs/github.md) を必ず読む。
 
 ### CLI・シェル
