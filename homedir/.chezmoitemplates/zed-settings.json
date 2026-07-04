@@ -8,9 +8,7 @@
     "vscode-icons": true
   },
   "auto_update": false,
-  "buffer_font_fallbacks": [
-    "Koruri"
-  ],
+  "buffer_font_fallbacks": ["Koruri"],
   "buffer_font_family": "0xProto Nerd Font Mono",
   "buffer_font_features": {
     "calt": true,
@@ -70,10 +68,7 @@
             "siblings_only": true
           },
           "MD033": {
-            "allowed_elements": [
-              "details",
-              "summary"
-            ]
+            "allowed_elements": ["details", "summary"]
           },
           "default": true
         },
@@ -104,16 +99,20 @@
       "calt": true,
       "liga": true
     },
-    "font_size": 13
+    "font_size": 13,
+    "shell": {
+      "with_arguments": {
+        "program": "/bin/zsh",
+        "args": ["-l", "-c", "herdr session attach default"]
+      }
+    }
   },
   "theme": {
     "dark": "Tokyo Night Moon",
     "light": "Tokyo Night Light",
     "mode": "dark"
   },
-  "ui_font_fallbacks": [
-    "Koruri"
-  ],
+  "ui_font_fallbacks": ["Koruri"],
   "ui_font_family": "0xProto Nerd Font Mono",
   "ui_font_features": {
     "calt": true,

@@ -170,7 +170,7 @@ packages:
   - name: direnv
     darwin:
       method: brew
-  - name: zellij
+  - name: herdr
     darwin:
       method: brew
   - name: ghostty

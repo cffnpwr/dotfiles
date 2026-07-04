@@ -1,5 +1,5 @@
 background-opacity = 0.900000
-command = /bin/zsh -l -c zellij attach wezterm --create
+command = /bin/zsh -l -c "herdr session attach default"
 font-family = 0xProto Nerd Font Mono
 font-family = Koruri
 font-family-bold = 0xProto Nerd Font Mono
