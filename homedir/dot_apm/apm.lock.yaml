@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-07-02T17:33:16.221154+00:00'
+generated_at: '2026-07-04T15:46:07.196729+00:00'
 apm_version: 0.23.1
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: 356ad3839a857f80201fee14f7c580a4b5574a72
+  resolved_commit: 0e8eaa76b24811b677d057f4d2549b9f79d15c54
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -18,6 +18,14 @@ dependencies:
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.ts
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.ts
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/types.ts
+  - .claude/hooks/agent-toolkit/scripts/prefer-jj/bun.lock
+  - .claude/hooks/agent-toolkit/scripts/prefer-jj/package.json
+  - .claude/hooks/agent-toolkit/scripts/prefer-jj/prefer-jj.sh
+  - .claude/hooks/agent-toolkit/scripts/prefer-jj/src/classify.ts
+  - .claude/hooks/agent-toolkit/scripts/prefer-jj/src/command.ts
+  - .claude/hooks/agent-toolkit/scripts/prefer-jj/src/input.ts
+  - .claude/hooks/agent-toolkit/scripts/prefer-jj/src/main.ts
+  - .claude/hooks/agent-toolkit/scripts/prefer-jj/src/types.ts
   - .claude/skills/agents-md-creator
   - .claude/skills/agents-md-creator/SKILL.md
   - .claude/skills/agents-md-creator/references/claude-md-entrypoint.md
@@ -72,6 +80,14 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.ts: sha256:c161f4b00898fcf0be5559fc3ec66b4fa093351aa391feb47b398469216c7be3
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.ts: sha256:05e1eeab70fce3e6e6ecb9a6423bf86f637ba008baddd7b036802c3eb5029e83
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/types.ts: sha256:5d37880ab8c543f6b0075eaf8e59dda3d7a411dd57eebd0ef3b9731e64e0ae4c
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/bun.lock: sha256:8a878f753a0e84431d2ed9782de03a1a66544858c6cb3854f01e9fd1a27de252
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/package.json: sha256:d1e16e3d01475f9c79723d7442d8ed3c626ddc8c9ee24b7e298540cdcc58d2ef
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/prefer-jj.sh: sha256:713f960ac50f9fda9290bd1d7d08e194e6ec28535580c6613f9e049a48ce78f6
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/src/classify.ts: sha256:cd3f47221f41c6c07a5c7f331e2619d86c06404ece27de026d3be6c559fbaaa9
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/src/command.ts: sha256:8b12fd086310fc988cad62ac7076e9f0c52e775e693da9dc42fa448c688e2b68
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/src/input.ts: sha256:ec345e22803203bdd4bbe681bed5bfca8ce7bb6fe3712df566fc3e574e5b5c2b
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/src/main.ts: sha256:a6309c7526207d481cf7ba8e4dba4b889b5248f29b9dc71891378a9f3f8b0276
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/src/types.ts: sha256:5899248b886ec43bcdf2054f41932e550cfef67c91b8f6900a012c598129f689
     .claude/skills/agents-md-creator/SKILL.md: sha256:f9b77e4bc0278631673cebf3451e4c75b011d314de487501cb8a91d463bcf893
     .claude/skills/agents-md-creator/references/claude-md-entrypoint.md: sha256:7c9254639fd662d5b112b4ca726a706de01e5b2a7b7d0b041e0707f50c6e88c0
     .claude/skills/agents-md-creator/references/content-gathering.md: sha256:aa07d3faa4e1a7b39feaa3ccb2eacf14d47fd2eae401d908ecfaebf54fb3c443
@@ -109,25 +125,28 @@ dependencies:
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:0893db56d4960a83340d33abbdb7933de4fccf8b806817059543585aca98f065
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:fd44d47da91e33276174b5d3d5ea49a43b44fe65521c550556b0acb4c9208776
     .claude/skills/skill-creator/uv.lock: sha256:405a6ac9db358d49f3d57d4fdcda11c99dd7d56340d1545daa33fd9a0c9d4fa9
-  content_hash: sha256:ca8329f03acf92432675cbb9065442f168f962d8ed236f533bcb092cd6050134
+  content_hash: sha256:c29232b999989f14e182760b2509538fc3ec9b5c1169da80f0c09e45f33028b5
   declared_license: MIT
 - repo_url: cffnpwr/agent-work-logs
   name: agent-work-logs
   host: github.com
-  resolved_commit: 42e9b667d6e37fd8e6638a1e6673c81ad1084af0
+  resolved_commit: ba3a2669ca61bb7236a3a0140b5512d3b2780cb0
   version: 1.1.0
   package_type: apm_package
   deployed_files:
-  - .claude/skills/work-logs
-  - .claude/skills/work-logs/SKILL.md
+  - .claude/skills/work-log-search
+  - .claude/skills/work-log-search/SKILL.md
+  - .claude/skills/work-log-write
+  - .claude/skills/work-log-write/SKILL.md
   deployed_file_hashes:
-    .claude/skills/work-logs/SKILL.md: sha256:b88dd996d56d433926f9d4cfeb3b516cb0720d0e472b9652da9832ef8477e971
-  content_hash: sha256:49e8cad9f55749d1304181cf69aefaf1ab72214c4815524ae45440f02865b375
+    .claude/skills/work-log-search/SKILL.md: sha256:ed52638941de2b43b68f7e6741f7cfddbd9ff1794975724431008e3ca70028e3
+    .claude/skills/work-log-write/SKILL.md: sha256:7756db59db4ee7e0fdd7ac6e56cf6a8cba3fa1aed007d75f1082171444475651
+  content_hash: sha256:a2f736b7c9fe587d9b65daf7bbead874f6c152c0675c44ac661c18ed49ddec4f
   declared_license: MIT
 - repo_url: mattpocock/skills
   name: skills
   host: github.com
-  resolved_commit: 1445797da5ee4e4054233878c0029e9276f9986a
+  resolved_commit: 272f99b22574f50e4266791c86b9302682970e23
   version: unknown
   virtual_path: skills/productivity/grilling
   is_virtual: true
@@ -136,8 +155,8 @@ dependencies:
   - .claude/skills/grilling
   - .claude/skills/grilling/SKILL.md
   deployed_file_hashes:
-    .claude/skills/grilling/SKILL.md: sha256:fe00af3e1815f97c0a7644605479328a726b5cd95ba6ef56a4be2a92fae6c20f
-  content_hash: sha256:ef685a6fa0bbe73b05bbd8dc1ec97258191587f07c6aa7dbc9006675ceb8f90f
+    .claude/skills/grilling/SKILL.md: sha256:4fc8087fb48b0174b4f02e03a5ab7e331830f921fd440c51393895902d22e445
+  content_hash: sha256:bf1e75d96966edd298902d63348c828921b8b095d7306d0cdd56b4a591a7a82b
 mcp_servers:
 - deepwiki
 mcp_configs:
