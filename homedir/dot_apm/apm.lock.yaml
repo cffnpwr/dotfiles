@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-07-04T15:46:07.196729+00:00'
+generated_at: '2026-07-06T11:55:19.002043+00:00'
 apm_version: 0.23.1
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: 0e8eaa76b24811b677d057f4d2549b9f79d15c54
+  resolved_commit: cb6ee14253be2fa192dec630a0d4d60770bb739e
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -40,6 +40,15 @@ dependencies:
   - .claude/skills/agents-md-creator/scripts/check_references.sh
   - .claude/skills/agents-md-creator/templates/AGENTS.md.template
   - .claude/skills/agents-md-creator/templates/global-AGENTS.md.template
+  - .claude/skills/bootstrap-backlog
+  - .claude/skills/bootstrap-backlog/SKILL.md
+  - .claude/skills/create-backlog-item
+  - .claude/skills/create-backlog-item/SKILL.md
+  - .claude/skills/create-backlog-item/references/priority-guide.md
+  - .claude/skills/create-backlog-item/references/templates/bug.md
+  - .claude/skills/create-backlog-item/references/templates/feature.md
+  - .claude/skills/create-backlog-item/references/templates/improvement.md
+  - .claude/skills/create-backlog-item/references/templates/task.md
   - .claude/skills/flat-review
   - .claude/skills/flat-review/SKILL.md
   - .claude/skills/issue-creator
@@ -56,8 +65,12 @@ dependencies:
   - .claude/skills/pr-creator/SKILL.md
   - .claude/skills/pr-creator/references/platform-detection.md
   - .claude/skills/pr-creator/templates/default.md
+  - .claude/skills/register-project
+  - .claude/skills/register-project/SKILL.md
   - .claude/skills/shell-scripting
   - .claude/skills/shell-scripting/SKILL.md
+  - .claude/skills/show-backlog
+  - .claude/skills/show-backlog/SKILL.md
   - .claude/skills/skill-creator
   - .claude/skills/skill-creator/SKILL.md
   - .claude/skills/skill-creator/pyproject.toml
@@ -101,6 +114,13 @@ dependencies:
     .claude/skills/agents-md-creator/scripts/check_references.sh: sha256:9e015bf11aae4a0a0cc1c14f33dac74938ccdbad05a88ddeb46459a8e45e739a
     .claude/skills/agents-md-creator/templates/AGENTS.md.template: sha256:cf489d1be6b62aae108a0afcbc10f4054c1eec408ec32b8cddebc8bf9e1cbaff
     .claude/skills/agents-md-creator/templates/global-AGENTS.md.template: sha256:aa82ce12eca8d833761ed1b3d5df8711d5a381417ee14cf47245a8c5b1cc8a77
+    .claude/skills/bootstrap-backlog/SKILL.md: sha256:4760a68264bf6820c8d18d7dbbb1006df42de844eba8c5b7b50791e222815bf8
+    .claude/skills/create-backlog-item/SKILL.md: sha256:6984de4aa15a90ad653e6e22c0949020af0c5e1bbdb3dabe62caeacceadecc45
+    .claude/skills/create-backlog-item/references/priority-guide.md: sha256:f97caefe79d542b844f4d0076a1e6fbfebcd531ccf3008f822e8ee3f7c96b4a6
+    .claude/skills/create-backlog-item/references/templates/bug.md: sha256:d5ea54f147fdc7978ccccfb74bdc2cdaa0b4e859359fd9b95c2d34c637cf5697
+    .claude/skills/create-backlog-item/references/templates/feature.md: sha256:a84fde448cb9d9d70df997116987dd6e8c05e60f992d3c98e5c7e58814e60e04
+    .claude/skills/create-backlog-item/references/templates/improvement.md: sha256:24866f5fc66bd75ae3eebee73038d7c8af49e2ef52079a4d46765f0d0d66e52b
+    .claude/skills/create-backlog-item/references/templates/task.md: sha256:32e184de1783d7afe869afb32074ad0b9210753a78c164f430f4b42a076d716b
     .claude/skills/flat-review/SKILL.md: sha256:574c495fb682ed0c72fd6fa745ac5c7df415aa9b6fb5499df55ffc77784117a7
     .claude/skills/issue-creator/SKILL.md: sha256:388baf574f58cb3f6a5145ccdebdfb5a3e112806514cf5a65566054fd1162fb7
     .claude/skills/issue-creator/references/implicit-info-checklist.md: sha256:b2840f0a52af7a2b9829c6ab7687623475b4ce397c61b081fc479d3ba6c82c87
@@ -113,7 +133,9 @@ dependencies:
     .claude/skills/pr-creator/SKILL.md: sha256:a7d598f955079b4f2d5e05d4ab32fbd0b5766b4e67d5c08ed53e6f75dd3b6c05
     .claude/skills/pr-creator/references/platform-detection.md: sha256:76972c5605081ea4fa8cc2c5a25444b05ef9e85e6ec6334218b6c9a334aecdb0
     .claude/skills/pr-creator/templates/default.md: sha256:4836793eb5196fd109efca888dda6b429681ba555c070d203aef5803fdf58205
+    .claude/skills/register-project/SKILL.md: sha256:c2404163eb9c7580bfd3bd922458f027eaf5054c3b30c07bb4fb046323f6f7ca
     .claude/skills/shell-scripting/SKILL.md: sha256:995d1a316010deedb6600560d3331cc633d4b7494da9b1921b6a0ba67ea76536
+    .claude/skills/show-backlog/SKILL.md: sha256:c4f61770a6898c13c46212ad05a990b7bcc4a06b5e96b323009db2f6fa3a492f
     .claude/skills/skill-creator/SKILL.md: sha256:b8552f19747d08707b56a55f1eba8c4502be41de08db9f4b770c40ca22d81413
     .claude/skills/skill-creator/pyproject.toml: sha256:761b5eb8942d413375c58f7d6d8e53b1bad038ccfbd8327fbf3080be6133c607
     .claude/skills/skill-creator/references/compatibility-guide.md: sha256:e7d7b95f293385c774d1e6f5448b60d22983090481f810498ed4bc4a6f093221
@@ -125,12 +147,12 @@ dependencies:
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:0893db56d4960a83340d33abbdb7933de4fccf8b806817059543585aca98f065
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:fd44d47da91e33276174b5d3d5ea49a43b44fe65521c550556b0acb4c9208776
     .claude/skills/skill-creator/uv.lock: sha256:405a6ac9db358d49f3d57d4fdcda11c99dd7d56340d1545daa33fd9a0c9d4fa9
-  content_hash: sha256:c29232b999989f14e182760b2509538fc3ec9b5c1169da80f0c09e45f33028b5
+  content_hash: sha256:0c41a30608ea8ed094ab0c47d34a4f3cfc3003e46d0417710050c050e715b9d5
   declared_license: MIT
 - repo_url: cffnpwr/agent-work-logs
   name: agent-work-logs
   host: github.com
-  resolved_commit: ba3a2669ca61bb7236a3a0140b5512d3b2780cb0
+  resolved_commit: b8eff4e5bac11aea8e761f5465dee567ff6683cb
   version: 1.1.0
   package_type: apm_package
   deployed_files:
@@ -140,13 +162,13 @@ dependencies:
   - .claude/skills/work-log-write/SKILL.md
   deployed_file_hashes:
     .claude/skills/work-log-search/SKILL.md: sha256:ed52638941de2b43b68f7e6741f7cfddbd9ff1794975724431008e3ca70028e3
-    .claude/skills/work-log-write/SKILL.md: sha256:7756db59db4ee7e0fdd7ac6e56cf6a8cba3fa1aed007d75f1082171444475651
-  content_hash: sha256:a2f736b7c9fe587d9b65daf7bbead874f6c152c0675c44ac661c18ed49ddec4f
+    .claude/skills/work-log-write/SKILL.md: sha256:0626e0b938108068c1bd0e26de6522e804054d3bdbb597c3d1fbf7da7f6a0e15
+  content_hash: sha256:7be6a048abefe2401a1c80fc628429350427f7be4fadb19fc57904d39152a000
   declared_license: MIT
 - repo_url: mattpocock/skills
   name: skills
   host: github.com
-  resolved_commit: 272f99b22574f50e4266791c86b9302682970e23
+  resolved_commit: 66f92b61f5b1434a1c7422f6fbd8efc5ee0c0214
   version: unknown
   virtual_path: skills/productivity/grilling
   is_virtual: true
