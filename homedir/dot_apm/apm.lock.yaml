@@ -1,14 +1,21 @@
 lockfile_version: '1'
-generated_at: '2026-07-06T11:55:19.002043+00:00'
+generated_at: '2026-07-06T17:39:45.157587+00:00'
 apm_version: 0.23.1
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: cb6ee14253be2fa192dec630a0d4d60770bb739e
+  resolved_commit: 7f590b1ae49ee616ee358e5c12eb9162b1d16f27
   version: 1.0.0
   package_type: apm_package
   deployed_files:
+  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock
+  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/command-chain-guard.sh
+  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/package.json
+  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/command.ts
+  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/input.ts
+  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/main.ts
+  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/types.ts
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/commitlint.sh
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/package.json
@@ -84,10 +91,17 @@ dependencies:
   - .claude/skills/skill-creator/templates/SKILL.md.template
   - .claude/skills/skill-creator/uv.lock
   deployed_file_hashes:
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock: sha256:f149164741f1d8cdf521f184cf5f7fdc3da9d200f4d9721277d18ab334cfab5d
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/command-chain-guard.sh: sha256:08a73f798b4bd75a6bfcb3feb88bd276fdb3f16149457769830ebc8f5ce60406
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/package.json: sha256:714e3cf549298f6512e477888eaea0da98fa6e2f715d49206ff91392d8ff7edc
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/command.ts: sha256:eb8959865074e1445d0a1a2b98a9f2b944b4f4b69a13c994a4d09f99d2c66b2a
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/input.ts: sha256:ec345e22803203bdd4bbe681bed5bfca8ce7bb6fe3712df566fc3e574e5b5c2b
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/main.ts: sha256:86d3d14ab5cf88b515d01b35a7030e29d971889dfb6a257e4e14c89a1a086e43
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/types.ts: sha256:6b587aa34db252abd5ac64a4b2f01f54a3e9dce5f66db5408300318cbee2b884
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:7686ee6bda5664cf1496c9d6f60cf992042e807a1155851e9e71d51e228e5aff
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/commitlint.sh: sha256:c7dc2353748acc9f756b884ca58cf6af655e0d69e9cf1c5fb25068d7c755e323
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/package.json: sha256:7f37c634cdb5ce9c49a33403ba2aefe5ff56d86a9c1433d6a3b7cad95a7af517
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.ts: sha256:8478be6d03cc070a1477527132937521d238ac9707c0afe0c6bc2f349210f6a1
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.ts: sha256:b8768bff1e7f37ad47337f98bfc2d1c34e396d780d007db78130d2630eccc3ed
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/config.ts: sha256:729bc6877e64c7f46a320f425f92dfb294ebe2824b201d67d7f41f466d7cdab1
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/input.ts: sha256:73ac5788be6eb4b439abb0948a8c06f8a4fe987edfe5e2ce596e1919f89c76da
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.ts: sha256:c161f4b00898fcf0be5559fc3ec66b4fa093351aa391feb47b398469216c7be3
@@ -97,7 +111,7 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/prefer-jj/package.json: sha256:d1e16e3d01475f9c79723d7442d8ed3c626ddc8c9ee24b7e298540cdcc58d2ef
     .claude/hooks/agent-toolkit/scripts/prefer-jj/prefer-jj.sh: sha256:713f960ac50f9fda9290bd1d7d08e194e6ec28535580c6613f9e049a48ce78f6
     .claude/hooks/agent-toolkit/scripts/prefer-jj/src/classify.ts: sha256:cd3f47221f41c6c07a5c7f331e2619d86c06404ece27de026d3be6c559fbaaa9
-    .claude/hooks/agent-toolkit/scripts/prefer-jj/src/command.ts: sha256:8b12fd086310fc988cad62ac7076e9f0c52e775e693da9dc42fa448c688e2b68
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/src/command.ts: sha256:f4b7f3b0947cc1f12ce950377e24df2c1a3a8f1255fe8b3e4539c344b81af20c
     .claude/hooks/agent-toolkit/scripts/prefer-jj/src/input.ts: sha256:ec345e22803203bdd4bbe681bed5bfca8ce7bb6fe3712df566fc3e574e5b5c2b
     .claude/hooks/agent-toolkit/scripts/prefer-jj/src/main.ts: sha256:a6309c7526207d481cf7ba8e4dba4b889b5248f29b9dc71891378a9f3f8b0276
     .claude/hooks/agent-toolkit/scripts/prefer-jj/src/types.ts: sha256:5899248b886ec43bcdf2054f41932e550cfef67c91b8f6900a012c598129f689
@@ -147,7 +161,7 @@ dependencies:
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:0893db56d4960a83340d33abbdb7933de4fccf8b806817059543585aca98f065
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:fd44d47da91e33276174b5d3d5ea49a43b44fe65521c550556b0acb4c9208776
     .claude/skills/skill-creator/uv.lock: sha256:405a6ac9db358d49f3d57d4fdcda11c99dd7d56340d1545daa33fd9a0c9d4fa9
-  content_hash: sha256:0c41a30608ea8ed094ab0c47d34a4f3cfc3003e46d0417710050c050e715b9d5
+  content_hash: sha256:16fa28b9264d18ecc3758f49971d17b3921d520555efb77a6ee4695816e9c2b0
   declared_license: MIT
 - repo_url: cffnpwr/agent-work-logs
   name: agent-work-logs
@@ -166,10 +180,10 @@ dependencies:
   content_hash: sha256:7be6a048abefe2401a1c80fc628429350427f7be4fadb19fc57904d39152a000
   declared_license: MIT
 - repo_url: mattpocock/skills
-  name: skills
+  name: grilling
   host: github.com
-  resolved_commit: 66f92b61f5b1434a1c7422f6fbd8efc5ee0c0214
-  version: unknown
+  resolved_commit: 16a2a5cd00b4416f673f4ff38c7971a04dd708e7
+  version: 1.0.0
   virtual_path: skills/productivity/grilling
   is_virtual: true
   package_type: claude_skill
@@ -177,8 +191,8 @@ dependencies:
   - .claude/skills/grilling
   - .claude/skills/grilling/SKILL.md
   deployed_file_hashes:
-    .claude/skills/grilling/SKILL.md: sha256:4fc8087fb48b0174b4f02e03a5ab7e331830f921fd440c51393895902d22e445
-  content_hash: sha256:bf1e75d96966edd298902d63348c828921b8b095d7306d0cdd56b4a591a7a82b
+    .claude/skills/grilling/SKILL.md: sha256:5a35925d03a391bcfa46940868b649b72dba89ec9c19525e785bbb6bd3a7f478
+  content_hash: sha256:1de9e777a60b184b29412fadacb7bbde8c14bb7037e5c4d9d086c941281d1742
 mcp_servers:
 - deepwiki
 mcp_configs:
