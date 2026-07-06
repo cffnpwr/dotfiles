@@ -1,0 +1,27 @@
+{{/* リポジトリのトップレベル .gitignore と除外対象を一元化する。
+     gitignoreとdoublestarのマッチ規則の差を吸収するため、
+     - スラッシュを含まないパターンは任意階層へ展開する（ダブルスター接頭辞を付与）
+     - 先頭または途中にスラッシュを含むパターンはアンカー扱いでそのまま使う
+     - 末尾スラッシュのディレクトリは自身と配下の両記法へ展開する */}}
+{{- range include "../.gitignore" | splitList "\n" }}
+{{- $line := trimSuffix "\r" . }}
+{{- if and $line (not (hasPrefix "#" $line)) }}
+{{- $isDir := hasSuffix "/" $line }}
+{{- $p := trimSuffix "/" $line }}
+{{- $anchored := or (hasPrefix "/" $p) (contains "/" $p) }}
+{{- $p = trimPrefix "/" $p }}
+{{- if $isDir }}
+{{ $p }}/
+{{ $p }}/**
+{{- if not $anchored }}
+**/{{ $p }}/
+**/{{ $p }}/**
+{{- end }}
+{{- else }}
+{{ $p }}
+{{- if not $anchored }}
+**/{{ $p }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
