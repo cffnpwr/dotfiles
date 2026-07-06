@@ -1,0 +1,10 @@
+{{/* dot_apm/.gitignore と除外対象を一元化する。gitignoreの `dir/` はchezmoiでは
+     ディレクトリ自体しか除外しないため、`dir/` と `dir/**` の両記法へ展開する。 */}}
+{{- range include "dot_apm/.gitignore" | splitList "\n" }}
+{{- if and . (not (hasPrefix "#" .)) }}
+{{ . }}
+{{- if hasSuffix "/" . }}
+{{ . }}**
+{{- end }}
+{{- end }}
+{{- end }}
