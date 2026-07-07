@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-07-06T17:39:45.157587+00:00'
+generated_at: '2026-07-07T18:47:50.219864+00:00'
 apm_version: 0.23.1
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: 7f590b1ae49ee616ee358e5c12eb9162b1d16f27
+  resolved_commit: b09e67bb6b75e366a11b83b13c2c19718452dfe2
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -91,24 +91,24 @@ dependencies:
   - .claude/skills/skill-creator/templates/SKILL.md.template
   - .claude/skills/skill-creator/uv.lock
   deployed_file_hashes:
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock: sha256:f149164741f1d8cdf521f184cf5f7fdc3da9d200f4d9721277d18ab334cfab5d
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock: sha256:0ac055be220f4b09fc9f28b94ec2ccf209abeb033017c024bda10838b8534a68
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/command-chain-guard.sh: sha256:08a73f798b4bd75a6bfcb3feb88bd276fdb3f16149457769830ebc8f5ce60406
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/package.json: sha256:714e3cf549298f6512e477888eaea0da98fa6e2f715d49206ff91392d8ff7edc
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/package.json: sha256:5ce1f6d2738d0cfcfa9fe064960e7d47eb665964960b9d0ce87fdbb61659babd
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/command.ts: sha256:eb8959865074e1445d0a1a2b98a9f2b944b4f4b69a13c994a4d09f99d2c66b2a
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/input.ts: sha256:ec345e22803203bdd4bbe681bed5bfca8ce7bb6fe3712df566fc3e574e5b5c2b
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/main.ts: sha256:86d3d14ab5cf88b515d01b35a7030e29d971889dfb6a257e4e14c89a1a086e43
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/types.ts: sha256:6b587aa34db252abd5ac64a4b2f01f54a3e9dce5f66db5408300318cbee2b884
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:7686ee6bda5664cf1496c9d6f60cf992042e807a1155851e9e71d51e228e5aff
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:81bc2c894e314f942ea40db869891828bd16f3f29e7a7977403005a4e844827f
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/commitlint.sh: sha256:c7dc2353748acc9f756b884ca58cf6af655e0d69e9cf1c5fb25068d7c755e323
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/package.json: sha256:7f37c634cdb5ce9c49a33403ba2aefe5ff56d86a9c1433d6a3b7cad95a7af517
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/package.json: sha256:832c98aa6979251a579e5aaa49bed39fe8db0189f281b3a693cc5de844370f57
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.ts: sha256:b8768bff1e7f37ad47337f98bfc2d1c34e396d780d007db78130d2630eccc3ed
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/config.ts: sha256:729bc6877e64c7f46a320f425f92dfb294ebe2824b201d67d7f41f466d7cdab1
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/input.ts: sha256:73ac5788be6eb4b439abb0948a8c06f8a4fe987edfe5e2ce596e1919f89c76da
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.ts: sha256:c161f4b00898fcf0be5559fc3ec66b4fa093351aa391feb47b398469216c7be3
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.ts: sha256:05e1eeab70fce3e6e6ecb9a6423bf86f637ba008baddd7b036802c3eb5029e83
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/types.ts: sha256:5d37880ab8c543f6b0075eaf8e59dda3d7a411dd57eebd0ef3b9731e64e0ae4c
-    .claude/hooks/agent-toolkit/scripts/prefer-jj/bun.lock: sha256:8a878f753a0e84431d2ed9782de03a1a66544858c6cb3854f01e9fd1a27de252
-    .claude/hooks/agent-toolkit/scripts/prefer-jj/package.json: sha256:d1e16e3d01475f9c79723d7442d8ed3c626ddc8c9ee24b7e298540cdcc58d2ef
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/bun.lock: sha256:b18687ad5b431b260dbb92e400f8c04959b74f6d069535e63787fbf7ce74e960
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/package.json: sha256:9e404c2e9d4860813e7abd8938da61e4d162fce5ad2b0eb451779b1c18492958
     .claude/hooks/agent-toolkit/scripts/prefer-jj/prefer-jj.sh: sha256:713f960ac50f9fda9290bd1d7d08e194e6ec28535580c6613f9e049a48ce78f6
     .claude/hooks/agent-toolkit/scripts/prefer-jj/src/classify.ts: sha256:cd3f47221f41c6c07a5c7f331e2619d86c06404ece27de026d3be6c559fbaaa9
     .claude/hooks/agent-toolkit/scripts/prefer-jj/src/command.ts: sha256:f4b7f3b0947cc1f12ce950377e24df2c1a3a8f1255fe8b3e4539c344b81af20c
@@ -143,7 +143,7 @@ dependencies:
     .claude/skills/issue-creator/references/templates/feature.md: sha256:4c13e126eb0ad5ca2bf0c4c370f0af3c7913bb9406580e91703e6ce281d1aa21
     .claude/skills/issue-creator/references/templates/improvement.md: sha256:68673f56713e4f77b6c263541bee343dfa3e5bb5d78e173858b13eda52c11945
     .claude/skills/issue-creator/references/templates/task.md: sha256:3a87d9735ece9ceb78e44669606bacde9eef287ebcac35dca2707638cf8979eb
-    .claude/skills/jj-reference/SKILL.md: sha256:6cc8ea80fc9aa0125f4e9046b54706b03f3b2c418181936b403758c09f63b7fd
+    .claude/skills/jj-reference/SKILL.md: sha256:a06d8e20c597261990c410d61f24719561e93b685e284e4901b2cfb4249ab732
     .claude/skills/pr-creator/SKILL.md: sha256:a7d598f955079b4f2d5e05d4ab32fbd0b5766b4e67d5c08ed53e6f75dd3b6c05
     .claude/skills/pr-creator/references/platform-detection.md: sha256:76972c5605081ea4fa8cc2c5a25444b05ef9e85e6ec6334218b6c9a334aecdb0
     .claude/skills/pr-creator/templates/default.md: sha256:4836793eb5196fd109efca888dda6b429681ba555c070d203aef5803fdf58205
@@ -151,7 +151,7 @@ dependencies:
     .claude/skills/shell-scripting/SKILL.md: sha256:995d1a316010deedb6600560d3331cc633d4b7494da9b1921b6a0ba67ea76536
     .claude/skills/show-backlog/SKILL.md: sha256:c4f61770a6898c13c46212ad05a990b7bcc4a06b5e96b323009db2f6fa3a492f
     .claude/skills/skill-creator/SKILL.md: sha256:b8552f19747d08707b56a55f1eba8c4502be41de08db9f4b770c40ca22d81413
-    .claude/skills/skill-creator/pyproject.toml: sha256:761b5eb8942d413375c58f7d6d8e53b1bad038ccfbd8327fbf3080be6133c607
+    .claude/skills/skill-creator/pyproject.toml: sha256:57404a022439a72afd4e0f159f64a6176a7ab7bd557417420c72cf8c0af22f89
     .claude/skills/skill-creator/references/compatibility-guide.md: sha256:e7d7b95f293385c774d1e6f5448b60d22983090481f810498ed4bc4a6f093221
     .claude/skills/skill-creator/references/output-patterns.md: sha256:d4be60d5cee833780aa5390d91d1e7a73c8eddd066bc73ffe73530df8e6fb3ce
     .claude/skills/skill-creator/references/scripting-guide.md: sha256:66cae2ee3b500470b6b49bf67b07c9c4ab898717e44bcd787374821d34b07de2
@@ -160,8 +160,8 @@ dependencies:
     .claude/skills/skill-creator/references/workflows.md: sha256:56598f2c831cac86e5a913bf1df6903d6e115c45ecf6e352a9fd2d719d300565
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:0893db56d4960a83340d33abbdb7933de4fccf8b806817059543585aca98f065
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:fd44d47da91e33276174b5d3d5ea49a43b44fe65521c550556b0acb4c9208776
-    .claude/skills/skill-creator/uv.lock: sha256:405a6ac9db358d49f3d57d4fdcda11c99dd7d56340d1545daa33fd9a0c9d4fa9
-  content_hash: sha256:16fa28b9264d18ecc3758f49971d17b3921d520555efb77a6ee4695816e9c2b0
+    .claude/skills/skill-creator/uv.lock: sha256:43054d215a306ef057bf3d0d0f2aa0840ba73172e2d177de9b38162600631ea0
+  content_hash: sha256:510e6a5273330bb7701bfb1cdf499adb18315862f8bc8be080d8fc4a7be746a6
   declared_license: MIT
 - repo_url: cffnpwr/agent-work-logs
   name: agent-work-logs
@@ -182,7 +182,7 @@ dependencies:
 - repo_url: mattpocock/skills
   name: grilling
   host: github.com
-  resolved_commit: 16a2a5cd00b4416f673f4ff38c7971a04dd708e7
+  resolved_commit: 8515a080a74dbcf5019a1a78efc24b5fcafb36b8
   version: 1.0.0
   virtual_path: skills/productivity/grilling
   is_virtual: true
