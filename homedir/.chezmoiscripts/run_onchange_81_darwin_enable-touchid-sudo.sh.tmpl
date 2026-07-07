@@ -1,0 +1,22 @@
+{{ if eq .os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ includeTemplate "log.sh" }}
+STEP="touchid-sudo"
+
+# /etc/pam.d/sudo_local はOSアップデート後も維持されるsudo PAM設定の拡張点
+# (/etc/pam.d/sudo_local.template 参照)。ホーム外のためchezmoiのファイル管理に
+# 載せられず、ソースで宣言した内容(pam_tidによるTouch ID認証)へここで収束させる。
+# 宣言内容は本文へ展開され、その変化を run_onchange が検知して再適用する。
+desired_sudo_local() {
+  cat <<'EOF'
+{{ includeTemplate "sudo_local" -}}
+EOF
+}
+
+if ! desired_sudo_local | cmp -s - /etc/pam.d/sudo_local 2>/dev/null; then
+  log "installing /etc/pam.d/sudo_local (Touch ID for sudo)"
+  desired_sudo_local | sudo tee /etc/pam.d/sudo_local >/dev/null
+fi
+{{- end }}
