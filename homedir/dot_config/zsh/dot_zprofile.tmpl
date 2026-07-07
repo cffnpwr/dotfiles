@@ -12,6 +12,10 @@ brew_path() {
 }
 eval "$("$(brew_path)" shellenv)"
 unset -f brew_path
+
+# brew shellenvはbrewサブプロセス文脈(HOMEBREW_COMMAND_DEPTH設定済み)では出力を省略しsite-functionsをfpathへ追加しない。
+# Homebrewのcompletionを確実に読むため明示追加する。重複は.zshrcのtypeset -U fpathが排除する。
+fpath=("${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh/site-functions" $fpath)
 {{- end }}
 
 # mise shims
