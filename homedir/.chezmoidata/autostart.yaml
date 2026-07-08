@@ -27,6 +27,14 @@ autostart:
     run_at_load: true
     keep_alive: false
 
+  # herdr
+  - label: dev.herdr
+    command:
+      - herdr
+      - server
+    run_at_load: true
+    keep_alive: true
+
   # Raycast
   - label: com.raycast.macos
     command:
