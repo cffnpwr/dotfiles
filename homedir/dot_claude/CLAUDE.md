@@ -68,7 +68,8 @@
 ### GitHub
 
 - GitHubリソースの取得は `gh` を使う（WebFetchは使わない）。
-- 外部GitHubリポジトリの調査は `deepwiki` MCPを優先する。
+- 外部GitHubリポジトリの調査（全体像・目的のファイルの所在）は `deepwiki` MCPを優先する。読むファイルが特定済みなら省く。
+- 外部リポジトリのファイルを読むときは `$(ghq root)/github.com/<owner>/<repo>`（`ghq root` は `~/git`）のクローンを読む。クローン済みならfetchで最新化し、ユーザーのワークツリーに触れず、`~/.cache/agent-worktrees/` 配下に一意なワークツリーを生やして目的のブランチを読み、読了後に撤去する。
 - PR・Issue本文にセッションURLを付けない。
 - GitHub操作の前に [GitHub](docs/github.md) を必ず読む。
 
