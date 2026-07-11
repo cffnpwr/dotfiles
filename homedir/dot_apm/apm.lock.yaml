@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-07-10T17:21:08.454343+00:00'
-apm_version: 0.24.0
+generated_at: '2026-07-11T17:04:25.431471+00:00'
+apm_version: 0.24.1
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: f72e365ea7f8919fbbe508e4de5ae6fcca4fd711
+  resolved_commit: b21156c42c73353ec003cc140165f8b4916bd9b0
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -29,6 +29,7 @@ dependencies:
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.test.ts
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.ts
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/input.ts
+  - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.test.ts
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.ts
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.ts
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/types.ts
@@ -118,13 +119,14 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/tsconfig.json: sha256:7b233423032d2bfdad22e16f157a5b5cadbea0d093e0d9e79026e104f64d0db0
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/README.md: sha256:e981d070294666f90d08649f4cfbd0e531b29f709108eedae554bbf2db3ee590
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:df44f68e5f61bd7b5e77fded3718d2489c793e9937201aff155f82e9f304a769
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:4ef66dd3e0ed00655b88c3b4c22072433765b05ce9417c0d3e3809125e212656
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/commitlint.sh: sha256:ffe6b449c31e115e9a7c9eece9605581f10b0ff81235a9f26d528f0e1d801bfb
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/eslint.config.ts: sha256:677589459641fad66efc2d97684b67a410b74aae61315e2706da1944c54b9ea8
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.test.ts: sha256:9b621333da0a641e45bc5d66aee2b80c1349a5b1a137145e0da06ebd95423953
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.ts: sha256:b8768bff1e7f37ad47337f98bfc2d1c34e396d780d007db78130d2630eccc3ed
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/input.ts: sha256:73ac5788be6eb4b439abb0948a8c06f8a4fe987edfe5e2ce596e1919f89c76da
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.ts: sha256:7dbd2e4707b3a9e14125b7afd8af7b41df03aa8cccbc5c6cfcf9c63cf55df714
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.test.ts: sha256:10c224d4f4b18e284d11eb2e2d049dc6fb088f12d4f172ccd0e1caa41b6d6b7d
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.ts: sha256:ac856edec1e59ba68650eb7143d49e8830757fc645d6fcf05e1511471e6065e4
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.ts: sha256:436abb3930ac294f332d6acc9306810d27d1004cf0b8e5cad3062623998a6f4c
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/types.ts: sha256:5d37880ab8c543f6b0075eaf8e59dda3d7a411dd57eebd0ef3b9731e64e0ae4c
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/tsconfig.json: sha256:7b233423032d2bfdad22e16f157a5b5cadbea0d093e0d9e79026e104f64d0db0
@@ -187,7 +189,7 @@ dependencies:
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:0893db56d4960a83340d33abbdb7933de4fccf8b806817059543585aca98f065
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:fd44d47da91e33276174b5d3d5ea49a43b44fe65521c550556b0acb4c9208776
     .claude/skills/skill-creator/uv.lock: sha256:43054d215a306ef057bf3d0d0f2aa0840ba73172e2d177de9b38162600631ea0
-  content_hash: sha256:5b2af294e2515d6005d6856230a1efd74671b3b88bf2cb2a2655d334d4ee1d5e
+  content_hash: sha256:4b9d32dc49a52484d8f7667c136d08072310c8bb7cded42700d007ce7cf903e5
   declared_license: MIT
 - repo_url: cffnpwr/agent-work-logs
   name: agent-work-logs
