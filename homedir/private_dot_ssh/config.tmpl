@@ -21,9 +21,6 @@ Host github
 
 Host *
 {{- if eq .chezmoi.os "darwin" }}
-  IgnoreUnknown UseKeychain
+  IdentityFile ~/.ssh/id_ecdsa_secretive.pub
 {{- end }}
-  AddKeysToAgent yes
-{{- if eq .chezmoi.os "darwin" }}
-  UseKeychain yes
-{{- end }}
+  IdentityFile ~/.ssh/id_ed25519_sk

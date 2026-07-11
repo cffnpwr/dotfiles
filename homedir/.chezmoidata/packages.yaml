@@ -92,6 +92,12 @@ packages:
     darwin:
       method: brew
 
+  # security
+  - name: secretive
+    darwin:
+      method: brew
+      cask: true
+
   # network tools
   - name: wakeonlan
     darwin:

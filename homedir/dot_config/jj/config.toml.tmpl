@@ -1,7 +1,7 @@
 [signing]
 backend = "ssh"
 behavior = "own"
-key = "{{ .chezmoi.homeDir }}/.ssh/id_ed25519.pub"
+key = "{{ .chezmoi.homeDir }}/.ssh/{{ if eq .chezmoi.os "darwin" }}id_ecdsa_secretive.pub{{ else }}id_ed25519_sk.pub{{ end }}"
 
 [signing.backends.ssh]
 allowed-signers = "{{ .chezmoi.homeDir }}/.config/git/allowed_signers"
