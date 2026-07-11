@@ -234,6 +234,10 @@ packages:
     darwin:
       method: brew
       name: microsoft/apm/apm
+  - name: opencode
+    darwin:
+      method: brew
+      name: anomalyco/tap/opencode
 
   # input method
   - name: azookey
