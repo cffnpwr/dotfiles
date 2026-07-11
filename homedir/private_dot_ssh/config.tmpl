@@ -21,6 +21,7 @@ Host github
 
 Host *
 {{- if eq .chezmoi.os "darwin" }}
+  IdentityAgent "~/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
   IdentityFile ~/.ssh/id_ecdsa_secretive.pub
 {{- end }}
   IdentityFile ~/.ssh/id_ed25519_sk
