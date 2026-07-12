@@ -17,6 +17,3 @@ unset -f brew_path
 # Homebrewのcompletionを確実に読むため明示追加する。重複は.zshrcのtypeset -U fpathが排除する。
 fpath=("${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh/site-functions" $fpath)
 {{- end }}
-
-# mise shims
-eval "$(mise activate zsh --shims)"

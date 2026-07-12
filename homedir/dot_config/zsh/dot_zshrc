@@ -71,8 +71,6 @@ unsetopt list_types
 # スラッシュを区切り文字に含める
 export WORDCHARS="${WORDCHARS//\/}"
 
-eval "$(mise activate zsh)"
-
 if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
   source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
 fi

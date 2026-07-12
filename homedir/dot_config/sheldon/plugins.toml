@@ -31,8 +31,12 @@ apply = ["defer"]
 [plugins.starship]
 inline = 'eval "$(starship init zsh)"'
 
+# zshenvで非対話用に積んだshims dirを対話シェルではPATHから外し、アクティブなツールのbinだけをhookモードで載せる
 [plugins.mise]
-inline = 'eval "$(mise activate zsh)"'
+inline = '''
+path=("${(@)path:#$HOME/.local/share/mise/shims}")
+eval "$(mise activate zsh)"
+'''
 
 [plugins.zoxide]
 inline = 'eval "$(zoxide init zsh)"'
