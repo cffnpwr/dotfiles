@@ -17,36 +17,36 @@ zen:
         rotation: null
         texture: 0.0
         colors:
-          - red: 197,
-            green: 175,
-            blue: 233,
-            custom: false,
-            algorithm: analogous,
-            primary: true,
-            lightness: 80,
-            x: 172,
-            y: 103,
-            type: explicit-lightness,
-          - red: 237,
-            green: 171,
-            blue: 228,
-            custom: false,
-            algorithm: analogous,
-            primary: false,
-            lightness: 80,
-            x: 222,
-            y: 128,
-            type: explicit-lightness,
-          - red: 176,
-            green: 192,
-            blue: 232,
-            custom: false,
-            algorithm: analogous,
-            primary: false,
-            lightness: 80,
-            x: 120,
-            y: 124,
-            type: explicit-lightness,
+          - red: 197
+            green: 175
+            blue: 233
+            custom: false
+            algorithm: analogous
+            primary: true
+            lightness: 80
+            x: 172
+            y: 103
+            type: explicit-lightness
+          - red: 237
+            green: 171
+            blue: 228
+            custom: false
+            algorithm: analogous
+            primary: false
+            lightness: 80
+            x: 222
+            y: 128
+            type: explicit-lightness
+          - red: 176
+            green: 192
+            blue: 232
+            custom: false
+            algorithm: analogous
+            primary: false
+            lightness: 80
+            x: 120
+            y: 124
+            type: explicit-lightness
 
   # Pins(全て isEssential=true)。id は zenSyncId、workspace は対象 space の id。
   # position はタブ並び順(index)に対応。title 未指定なら null。
