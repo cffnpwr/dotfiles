@@ -50,14 +50,13 @@ CFPreferences 側の policy を有効化するには`EnterprisePoliciesEnabled`�
 
 「無効」は policy 上「削除 + 導入阻止」で表す。UI で灰色にして残す挙動は policy では表現できない。
 
-## スキーマ: extId 一本化
+## スキーマ
 
-各エントリは`extId`と`enabled`を持つ。
+`zen`配下(spaces / pins / extensions)の型を[OpenAPI](https://spec.openapis.org/oas/latest.html)のスキーマで定義する。
+定義は[`zen.schema.yaml`](./zen.schema.yaml)に置き、具体例は[`zen.example.yaml`](./zen.example.yaml)に置く。
+spaces / pins は`zen-sessions-merge.py`(`build_space` / `build_pin`)でセッション形式へ、extensions は本節のスクリプトで`ExtensionSettings`へ射影する。射影先は各フィールドの description に「→」で示す。
 
-- `extId`: AMO の addon ID。`ExtensionSettings`のキーと`install_url`の両方に使う。
-- `enabled`: 有効/無効の宣言。省略時は true。
-
-`install_url`は`extId`から組む。
+extensions は`extId`と`enabled`を持ち、AMO スラッグ(`pluginId`)は持たない。`install_url`は`extId`から組む。
 
 ```
 https://addons.mozilla.org/firefox/downloads/latest/<extId>/latest.xpi

@@ -1,0 +1,151 @@
+# .chezmoidata/zen.yaml の `zen` 配下スキーマ。
+# spaces / pins は zen-sessions-merge.py(build_space / build_pin)でセッション形式へ、
+# extensions は zen-policies スクリプトで ExtensionSettings policy へ射影する。
+# 各 description の「→」は射影先(セッション/policy 側のキー)を示す。
+
+Space:
+  type: object
+  required:
+    - id
+    - name
+    - position
+    - icon
+  properties:
+    id:
+      type: string
+      description: Zen Workspace の UUID(中括弧なしの素の id)。→ uuid(`{id}` へラップ)。マージの一致キー
+    name:
+      type: string
+      description: 表示名。→ name
+    position:
+      type: integer
+      description: space の並び順。→ position
+    icon:
+      type: string
+      description: アイコン(chrome:// の svg パス)。→ icon
+    container:
+      type: integer
+      default: null
+      description: コンテナ id。→ containerTabId。省略/null で 0
+    theme:
+      $ref: "#/Theme"
+
+Theme:
+  type: object
+  description: space の背景テーマ。→ theme。省略時は既定値で gradient テーマを構成する
+  properties:
+    type:
+      type: string
+      default: gradient
+      description: テーマ種別。→ theme.type。省略時は `gradient`
+    opacity:
+      type: number
+      default: null
+      description: 不透明度。→ theme.opacity。省略/null で 0.5
+    texture:
+      type: number
+      default: null
+      description: テクスチャ量。→ theme.texture。省略/null で 0
+    rotation:
+      type: number
+      default: null
+      description: 回転。→ theme.rotation。省略時は null をそのまま設定
+    colors:
+      type: array
+      items:
+        $ref: "#/Color"
+      default: []
+      description: グラデーション色。→ theme.gradientColors。省略時は空
+
+Color:
+  type: object
+  description: グラデーションの1色。全フィールド必須。
+  required:
+    - red
+    - green
+    - blue
+    - custom
+    - primary
+    - algorithm
+    - lightness
+    - x
+    - y
+    - type
+  properties:
+    red:
+      type: integer
+      description: 0-255。→ c[0]
+    green:
+      type: integer
+      description: 0-255。→ c[1]
+    blue:
+      type: integer
+      description: 0-255。→ c[2]
+    custom:
+      type: boolean
+      description: カスタム色か。→ isCustom
+    primary:
+      type: boolean
+      description: 主色か。→ isPrimary
+    algorithm:
+      type: string
+      description: 配色アルゴリズム(例 `analogous`)。→ algorithm
+    lightness:
+      type: number
+      description: 明度。→ lightness
+    x:
+      type: integer
+      description: カラーホイール位置 x。→ position.x
+    y:
+      type: integer
+      description: カラーホイール位置 y。→ position.y
+    type:
+      type: string
+      description: 色の指定方式(例 `explicit-lightness`)。→ type
+
+Pin:
+  type: object
+  description: essential タブ(pin)。→ tabs のエントリ
+  required:
+    - id
+    - url
+    - position
+  properties:
+    id:
+      type: string
+      description: zenSyncId(中括弧なしの素の id)。→ zenSyncId(`{id}` へラップ)。マージの一致キー
+    url:
+      type: string
+      description: タブ URL。→ entries[0].url
+    title:
+      type: string
+      default: null
+      description: 表示ラベル。→ entries[0].title。非 null のとき zenStaticLabel も設定。省略/null でラベルなし
+    container:
+      type: integer
+      default: null
+      description: コンテナ id。→ userContextId。省略/null で 0
+    workspace:
+      type: string
+      default: null
+      description: 所属 space の id(中括弧なし)。→ zenWorkspace(`{workspace}` へラップ)。省略/null で無所属
+    position:
+      type: integer
+      description: タブ並び順。→ index
+    isEssential:
+      type: boolean
+      default: false
+      description: essential タブか。→ zenEssential
+
+Extension:
+  type: object
+  required:
+    - extId
+  properties:
+    extId:
+      type: string
+      description: AMO の addon ID(GUID `{...}` または `@` 形式)。→ ExtensionSettings のキーと install_url
+    enabled:
+      type: boolean
+      default: true
+      description: 有効/無効。true→`force_installed`、false→`blocked`(導入阻止・既存も削除)。省略時 true

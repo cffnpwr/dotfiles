@@ -1,0 +1,48 @@
+zen:
+  # space: theme(gradient + colors)込みの完全な例。
+  spaces:
+    - id: 1e9b5412-c41f-47bc-82cf-41248b19ad46 # 中括弧なしの素の UUID
+      name: Default space
+      position: 1000
+      icon: chrome://browser/skin/zen-icons/selectable/cafe.svg
+      container: 1 # → containerTabId
+      theme:
+        type: gradient
+        opacity: 0.339
+        rotation: null
+        texture: 0.0
+        colors:
+          - red: 197 # 0-255。末尾カンマを付けない(付けると文字列化する)
+            green: 175
+            blue: 233
+            custom: false
+            primary: true
+            algorithm: analogous
+            lightness: 80
+            x: 172
+            y: 103
+            type: explicit-lightness
+
+  # pin: essential タブ。title は任意(null 可)。
+  pins:
+    - id: 2af105b4-6c89-40cd-aa49-1a81b42344ac # → zenSyncId
+      title: null # 未指定は null(ラベルなし)
+      url: https://submarin.online/
+      container: 1
+      workspace: 1e9b5412-c41f-47bc-82cf-41248b19ad46 # 所属 space の id
+      position: 0
+      isEssential: true
+    - id: 63c76868-9bee-440f-8609-1aedcac43dd7
+      title: Google カレンダー # 非 null なら zenStaticLabel にも反映
+      url: https://calendar.google.com/calendar/u/0/r?pli=1
+      container: 1
+      workspace: 1e9b5412-c41f-47bc-82cf-41248b19ad46
+      position: 4
+      isEssential: true
+
+  # extension: extId 一本化。enabled で有効/無効を宣言。
+  extensions:
+    - extId: "uBlock0@raymondhill.net" # @ 形式の addon ID
+      enabled: true # → force_installed
+    - extId: "{81b74d53-9416-4fb3-afa2-ab46684b253b}" # GUID(中括弧込み)
+      enabled: false # → blocked(導入阻止・既存も削除)
