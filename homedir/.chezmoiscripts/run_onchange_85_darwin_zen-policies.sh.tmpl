@@ -6,35 +6,45 @@ set -euo pipefail
 {{ includeTemplate "log.sh" }}
 STEP="zen-policies"
 
-# Zen 拡張機能の宣言インストール: .chezmoidata.zen.extensions から policies.json を
-# 生成し、Zen.app バンドル内の distribution/ へ配置する。
-# ExtensionSettings の force_installed により、起動時に AMO から自動導入・固定される。
-# バンドル内のため Zen/brew 更新で消える前提で、run_onchange により再配置する。
+# Zen 拡張機能の宣言管理: .chezmoidata.zen.extensions を macOS の CFPreferences
+# (app.zen-browser.zen の user defaults)へ ExtensionSettings policy として書く。
+# macOS では Zen は CFPreferences を policies.json より優先して読み、CFPreferences 由来の
+# policy を有効化するには EnterprisePoliciesEnabled が要る。両ソースの併存は
+# 「bundle 内 policies.json の更新が古い CFPreferences に打ち消される」事象を招くため、
+# CFPreferences を単一の正準ソースとし、EnterprisePoliciesEnabled を立てて有効化する。
+# enabled=true は force_installed(自動導入・削除/無効化不可)、enabled=false は
+# blocked(導入阻止・既存も削除)へ写す。省略時は enabled=true とみなす。
 # 宣言データはスクリプト本文へ JSON 展開され、その変化を run_onchange が検知する。
 
-policies_dir="/Applications/Zen.app/Contents/Resources/distribution"
+domain="app.zen-browser.zen"
 
-# Zen.app 未導入なら何もしない。
-if [ ! -d "/Applications/Zen.app" ]; then
-  log "Zen.app not found; skipping"
-  exit 0
-fi
-
-log "placing Zen extension policies"
-mkdir -p "$policies_dir"
-cat >"${policies_dir}/policies.json" <<'ZEN_POLICIES_EOF'
+# ExtensionSettings の宣言値(policies ラッパ無しの生 dict)。
+# plist へ変換して defaults write で ExtensionSettings キー全体を置換する。
+read -r -d '' extension_settings_json <<'ZEN_EXT_EOF' || true
 {
-  "policies": {
-    "ExtensionSettings": {
 {{- range $i, $e := .zen.extensions }}
 {{- if $i }},{{ end }}
-      {{ $e.extId | quote }}: {
-        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/{{ $e.pluginId }}/latest.xpi",
-        "installation_mode": "force_installed"
-      }
+  {{ $e.extId | quote }}: {
+{{- if and (hasKey $e "enabled") (not $e.enabled) }}
+    "installation_mode": "blocked"
+{{- else }}
+    "install_url": "https://addons.mozilla.org/firefox/downloads/latest/{{ $e.extId }}/latest.xpi",
+    "installation_mode": "force_installed"
 {{- end }}
-    }
   }
+{{- end }}
 }
-ZEN_POLICIES_EOF
+ZEN_EXT_EOF
+
+log "applying Zen extension policies via CFPreferences"
+plist="$(printf '%s' "$extension_settings_json" | plutil -convert xml1 -o - -)"
+defaults write "$domain" ExtensionSettings "$plist"
+defaults write "$domain" EnterprisePoliciesEnabled -bool true
+
+# 旧方式で配置したバンドル内 policies.json を撤去し、CFPreferences を単一ソースにする。
+stale_policies="/Applications/Zen.app/Contents/Resources/distribution/policies.json"
+if [ -f "$stale_policies" ]; then
+  log "removing stale bundle policies.json"
+  rm -f "$stale_policies"
+fi
 {{- end }}

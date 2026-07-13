@@ -94,18 +94,19 @@ zen:
       position: 5
       isEssential: true
 
-  # 拡張機能。pluginId は AMO の latest.xpi スラッグ。
-  # extId(キー)は ExtensionSettings のエントリ ID。
+  # 拡張機能。extId は AMO の addon ID(=ExtensionSettings のキー)。
+  # policies のキーと install_url の両方に extId を使い、AMO スラッグは持たない。
+  # extId の引き方は docs/design-doc/zen.md を参照。
+  # enabled は有効/無効の宣言。true(既定)は force_installed(自動導入・固定)、
+  # false は blocked(導入阻止・既存も削除)へ写す。省略時は true とみなす。
   extensions:
-    - extId: "{3c6bf0cc-3ae2-42fb-9993-0d33104fdcaf}"
-      pluginId: youtube_addon
-    - extId: "{c2c003ee-bd69-42a2-b0e9-6f34222cb046}"
-      pluginId: auto-tab-discard
-    - extId: "{446900e4-71c2-419f-a6a7-df9c091e268b}"
-      pluginId: bitwarden
-    - extId: "clipper@obsidian.md"
-      pluginId: web-clipper-obsidian
-    - extId: "simple-translate@sienori"
-      pluginId: simple-translate
-    - extId: "uBlock0@raymondhill.net"
-      pluginId: ublock-origin
+    - extId: "{446900e4-71c2-419f-a6a7-df9c091e268b}" # Bitwarden
+      enabled: true
+    - extId: "clipper@obsidian.md" # Obsidian Web Clipper
+      enabled: true
+    - extId: "simple-translate@sienori" # Simple Translate
+      enabled: true
+    - extId: "uBlock0@raymondhill.net" # uBlock Origin
+      enabled: true
+    - extId: "{81b74d53-9416-4fb3-afa2-ab46684b253b}" # Tab Wrangler
+      enabled: true

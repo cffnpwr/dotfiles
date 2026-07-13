@@ -24,4 +24,5 @@ chezmoiを使用したmacOSとLinuxの開発環境を宣言的に構築するdot
 | [パッケージ管理](./packages.md) | OSごとのパッケージ管理 |
 | [シークレット管理](./secrets.md) | シークレットの暗号化 |
 | [ブートストラップ](./bootstrap.md) | run_onceとrun_onchangeの規約、システム設定の適用と自動起動の登録 |
+| [Zen Browser](./zen.md) | 拡張のpolicy宣言(CFPreferences正準)、extIdの引き方 |
 | [運用](./operations.md) | 設定追加、適用方法、新環境セットアップ |
