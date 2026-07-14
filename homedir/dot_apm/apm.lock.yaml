@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-07-13T14:46:08.846683+00:00'
+generated_at: '2026-07-14T17:12:02.197768+00:00'
 apm_version: 0.25.0
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: 3618968bdd490e52b043b6f2580f106ebdbaf693
+  resolved_commit: ebd4b61e8e3c98aa0d426b0cb931d621aa4e0661
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -117,6 +117,11 @@ dependencies:
   - .claude/skills/skill-creator/scripts/quick_validate.py
   - .claude/skills/skill-creator/templates/SKILL.md.template
   - .claude/skills/skill-creator/uv.lock
+  - .claude/skills/test-writing
+  - .claude/skills/test-writing/SKILL.md
+  - .claude/skills/test-writing/references/go.md
+  - .claude/skills/test-writing/references/rust.md
+  - .claude/skills/test-writing/references/typescript.md
   deployed_file_hashes:
     .claude/hooks/agent-toolkit/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
@@ -133,7 +138,7 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/tsconfig.json: sha256:f8f3880341b3e071350c7d8a3ee7d2f22705ec45ac84b3b01dd2e8ee321ecee5
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/README.md: sha256:e981d070294666f90d08649f4cfbd0e531b29f709108eedae554bbf2db3ee590
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:fee683c73c29460c0060c81cfe1353ef184d3e48b445bcf654bfa2d520877ae7
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:e73a7f7da042debd8d2e9719c543c0009988ea9f9b32c41894383603f5bc4d5b
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/bunfig.toml: sha256:bb7a9ef5354ab65592648d782d05a48069d0ac0eccdeeea23a3beb5c184935cc
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/commitlint.sh: sha256:ffe6b449c31e115e9a7c9eece9605581f10b0ff81235a9f26d528f0e1d801bfb
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
@@ -214,7 +219,11 @@ dependencies:
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:0893db56d4960a83340d33abbdb7933de4fccf8b806817059543585aca98f065
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:fd44d47da91e33276174b5d3d5ea49a43b44fe65521c550556b0acb4c9208776
     .claude/skills/skill-creator/uv.lock: sha256:43054d215a306ef057bf3d0d0f2aa0840ba73172e2d177de9b38162600631ea0
-  content_hash: sha256:8c0dd1a5a252a0b0eae53efd0d6e5435d6962fd5e656e7140459656b9f27ecfd
+    .claude/skills/test-writing/SKILL.md: sha256:f8d7b4bcd75d216d8cf789368992bbafe37a6cb503aa3f2d6329da70c9f64b80
+    .claude/skills/test-writing/references/go.md: sha256:e944788760988969cf29a675b6e3df525e49c0e1a1ca76d7113dfa9ff5536657
+    .claude/skills/test-writing/references/rust.md: sha256:7e14d2a44bb4bf656680c05ad1c9b862f5af33b05ec8dd8fe2c66fd6ff24a5af
+    .claude/skills/test-writing/references/typescript.md: sha256:ba4b1db78a018edb879966315e627b57d868014e299b1da80b9b03812042e19f
+  content_hash: sha256:ebae5d35cf873916229bd68deded41a82da4b66c1ec4c46bf2e8556aa59b81a9
   declared_license: MIT
 - repo_url: cffnpwr/agent-work-logs
   name: agent-work-logs
@@ -267,10 +276,10 @@ dependencies:
     .claude/skills/adversarial-panel/assets/protocol.svg: sha256:b4c9df81170d4728feecf133f6c05f53a0ad49e54bba5bd223f652aff7df52e4
   content_hash: sha256:e4f60e57ed2b5958f37ff73d0a833f28aaa1e05397d9291aeedae4d92862fba4
 - repo_url: mattpocock/skills
-  name: grilling
+  name: skills
   host: github.com
   resolved_commit: 66898f60e8c744e269f8ce06c2b2b99ce7660d5f
-  version: 1.0.0
+  version: unknown
   virtual_path: skills/productivity/grilling
   is_virtual: true
   package_type: claude_skill
@@ -426,7 +435,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:fee683c73c29460c0060c81cfe1353ef184d3e48b445bcf654bfa2d520877ae7
+  content_hash: sha256:e73a7f7da042debd8d2e9719c543c0009988ea9f9b32c41894383603f5bc4d5b
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/jj-commitlint/bunfig.toml
@@ -1399,6 +1408,51 @@ deployments:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
   content_hash: sha256:43054d215a306ef057bf3d0d0f2aa0840ba73172e2d177de9b38162600631ea0
+- kind: project-relative
+  target: claude
+  value: .claude/skills/test-writing
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/test-writing/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:f8d7b4bcd75d216d8cf789368992bbafe37a6cb503aa3f2d6329da70c9f64b80
+- kind: project-relative
+  target: claude
+  value: .claude/skills/test-writing/references/go.md
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:e944788760988969cf29a675b6e3df525e49c0e1a1ca76d7113dfa9ff5536657
+- kind: project-relative
+  target: claude
+  value: .claude/skills/test-writing/references/rust.md
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:7e14d2a44bb4bf656680c05ad1c9b862f5af33b05ec8dd8fe2c66fd6ff24a5af
+- kind: project-relative
+  target: claude
+  value: .claude/skills/test-writing/references/typescript.md
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:ba4b1db78a018edb879966315e627b57d868014e299b1da80b9b03812042e19f
 - kind: project-relative
   target: claude
   value: .claude/skills/work-log-search
