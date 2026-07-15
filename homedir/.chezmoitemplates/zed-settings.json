@@ -52,9 +52,27 @@
     "line_width": 1
   },
   "languages": {
+    "JavaScript": {
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true
+      },
+      "formatter": []
+    },
     "Markdown": {
       "format_on_save": "off",
       "formatter": "none"
+    },
+    "TSX": {
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true
+      },
+      "formatter": []
+    },
+    "TypeScript": {
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true
+      },
+      "formatter": []
     }
   },
   "lsp": {
