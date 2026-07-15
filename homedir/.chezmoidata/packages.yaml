@@ -37,6 +37,9 @@ packages:
   - name: fzf
     darwin:
       method: brew
+  - name: hunk
+    darwin:
+      method: brew
   - name: ripgrep
     darwin:
       method: brew
