@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-07-20T16:32:23.648584+00:00'
+generated_at: '2026-07-22T16:33:06.350755+00:00'
 apm_version: 0.26.0
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
@@ -255,22 +255,6 @@ dependencies:
     .claude/skills/test-writing/references/typescript.md: sha256:ba4b1db78a018edb879966315e627b57d868014e299b1da80b9b03812042e19f
   content_hash: sha256:8861ded83700fcca75708d8345fcafb9f34f5989686775037073861bea2c54cd
   declared_license: MIT
-- repo_url: cffnpwr/agent-work-logs
-  name: agent-work-logs
-  host: github.com
-  resolved_commit: b8eff4e5bac11aea8e761f5465dee567ff6683cb
-  version: 1.1.0
-  package_type: apm_package
-  deployed_files:
-  - .claude/skills/work-log-search
-  - .claude/skills/work-log-search/SKILL.md
-  - .claude/skills/work-log-write
-  - .claude/skills/work-log-write/SKILL.md
-  deployed_file_hashes:
-    .claude/skills/work-log-search/SKILL.md: sha256:ed52638941de2b43b68f7e6741f7cfddbd9ff1794975724431008e3ca70028e3
-    .claude/skills/work-log-write/SKILL.md: sha256:0626e0b938108068c1bd0e26de6522e804054d3bdbb597c3d1fbf7da7f6a0e15
-  content_hash: sha256:7be6a048abefe2401a1c80fc628429350427f7be4fadb19fc57904d39152a000
-  declared_license: MIT
 - repo_url: makinux/adversarial-panel
   name: adversarial-panel
   host: github.com
@@ -308,7 +292,7 @@ dependencies:
 - repo_url: mattpocock/skills
   name: grilling
   host: github.com
-  resolved_commit: 9603c1cc8118d08bc1b3bf34cf714f62178dea3b
+  resolved_commit: ed37663cc5fbef691ddfecd080dff42f7e7e350d
   version: unknown
   virtual_path: skills/productivity/grilling
   is_virtual: true
@@ -1618,42 +1602,6 @@ deployments:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
   content_hash: sha256:ba4b1db78a018edb879966315e627b57d868014e299b1da80b9b03812042e19f
-- kind: project-relative
-  target: claude
-  value: .claude/skills/work-log-search
-  runtime: null
-  scope: project
-  owners:
-  - cffnpwr/agent-work-logs
-  active_owner: cffnpwr/agent-work-logs
-  content_hash: null
-- kind: project-relative
-  target: claude
-  value: .claude/skills/work-log-search/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - cffnpwr/agent-work-logs
-  active_owner: cffnpwr/agent-work-logs
-  content_hash: sha256:ed52638941de2b43b68f7e6741f7cfddbd9ff1794975724431008e3ca70028e3
-- kind: project-relative
-  target: claude
-  value: .claude/skills/work-log-write
-  runtime: null
-  scope: project
-  owners:
-  - cffnpwr/agent-work-logs
-  active_owner: cffnpwr/agent-work-logs
-  content_hash: null
-- kind: project-relative
-  target: claude
-  value: .claude/skills/work-log-write/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - cffnpwr/agent-work-logs
-  active_owner: cffnpwr/agent-work-logs
-  content_hash: sha256:0626e0b938108068c1bd0e26de6522e804054d3bdbb597c3d1fbf7da7f6a0e15
 mcp_servers:
 - deepwiki
 mcp_configs:

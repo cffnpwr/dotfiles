@@ -9,7 +9,6 @@ targets:
 dependencies:
   apm:
     - cffnpwr/agent-toolkit
-    - cffnpwr/agent-work-logs
     - mattpocock/skills/skills/productivity/grilling
     - makinux/adversarial-panel
   mcp:
