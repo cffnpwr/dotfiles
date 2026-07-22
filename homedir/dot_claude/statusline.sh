@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Claude Code statusLine (3行)
-# 1:  <cwd> |  <branch>:<commit> <bookmark[+dist]>:<change-id>
+# 1:  <cwd> | 󰊢 <branch>:<commit> <bookmark[+dist]>:<change-id>
 # 2: 󰧑 <ctx bar> <ctx%> | <model>(<effort>)
-# 3:  <5h bar> <5h%> | 󰨳 <7d bar> <7d%>
+# 3:  <5h bar> <5h%> | 󰨳 <7d bar> <7d%>
 set -u
 
 input=$(cat)
