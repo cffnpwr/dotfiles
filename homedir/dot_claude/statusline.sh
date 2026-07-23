@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Claude Code statusLine (3行)
 # 1:  <cwd> | 󰊢 <branch>:<commit> <bookmark[+dist]>:<change-id>
-# 2: 󰧑 <ctx bar> <ctx%> | <model>(<effort>)
+# 2: 󰧑 <ctx bar> <ctx%> | 󰚩 <model>(<effort>)
 # 3:  <5h bar> <5h%> | 󰨳 <7d bar> <7d%>
 set -u
 
@@ -70,9 +70,10 @@ fi
 
 # meter <pct>: 10文字バーと閾値色の百分率を出力（>=90赤 / >=70黄 / それ未満緑）
 meter() {
-  local pct
+  local pct pct_str
   pct=$(printf '%.0f' "$1" 2>/dev/null)
   [ -z "$pct" ] && pct=0
+  pct_str=$(printf '%3d' "$pct")
   local color=$GREEN
   if [ "$pct" -ge 90 ]; then
     color=$RED
@@ -87,7 +88,7 @@ meter() {
   bar_empty=$(printf '░%.0s' $(seq 1 $((10 - filled))) 2>/dev/null)
   [ "$filled" -eq 0 ] && bar_filled=""
   [ "$filled" -eq 10 ] && bar_empty=""
-  printf '%s %s' "${color}${bar_filled}${RESET}${DIM}${bar_empty}${RESET}" "${color}${pct}%${RESET}"
+  printf '%s %s' "${color}${bar_filled}${RESET}${DIM}${bar_empty}${RESET}" "${color}${pct_str}%${RESET}"
 }
 
 sep="${DIM} | ${RESET}"
@@ -95,6 +96,7 @@ sep="${DIM} | ${RESET}"
 ICON_DIR=$'\uf4d4'
 ICON_GIT=$'\uf418'
 ICON_CTX=$'\U000f09d1'
+ICON_MODEL=$'\U000f06a9'
 ICON_5H=$'\ue386'
 ICON_7D=$'\U000f0a33'
 
@@ -107,7 +109,7 @@ if [ -n "$jj_chunk" ]; then
 fi
 [ -n "$vcs" ] && line1+="${sep}${vcs}"
 
-line2="${ICON_CTX} $(meter "${ctx:-0}")${sep}${YELLOW}${model}${RESET}"
+line2="${ICON_CTX} $(meter "${ctx:-0}")${sep}${ICON_MODEL} ${YELLOW}${model}${RESET}"
 [ -n "$effort" ] && line2+="${DIM}(${effort})${RESET}"
 
 line3=""
