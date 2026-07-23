@@ -27,13 +27,16 @@ ctx=$(jq -r '.context_window.used_percentage // empty' <<<"$input")
 five_h=$(jq -r '.rate_limits.five_hour.used_percentage // empty' <<<"$input")
 seven_d=$(jq -r '.rate_limits.seven_day.used_percentage // empty' <<<"$input")
 
+# jjの-Rは親を遡らず渡したパスをrepo rootとして扱うため、cwdから上方探索でrootを解決する
+jj_root=$(cd "$cwd" 2>/dev/null && jj --ignore-working-copy root 2>/dev/null)
+
 jjlog() {
-  jj -R "$cwd" --ignore-working-copy log --no-graph "$@" 2>/dev/null
+  jj -R "$jj_root" --ignore-working-copy log --no-graph "$@" 2>/dev/null
 }
 
 is_jj=0
 is_git=0
-jj -R "$cwd" --ignore-working-copy root >/dev/null 2>&1 && is_jj=1
+[ -n "$jj_root" ] && is_jj=1
 git -C "$cwd" --no-optional-locks rev-parse --is-inside-work-tree >/dev/null 2>&1 && is_git=1
 
 git_chunk=""
