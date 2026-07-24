@@ -176,7 +176,7 @@ packages:
   - name: jj
     darwin:
       method: brew
-  - name: direnv
+  - name: bash
     darwin:
       method: brew
   - name: herdr

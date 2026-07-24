@@ -75,8 +75,6 @@ if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
   source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
 fi
 
-eval "$(direnv hook zsh)"
-
 alias -- ea='eza -a --icons --git'
 alias -- ee='eza -aahl --icons --git'
 alias -- ei='eza --icons --git'
