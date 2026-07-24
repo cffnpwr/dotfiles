@@ -195,6 +195,10 @@ packages:
     darwin:
       method: brew
       cask: true
+  - name: dollar-cmd
+    darwin:
+      method: brew
+      name: cffnpwr/tap/dollar-cmd
 
   # macOS-specific
   - name: aerospace
