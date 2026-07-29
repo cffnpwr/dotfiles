@@ -25,4 +25,11 @@ if [[ ! -x "$brew_bin" ]]; then
   brew_bin="$(brew_path)"
 fi
 eval "$("$brew_bin" shellenv)"
+
+# 25段以降のスクリプトは本体を Go 実装として go run で起動するため、
+# それらより前にツールチェーンを用意する。存在を検査し、無ければ導入する。
+if ! command -v go >/dev/null 2>&1; then
+  log "installing Go toolchain"
+  brew install go
+fi
 {{- end }}

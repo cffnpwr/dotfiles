@@ -19,7 +19,7 @@ declared=(
 
 # 保護対象 = 宣言 ∪ ブートストラップ最小パッケージ。
 # 最小パッケージはベースライン記録の後に導入されるため、クリーンアップで消えないよう保護する。
-protected=("${declared[@]}" curl gnupg ca-certificates)
+protected=("${declared[@]}" curl gnupg ca-certificates golang-go)
 
 # ignore: クリーンアップで削除しない glob パターン。
 ignore=(

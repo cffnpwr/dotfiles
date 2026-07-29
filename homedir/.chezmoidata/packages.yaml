@@ -1,4 +1,11 @@
 packages:
+  # bootstrap
+  # .chezmoiscripts の本体は Go 実装で、25段以降が go run を実行する。
+  # 40段のクリーンアップで削除されないよう宣言に含める。
+  - name: go
+    darwin:
+      method: brew
+
   # git tools
   - name: gh
     darwin:
