@@ -78,24 +78,19 @@
   "lsp": {
     "markdownlint": {
       "settings": {
-        "config": {
-          "MD013": {
-            "tables": false
-          },
-          "MD024": {
-            "siblings_only": true
-          },
-          "MD033": {
-            "allowed_elements": ["details", "summary"]
-          },
-          "default": true
+        "MD013": {
+          "code_blocks": false,
+          "heading_line_length": 120,
+          "line_length": 120,
+          "tables": false
         },
-        "ignores": [
-          ".agents/**/*.md",
-          "**/AGENTS.md",
-          ".claude/**/*.md",
-          "**/CLAUDE.md"
-        ]
+        "MD024": {
+          "siblings_only": true
+        },
+        "MD033": {
+          "allowed_elements": ["details", "summary"]
+        },
+        "default": true
       }
     }
   },
