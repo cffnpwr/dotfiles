@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-07-28T16:29:31.441622+00:00'
+generated_at: '2026-08-02T13:33:53.850101+00:00'
 apm_version: 0.26.0
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: 8b35089696830a9cf98ab9bd08d9dfe1da977128
+  resolved_commit: 5aa77ea746a2232ff736ff66f3b0152ec8cb45fc
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -128,6 +128,8 @@ dependencies:
   - .claude/skills/pr-creator/SKILL.md
   - .claude/skills/pr-creator/references/platform-detection.md
   - .claude/skills/pr-creator/templates/default.md
+  - .claude/skills/problem-investigation
+  - .claude/skills/problem-investigation/SKILL.md
   - .claude/skills/register-project
   - .claude/skills/register-project/SKILL.md
   - .claude/skills/shell-scripting
@@ -157,7 +159,7 @@ dependencies:
     .claude/hooks/agent-toolkit/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/README.md: sha256:4de263cee40757fa06541c24d1e7097fcb19219d905ef28997c449b13cccfe8a
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock: sha256:59376d62be21128142de672491c1ae15425553aaaa441662411f5b38638bd7bf
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock: sha256:9f16aa299112f209a497563fc31f89e73c9bc6987c8d04d831a70d3992cf4094
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/bunfig.toml: sha256:750977f3a9a904d7ca8c3d50914259dcdf6dd52c25ad7d0b8d68d518ca26999c
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/command-chain-guard.sh: sha256:2849dcac5b2c4c8bd317616dcf172ec51ff789f5912a2bdb37bdb8d18c4e38c4
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
@@ -168,23 +170,23 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/types.ts: sha256:6b587aa34db252abd5ac64a4b2f01f54a3e9dce5f66db5408300318cbee2b884
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/tsconfig.json: sha256:f8f3880341b3e071350c7d8a3ee7d2f22705ec45ac84b3b01dd2e8ee321ecee5
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/README.md: sha256:043c5339f94f400d6a1ad7f76624f0231384132a04334887050caa01e96d7f3c
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:c9ee144b586154701a24c6de746cb56ebd10e91312be30d174bc6194b9ab4d2c
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/README.md: sha256:8963cd94bf52dc72d715e893ab7ced4a3ddcb6bde08cbf9ea603466b6b9339e1
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:41291ddef28e06240c4417d889dc1f9d35dfea0348619c4708804d7ad75a41a2
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/bunfig.toml: sha256:bb7a9ef5354ab65592648d782d05a48069d0ac0eccdeeea23a3beb5c184935cc
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/commitlint.sh: sha256:bdfdeeb837d17ea70a1d595794ce73efacf6e0054566545dd219904c31a7af69
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.test.ts: sha256:bc3696b2fd7e61268a2fa17d1f05f4c35f36c5ba9c517064ee42ff08412870cb
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.ts: sha256:36a2324aea2d36a211211fd2f4ee1b327f57aaa4d0ff7e93652cc88f7cc884ba
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.test.ts: sha256:8e9f95ff6521f1f3bd9ca57ee4c48ea628d4578680b14c578fc1ef7b439c8c6e
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.ts: sha256:e8393e0082a0eb25f4f687c7fc39f5f0f5e76f62ce66ecd3195a0cc6887ca4c2
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/input.ts: sha256:b5e66885b9f65491b71c2e4964b4900b74a1fe504d03b9d135c61e3ebe75792f
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.test.ts: sha256:f823b9064a065fd2f5bf461711daeb48691f542a9ee33acb9900c506a52cea2d
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/lint.ts: sha256:31630b0bb3601b027cc6e34e2697bf3d31c41d32b8083afb6d956d4f70052147
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.test.ts: sha256:06c904d253c33b07d61f5ee4ce1a15d0209ef56f4dbd2a0a5b1ae80efd90e62c
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.ts: sha256:482b7b47cb57395c60e324a23a34b841fd0a29690ad50496960746a034644c0c
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.test.ts: sha256:d62bba6e290e48c24aa8cda8202c2a4555a5d4db8245dbe8210aef103cec671d
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.ts: sha256:3a1b076188327325e6c429d99967ab3825bf9dfef01fa6fbb8be36689e32f0de
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/types.ts: sha256:1e63c0702137787172f0c53d3d1cb9b4700d4339728e52526fcf9d9f785d31d9
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/tsconfig.json: sha256:a29f557a565dbbaa6dce9936b94ee67cf11193ff0124fc6c83d66131726f43eb
     .claude/hooks/agent-toolkit/scripts/prefer-jj/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/hooks/agent-toolkit/scripts/prefer-jj/README.md: sha256:de9785d046c71d086f26f7217f0d42f401f5274eda8a9604153e2bee61c5a31f
-    .claude/hooks/agent-toolkit/scripts/prefer-jj/bun.lock: sha256:7eab066c062ff1d60eaef712fd752c4c26164d8ab9570a1e199b8f1e45601e62
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/bun.lock: sha256:5748656f35e8109766b20201f2cc68d75973b74fe77034b9433b664ecb85e80e
     .claude/hooks/agent-toolkit/scripts/prefer-jj/bunfig.toml: sha256:750977f3a9a904d7ca8c3d50914259dcdf6dd52c25ad7d0b8d68d518ca26999c
     .claude/hooks/agent-toolkit/scripts/prefer-jj/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
     .claude/hooks/agent-toolkit/scripts/prefer-jj/prefer-jj.sh: sha256:f987ec171414622c4848c9a858ee8c3bfcba88f9a21e0168440e6a1aae84f9c8
@@ -196,7 +198,7 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/prefer-jj/src/types.ts: sha256:24d6746954fb08b98ef347229da6c0af51e03f6aa37995ace0f9454b719d80b5
     .claude/hooks/agent-toolkit/scripts/prefer-jj/tsconfig.json: sha256:a29f557a565dbbaa6dce9936b94ee67cf11193ff0124fc6c83d66131726f43eb
     .claude/hooks/agent-toolkit/scripts/shared/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
-    .claude/hooks/agent-toolkit/scripts/shared/bun.lock: sha256:f0e7b9fffa9d337ee4693759e242f6c09e0de614efbcac0ef63beea51ae43665
+    .claude/hooks/agent-toolkit/scripts/shared/bun.lock: sha256:2ab223300300b5cb426a21342aec1175a45a7b522d384cc2a6a4e28beb9bd22d
     .claude/hooks/agent-toolkit/scripts/shared/bunfig.toml: sha256:750977f3a9a904d7ca8c3d50914259dcdf6dd52c25ad7d0b8d68d518ca26999c
     .claude/hooks/agent-toolkit/scripts/shared/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
     .claude/hooks/agent-toolkit/scripts/shared/src/cdfold.test.ts: sha256:11f39db8ddba7907501a3f6ac8d9baebbfcb4b5ebc86dd5017f91b17749f7f62
@@ -245,8 +247,8 @@ dependencies:
     .claude/skills/ja-writing/SKILL.md: sha256:0fa064be5d77fc412f1936ddeaf4e1bd0ca7133893cee1b71f6cc24e8481d4f2
     .claude/skills/ja-writing/assets/examples-ng.md: sha256:f2f4c003f4ca5ddca0a57fce926cd62ad94530112a9f9c8bcee03ed5b9431fdc
     .claude/skills/ja-writing/assets/examples-ok.md: sha256:6031176f8b854cb91709b6bb6dfa3293974135d2a896647d2157be446fececef
-    .claude/skills/ja-writing/bun.lock: sha256:3ca2920a66d1c7f84d5be8bee99bbef0d7f955b42c5a402b4044d21ae5641462
-    .claude/skills/ja-writing/package.json: sha256:65590c8d22f73804b7d7f720318f146c1acf318f7bdf94b777463a2e8017f8c7
+    .claude/skills/ja-writing/bun.lock: sha256:16d966b5e2720cb68506998f81e3e8e649715cb12ed4f68e4f99658c48b9b845
+    .claude/skills/ja-writing/package.json: sha256:c305af7c7f5060e4e12eae2361a88b47dc33a10369e3d5c77c57824dd559d325
     .claude/skills/ja-writing/references/ai-review-checklist.md: sha256:869bcada01f684b9713abeb27eb8d959c1ce73c16aff8efd7b3932eb25eb651e
     .claude/skills/jj-reference/SKILL.md: sha256:afdb8c5c62b7b91445d5181ec4d106441642d006958f44b0a60dc02836a06edc
     .claude/skills/markdown-standards/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
@@ -262,6 +264,7 @@ dependencies:
     .claude/skills/pr-creator/SKILL.md: sha256:a7d598f955079b4f2d5e05d4ab32fbd0b5766b4e67d5c08ed53e6f75dd3b6c05
     .claude/skills/pr-creator/references/platform-detection.md: sha256:76972c5605081ea4fa8cc2c5a25444b05ef9e85e6ec6334218b6c9a334aecdb0
     .claude/skills/pr-creator/templates/default.md: sha256:4836793eb5196fd109efca888dda6b429681ba555c070d203aef5803fdf58205
+    .claude/skills/problem-investigation/SKILL.md: sha256:f4c784887bd4b00c00333edcfb0ea30ec3d776a151626002274934bb6feaa0ff
     .claude/skills/register-project/SKILL.md: sha256:c2404163eb9c7580bfd3bd922458f027eaf5054c3b30c07bb4fb046323f6f7ca
     .claude/skills/shell-scripting/SKILL.md: sha256:995d1a316010deedb6600560d3331cc633d4b7494da9b1921b6a0ba67ea76536
     .claude/skills/show-backlog/SKILL.md: sha256:c4f61770a6898c13c46212ad05a990b7bcc4a06b5e96b323009db2f6fa3a492f
@@ -281,7 +284,7 @@ dependencies:
     .claude/skills/test-writing/references/go.md: sha256:e944788760988969cf29a675b6e3df525e49c0e1a1ca76d7113dfa9ff5536657
     .claude/skills/test-writing/references/rust.md: sha256:7e14d2a44bb4bf656680c05ad1c9b862f5af33b05ec8dd8fe2c66fd6ff24a5af
     .claude/skills/test-writing/references/typescript.md: sha256:ba4b1db78a018edb879966315e627b57d868014e299b1da80b9b03812042e19f
-  content_hash: sha256:66b8be3aa8bb9f2632820ec8ebc5c8d629c8e1f2cb97362b03818e5cbc200bf1
+  content_hash: sha256:9c5453fa3b78190f083f620be51cf174d8db3e370f4b6a935c816389b66bf4fa
   declared_license: MIT
 - repo_url: makinux/adversarial-panel
   name: adversarial-panel
@@ -369,7 +372,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:59376d62be21128142de672491c1ae15425553aaaa441662411f5b38638bd7bf
+  content_hash: sha256:9f16aa299112f209a497563fc31f89e73c9bc6987c8d04d831a70d3992cf4094
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/bunfig.toml
@@ -468,7 +471,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:043c5339f94f400d6a1ad7f76624f0231384132a04334887050caa01e96d7f3c
+  content_hash: sha256:8963cd94bf52dc72d715e893ab7ced4a3ddcb6bde08cbf9ea603466b6b9339e1
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock
@@ -477,7 +480,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:c9ee144b586154701a24c6de746cb56ebd10e91312be30d174bc6194b9ab4d2c
+  content_hash: sha256:41291ddef28e06240c4417d889dc1f9d35dfea0348619c4708804d7ad75a41a2
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/jj-commitlint/bunfig.toml
@@ -513,7 +516,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:bc3696b2fd7e61268a2fa17d1f05f4c35f36c5ba9c517064ee42ff08412870cb
+  content_hash: sha256:8e9f95ff6521f1f3bd9ca57ee4c48ea628d4578680b14c578fc1ef7b439c8c6e
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/command.ts
@@ -522,7 +525,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:36a2324aea2d36a211211fd2f4ee1b327f57aaa4d0ff7e93652cc88f7cc884ba
+  content_hash: sha256:e8393e0082a0eb25f4f687c7fc39f5f0f5e76f62ce66ecd3195a0cc6887ca4c2
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/input.ts
@@ -558,7 +561,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:06c904d253c33b07d61f5ee4ce1a15d0209ef56f4dbd2a0a5b1ae80efd90e62c
+  content_hash: sha256:d62bba6e290e48c24aa8cda8202c2a4555a5d4db8245dbe8210aef103cec671d
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/main.ts
@@ -567,7 +570,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:482b7b47cb57395c60e324a23a34b841fd0a29690ad50496960746a034644c0c
+  content_hash: sha256:3a1b076188327325e6c429d99967ab3825bf9dfef01fa6fbb8be36689e32f0de
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/jj-commitlint/src/types.ts
@@ -612,7 +615,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:7eab066c062ff1d60eaef712fd752c4c26164d8ab9570a1e199b8f1e45601e62
+  content_hash: sha256:5748656f35e8109766b20201f2cc68d75973b74fe77034b9433b664ecb85e80e
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/prefer-jj/bunfig.toml
@@ -720,7 +723,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:f0e7b9fffa9d337ee4693759e242f6c09e0de614efbcac0ef63beea51ae43665
+  content_hash: sha256:2ab223300300b5cb426a21342aec1175a45a7b522d384cc2a6a4e28beb9bd22d
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/shared/bunfig.toml
@@ -1359,7 +1362,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:3ca2920a66d1c7f84d5be8bee99bbef0d7f955b42c5a402b4044d21ae5641462
+  content_hash: sha256:16d966b5e2720cb68506998f81e3e8e649715cb12ed4f68e4f99658c48b9b845
 - kind: project-relative
   target: claude
   value: .claude/skills/ja-writing/package.json
@@ -1368,7 +1371,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:65590c8d22f73804b7d7f720318f146c1acf318f7bdf94b777463a2e8017f8c7
+  content_hash: sha256:c305af7c7f5060e4e12eae2361a88b47dc33a10369e3d5c77c57824dd559d325
 - kind: project-relative
   target: claude
   value: .claude/skills/ja-writing/references/ai-review-checklist.md
@@ -1549,6 +1552,24 @@ deployments:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
   content_hash: sha256:4836793eb5196fd109efca888dda6b429681ba555c070d203aef5803fdf58205
+- kind: project-relative
+  target: claude
+  value: .claude/skills/problem-investigation
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/problem-investigation/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:f4c784887bd4b00c00333edcfb0ea30ec3d776a151626002274934bb6feaa0ff
 - kind: project-relative
   target: claude
   value: .claude/skills/register-project
