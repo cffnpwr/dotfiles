@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-08-02T13:33:53.850101+00:00'
+generated_at: '2026-08-03T11:42:10.682734+00:00'
 apm_version: 0.26.0
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: 5aa77ea746a2232ff736ff66f3b0152ec8cb45fc
+  resolved_commit: 0e53b820598147bde3999aa8326a15f2a0d10c93
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -247,8 +247,8 @@ dependencies:
     .claude/skills/ja-writing/SKILL.md: sha256:0fa064be5d77fc412f1936ddeaf4e1bd0ca7133893cee1b71f6cc24e8481d4f2
     .claude/skills/ja-writing/assets/examples-ng.md: sha256:f2f4c003f4ca5ddca0a57fce926cd62ad94530112a9f9c8bcee03ed5b9431fdc
     .claude/skills/ja-writing/assets/examples-ok.md: sha256:6031176f8b854cb91709b6bb6dfa3293974135d2a896647d2157be446fececef
-    .claude/skills/ja-writing/bun.lock: sha256:16d966b5e2720cb68506998f81e3e8e649715cb12ed4f68e4f99658c48b9b845
-    .claude/skills/ja-writing/package.json: sha256:c305af7c7f5060e4e12eae2361a88b47dc33a10369e3d5c77c57824dd559d325
+    .claude/skills/ja-writing/bun.lock: sha256:a5b650130ef5c4cc481a783e3830afdf1be465cc118d2733d72eea08471c0a04
+    .claude/skills/ja-writing/package.json: sha256:04714d124dce8e89a7d08c1aa20aee476a212b49172fada7585ff68fba01c0f3
     .claude/skills/ja-writing/references/ai-review-checklist.md: sha256:869bcada01f684b9713abeb27eb8d959c1ce73c16aff8efd7b3932eb25eb651e
     .claude/skills/jj-reference/SKILL.md: sha256:afdb8c5c62b7b91445d5181ec4d106441642d006958f44b0a60dc02836a06edc
     .claude/skills/markdown-standards/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
@@ -280,11 +280,11 @@ dependencies:
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:fd44d47da91e33276174b5d3d5ea49a43b44fe65521c550556b0acb4c9208776
     .claude/skills/skill-creator/uv.lock: sha256:43054d215a306ef057bf3d0d0f2aa0840ba73172e2d177de9b38162600631ea0
     .claude/skills/task-decomposition/SKILL.md: sha256:6bedb40aa43ac2da16111806fef03a67c741a69bbade705b6a88c489058508ae
-    .claude/skills/test-writing/SKILL.md: sha256:f8d7b4bcd75d216d8cf789368992bbafe37a6cb503aa3f2d6329da70c9f64b80
-    .claude/skills/test-writing/references/go.md: sha256:e944788760988969cf29a675b6e3df525e49c0e1a1ca76d7113dfa9ff5536657
-    .claude/skills/test-writing/references/rust.md: sha256:7e14d2a44bb4bf656680c05ad1c9b862f5af33b05ec8dd8fe2c66fd6ff24a5af
-    .claude/skills/test-writing/references/typescript.md: sha256:ba4b1db78a018edb879966315e627b57d868014e299b1da80b9b03812042e19f
-  content_hash: sha256:9c5453fa3b78190f083f620be51cf174d8db3e370f4b6a935c816389b66bf4fa
+    .claude/skills/test-writing/SKILL.md: sha256:b2e6cf14ba85e03fe099a06364878537220a598d019a0bfb66e1584866bafdc4
+    .claude/skills/test-writing/references/go.md: sha256:75e484155f9f779de8fb7368cd634abf4be383eb1780033e7e0605c1a5ed80ed
+    .claude/skills/test-writing/references/rust.md: sha256:14a9f3ca6192229ad4fed99e9f8262dfcae035902ec4b194f0ed4f0ea78a4b31
+    .claude/skills/test-writing/references/typescript.md: sha256:289879ba8895f584887303ec7c2470295a1fd3fc870b002af30102465a451fae
+  content_hash: sha256:b9d7a86e3760330635933a110cd1afa8c1853f01a9461f9f9b72176ec072e0cf
   declared_license: MIT
 - repo_url: makinux/adversarial-panel
   name: adversarial-panel
@@ -1362,7 +1362,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:16d966b5e2720cb68506998f81e3e8e649715cb12ed4f68e4f99658c48b9b845
+  content_hash: sha256:a5b650130ef5c4cc481a783e3830afdf1be465cc118d2733d72eea08471c0a04
 - kind: project-relative
   target: claude
   value: .claude/skills/ja-writing/package.json
@@ -1371,7 +1371,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:c305af7c7f5060e4e12eae2361a88b47dc33a10369e3d5c77c57824dd559d325
+  content_hash: sha256:04714d124dce8e89a7d08c1aa20aee476a212b49172fada7585ff68fba01c0f3
 - kind: project-relative
   target: claude
   value: .claude/skills/ja-writing/references/ai-review-checklist.md
@@ -1767,7 +1767,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:f8d7b4bcd75d216d8cf789368992bbafe37a6cb503aa3f2d6329da70c9f64b80
+  content_hash: sha256:b2e6cf14ba85e03fe099a06364878537220a598d019a0bfb66e1584866bafdc4
 - kind: project-relative
   target: claude
   value: .claude/skills/test-writing/references/go.md
@@ -1776,7 +1776,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:e944788760988969cf29a675b6e3df525e49c0e1a1ca76d7113dfa9ff5536657
+  content_hash: sha256:75e484155f9f779de8fb7368cd634abf4be383eb1780033e7e0605c1a5ed80ed
 - kind: project-relative
   target: claude
   value: .claude/skills/test-writing/references/rust.md
@@ -1785,7 +1785,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:7e14d2a44bb4bf656680c05ad1c9b862f5af33b05ec8dd8fe2c66fd6ff24a5af
+  content_hash: sha256:14a9f3ca6192229ad4fed99e9f8262dfcae035902ec4b194f0ed4f0ea78a4b31
 - kind: project-relative
   target: claude
   value: .claude/skills/test-writing/references/typescript.md
@@ -1794,7 +1794,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:ba4b1db78a018edb879966315e627b57d868014e299b1da80b9b03812042e19f
+  content_hash: sha256:289879ba8895f584887303ec7c2470295a1fd3fc870b002af30102465a451fae
 mcp_servers:
 - deepwiki
 mcp_configs:
