@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-08-03T11:42:10.682734+00:00'
-apm_version: 0.26.0
+generated_at: '2026-08-05T09:00:16.282095+00:00'
+apm_version: 0.27.0
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: 0e53b820598147bde3999aa8326a15f2a0d10c93
+  resolved_commit: 8acb7e77b197de576204c4fbcef6479b7408dfce
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -171,7 +171,7 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/tsconfig.json: sha256:f8f3880341b3e071350c7d8a3ee7d2f22705ec45ac84b3b01dd2e8ee321ecee5
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/README.md: sha256:8963cd94bf52dc72d715e893ab7ced4a3ddcb6bde08cbf9ea603466b6b9339e1
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:41291ddef28e06240c4417d889dc1f9d35dfea0348619c4708804d7ad75a41a2
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:df6c3166fe515cf681d9d5bc141e05badb93c8844012d5faba618d3c779be7a4
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/bunfig.toml: sha256:bb7a9ef5354ab65592648d782d05a48069d0ac0eccdeeea23a3beb5c184935cc
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/commitlint.sh: sha256:bdfdeeb837d17ea70a1d595794ce73efacf6e0054566545dd219904c31a7af69
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
@@ -247,8 +247,8 @@ dependencies:
     .claude/skills/ja-writing/SKILL.md: sha256:0fa064be5d77fc412f1936ddeaf4e1bd0ca7133893cee1b71f6cc24e8481d4f2
     .claude/skills/ja-writing/assets/examples-ng.md: sha256:f2f4c003f4ca5ddca0a57fce926cd62ad94530112a9f9c8bcee03ed5b9431fdc
     .claude/skills/ja-writing/assets/examples-ok.md: sha256:6031176f8b854cb91709b6bb6dfa3293974135d2a896647d2157be446fececef
-    .claude/skills/ja-writing/bun.lock: sha256:a5b650130ef5c4cc481a783e3830afdf1be465cc118d2733d72eea08471c0a04
-    .claude/skills/ja-writing/package.json: sha256:04714d124dce8e89a7d08c1aa20aee476a212b49172fada7585ff68fba01c0f3
+    .claude/skills/ja-writing/bun.lock: sha256:c74c4e32f9f74fde47ea9348e8561c3251df441e883ebc8a7626a04e704aca64
+    .claude/skills/ja-writing/package.json: sha256:505e6cbe5618041ffd266aeaee07ce7b33d690652d608a4682832c3504e58a24
     .claude/skills/ja-writing/references/ai-review-checklist.md: sha256:869bcada01f684b9713abeb27eb8d959c1ce73c16aff8efd7b3932eb25eb651e
     .claude/skills/jj-reference/SKILL.md: sha256:afdb8c5c62b7b91445d5181ec4d106441642d006958f44b0a60dc02836a06edc
     .claude/skills/markdown-standards/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
@@ -280,11 +280,11 @@ dependencies:
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:fd44d47da91e33276174b5d3d5ea49a43b44fe65521c550556b0acb4c9208776
     .claude/skills/skill-creator/uv.lock: sha256:43054d215a306ef057bf3d0d0f2aa0840ba73172e2d177de9b38162600631ea0
     .claude/skills/task-decomposition/SKILL.md: sha256:6bedb40aa43ac2da16111806fef03a67c741a69bbade705b6a88c489058508ae
-    .claude/skills/test-writing/SKILL.md: sha256:b2e6cf14ba85e03fe099a06364878537220a598d019a0bfb66e1584866bafdc4
-    .claude/skills/test-writing/references/go.md: sha256:75e484155f9f779de8fb7368cd634abf4be383eb1780033e7e0605c1a5ed80ed
+    .claude/skills/test-writing/SKILL.md: sha256:e1a65ae2ed3cdf4913694b3b9ca82d88d42e93585e89c982f62c68730863bf66
+    .claude/skills/test-writing/references/go.md: sha256:3a9317a088c9621c99e3c81af7bbb8bc5875fc8a49d76dec63241f4dcbe6ec42
     .claude/skills/test-writing/references/rust.md: sha256:14a9f3ca6192229ad4fed99e9f8262dfcae035902ec4b194f0ed4f0ea78a4b31
     .claude/skills/test-writing/references/typescript.md: sha256:289879ba8895f584887303ec7c2470295a1fd3fc870b002af30102465a451fae
-  content_hash: sha256:b9d7a86e3760330635933a110cd1afa8c1853f01a9461f9f9b72176ec072e0cf
+  content_hash: sha256:e86beb4d73196ba571a40ef4c22a39314689b8884644436f35b397df8a838d43
   declared_license: MIT
 - repo_url: makinux/adversarial-panel
   name: adversarial-panel
@@ -323,7 +323,7 @@ dependencies:
 - repo_url: mattpocock/skills
   name: grilling
   host: github.com
-  resolved_commit: 2ab958093e83e0ec752e6c1c5932da465bf23e0c
+  resolved_commit: a621cc4f755d1da9c35dc3bb3abbd1d2a3208670
   version: unknown
   virtual_path: skills/productivity/grilling
   is_virtual: true
@@ -333,9 +333,9 @@ dependencies:
   - .claude/skills/grilling/SKILL.md
   - .claude/skills/grilling/agents/openai.yaml
   deployed_file_hashes:
-    .claude/skills/grilling/SKILL.md: sha256:44331dda57f461db4fec3f2efb6ddabe7aaaa0a57ae0f88a883bc61aed8a0587
-    .claude/skills/grilling/agents/openai.yaml: sha256:cf29b9a8dbf35a58a908a6ca4f64dcd86c2b2130291eee0a78b9f706b138825b
-  content_hash: sha256:1f05b0ffe26fb4d4457e3e40b41ec2f3e379ae2d6877613240bc6ffef5f7f338
+    .claude/skills/grilling/SKILL.md: sha256:fa5c1e5ee76b1c8f1ae56101f52c9e239de75d5c578adc61227b92d10b7e52ef
+    .claude/skills/grilling/agents/openai.yaml: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
+  content_hash: sha256:6f3a681f493ac92bf3c0f1263a9bf89f10f8f406623f3fbe5c87268e6d09e91e
 deployments:
 - kind: project-relative
   target: claude
@@ -480,7 +480,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:41291ddef28e06240c4417d889dc1f9d35dfea0348619c4708804d7ad75a41a2
+  content_hash: sha256:df6c3166fe515cf681d9d5bc141e05badb93c8844012d5faba618d3c779be7a4
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/jj-commitlint/bunfig.toml
@@ -1209,7 +1209,7 @@ deployments:
   owners:
   - mattpocock/skills/skills/productivity/grilling
   active_owner: mattpocock/skills/skills/productivity/grilling
-  content_hash: sha256:44331dda57f461db4fec3f2efb6ddabe7aaaa0a57ae0f88a883bc61aed8a0587
+  content_hash: sha256:fa5c1e5ee76b1c8f1ae56101f52c9e239de75d5c578adc61227b92d10b7e52ef
 - kind: project-relative
   target: claude
   value: .claude/skills/grilling/agents/openai.yaml
@@ -1218,7 +1218,7 @@ deployments:
   owners:
   - mattpocock/skills/skills/productivity/grilling
   active_owner: mattpocock/skills/skills/productivity/grilling
-  content_hash: sha256:cf29b9a8dbf35a58a908a6ca4f64dcd86c2b2130291eee0a78b9f706b138825b
+  content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
 - kind: project-relative
   target: claude
   value: .claude/skills/issue-creator
@@ -1362,7 +1362,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:a5b650130ef5c4cc481a783e3830afdf1be465cc118d2733d72eea08471c0a04
+  content_hash: sha256:c74c4e32f9f74fde47ea9348e8561c3251df441e883ebc8a7626a04e704aca64
 - kind: project-relative
   target: claude
   value: .claude/skills/ja-writing/package.json
@@ -1371,7 +1371,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:04714d124dce8e89a7d08c1aa20aee476a212b49172fada7585ff68fba01c0f3
+  content_hash: sha256:505e6cbe5618041ffd266aeaee07ce7b33d690652d608a4682832c3504e58a24
 - kind: project-relative
   target: claude
   value: .claude/skills/ja-writing/references/ai-review-checklist.md
@@ -1767,7 +1767,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:b2e6cf14ba85e03fe099a06364878537220a598d019a0bfb66e1584866bafdc4
+  content_hash: sha256:e1a65ae2ed3cdf4913694b3b9ca82d88d42e93585e89c982f62c68730863bf66
 - kind: project-relative
   target: claude
   value: .claude/skills/test-writing/references/go.md
@@ -1776,7 +1776,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:75e484155f9f779de8fb7368cd634abf4be383eb1780033e7e0605c1a5ed80ed
+  content_hash: sha256:3a9317a088c9621c99e3c81af7bbb8bc5875fc8a49d76dec63241f4dcbe6ec42
 - kind: project-relative
   target: claude
   value: .claude/skills/test-writing/references/rust.md
