@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-08-05T09:00:16.282095+00:00'
-apm_version: 0.27.0
+generated_at: '2026-08-20T14:58:33.432715+00:00'
+apm_version: 0.28.0
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: 8acb7e77b197de576204c4fbcef6479b7408dfce
+  resolved_commit: 6242e4f8af4145d4b0997fb275de4c9583c18f0e
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -89,6 +89,8 @@ dependencies:
   - .claude/skills/create-backlog-item/references/templates/feature.md
   - .claude/skills/create-backlog-item/references/templates/improvement.md
   - .claude/skills/create-backlog-item/references/templates/task.md
+  - .claude/skills/difit-review
+  - .claude/skills/difit-review/SKILL.md
   - .claude/skills/flat-review
   - .claude/skills/flat-review/SKILL.md
   - .claude/skills/issue-creator
@@ -159,7 +161,7 @@ dependencies:
     .claude/hooks/agent-toolkit/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/README.md: sha256:4de263cee40757fa06541c24d1e7097fcb19219d905ef28997c449b13cccfe8a
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock: sha256:9f16aa299112f209a497563fc31f89e73c9bc6987c8d04d831a70d3992cf4094
+    .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock: sha256:363470d72a903eb915af50d6f3ee71fbcce39db9567da35a19bd218c515cc956
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/bunfig.toml: sha256:750977f3a9a904d7ca8c3d50914259dcdf6dd52c25ad7d0b8d68d518ca26999c
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/command-chain-guard.sh: sha256:2849dcac5b2c4c8bd317616dcf172ec51ff789f5912a2bdb37bdb8d18c4e38c4
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
@@ -171,7 +173,7 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/command-chain-guard/tsconfig.json: sha256:f8f3880341b3e071350c7d8a3ee7d2f22705ec45ac84b3b01dd2e8ee321ecee5
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/README.md: sha256:8963cd94bf52dc72d715e893ab7ced4a3ddcb6bde08cbf9ea603466b6b9339e1
-    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:df6c3166fe515cf681d9d5bc141e05badb93c8844012d5faba618d3c779be7a4
+    .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:bb5b7cd7e1551286bca9261738abcb01f66f212b7c68c0841965348a4622ed7f
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/bunfig.toml: sha256:bb7a9ef5354ab65592648d782d05a48069d0ac0eccdeeea23a3beb5c184935cc
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/commitlint.sh: sha256:bdfdeeb837d17ea70a1d595794ce73efacf6e0054566545dd219904c31a7af69
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
@@ -186,7 +188,7 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/tsconfig.json: sha256:a29f557a565dbbaa6dce9936b94ee67cf11193ff0124fc6c83d66131726f43eb
     .claude/hooks/agent-toolkit/scripts/prefer-jj/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/hooks/agent-toolkit/scripts/prefer-jj/README.md: sha256:de9785d046c71d086f26f7217f0d42f401f5274eda8a9604153e2bee61c5a31f
-    .claude/hooks/agent-toolkit/scripts/prefer-jj/bun.lock: sha256:5748656f35e8109766b20201f2cc68d75973b74fe77034b9433b664ecb85e80e
+    .claude/hooks/agent-toolkit/scripts/prefer-jj/bun.lock: sha256:73a3bac37e8048cbbfc7b99dfa13a14709b9ff3b327614d5d5cb3c76c3571d48
     .claude/hooks/agent-toolkit/scripts/prefer-jj/bunfig.toml: sha256:750977f3a9a904d7ca8c3d50914259dcdf6dd52c25ad7d0b8d68d518ca26999c
     .claude/hooks/agent-toolkit/scripts/prefer-jj/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
     .claude/hooks/agent-toolkit/scripts/prefer-jj/prefer-jj.sh: sha256:f987ec171414622c4848c9a858ee8c3bfcba88f9a21e0168440e6a1aae84f9c8
@@ -198,7 +200,7 @@ dependencies:
     .claude/hooks/agent-toolkit/scripts/prefer-jj/src/types.ts: sha256:24d6746954fb08b98ef347229da6c0af51e03f6aa37995ace0f9454b719d80b5
     .claude/hooks/agent-toolkit/scripts/prefer-jj/tsconfig.json: sha256:a29f557a565dbbaa6dce9936b94ee67cf11193ff0124fc6c83d66131726f43eb
     .claude/hooks/agent-toolkit/scripts/shared/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
-    .claude/hooks/agent-toolkit/scripts/shared/bun.lock: sha256:2ab223300300b5cb426a21342aec1175a45a7b522d384cc2a6a4e28beb9bd22d
+    .claude/hooks/agent-toolkit/scripts/shared/bun.lock: sha256:5358bcb1ee932a5374431c490b0e1b2b9e35f52486823c2a06aa795126bd1c6a
     .claude/hooks/agent-toolkit/scripts/shared/bunfig.toml: sha256:750977f3a9a904d7ca8c3d50914259dcdf6dd52c25ad7d0b8d68d518ca26999c
     .claude/hooks/agent-toolkit/scripts/shared/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
     .claude/hooks/agent-toolkit/scripts/shared/src/cdfold.test.ts: sha256:11f39db8ddba7907501a3f6ac8d9baebbfcb4b5ebc86dd5017f91b17749f7f62
@@ -233,6 +235,7 @@ dependencies:
     .claude/skills/create-backlog-item/references/templates/feature.md: sha256:a84fde448cb9d9d70df997116987dd6e8c05e60f992d3c98e5c7e58814e60e04
     .claude/skills/create-backlog-item/references/templates/improvement.md: sha256:24866f5fc66bd75ae3eebee73038d7c8af49e2ef52079a4d46765f0d0d66e52b
     .claude/skills/create-backlog-item/references/templates/task.md: sha256:32e184de1783d7afe869afb32074ad0b9210753a78c164f430f4b42a076d716b
+    .claude/skills/difit-review/SKILL.md: sha256:25cb4fef99845dbb0659b237499ea1bbb3a93a2e546c9aacb363c393e2e1e831
     .claude/skills/flat-review/SKILL.md: sha256:574c495fb682ed0c72fd6fa745ac5c7df415aa9b6fb5499df55ffc77784117a7
     .claude/skills/issue-creator/SKILL.md: sha256:388baf574f58cb3f6a5145ccdebdfb5a3e112806514cf5a65566054fd1162fb7
     .claude/skills/issue-creator/references/implicit-info-checklist.md: sha256:b2840f0a52af7a2b9829c6ab7687623475b4ce397c61b081fc479d3ba6c82c87
@@ -247,20 +250,20 @@ dependencies:
     .claude/skills/ja-writing/SKILL.md: sha256:0fa064be5d77fc412f1936ddeaf4e1bd0ca7133893cee1b71f6cc24e8481d4f2
     .claude/skills/ja-writing/assets/examples-ng.md: sha256:f2f4c003f4ca5ddca0a57fce926cd62ad94530112a9f9c8bcee03ed5b9431fdc
     .claude/skills/ja-writing/assets/examples-ok.md: sha256:6031176f8b854cb91709b6bb6dfa3293974135d2a896647d2157be446fececef
-    .claude/skills/ja-writing/bun.lock: sha256:c74c4e32f9f74fde47ea9348e8561c3251df441e883ebc8a7626a04e704aca64
-    .claude/skills/ja-writing/package.json: sha256:505e6cbe5618041ffd266aeaee07ce7b33d690652d608a4682832c3504e58a24
+    .claude/skills/ja-writing/bun.lock: sha256:b1235b9070b4311bd466a9015ad7dc26ebcb64a001b851eb0e3dd71644ea61e6
+    .claude/skills/ja-writing/package.json: sha256:653b53fde49057b80cb1aa3e8554363918e46f5872c826d594800cfa7e60b11c
     .claude/skills/ja-writing/references/ai-review-checklist.md: sha256:869bcada01f684b9713abeb27eb8d959c1ce73c16aff8efd7b3932eb25eb651e
-    .claude/skills/jj-reference/SKILL.md: sha256:afdb8c5c62b7b91445d5181ec4d106441642d006958f44b0a60dc02836a06edc
+    .claude/skills/jj-reference/SKILL.md: sha256:d16e796304bd1ddf629c638a3af9844e5cf978accb3b3dc47c14b90e4782ca88
     .claude/skills/markdown-standards/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/skills/markdown-standards/.markdownlint-cli2.yaml: sha256:f8b7d17bae4846058d31e439b96552672fc5ed3a43488aa56573ab2e942ca37a
     .claude/skills/markdown-standards/SKILL.md: sha256:b47e7e1cce4ab58a4902792deb1fb9bfcc4d1f1d1d166f9546d70fe034d9a1a7
     .claude/skills/markdown-standards/bun.lock: sha256:957d425b7ba33f4c7deb116ac2a0ee50df4bba4f1541861f25c4693383051b9d
     .claude/skills/markdown-standards/package.json: sha256:1ae515812ed11f54d5d656e8fdb32c47c14c171c05f3e13e3d923e2dd7c4b3d2
     .claude/skills/model-selection/SKILL.md: sha256:a15cc0906ff95887c6a7133dab474aeba49c8c21af83f9c84145b0764d06fdf7
-    .claude/skills/orchestrator/SKILL.md: sha256:5faae2093bd033b7aa556481444d6511dd047236b7decbf0d82d0d3986e91ce4
+    .claude/skills/orchestrator/SKILL.md: sha256:ef63f35cff61959967dce2d48da5df9568f43c0df45edf7dcf88de9eda791708
     .claude/skills/orchestrator/apm.yml: sha256:af63e7c388a902211612b249a8e8b8e45c7e5bdfab80950303a13cc340cdc5c8
-    .claude/skills/orchestrator/references/integration.md: sha256:4f130840668c29952fefaf18cb948cd532d3c58255f0ca70eba14cd3d5d2d0c0
-    .claude/skills/orchestrator/references/subagent-prompt.md: sha256:a1101c01066fe26ca2d6b440ff991757dca5ebdbc5532abb43483c5a690fa6fb
+    .claude/skills/orchestrator/references/integration.md: sha256:d75b35411d7baa15da7f9a256ec03e67a1adcfd7291c107099929baf93aa1cbf
+    .claude/skills/orchestrator/references/subagent-prompt.md: sha256:2bc1d1a8b29d2f99479a4eabff4c51bc8f9265795e285b82c947ebae0e202fbb
     .claude/skills/pr-creator/SKILL.md: sha256:a7d598f955079b4f2d5e05d4ab32fbd0b5766b4e67d5c08ed53e6f75dd3b6c05
     .claude/skills/pr-creator/references/platform-detection.md: sha256:76972c5605081ea4fa8cc2c5a25444b05ef9e85e6ec6334218b6c9a334aecdb0
     .claude/skills/pr-creator/templates/default.md: sha256:4836793eb5196fd109efca888dda6b429681ba555c070d203aef5803fdf58205
@@ -269,7 +272,7 @@ dependencies:
     .claude/skills/shell-scripting/SKILL.md: sha256:995d1a316010deedb6600560d3331cc633d4b7494da9b1921b6a0ba67ea76536
     .claude/skills/show-backlog/SKILL.md: sha256:c4f61770a6898c13c46212ad05a990b7bcc4a06b5e96b323009db2f6fa3a492f
     .claude/skills/skill-creator/SKILL.md: sha256:b8552f19747d08707b56a55f1eba8c4502be41de08db9f4b770c40ca22d81413
-    .claude/skills/skill-creator/pyproject.toml: sha256:57404a022439a72afd4e0f159f64a6176a7ab7bd557417420c72cf8c0af22f89
+    .claude/skills/skill-creator/pyproject.toml: sha256:3bbdf7e1bb2405633ad041f54e0366eafa51ba8228a03eab6412820c0ee3050e
     .claude/skills/skill-creator/references/compatibility-guide.md: sha256:e7d7b95f293385c774d1e6f5448b60d22983090481f810498ed4bc4a6f093221
     .claude/skills/skill-creator/references/output-patterns.md: sha256:d4be60d5cee833780aa5390d91d1e7a73c8eddd066bc73ffe73530df8e6fb3ce
     .claude/skills/skill-creator/references/scripting-guide.md: sha256:66cae2ee3b500470b6b49bf67b07c9c4ab898717e44bcd787374821d34b07de2
@@ -278,13 +281,13 @@ dependencies:
     .claude/skills/skill-creator/references/workflows.md: sha256:56598f2c831cac86e5a913bf1df6903d6e115c45ecf6e352a9fd2d719d300565
     .claude/skills/skill-creator/scripts/quick_validate.py: sha256:0893db56d4960a83340d33abbdb7933de4fccf8b806817059543585aca98f065
     .claude/skills/skill-creator/templates/SKILL.md.template: sha256:fd44d47da91e33276174b5d3d5ea49a43b44fe65521c550556b0acb4c9208776
-    .claude/skills/skill-creator/uv.lock: sha256:43054d215a306ef057bf3d0d0f2aa0840ba73172e2d177de9b38162600631ea0
+    .claude/skills/skill-creator/uv.lock: sha256:b5e7b834e7dd5793962a3290da22abf7c6a8f9890fc06886ebd7acdcb65dd9ea
     .claude/skills/task-decomposition/SKILL.md: sha256:6bedb40aa43ac2da16111806fef03a67c741a69bbade705b6a88c489058508ae
-    .claude/skills/test-writing/SKILL.md: sha256:e1a65ae2ed3cdf4913694b3b9ca82d88d42e93585e89c982f62c68730863bf66
-    .claude/skills/test-writing/references/go.md: sha256:3a9317a088c9621c99e3c81af7bbb8bc5875fc8a49d76dec63241f4dcbe6ec42
+    .claude/skills/test-writing/SKILL.md: sha256:b27570f0d76a6370cd9d27a02681732cd60524f6d5867599988acaa70b21c18c
+    .claude/skills/test-writing/references/go.md: sha256:ab34882b093964bee7fe491eb8aecd660347849296776a0d702866763a3011d0
     .claude/skills/test-writing/references/rust.md: sha256:14a9f3ca6192229ad4fed99e9f8262dfcae035902ec4b194f0ed4f0ea78a4b31
     .claude/skills/test-writing/references/typescript.md: sha256:289879ba8895f584887303ec7c2470295a1fd3fc870b002af30102465a451fae
-  content_hash: sha256:e86beb4d73196ba571a40ef4c22a39314689b8884644436f35b397df8a838d43
+  content_hash: sha256:24ca279c4d26de6a4d7db390eb7cb5440e4ecb38d50b4ef61eb7b82684391140
   declared_license: MIT
 - repo_url: makinux/adversarial-panel
   name: adversarial-panel
@@ -323,7 +326,7 @@ dependencies:
 - repo_url: mattpocock/skills
   name: grilling
   host: github.com
-  resolved_commit: a621cc4f755d1da9c35dc3bb3abbd1d2a3208670
+  resolved_commit: 0ab1b63a410a03d3627979a109c8695de27af954
   version: unknown
   virtual_path: skills/productivity/grilling
   is_virtual: true
@@ -333,9 +336,9 @@ dependencies:
   - .claude/skills/grilling/SKILL.md
   - .claude/skills/grilling/agents/openai.yaml
   deployed_file_hashes:
-    .claude/skills/grilling/SKILL.md: sha256:fa5c1e5ee76b1c8f1ae56101f52c9e239de75d5c578adc61227b92d10b7e52ef
+    .claude/skills/grilling/SKILL.md: sha256:10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2
     .claude/skills/grilling/agents/openai.yaml: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
-  content_hash: sha256:6f3a681f493ac92bf3c0f1263a9bf89f10f8f406623f3fbe5c87268e6d09e91e
+  content_hash: sha256:e98f109bca3d8889f673d9f32bf84086f85a70ff9e241f8a34a4560a07ab5a39
 deployments:
 - kind: project-relative
   target: claude
@@ -372,7 +375,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:9f16aa299112f209a497563fc31f89e73c9bc6987c8d04d831a70d3992cf4094
+  content_hash: sha256:363470d72a903eb915af50d6f3ee71fbcce39db9567da35a19bd218c515cc956
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/bunfig.toml
@@ -480,7 +483,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:df6c3166fe515cf681d9d5bc141e05badb93c8844012d5faba618d3c779be7a4
+  content_hash: sha256:bb5b7cd7e1551286bca9261738abcb01f66f212b7c68c0841965348a4622ed7f
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/jj-commitlint/bunfig.toml
@@ -615,7 +618,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:5748656f35e8109766b20201f2cc68d75973b74fe77034b9433b664ecb85e80e
+  content_hash: sha256:73a3bac37e8048cbbfc7b99dfa13a14709b9ff3b327614d5d5cb3c76c3571d48
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/prefer-jj/bunfig.toml
@@ -723,7 +726,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:2ab223300300b5cb426a21342aec1175a45a7b522d384cc2a6a4e28beb9bd22d
+  content_hash: sha256:5358bcb1ee932a5374431c490b0e1b2b9e35f52486823c2a06aa795126bd1c6a
 - kind: project-relative
   target: claude
   value: .claude/hooks/agent-toolkit/scripts/shared/bunfig.toml
@@ -1176,6 +1179,24 @@ deployments:
   content_hash: sha256:32e184de1783d7afe869afb32074ad0b9210753a78c164f430f4b42a076d716b
 - kind: project-relative
   target: claude
+  value: .claude/skills/difit-review
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/difit-review/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:25cb4fef99845dbb0659b237499ea1bbb3a93a2e546c9aacb363c393e2e1e831
+- kind: project-relative
+  target: claude
   value: .claude/skills/flat-review
   runtime: null
   scope: project
@@ -1209,7 +1230,7 @@ deployments:
   owners:
   - mattpocock/skills/skills/productivity/grilling
   active_owner: mattpocock/skills/skills/productivity/grilling
-  content_hash: sha256:fa5c1e5ee76b1c8f1ae56101f52c9e239de75d5c578adc61227b92d10b7e52ef
+  content_hash: sha256:10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2
 - kind: project-relative
   target: claude
   value: .claude/skills/grilling/agents/openai.yaml
@@ -1362,7 +1383,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:c74c4e32f9f74fde47ea9348e8561c3251df441e883ebc8a7626a04e704aca64
+  content_hash: sha256:b1235b9070b4311bd466a9015ad7dc26ebcb64a001b851eb0e3dd71644ea61e6
 - kind: project-relative
   target: claude
   value: .claude/skills/ja-writing/package.json
@@ -1371,7 +1392,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:505e6cbe5618041ffd266aeaee07ce7b33d690652d608a4682832c3504e58a24
+  content_hash: sha256:653b53fde49057b80cb1aa3e8554363918e46f5872c826d594800cfa7e60b11c
 - kind: project-relative
   target: claude
   value: .claude/skills/ja-writing/references/ai-review-checklist.md
@@ -1398,7 +1419,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:afdb8c5c62b7b91445d5181ec4d106441642d006958f44b0a60dc02836a06edc
+  content_hash: sha256:d16e796304bd1ddf629c638a3af9844e5cf978accb3b3dc47c14b90e4782ca88
 - kind: project-relative
   target: claude
   value: .claude/skills/markdown-standards
@@ -1488,7 +1509,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:5faae2093bd033b7aa556481444d6511dd047236b7decbf0d82d0d3986e91ce4
+  content_hash: sha256:ef63f35cff61959967dce2d48da5df9568f43c0df45edf7dcf88de9eda791708
 - kind: project-relative
   target: claude
   value: .claude/skills/orchestrator/apm.yml
@@ -1506,7 +1527,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:4f130840668c29952fefaf18cb948cd532d3c58255f0ca70eba14cd3d5d2d0c0
+  content_hash: sha256:d75b35411d7baa15da7f9a256ec03e67a1adcfd7291c107099929baf93aa1cbf
 - kind: project-relative
   target: claude
   value: .claude/skills/orchestrator/references/subagent-prompt.md
@@ -1515,7 +1536,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:a1101c01066fe26ca2d6b440ff991757dca5ebdbc5532abb43483c5a690fa6fb
+  content_hash: sha256:2bc1d1a8b29d2f99479a4eabff4c51bc8f9265795e285b82c947ebae0e202fbb
 - kind: project-relative
   target: claude
   value: .claude/skills/pr-creator
@@ -1650,7 +1671,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:57404a022439a72afd4e0f159f64a6176a7ab7bd557417420c72cf8c0af22f89
+  content_hash: sha256:3bbdf7e1bb2405633ad041f54e0366eafa51ba8228a03eab6412820c0ee3050e
 - kind: project-relative
   target: claude
   value: .claude/skills/skill-creator/references/compatibility-guide.md
@@ -1731,7 +1752,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:43054d215a306ef057bf3d0d0f2aa0840ba73172e2d177de9b38162600631ea0
+  content_hash: sha256:b5e7b834e7dd5793962a3290da22abf7c6a8f9890fc06886ebd7acdcb65dd9ea
 - kind: project-relative
   target: claude
   value: .claude/skills/task-decomposition
@@ -1767,7 +1788,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:e1a65ae2ed3cdf4913694b3b9ca82d88d42e93585e89c982f62c68730863bf66
+  content_hash: sha256:b27570f0d76a6370cd9d27a02681732cd60524f6d5867599988acaa70b21c18c
 - kind: project-relative
   target: claude
   value: .claude/skills/test-writing/references/go.md
@@ -1776,7 +1797,7 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:3a9317a088c9621c99e3c81af7bbb8bc5875fc8a49d76dec63241f4dcbe6ec42
+  content_hash: sha256:ab34882b093964bee7fe491eb8aecd660347849296776a0d702866763a3011d0
 - kind: project-relative
   target: claude
   value: .claude/skills/test-writing/references/rust.md
