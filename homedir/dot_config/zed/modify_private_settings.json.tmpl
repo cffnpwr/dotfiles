@@ -5,7 +5,7 @@
 # (~/.local/state/chezmoi/zed-settings-last.json、chezmoi が配置)を用いる。
 # ターゲット名の ASCII 順により .config が .local より先に適用されるため、
 # このスクリプト実行時のスナップショットは常に前回適用時の内容になる。
-# jq は brew 導入のため PATH を補う。
+# jq・bun は brew 導入のため PATH を補う。
 set -euo pipefail
 
 brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"
@@ -19,6 +19,9 @@ JSON
 
 input="$(cat)"
 [ -z "$input" ] && input='{}'
+# Zed は settings.json を JSONC(末尾カンマ・コメント)で書き戻し、jq はそれを読めないため、
+# bun の JSONC パーサで厳密な JSON に正規化してから jq に渡す。
+input="$(printf '%s' "$input" | bun -e 'console.log(JSON.stringify(Bun.JSONC.parse(await Bun.stdin.text())))')"
 
 state_file="$HOME/.local/state/chezmoi/zed-settings-last.json"
 if [ -f "$state_file" ]; then

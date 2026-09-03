@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+timeout_sec=15
+
+fallback_shell() {
+  echo "herdr-attach: $1" >&2
+  exec "${SHELL:-/bin/sh}" -l
+}
+
+case "$(uname -s)" in
+  Darwin)
+    launchctl kickstart "gui/$(id -u)/dev.herdr" \
+      || fallback_shell "failed to start launchd agent dev.herdr"
+    ;;
+  Linux)
+    systemctl --user start dev.herdr.dotfiles.service \
+      || fallback_shell "failed to start systemd user unit dev.herdr.dotfiles.service"
+    ;;
+esac
+
+deadline=$((SECONDS + timeout_sec))
+until herdr status server --json 2>/dev/null | grep -q '"running":true'; do
+  if ((SECONDS >= deadline)); then
+    fallback_shell "herdr server did not become ready within ${timeout_sec}s"
+  fi
+  sleep 0.2
+done
+
+exec herdr session attach "$1"

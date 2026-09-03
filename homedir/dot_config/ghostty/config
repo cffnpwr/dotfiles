@@ -1,6 +1,6 @@
 adjust-cell-height = -23%
 background-opacity = 0.900000
-command = /bin/zsh -l -c "herdr session attach default"
+command = /bin/zsh -l -c "herdr-attach"
 font-family = 0xProto Nerd Font Mono
 font-family = Koruri
 font-family-bold = 0xProto Nerd Font Mono
