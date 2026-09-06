@@ -119,8 +119,9 @@ packages:
       cask: true
 
   # media
-  - name: spotify
+  - name: fastpotify
     darwin:
+      name: crmne/tap/fastpotify
       method: brew
       cask: true
 
