@@ -1,27 +1,29 @@
 lockfile_version: '1'
-generated_at: '2026-09-06T16:25:25.397587+00:00'
+generated_at: '2026-09-07T12:52:34.860710+00:00'
 apm_version: 0.29.1
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: c5b86b761d518add3279f6f62ba3131697b64fc1
+  resolved_commit: 85b3b5df94e597c01ad0241a5b3432846bc50640
   version: 1.0.0
   package_type: apm_package
   deployed_files:
   - .claude/hooks/agent-toolkit/package.json
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/.gitignore
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/README.md
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/bunfig.toml
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/command-chain-guard.sh
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/eslint.config.ts
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/command.test.ts
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/command.ts
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/input.ts
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/main.ts
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/types.ts
-  - .claude/hooks/agent-toolkit/scripts/command-chain-guard/tsconfig.json
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/.gitignore
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/README.md
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/approval-chain-guard.sh
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/bun.lock
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/bunfig.toml
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/eslint.config.ts
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/command.test.ts
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/command.ts
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/input.ts
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/main.test.ts
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/main.ts
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/suggest.ts
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/types.ts
+  - .claude/hooks/agent-toolkit/scripts/approval-chain-guard/tsconfig.json
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/.gitignore
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/README.md
   - .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock
@@ -157,18 +159,20 @@ dependencies:
   - .claude/skills/test-writing/references/typescript.md
   deployed_file_hashes:
     .claude/hooks/agent-toolkit/package.json: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/README.md: sha256:4de263cee40757fa06541c24d1e7097fcb19219d905ef28997c449b13cccfe8a
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock: sha256:609c259bb618d8e2d7d07c0fb551118eeafc65aae0346a9c57a3058054862a51
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/bunfig.toml: sha256:750977f3a9a904d7ca8c3d50914259dcdf6dd52c25ad7d0b8d68d518ca26999c
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/command-chain-guard.sh: sha256:2849dcac5b2c4c8bd317616dcf172ec51ff789f5912a2bdb37bdb8d18c4e38c4
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/command.test.ts: sha256:367dec741853e6ca62926094474a8d60ec89d3f0b2751b8139a32194e1aa0b46
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/command.ts: sha256:31dc61cfdfc8d2eaea4cc726c47a152c48a5936a1cb6bd4a59915ecb580af71c
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/input.ts: sha256:ec345e22803203bdd4bbe681bed5bfca8ce7bb6fe3712df566fc3e574e5b5c2b
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/main.ts: sha256:86d3d14ab5cf88b515d01b35a7030e29d971889dfb6a257e4e14c89a1a086e43
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/types.ts: sha256:6b587aa34db252abd5ac64a4b2f01f54a3e9dce5f66db5408300318cbee2b884
-    .claude/hooks/agent-toolkit/scripts/command-chain-guard/tsconfig.json: sha256:f8f3880341b3e071350c7d8a3ee7d2f22705ec45ac84b3b01dd2e8ee321ecee5
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/README.md: sha256:f8b8aaa3809a79630c725e7e097daae5e488b9d65b2b3cce32a762196d923d42
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/approval-chain-guard.sh: sha256:8dd2d68ead7416b8023733968dbdacf5fe302f996ab02eb72318a8e66181d402
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/bun.lock: sha256:ee0ecc02c1c2985377a38ca67ae08280832d339e269f637592baaf73c30fc346
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/bunfig.toml: sha256:750977f3a9a904d7ca8c3d50914259dcdf6dd52c25ad7d0b8d68d518ca26999c
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/eslint.config.ts: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/command.test.ts: sha256:f39ab7b2ae77fd574de827575d04c7f4f245eeca6ad3d396ca04333690176e1b
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/command.ts: sha256:98af0d51f634a7d91bb707b9012e2612585d0fa85e91c567c6f0dd9c43a40a26
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/input.ts: sha256:28974c9a4fc8af9bfb24dc6e2e1c4fb6aa10e319ca7036e4eec8f66d66e31f73
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/main.test.ts: sha256:8c4571714032084a6394dc39184a6cf1b8532c98e21c23b609244ca3b0838e47
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/main.ts: sha256:03d6060c9e32714ddde87733290ff8cae058266f6550a2d36bcad8ba98d27bdf
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/suggest.ts: sha256:e23bd3c7d2fa82613729e57681565e6e27b2c9f8e3e81d8bac471e6a26cf5c7b
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/types.ts: sha256:9e19f8fcbc9cca1740caf7c96da35d17e98de2b792f196acaf2165f6cb22c236
+    .claude/hooks/agent-toolkit/scripts/approval-chain-guard/tsconfig.json: sha256:f8f3880341b3e071350c7d8a3ee7d2f22705ec45ac84b3b01dd2e8ee321ecee5
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/.gitignore: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/README.md: sha256:8963cd94bf52dc72d715e893ab7ced4a3ddcb6bde08cbf9ea603466b6b9339e1
     .claude/hooks/agent-toolkit/scripts/jj-commitlint/bun.lock: sha256:7a35b0f1b435b666889e20b842d4cc2fec6a23b65d21cd8c343046f1bd50a426
@@ -284,7 +288,7 @@ dependencies:
     .claude/skills/test-writing/references/go.md: sha256:ab34882b093964bee7fe491eb8aecd660347849296776a0d702866763a3011d0
     .claude/skills/test-writing/references/rust.md: sha256:14a9f3ca6192229ad4fed99e9f8262dfcae035902ec4b194f0ed4f0ea78a4b31
     .claude/skills/test-writing/references/typescript.md: sha256:289879ba8895f584887303ec7c2470295a1fd3fc870b002af30102465a451fae
-  content_hash: sha256:0cb151eccbf27d89287c56facd37401eaed4e29deb82c7ce5d2e9e966c1616c1
+  content_hash: sha256:68f4d17324349f0698a37a3da753de54562db82f99f5930faa33685652e85c27
   declared_license: MIT
 - repo_url: makinux/adversarial-panel
   name: adversarial-panel
@@ -348,7 +352,7 @@ deployments:
   content_hash: sha256:8005a3491db7d92f36ac66369861589f9c47123d3a7c71e643fc2c06168cd45a
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/.gitignore
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/.gitignore
   runtime: null
   scope: project
   owners:
@@ -357,25 +361,34 @@ deployments:
   content_hash: sha256:4d56952b0fb13bf8f9b6c13a6d4c34a075bac3af447636a1df4335d7576e2f97
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/README.md
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/README.md
   runtime: null
   scope: project
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:4de263cee40757fa06541c24d1e7097fcb19219d905ef28997c449b13cccfe8a
+  content_hash: sha256:f8b8aaa3809a79630c725e7e097daae5e488b9d65b2b3cce32a762196d923d42
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/bun.lock
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/approval-chain-guard.sh
   runtime: null
   scope: project
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:609c259bb618d8e2d7d07c0fb551118eeafc65aae0346a9c57a3058054862a51
+  content_hash: sha256:8dd2d68ead7416b8023733968dbdacf5fe302f996ab02eb72318a8e66181d402
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/bunfig.toml
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/bun.lock
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:ee0ecc02c1c2985377a38ca67ae08280832d339e269f637592baaf73c30fc346
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/bunfig.toml
   runtime: null
   scope: project
   owners:
@@ -384,16 +397,7 @@ deployments:
   content_hash: sha256:750977f3a9a904d7ca8c3d50914259dcdf6dd52c25ad7d0b8d68d518ca26999c
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/command-chain-guard.sh
-  runtime: null
-  scope: project
-  owners:
-  - cffnpwr/agent-toolkit
-  active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:2849dcac5b2c4c8bd317616dcf172ec51ff789f5912a2bdb37bdb8d18c4e38c4
-- kind: project-relative
-  target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/eslint.config.ts
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/eslint.config.ts
   runtime: null
   scope: project
   owners:
@@ -402,52 +406,70 @@ deployments:
   content_hash: sha256:d7b9d6c87a2e833804485c2ba9026efb9a4d59adeb9a1b8a45796840aa83a7e2
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/command.test.ts
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/command.test.ts
   runtime: null
   scope: project
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:367dec741853e6ca62926094474a8d60ec89d3f0b2751b8139a32194e1aa0b46
+  content_hash: sha256:f39ab7b2ae77fd574de827575d04c7f4f245eeca6ad3d396ca04333690176e1b
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/command.ts
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/command.ts
   runtime: null
   scope: project
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:31dc61cfdfc8d2eaea4cc726c47a152c48a5936a1cb6bd4a59915ecb580af71c
+  content_hash: sha256:98af0d51f634a7d91bb707b9012e2612585d0fa85e91c567c6f0dd9c43a40a26
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/input.ts
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/input.ts
   runtime: null
   scope: project
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:ec345e22803203bdd4bbe681bed5bfca8ce7bb6fe3712df566fc3e574e5b5c2b
+  content_hash: sha256:28974c9a4fc8af9bfb24dc6e2e1c4fb6aa10e319ca7036e4eec8f66d66e31f73
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/main.ts
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/main.test.ts
   runtime: null
   scope: project
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:86d3d14ab5cf88b515d01b35a7030e29d971889dfb6a257e4e14c89a1a086e43
+  content_hash: sha256:8c4571714032084a6394dc39184a6cf1b8532c98e21c23b609244ca3b0838e47
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/src/types.ts
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/main.ts
   runtime: null
   scope: project
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:6b587aa34db252abd5ac64a4b2f01f54a3e9dce5f66db5408300318cbee2b884
+  content_hash: sha256:03d6060c9e32714ddde87733290ff8cae058266f6550a2d36bcad8ba98d27bdf
 - kind: project-relative
   target: claude
-  value: .claude/hooks/agent-toolkit/scripts/command-chain-guard/tsconfig.json
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/suggest.ts
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:e23bd3c7d2fa82613729e57681565e6e27b2c9f8e3e81d8bac471e6a26cf5c7b
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/src/types.ts
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:9e19f8fcbc9cca1740caf7c96da35d17e98de2b792f196acaf2165f6cb22c236
+- kind: project-relative
+  target: claude
+  value: .claude/hooks/agent-toolkit/scripts/approval-chain-guard/tsconfig.json
   runtime: null
   scope: project
   owners:
