@@ -1,3 +1,5 @@
 [settings]
 experimental = true
 idiomatic_version_file_enable_tools = ["rust"]
+# trueだとactivate/hook-envがshims dirをPATHへ挿入し、未アクティブなツールのshimが「存在するが実行できない」状態になる
+not_found_auto_install = false
