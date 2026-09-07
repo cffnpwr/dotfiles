@@ -1,11 +1,11 @@
 lockfile_version: '1'
-generated_at: '2026-09-07T12:52:34.860710+00:00'
+generated_at: '2026-09-07T14:45:31.793243+00:00'
 apm_version: 0.29.1
 dependencies:
 - repo_url: cffnpwr/agent-toolkit
   name: agent-toolkit
   host: github.com
-  resolved_commit: 85b3b5df94e597c01ad0241a5b3432846bc50640
+  resolved_commit: b3297388ee78c3976ca4dbea7a1a2df3df46b5c4
   version: 1.0.0
   package_type: apm_package
   deployed_files:
@@ -98,6 +98,7 @@ dependencies:
   - .claude/skills/create-backlog-item/references/templates/task.md
   - .claude/skills/delegation
   - .claude/skills/delegation/SKILL.md
+  - .claude/skills/delegation/apm.yml
   - .claude/skills/difit-review
   - .claude/skills/difit-review/SKILL.md
   - .claude/skills/flat-review
@@ -241,7 +242,8 @@ dependencies:
     .claude/skills/create-backlog-item/references/templates/feature.md: sha256:a84fde448cb9d9d70df997116987dd6e8c05e60f992d3c98e5c7e58814e60e04
     .claude/skills/create-backlog-item/references/templates/improvement.md: sha256:24866f5fc66bd75ae3eebee73038d7c8af49e2ef52079a4d46765f0d0d66e52b
     .claude/skills/create-backlog-item/references/templates/task.md: sha256:32e184de1783d7afe869afb32074ad0b9210753a78c164f430f4b42a076d716b
-    .claude/skills/delegation/SKILL.md: sha256:f4822611b566cfe6f0216a632eb58f878a8a1904dfcfa2b07c441cc2d5abc993
+    .claude/skills/delegation/SKILL.md: sha256:ea76e2144bd7125a90928973144aa523ffc1a33581132421fca0575ddcaa1042
+    .claude/skills/delegation/apm.yml: sha256:944e9929a910da13075582d48ee513ab5dbdea0540609b2f84c516a3c54f74ce
     .claude/skills/difit-review/SKILL.md: sha256:25cb4fef99845dbb0659b237499ea1bbb3a93a2e546c9aacb363c393e2e1e831
     .claude/skills/flat-review/SKILL.md: sha256:574c495fb682ed0c72fd6fa745ac5c7df415aa9b6fb5499df55ffc77784117a7
     .claude/skills/issue-creator/SKILL.md: sha256:388baf574f58cb3f6a5145ccdebdfb5a3e112806514cf5a65566054fd1162fb7
@@ -288,7 +290,7 @@ dependencies:
     .claude/skills/test-writing/references/go.md: sha256:ab34882b093964bee7fe491eb8aecd660347849296776a0d702866763a3011d0
     .claude/skills/test-writing/references/rust.md: sha256:14a9f3ca6192229ad4fed99e9f8262dfcae035902ec4b194f0ed4f0ea78a4b31
     .claude/skills/test-writing/references/typescript.md: sha256:289879ba8895f584887303ec7c2470295a1fd3fc870b002af30102465a451fae
-  content_hash: sha256:68f4d17324349f0698a37a3da753de54562db82f99f5930faa33685652e85c27
+  content_hash: sha256:493c8ca5aa877494052a40f03dd214579af6a98961aca5cde73b58f6e6792c96
   declared_license: MIT
 - repo_url: makinux/adversarial-panel
   name: adversarial-panel
@@ -1258,7 +1260,16 @@ deployments:
   owners:
   - cffnpwr/agent-toolkit
   active_owner: cffnpwr/agent-toolkit
-  content_hash: sha256:f4822611b566cfe6f0216a632eb58f878a8a1904dfcfa2b07c441cc2d5abc993
+  content_hash: sha256:ea76e2144bd7125a90928973144aa523ffc1a33581132421fca0575ddcaa1042
+- kind: project-relative
+  target: claude
+  value: .claude/skills/delegation/apm.yml
+  runtime: null
+  scope: project
+  owners:
+  - cffnpwr/agent-toolkit
+  active_owner: cffnpwr/agent-toolkit
+  content_hash: sha256:944e9929a910da13075582d48ee513ab5dbdea0540609b2f84c516a3c54f74ce
 - kind: project-relative
   target: claude
   value: .claude/skills/difit-review
