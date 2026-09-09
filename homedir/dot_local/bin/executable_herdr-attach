@@ -9,6 +9,10 @@ fallback_shell() {
   exec "${SHELL:-/bin/sh}" -l
 }
 
+if [[ $# -ne 1 ]]; then
+  fallback_shell "usage: herdr-attach <session-name>"
+fi
+
 case "$(uname -s)" in
   Darwin)
     launchctl kickstart "gui/$(id -u)/dev.herdr" \

@@ -116,7 +116,7 @@
     "shell": {
       "with_arguments": {
         "program": "/bin/zsh",
-        "args": ["-l", "-c", "herdr-attach"]
+        "args": ["-l", "-c", "herdr-attach default"]
       }
     }
   },
