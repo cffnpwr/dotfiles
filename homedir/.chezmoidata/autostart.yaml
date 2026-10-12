@@ -35,9 +35,9 @@ autostart:
     run_at_load: true
     keep_alive: true
 
-  # Raycast
-  - label: com.raycast.macos
+  # Tinycast
+  - label: com.tinycast.app
     command:
-      - /Applications/Raycast.app/Contents/MacOS/Raycast
+      - /Applications/Tinycast.app/Contents/MacOS/Tinycast
     run_at_load: true
     keep_alive: false

@@ -227,9 +227,10 @@ packages:
   - name: pinentry-mac
     darwin:
       method: brew
-  - name: raycast
+  - name: tinycast
     darwin:
       method: brew
+      name: abue-ammar/tinycast/tinycast
       cask: true
   - name: defaultbrowser
     darwin:
