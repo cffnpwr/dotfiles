@@ -73,6 +73,14 @@
         "source.fixAll.eslint": true
       },
       "formatter": []
+    },
+    "Terraform": {
+      "language_servers": ["terraform-ls"],
+      "formatter": "language_server"
+    },
+    "Terraform Vars": {
+      "language_servers": ["terraform-ls"],
+      "formatter": "language_server"
     }
   },
   "lsp": {
