@@ -119,9 +119,9 @@ packages:
       cask: true
 
   # media
-  - name: fastpotify
+  - name: spotifast
     darwin:
-      name: crmne/tap/fastpotify
+      name: crmne/tap/spotifast
       method: brew
       cask: true
 
