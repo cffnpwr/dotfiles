@@ -181,6 +181,9 @@ packages:
     darwin:
       method: brew
       name: oven-sh/bun/bun
+  - name: bitwarden-cli
+    darwin:
+      method: brew
   - name: jj
     darwin:
       method: brew
