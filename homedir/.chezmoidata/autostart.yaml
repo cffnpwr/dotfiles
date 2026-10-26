@@ -35,6 +35,13 @@ autostart:
     run_at_load: true
     keep_alive: true
 
+  # NetBird UI
+  - label: io.netbird.client
+    command:
+      - /Applications/Netbird UI.app/netbird-ui
+    run_at_load: true
+    keep_alive: false
+
   # Tinycast
   - label: com.tinycast.app
     command:
