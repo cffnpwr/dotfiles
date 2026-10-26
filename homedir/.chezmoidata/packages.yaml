@@ -109,6 +109,15 @@ packages:
       cask: true
 
   # network tools
+  - name: netbird
+    darwin:
+      method: brew
+      name: netbirdio/tap/netbird
+  - name: netbird-ui
+    darwin:
+      method: brew
+      name: netbirdio/tap/netbird-ui
+      cask: true
   - name: wakeonlan
     darwin:
       method: brew
