@@ -206,6 +206,9 @@ packages:
     darwin:
       method: brew
       cask: true
+  - name: watch
+    darwin:
+      method: brew
   - name: zen-browser
     darwin:
       method: brew
