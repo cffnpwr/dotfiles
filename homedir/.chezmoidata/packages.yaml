@@ -193,9 +193,6 @@ packages:
   - name: bitwarden-cli
     darwin:
       method: brew
-  - name: jj
-    darwin:
-      method: brew
   - name: bash
     darwin:
       method: brew
