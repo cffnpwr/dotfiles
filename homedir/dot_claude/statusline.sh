@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Claude Code statusLine (3行)
-# 1:  <cwd> | 󰊢 <branch>:<commit> <bookmark[+dist]>:<change-id>
+# 1:  <cwd> | 󰊢 <branch>:<commit>
 # 2: 󰧑 <ctx bar> <ctx%> | 󰚩 <model>(<effort>)
 # 3:  <5h bar> <5h%> | 󰨳 <7d bar> <7d%>
 set -u
@@ -10,7 +10,6 @@ input=$(cat)
 RESET=$'\033[0m'
 DIM=$'\033[2m'
 CYAN=$'\033[36m'
-MAGENTA=$'\033[35m'
 YELLOW=$'\033[33m'
 GREEN=$'\033[32m'
 RED=$'\033[31m'
@@ -27,16 +26,7 @@ ctx=$(jq -r '.context_window.used_percentage // empty' <<<"$input")
 five_h=$(jq -r '.rate_limits.five_hour.used_percentage // empty' <<<"$input")
 seven_d=$(jq -r '.rate_limits.seven_day.used_percentage // empty' <<<"$input")
 
-# jjの-Rは親を遡らず渡したパスをrepo rootとして扱うため、cwdから上方探索でrootを解決する
-jj_root=$(cd "$cwd" 2>/dev/null && jj --ignore-working-copy root 2>/dev/null)
-
-jjlog() {
-  jj -R "$jj_root" --ignore-working-copy log --no-graph "$@" 2>/dev/null
-}
-
-is_jj=0
 is_git=0
-[ -n "$jj_root" ] && is_jj=1
 git -C "$cwd" --no-optional-locks rev-parse --is-inside-work-tree >/dev/null 2>&1 && is_git=1
 
 git_chunk=""
@@ -45,30 +35,13 @@ if [ "$is_git" = "1" ]; then
   [ -z "$branch" ] && branch="HEAD"
   commit=""
   head_hash=$(git -C "$cwd" --no-optional-locks rev-parse HEAD 2>/dev/null)
-  if [ "$is_jj" = "1" ] && [ -n "$head_hash" ]; then
-    commit=$(jjlog -r "$head_hash" --color=always -T 'format_short_commit_id(commit_id)')
-  fi
-  if [ -z "$commit" ] && [ -n "$head_hash" ]; then
+  if [ -n "$head_hash" ]; then
     uniq=$(git -C "$cwd" --no-optional-locks rev-parse --short HEAD 2>/dev/null)
     full8=${head_hash:0:8}
     [ -n "$uniq" ] && commit="${ID_PREFIX}${uniq}${RESET}${ID_REST}${full8:${#uniq}}${RESET}"
   fi
   git_chunk="${GREEN}${branch}${RESET}"
   [ -n "$commit" ] && git_chunk+=":${commit}"
-fi
-
-jj_chunk=""
-if [ "$is_jj" = "1" ]; then
-  change=$(jjlog -r @ --color=always -T 'format_short_change_id_with_change_offset(self)')
-  bookmark=$(jjlog -r 'heads(::@ & bookmarks())' -T 'bookmarks.join(",") ++ "\n"' | paste -sd, - | sed 's/^,*//; s/,*$//')
-  if [ -n "$bookmark" ]; then
-    dist_marks=$(jjlog -r '(heads(::@ & bookmarks())..@) ~ (@ & empty() & description(exact:""))' -T '"."')
-    dist=${#dist_marks}
-    jj_chunk="${MAGENTA}${bookmark}${RESET}"
-    [ "$dist" -gt 0 ] && jj_chunk+="${YELLOW}+${dist}${RESET}"
-    [ -n "$change" ] && jj_chunk+=":"
-  fi
-  jj_chunk+="$change"
 fi
 
 # meter <pct>: 10文字バーと閾値色の百分率を出力（>=90赤 / >=70黄 / それ未満緑）
@@ -104,13 +77,7 @@ ICON_5H=$'\ue386'
 ICON_7D=$'\U000f0a33'
 
 line1="${ICON_DIR} ${CYAN}${display_cwd}${RESET}"
-vcs=""
-[ -n "$git_chunk" ] && vcs="${ICON_GIT} ${git_chunk}"
-if [ -n "$jj_chunk" ]; then
-  [ -n "$vcs" ] && vcs+=" "
-  vcs+="$jj_chunk"
-fi
-[ -n "$vcs" ] && line1+="${sep}${vcs}"
+[ -n "$git_chunk" ] && line1+="${sep}${ICON_GIT} ${git_chunk}"
 
 line2="${ICON_CTX} $(meter "${ctx:-0}")${sep}${ICON_MODEL} ${YELLOW}${model}${RESET}"
 [ -n "$effort" ] && line2+="${DIM}(${effort})${RESET}"

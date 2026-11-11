@@ -157,10 +157,6 @@ dotfiles外での一時的なインストールを行なった場合、インス
 
 ### 基本方針
 
-- VCS操作は[jj](https://www.jj-vcs.dev)をデフォルトとする
-  - リポジトリルートに`.jj`が無い場合のみgitを使う
-  - `.jj`と`.git`の併存でもjjを使う
-  - 読み取り専用の確認（status・log・diff等）もjjを優先する
 - コミット・Issue・Pull Requestの作成は明示的な指示がなければ行なわない
 - Issue・Pull Requestの本文にセッションURLを付けない
 

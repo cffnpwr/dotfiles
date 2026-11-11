@@ -17,12 +17,6 @@
   },
   "permissions": {
     "allow": [
-      "Bash(jj bookmark list *)",
-      "Bash(jj log *)",
-      "Bash(jj status)",
-      "Bash(jj diff *)",
-      "Bash(jj show *)",
-      "Bash(jj op log *)",
       "Bash(gh api -X GET *)",
       "Bash(gh api --method GET *)",
       "Bash(gh api *)",
