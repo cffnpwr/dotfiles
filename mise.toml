@@ -1,2 +1,6 @@
 [tools]
 go = "1.26.5"
+
+[tasks.update]
+description = "Update flake.lock"
+run = "nix flake update"

@@ -14,14 +14,14 @@ if [[ $# -ne 1 ]]; then
 fi
 
 case "$(uname -s)" in
-  Darwin)
-    launchctl kickstart "gui/$(id -u)/dev.herdr" \
-      || fallback_shell "failed to start launchd agent dev.herdr"
-    ;;
-  Linux)
-    systemctl --user start dev.herdr.dotfiles.service \
-      || fallback_shell "failed to start systemd user unit dev.herdr.dotfiles.service"
-    ;;
+Darwin)
+  launchctl kickstart "gui/$(id -u)/@serviceName@" ||
+    fallback_shell "failed to start launchd agent @serviceName@"
+  ;;
+Linux)
+  systemctl --user start @serviceName@.service ||
+    fallback_shell "failed to start systemd user unit @serviceName@.service"
+  ;;
 esac
 
 deadline=$((SECONDS + timeout_sec))
