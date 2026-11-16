@@ -5,6 +5,14 @@
     // NOTE: `mise lock`で生成されるためignore
     ".mise/locks/**"
   ],
+  "packageRules": [
+    {
+      // NOTE: git-refsのdatasourceはFlakeHubのURLからGitの参照を取得できず、lookupが失敗するため無効化
+      "matchManagers": ["nix"],
+      "matchPackageNames": ["/^https://flakehub\\.com//"],
+      "enabled": false
+    }
+  ],
   "customManagers": [
     {
       // NOTE: install.shが初回の導入に使うDeterminate Nix Installerのバージョン
