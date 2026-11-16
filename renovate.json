@@ -5,6 +5,10 @@
     // NOTE: `mise lock`で生成されるためignore
     ".mise/locks/**"
   ],
+  "nix": {
+    // NOTE: nixのmanagerはflake.lockのノード名をinput名として扱い、ルートのnixpkgs・flake-partsの代わりに推移的な依存のノードを抽出するため、flake.lock全体を更新
+    "lockFileMaintenance": { "enabled": true }
+  },
   "packageRules": [
     {
       // NOTE: git-refsのdatasourceはFlakeHubのURLからGitの参照を取得できず、lookupが失敗するため無効化
