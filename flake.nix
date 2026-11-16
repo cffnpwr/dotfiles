@@ -2,9 +2,13 @@
   description = "dotfiles for cffnpwr";
 
   nixConfig = {
-    extra-substituters = [ "https://cache.numtide.com" ];
+    extra-substituters = [
+      "https://cache.numtide.com"
+      "https://nix-cache.cffnpwr.dev"
+    ];
     extra-trusted-public-keys = [
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      "nix-cache.cffnpwr.dev-1:yVSfZXVFclp7gBWnVg65wjjWPwIUSdXnscH7i1Tp4Jk="
     ];
   };
 

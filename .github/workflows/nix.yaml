@@ -48,6 +48,60 @@ jobs:
         with:
           persist-credentials: false
       - uses: DeterminateSystems/determinate-nix-action@16f94ba7aae399b9f9077c254b6719ec6de7e3e3 # v3.24.2
-      - run: nix build --accept-flake-config --no-link ".#${ATTR}"
+      - id: build
+        run: |
+          store_path=$(nix build --accept-flake-config --no-link --print-out-paths ".#${ATTR}")
+          echo "store-path=$store_path" >> "$GITHUB_OUTPUT"
         env:
           ATTR: ${{ matrix.attr }}
+      # NOTE: Nixのバイナリキャッシュはストアパスのreferencesも同じキャッシュにあることを要求するため、closure全体をアップロード
+      - if: github.event_name == 'push'
+        run: |
+          nix copy --to "file://$RUNNER_TEMP/closure/cache?compression=zstd" "$STORE_PATH"
+          printf '%s\n' "$STORE_PATH" > "$RUNNER_TEMP/closure/store-path"
+        env:
+          STORE_PATH: ${{ steps.build.outputs.store-path }}
+      - if: github.event_name == 'push'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: closure-${{ matrix.name }}
+          path: ${{ runner.temp }}/closure
+          if-no-files-found: error
+          retention-days: 1
+          # NOTE: NARはzstdで圧縮済みのため、zipでの圧縮を無効化
+          compression-level: 0
+
+  # NOTE: 署名鍵とR2の認証情報はビルドを実行していないrunnerだけで使用
+  upload:
+    name: Upload ${{ matrix.name }}
+    if: github.event_name == 'push'
+    needs:
+      - hosts
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.hosts.outputs.hosts) }}
+    # NOTE: binary cache間のnix copyはビルドを伴わないため、ホストのシステムによらずLinuxのrunnerで実行
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+    environment: nix-cache
+    permissions: {}
+    steps:
+      - uses: DeterminateSystems/determinate-nix-action@16f94ba7aae399b9f9077c254b6719ec6de7e3e3 # v3.24.2
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: closure-${{ matrix.name }}
+          path: ${{ runner.temp }}/closure
+      - run: |
+          key_file="$RUNNER_TEMP/nix-signing-key"
+          printf '%s' "$NIX_SIGNING_KEY" > "$key_file"
+          store_path=$(cat "$RUNNER_TEMP/closure/store-path")
+          nix copy \
+            --from "file://$RUNNER_TEMP/closure/cache" \
+            --to "s3://dotfiles-nix-cache?endpoint=086a84b440e09bc83330fe07f1966f5d.r2.cloudflarestorage.com&region=auto&compression=zstd&secret-key=$key_file" \
+            "$store_path"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          NIX_SIGNING_KEY: ${{ secrets.NIX_SIGNING_KEY }}
