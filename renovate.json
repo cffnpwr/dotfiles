@@ -1,0 +1,36 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>cffnpwr/renovate-config"],
+  "ignorePaths": [
+    // NOTE: `mise lock`で生成されるためignore
+    ".mise/locks/**"
+  ],
+  "customManagers": [
+    {
+      // NOTE: install.shが初回の導入に使うDeterminate Nix Installerのバージョン
+      "customType": "regex",
+      "managerFilePatterns": ["/^install\\.sh$/"],
+      "matchStrings": ["https://install\\.determinate\\.systems/nix/tag/(?<currentValue>v[0-9][^'\"\\s]*)"],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "DeterminateSystems/nix-installer"
+    },
+    {
+      // NOTE: nixのmanagerはflake.nixのinputのタグを更新しないため、jdx/miseのflakeのタグを更新
+      "customType": "regex",
+      "managerFilePatterns": ["/^flake\\.nix$/"],
+      "matchStrings": ["github:jdx/mise/(?<currentValue>v[0-9][^\"]*)"],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "jdx/mise"
+    },
+    {
+      // NOTE: miseのタスクがgo runで実行する、cffnpwr/actionsのGoのプログラムのmainのコミット
+      "customType": "regex",
+      "managerFilePatterns": ["/^mise\\.toml$/"],
+      "matchStrings": ["github\\.com/cffnpwr/actions/[^@\\s]+@(?<currentDigest>[0-9a-f]{40})"],
+      "currentValueTemplate": "main",
+      "datasourceTemplate": "git-refs",
+      "packageNameTemplate": "https://github.com/cffnpwr/actions",
+      "depNameTemplate": "cffnpwr/actions"
+    }
+  ]
+}
