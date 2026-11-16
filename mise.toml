@@ -1,6 +1,49 @@
+[settings]
+lockfile = true
+lockfile_platforms = ["macos-arm64", "linux-x64", "linux-arm64"]
+
 [tools]
+uv = "0.13.7"
+python = "3.14.8"
+"aqua:numtide/treefmt" = "2.6.0"
+shfmt = "3.14.1"
+yamlfmt = "0.21.0"
+rumdl = "v0.3.2"
+yamllint = "1.38.0"
+shellcheck = "0.11.0"
 go = "1.26.5"
 
 [tasks.update]
 description = "Update flake.lock"
 run = "nix flake update"
+
+[tasks.fmt]
+description = "Format Nix, shell scripts and YAML"
+# nixfmtはmiseで固定できないため、flake.lockのnixpkgsのnixfmtをPATHに加えて実行
+run = "nix shell --inputs-from . nixpkgs#nixfmt --command treefmt"
+
+[tasks.lint]
+description = "Lint formatting, Markdown, YAML and shell scripts"
+depends = [
+  "lint:format",
+  "lint:markdown",
+  "lint:yaml",
+  "lint:shell",
+]
+
+[tasks."lint:format"]
+description = "Check that files are formatted"
+run = "mise run fmt --ci"
+
+[tasks."lint:markdown"]
+description = "Lint Markdown"
+run = "rumdl check ."
+
+[tasks."lint:yaml"]
+description = "Lint YAML"
+# yamllintは.gitignoreを読まないため、git ls-filesが返すファイルだけを渡す
+run = "git ls-files -co --exclude-standard -z -- '*.yaml' '*.yml' | xargs -0 yamllint"
+
+[tasks."lint:shell"]
+description = "Lint shell scripts"
+run = "git ls-files -co --exclude-standard -z -- '*.sh' 'mise-tasks/*' 'modules/programs/cli/herdr/herdr-attach' | xargs -0 shellcheck"
