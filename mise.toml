@@ -38,7 +38,7 @@ dir = "{{config_root}}"
 # NOTE: go runは実行したプログラムの終了ステータスを返さずterraformが0以外で終了すると1で終了する
 #       --の後の引数をterraformに渡す
 run = """
-go run github.com/cffnpwr/actions/modules/terraform-r2-backend/cmd/terraform-bootstrap@158a0a70ddf41188fc75468c4b4e8df470b3a98e \
+go run github.com/cffnpwr/actions/modules/terraform-r2-backend/cmd/terraform-bootstrap@a826b45dc00531b0bbeb70dc624015f32040bc34 \
   --cloudflare-account-id 086a84b440e09bc83330fe07f1966f5d \
   --root terraform/bootstrap \
   --sse-customer-key-file terraform/bootstrap/sse-customer-key.age \
@@ -48,7 +48,7 @@ go run github.com/cffnpwr/actions/modules/terraform-r2-backend/cmd/terraform-boo
 description = "Generate the SSE-C key for the bootstrap state and write it to terraform/bootstrap/sse-customer-key.age"
 dir = "{{config_root}}"
 run = """
-go run github.com/cffnpwr/actions/modules/terraform-r2-backend/cmd/generate-sse-customer-key@158a0a70ddf41188fc75468c4b4e8df470b3a98e \
+go run github.com/cffnpwr/actions/modules/terraform-r2-backend/cmd/generate-sse-customer-key@a826b45dc00531b0bbeb70dc624015f32040bc34 \
   --output terraform/bootstrap/sse-customer-key.age \
   --recipients-file terraform/bootstrap/recipients.yaml \
   --recipients-key recipients.txt"""
