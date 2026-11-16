@@ -1,14 +1,31 @@
 # Dotfiles for cffnpwr
 
-## これはなに
-
 個人用のdotfilesです。
-[chezmoi](https://www.chezmoi.io/)を使って管理しています。
+[Nix](https://nixos.org/)を使って管理しています。
 
-## 使い方
+## How to use
 
-### quick install
+### How to install
 
-```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply --use-builtin-git=on cffnpwr
+macOSではMac App Storeのアプリの導入にApp Storeへのサインインが必要なため、App Storeにサインインしてから以下のコマンドを実行します。
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/cffnpwr/dotfiles/main/install.sh)" -- [-b|--branch <branch>] [--host <host>]
 ```
+
+### How to update
+
+dotfilesの導入後はmiseを使用して操作が可能です。
+
+```bash
+# flake.lockの更新
+mise update
+# dotfilesのビルド
+mise build
+# dotfilesの適用
+mise apply
+```
+
+## License
+
+[MIT License](./LICENSE)

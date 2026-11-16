@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#MISE description="Apply the configuration to this host"
+set -eu
+
+if [ "$#" -gt 1 ]; then
+  printf 'usage: apply [host]\n' >&2
+  exit 1
+fi
+
+dotfiles_dir=$(cd -- "$(dirname -- "$0")/.." && pwd)
+# flake.nixのnixConfigを確認なしで使用
+export NIX_CONFIG="${NIX_CONFIG:-}
+accept-flake-config = true"
+
+os=$(uname -s)
+case "$os" in
+Darwin)
+  host=${1:-$(scutil --get LocalHostName)}
+  darwin_rebuild=$(nix build --no-link --print-out-paths \
+    "$dotfiles_dir#darwinConfigurations.$host.config.system.build.darwin-rebuild")
+  # sudoで実行するdarwin-rebuildにも同じ設定を渡す
+  sudo "$darwin_rebuild/bin/darwin-rebuild" switch \
+    --option accept-flake-config true --flake "$dotfiles_dir#$host"
+  ;;
+Linux)
+  host=${1:-$(uname -n)}
+  if grep -Eq '^ID="?nixos"?$' /etc/os-release; then
+    nixos-rebuild switch --sudo --flake "$dotfiles_dir#$host"
+  else
+    nix run --inputs-from "$dotfiles_dir" system-manager -- \
+      switch --sudo --flake "$dotfiles_dir#$host"
+  fi
+  ;;
+*)
+  printf 'unsupported OS: %s (supported: Darwin, Linux)\n' "$os" >&2
+  exit 1
+  ;;
+esac

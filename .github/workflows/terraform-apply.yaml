@@ -1,0 +1,58 @@
+name: Terraform apply
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "terraform/**"
+      # NOTE: bootstrapのrootは手元でapplyするためCIのapplyの対象外
+      - "!terraform/bootstrap/**"
+      - "mise.toml"
+      - "mise.lock"
+      - ".github/workflows/terraform-apply.yaml"
+  workflow_dispatch:
+
+# NOTE: 途中で止めたapplyはstateのロックとリソースの不整合を残すため、実行中のapplyを取り消さない
+concurrency:
+  group: ${{ github.workflow_ref }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  apply:
+    name: Apply terraform
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+    environment: terraform-apply
+    permissions:
+      contents: read
+      # NOTE: tfcmtがマージしたPRにapplyの結果をコメントするため
+      pull-requests: write
+    env:
+      TF_IN_AUTOMATION: "true"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+      - id: app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.APPLY_APP_CLIENT_ID }}
+          private-key: ${{ secrets.APPLY_APP_PRIVATE_KEY }}
+          permission-environments: write
+      # NOTE: S3 backendの認証情報は、CLOUDFLARE_API_TOKENのトークンから作る
+      - id: r2-credentials
+        uses: cffnpwr/actions/.github/actions/r2-credentials@158a0a70ddf41188fc75468c4b4e8df470b3a98e # main
+        with:
+          account-id: 086a84b440e09bc83330fe07f1966f5d
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - uses: cffnpwr/actions/.github/actions/terraform-apply@158a0a70ddf41188fc75468c4b4e8df470b3a98e # main
+        with:
+          root: terraform
+        env:
+          AWS_ACCESS_KEY_ID: ${{ steps.r2-credentials.outputs.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.r2-credentials.outputs.aws-secret-access-key }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TF_VAR_github_token: ${{ steps.app-token.outputs.token }}

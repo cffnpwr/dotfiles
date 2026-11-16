@@ -2,39 +2,35 @@
 
 ## 概要
 
-[chezmoi](https://www.chezmoi.io/)でmacOSとdebian系Linuxの開発環境を宣言的に構築する個人用dotfiles。
-全設定はchezmoiソースで一元管理し、`chezmoi apply`でホームへ反映する。
-
-設計の詳細は [設計ドキュメント](docs/design-doc/README.md) を参照する。設計判断・規約の根拠はそこにある。
+[Nix](https://nixos.org/)でmacOSとLinuxの開発環境を宣言的に構築する個人用dotfiles。
+macOSは[nix-darwin](https://github.com/nix-darwin/nix-darwin)と[home-manager](https://github.com/nix-community/home-manager)、Linuxはhome-managerで構成する。
 
 ## ディレクトリ構成
 
-- `homedir/`: chezmoiソースルート（`.chezmoiroot`で指定）。ホームへ反映する対象はここに限定。
-  - `homedir/.chezmoi.toml.tmpl`: apply時の変数定義
-  - `homedir/.chezmoidata/`: OS別パッケージなどの宣言データ
-  - `homedir/.chezmoiscripts/`: ブートストラップスクリプト
-  - `homedir/.chezmoitemplates/`: 共有テンプレート
-  - `homedir/dot_config/`: 各種アプリ設定
-- `docs/design-doc/`: 設計ドキュメント
-- リポジトリ直下: `README.md`・`LICENSE` などソース外のメタ情報
+- `flake.nix`: inputsと、`modules/`を読み込むoutputsだけを書く
+- `modules/`: flake-partsのモジュール。import-treeが全ファイルを読み込む
+  - `modules/core/`: ソフトウェア単位ではない機能
+  - `modules/users/<name>.nix`: ユーザー情報とLinuxのhome-managerの構成
+  - `modules/hosts/<hostname>.nix`: macOSのホストの構成
+  - `modules/programs/<category>/`: ソフトウェアの導入と設定
+- `secrets/`: agenixで暗号化したファイル
+- `docs/runbook/`: 手順書
 
 ## 編集と反映
 
-chezmoi運用にはこのリポジトリ固有の罠がある。ファイルの編集・diff・apply・反映を行う前に [chezmoiスキル](.claude/skills/chezmoi/SKILL.md) を必ず読む。要点:
-
-- **このリポジトリ（開発clone）とchezmoiソース（`~/.local/share/chezmoi`）は別の場所にある。** 開発cloneの変更をそのままapplyできず、`chezmoi diff`が空になる。反映時は `--source <repo root>` を渡すか、commit & push後にソース側で取り込む。
-- **全体applyは `.chezmoiscripts` を実行する。** homebrew/パッケージ導入などの重い副作用がある。特定ファイルだけ反映したい時はtarget pathで範囲を絞る。
-- chezmoiにbuild/test/lintのCIはない。検証は `chezmoi diff --source <repo root>` で差分を確認する。
+- flakeはGitで追跡しているファイルだけを読み込む。新しく作成したファイルは評価・適用の前に`git add`する
+- 評価・ビルドの確認は`darwin-rebuild build --flake .#<hostname>`で行なう。適用（`darwin-rebuild switch`）はHomebrewのパッケージの導入・削除などシステムを変更するため、ユーザーの許可を得てから行なう
+- `modules/`配下のファイル名がパスに`/_`を含む場合、import-treeはそのファイルを読み込まない。`default.nix`から`import`するファイルは名前を`_`で始める
+- 変更したNixのファイルは`nix fmt`で整形する
 
 ## バージョン管理
 
-- **mainへの直接pushを許可する。** 軽微な更新が多いため、フィーチャーブランチ・PRを必須にしない。
+- **mainへの直接pushを許可する。** 軽微な更新が多いため、フィーチャーブランチ・PRを必須にしない
 
 ## 規約・制約
 
-- **単一情報源**: 設定はソース（`homedir/`）を編集して反映する。ホームを直接編集しない（applyで上書きされて失われる）。
-- **冪等な再構築**: 環境構築は何度実行しても同じ構成へ収束する手続きとして表現する。
-- **OS別ネイティブなパッケージ導入**: 抽象化レイヤを挟まず、各OSがネイティブに備える手段で導入する。
-- **シークレットの暗号化**: リポジトリに含める秘密情報は暗号化し、平文では置かない。
-- ソース内ファイルの命名は [chezmoiの仕様](https://www.chezmoi.io/reference/source-state-attributes/) に従う。
-- ブートストラップスクリプトの分類（`run_`/`run_onchange`）と採番・実行順序は [ブートストラップ設計](docs/design-doc/bootstrap.md) に従う。
+- 設定はこのリポジトリのNix式を編集して反映する。ホームの設定ファイルを直接編集しない
+- 設定はhome-managerのモジュールのオプションまたは`pkgs.formats`のNix式で書く。Nix式で表現できないファイルだけをモジュールの隣に置く
+- 1つのソフトウェアの導入と設定（nix-darwin・home-manager）を1つのファイルにまとめる
+- パッケージはnixpkgsから導入する。nixpkgsに無い・更新が止まっている場合に限り、他の手段を使う
+- リポジトリに含める秘密情報はagenixで暗号化し、平文では置かない

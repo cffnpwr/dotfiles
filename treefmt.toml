@@ -1,0 +1,20 @@
+# 対象外のファイルごとに警告が出るため、ログの水準をinfoにする
+on-unmatched = "info"
+
+[formatter.nix]
+command = "nixfmt"
+includes = ["*.nix"]
+
+[formatter.shell]
+command = "shfmt"
+options = ["--write"]
+includes = ["*.sh", "mise-tasks/*", "modules/programs/cli/herdr/herdr-attach"]
+
+[formatter.yaml]
+command = "yamlfmt"
+includes = ["*.yaml", "*.yml"]
+
+[formatter.terraform]
+command = "terraform"
+options = ["fmt"]
+includes = ["*.tf", "*.tfvars"]
