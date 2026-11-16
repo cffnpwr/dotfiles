@@ -21,7 +21,7 @@ macOSは[nix-darwin](https://github.com/nix-darwin/nix-darwin)と[home-manager](
 - flakeはGitで追跡しているファイルだけを読み込む。新しく作成したファイルは評価・適用の前に`git add`する
 - 評価・ビルドの確認は`darwin-rebuild build --flake .#<hostname>`で行なう。適用（`darwin-rebuild switch`）はHomebrewのパッケージの導入・削除などシステムを変更するため、ユーザーの許可を得てから行なう
 - `modules/`配下のファイル名がパスに`/_`を含む場合、import-treeはそのファイルを読み込まない。`default.nix`から`import`するファイルは名前を`_`で始める
-- 変更したNixのファイルは`nix fmt`で整形する
+- 変更したNixのファイルは`mise run fmt`で整形する
 
 ## バージョン管理
 
