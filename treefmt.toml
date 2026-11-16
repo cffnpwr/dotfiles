@@ -13,3 +13,8 @@ includes = ["*.sh", "mise-tasks/*", "modules/programs/cli/herdr/herdr-attach"]
 [formatter.yaml]
 command = "yamlfmt"
 includes = ["*.yaml", "*.yml"]
+
+[formatter.terraform]
+command = "terraform"
+options = ["fmt"]
+includes = ["*.tf", "*.tfvars"]

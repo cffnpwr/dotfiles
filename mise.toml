@@ -11,24 +11,56 @@ yamlfmt = "0.21.0"
 rumdl = "v0.3.2"
 yamllint = "1.38.0"
 shellcheck = "0.11.0"
-go = "1.26.5"
+terraform = "1.17.1"
+tflint = "0.66.0"
+"aqua:suzuki-shunsuke/tfcmt" = "4.14.20"
+go = "1.27.4"
+age-plugin-yubikey = { version = "0.5.1", os = ["macos"] }
+"github:remko/age-plugin-se" = { version = "0.2.1", os = ["macos"] }
 
 [tasks.update]
 description = "Update flake.lock"
 run = "nix flake update"
 
 [tasks.fmt]
-description = "Format Nix, shell scripts and YAML"
+description = "Format Nix, shell scripts, YAML and Terraform"
 # nixfmtはmiseで固定できないため、flake.lockのnixpkgsのnixfmtをPATHに加えて実行
 run = "nix shell --inputs-from . nixpkgs#nixfmt --command treefmt"
 
+[tasks.tf]
+description = "Run terraform in terraform/"
+dir = "{{config_root}}/terraform"
+run = "terraform"
+
+[tasks."tf:bootstrap"]
+description = "Run terraform in terraform/bootstrap/"
+dir = "{{config_root}}"
+# NOTE: go runは実行したプログラムの終了ステータスを返さずterraformが0以外で終了すると1で終了する
+#       --の後の引数をterraformに渡す
+run = """
+go run github.com/cffnpwr/actions/modules/terraform-r2-backend/cmd/terraform-bootstrap@158a0a70ddf41188fc75468c4b4e8df470b3a98e \
+  --cloudflare-account-id 086a84b440e09bc83330fe07f1966f5d \
+  --root terraform/bootstrap \
+  --sse-customer-key-file terraform/bootstrap/sse-customer-key.age \
+  --"""
+
+[tasks."tf:bootstrap:generate-sse-customer-key"]
+description = "Generate the SSE-C key for the bootstrap state and write it to terraform/bootstrap/sse-customer-key.age"
+dir = "{{config_root}}"
+run = """
+go run github.com/cffnpwr/actions/modules/terraform-r2-backend/cmd/generate-sse-customer-key@158a0a70ddf41188fc75468c4b4e8df470b3a98e \
+  --output terraform/bootstrap/sse-customer-key.age \
+  --recipients-file terraform/bootstrap/recipients.yaml \
+  --recipients-key recipients.txt"""
+
 [tasks.lint]
-description = "Lint formatting, Markdown, YAML and shell scripts"
+description = "Lint formatting, Markdown, YAML, shell scripts and Terraform"
 depends = [
   "lint:format",
   "lint:markdown",
   "lint:yaml",
   "lint:shell",
+  "lint:terraform",
 ]
 
 [tasks."lint:format"]
@@ -47,3 +79,16 @@ run = "git ls-files -co --exclude-standard -z -- '*.yaml' '*.yml' | xargs -0 yam
 [tasks."lint:shell"]
 description = "Lint shell scripts"
 run = "git ls-files -co --exclude-standard -z -- '*.sh' 'mise-tasks/*' 'modules/programs/cli/herdr/herdr-attach' | xargs -0 shellcheck"
+
+[tasks."lint:terraform"]
+description = "Lint Terraform"
+# NOTE: 実バックエンドで初期化済みの`.terraform`を使うと`init -backend=false`がR2の認証情報を要求するため、検査用のDataDirを指定
+#       相対パスは各rootのディレクトリを基準に解決
+env = { TF_DATA_DIR = ".terraform/lint" }
+run = [
+  "mise run tf init -backend=false",
+  "mise run tf validate",
+  "terraform -chdir=terraform/bootstrap init -backend=false",
+  "terraform -chdir=terraform/bootstrap validate",
+  "tflint --recursive --config \"$MISE_PROJECT_ROOT/.tflint.hcl\"",
+]
