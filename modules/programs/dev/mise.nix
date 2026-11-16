@@ -5,7 +5,10 @@
     {
       programs.mise = {
         enable = true;
-        package = inputs.mise.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        # GitHub ActionsのmacOSのrunnerでテストのプロセスがSIGSEGVで異常終了するため、miseのテストを省略
+        package = inputs.mise.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs {
+          doCheck = false;
+        };
         enableZshIntegration = true;
         globalConfig.settings = {
           experimental = true;
