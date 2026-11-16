@@ -19,3 +19,6 @@ jobs:
       checks: read
       statuses: read
     uses: cffnpwr/actions/.github/workflows/status-check.yaml@03825f885ab5edf937a4bb6a8b0a7d9759de21d3
+    with:
+      # NOTE: Nixのworkflowでhosts・buildのjobに設定したtimeoutの合計（130分）より長い時間を指定
+      timeout-minutes: 150
