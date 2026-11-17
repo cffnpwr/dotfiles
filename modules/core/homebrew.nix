@@ -1,17 +1,24 @@
 { inputs, ... }:
 {
   flake.modules.darwin.homebrew =
-    { config, ... }:
+    { config, lib, ... }:
     {
       imports = [ inputs.nix-homebrew.darwinModules.nix-homebrew ];
 
       nix-homebrew = {
         enable = true;
         user = config.system.primaryUser;
-        # 既存のHomebrewをnix-homebrewの管理へ移行（導入済みのパッケージは残す）
-        autoMigrate = true;
-        # brew bundleがtapを追加するため
-        mutableTaps = true;
+        mutableTaps = false;
+        # homebrew.tapsのtap（<owner>/<repo>）を<owner>-homebrew-<repo>のflake inputから導入
+        taps = lib.listToAttrs (
+          map (
+            tap:
+            let
+              repository = lib.replaceStrings [ "/" ] [ "/homebrew-" ] tap.name;
+            in
+            lib.nameValuePair repository inputs.${lib.replaceStrings [ "/" ] [ "-" ] repository}
+          ) config.homebrew.taps
+        );
       };
 
       homebrew = {

@@ -88,6 +88,22 @@
         "type": "github"
       }
     },
+    "cffnpwr-homebrew-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794892434,
+        "narHash": "sha256-nuPJ4bh6WjBDYT57bJ0ewfCHR6WSnqvQ5CrElOBslu8=",
+        "owner": "cffnpwr",
+        "repo": "homebrew-tap",
+        "rev": "d829e2fc7100206a3447221850aa2340d4fd4f38",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cffnpwr",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
     "determinate": {
       "inputs": {
         "determinate-nixd-aarch64-darwin": "determinate-nixd-aarch64-darwin",
@@ -342,6 +358,22 @@
         "type": "github"
       }
     },
+    "netbirdio-homebrew-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794582462,
+        "narHash": "sha256-AapZe3zTVGcA1k5ZV0B0clFf29NOlKHSw3HfmH5kkG8=",
+        "owner": "netbirdio",
+        "repo": "homebrew-tap",
+        "rev": "2ee2d6737b57b16543d9171e2a5622282415ac51",
+        "type": "github"
+      },
+      "original": {
+        "owner": "netbirdio",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
     "nix": {
       "inputs": {
         "bdwgc": "bdwgc",
@@ -498,12 +530,14 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "cffnpwr-homebrew-tap": "cffnpwr-homebrew-tap",
         "determinate": "determinate",
         "flake-parts": "flake-parts_2",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
         "llm-agents": "llm-agents",
         "mise": "mise",
+        "netbirdio-homebrew-tap": "netbirdio-homebrew-tap",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_4",

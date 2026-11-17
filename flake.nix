@@ -56,6 +56,16 @@
       url = "github:jdx/mise/v2026.11.8";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # nix-homebrewで使用するhomebrew tap
+    cffnpwr-homebrew-tap = {
+      url = "github:cffnpwr/homebrew-tap";
+      flake = false;
+    };
+    netbirdio-homebrew-tap = {
+      url = "github:netbirdio/homebrew-tap";
+      flake = false;
+    };
   };
 
   outputs =
