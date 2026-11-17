@@ -54,8 +54,10 @@
     };
 
     # nixpkgsの更新を待たずにmiseのリリースを使うため、jdx/miseのflakeから導入
-    # jdx/miseのdefault.nixはdotfilesのnixpkgsでビルドできないため、nixpkgsをfollowsしない
-    mise.url = "github:jdx/mise/v2026.11.8";
+    mise = {
+      url = "github:jdx/mise/v2026.11.8";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

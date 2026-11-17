@@ -8,6 +8,8 @@
         # GitHub ActionsのmacOSのrunnerでテストのプロセスがSIGSEGVで異常終了するため、miseのテストを省略
         package = inputs.mise.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs {
           doCheck = false;
+          # jdx/miseのdefault.nixはaws-lc・zstdをbuildInputsに含めないため、システムのライブラリを使用せずにビルド
+          dontCargoUseSystemLibs = true;
         };
         enableZshIntegration = true;
         globalConfig.settings = {
