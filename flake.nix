@@ -48,10 +48,8 @@
       };
     };
 
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # numtideのバイナリキャッシュを使うため、nixpkgsをfollowsしない
+    llm-agents.url = "github:numtide/llm-agents.nix";
 
     # nixpkgsの更新を待たずにmiseのリリースを使うため、jdx/miseのflakeから導入
     mise = {
