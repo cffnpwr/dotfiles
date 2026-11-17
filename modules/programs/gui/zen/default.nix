@@ -1,8 +1,16 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.zen =
-    { lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
+      lsregister = "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister";
+      zenAppPath = "${config.home.homeDirectory}/${config.targets.darwin.copyApps.directory}/${config.programs.zen-browser.finalPackage.applicationName}.app";
+
       # 拡張機能のslugとaddon IDの組からaddon IDをキーにしたExtensionSettingsを生成
       mkExtensionSettings = lib.mapAttrs' (
         _: extId:
@@ -30,8 +38,10 @@
       };
 
       home.activation.zenDefaultBrowser = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
-        lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        lib.hm.dag.entryAfter [ "copyApps" ] ''
           if ! ${pkgs.defaultbrowser}/bin/defaultbrowser | grep -qx '\* zen'; then
+            # defaultbrowserはLaunchServicesに登録されたアプリだけを選択できるため、ZenをLaunchServicesに登録
+            run ${lsregister} -f ${lib.escapeShellArg zenAppPath}
             run ${pkgs.defaultbrowser}/bin/defaultbrowser zen
           fi
         ''
