@@ -18,7 +18,7 @@
         enable = true;
         onActivation = {
           cleanup = "uninstall";
-          # 自動更新を有効にするとbrew bundleがmasAppsの処理で失敗するため
+          # masAppsの処理で失敗するため無効化
           autoUpdate = false;
           upgrade = true;
         };

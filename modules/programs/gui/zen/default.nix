@@ -3,7 +3,7 @@
   flake.modules.homeManager.zen =
     { lib, pkgs, ... }:
     let
-      # 拡張機能のslugとaddon IDの組から、addon IDをキーにしたExtensionSettingsを生成する
+      # 拡張機能のslugとaddon IDの組からaddon IDをキーにしたExtensionSettingsを生成
       mkExtensionSettings = lib.mapAttrs' (
         _: extId:
         lib.nameValuePair extId {
