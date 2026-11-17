@@ -75,51 +75,57 @@ exit_with_usage() {
   exit 1
 }
 
-branch=''
-host=''
-while [[ $# -gt 0 ]]; do
-  case "$1" in
-  -h | --help)
-    printf '%s\n' "$HELP"
-    exit 0
+main() {
+  local branch=''
+  local host=''
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -h | --help)
+      printf '%s\n' "$HELP"
+      exit 0
+      ;;
+    -b | --branch)
+      [[ $# -ge 2 ]] || exit_with_usage
+      branch=$2
+      shift 2
+      ;;
+    --host)
+      [[ $# -ge 2 ]] || exit_with_usage
+      host=$2
+      shift 2
+      ;;
+    *)
+      exit_with_usage
+      ;;
+    esac
+  done
+
+  local os
+  os=$(uname -s)
+  case "$os" in
+  Darwin)
+    install_command_line_tools
+    setup_nix
+    move_nix_custom_conf
     ;;
-  -b | --branch)
-    [[ $# -ge 2 ]] || exit_with_usage
-    branch=$2
-    shift 2
-    ;;
-  --host)
-    [[ $# -ge 2 ]] || exit_with_usage
-    host=$2
-    shift 2
+  Linux)
+    if grep -Eq '^ID="?nixos"?$' /etc/os-release; then
+      # NixOSの既定ではflakesが無効なため有効化
+      export NIX_CONFIG='extra-experimental-features = nix-command flakes'
+    else
+      setup_nix
+    fi
     ;;
   *)
-    exit_with_usage
+    printf 'unsupported OS: %s (supported: Darwin, Linux)\n' "$os" >&2
+    exit 1
     ;;
   esac
-done
 
-os=$(uname -s)
-case "$os" in
-Darwin)
-  install_command_line_tools
-  setup_nix
-  move_nix_custom_conf
-  ;;
-Linux)
-  if grep -Eq '^ID="?nixos"?$' /etc/os-release; then
-    # NixOSの既定ではflakesが無効なため有効化
-    export NIX_CONFIG='extra-experimental-features = nix-command flakes'
-  else
-    setup_nix
-  fi
-  ;;
-*)
-  printf 'unsupported OS: %s (supported: Darwin, Linux)\n' "$os" >&2
-  exit 1
-  ;;
-esac
+  local source_dir
+  source_dir=$(fetch_dotfiles)
+  "$source_dir/mise-tasks/apply" ${host:+"$host"}
+  clone_dotfiles "$source_dir"
+}
 
-source_dir=$(fetch_dotfiles)
-"$source_dir/mise-tasks/apply" ${host:+"$host"}
-clone_dotfiles "$source_dir"
+main "$@"
