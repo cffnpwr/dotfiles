@@ -83,16 +83,6 @@ version = "0.2.1"
 backend = "github:remko/age-plugin-se"
 specifiers = ["0.2.1"]
 
-[tools."github:remko/age-plugin-se"."platforms.linux-arm64"]
-checksum = "sha256:a074feef0aa9615eaf18172def462fe58efdd9982e8913c2c929e1385fd7267d"
-url = "https://github.com/remko/age-plugin-se/releases/download/v0.2.1/age-plugin-se-v0.2.1-aarch64-linux.tgz"
-url_api = "https://api.github.com/repos/remko/age-plugin-se/releases/assets/333525905"
-
-[tools."github:remko/age-plugin-se"."platforms.linux-x64"]
-checksum = "sha256:feb31e615f46f9b852b289d40827c5b96e2151d72b47687b3722d3edae260838"
-url = "https://github.com/remko/age-plugin-se/releases/download/v0.2.1/age-plugin-se-v0.2.1-x86_64-linux.tgz"
-url_api = "https://api.github.com/repos/remko/age-plugin-se/releases/assets/333525944"
-
 [tools."github:remko/age-plugin-se"."platforms.macos-arm64"]
 checksum = "sha256:d88104198f99441ce4b699227eacdb6e72ab67c65b2a31273aa3ccc96ef81f47"
 url = "https://github.com/remko/age-plugin-se/releases/download/v0.2.1/age-plugin-se-v0.2.1-macos.zip"
