@@ -40,7 +40,7 @@ jobs:
           client-id: ${{ vars.PLAN_APP_CLIENT_ID }}
           private-key: ${{ secrets.PLAN_APP_PRIVATE_KEY }}
           permission-environments: read
-      - uses: cffnpwr/actions/.github/actions/terraform-plan@a826b45dc00531b0bbeb70dc624015f32040bc34 # main
+      - uses: cffnpwr/actions/.github/actions/terraform-plan@88085acca51e69d57d9be1117c49a5ade952d72a # main
         with:
           root: terraform
         env:
