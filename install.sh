@@ -5,7 +5,8 @@ set -o pipefail
 readonly USAGE='usage: install.sh [-h|--help] [-b|--branch <branch>] [--host <host>]'
 readonly HELP="$USAGE
 
-Install Nix if missing, apply the dotfiles configuration, and clone this repository with ghq.
+Install the Command Line Tools (macOS only) and Nix if missing, apply the dotfiles configuration,
+and clone this repository with ghq.
 
 options:
   -h, --help             show this help and exit
@@ -15,6 +16,26 @@ readonly NIX_INSTALLER_URL='https://install.determinate.systems/nix/tag/v3.24.2'
 readonly NIX_DAEMON_PROFILE='/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 readonly NIX_CUSTOM_CONF='/etc/nix/nix.custom.conf'
 readonly REPOSITORY='cffnpwr/dotfiles'
+readonly CLT_DIR='/Library/Developer/CommandLineTools'
+readonly CLT_ON_DEMAND_FILE='/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress'
+
+# Command Line ToolsはHomebrewがbottleの無いformulaを導入するために必要なため導入
+install_command_line_tools() (
+  if [[ -e $CLT_DIR/usr/bin/git ]]; then
+    exit 0
+  fi
+  trap 'sudo rm -f "$CLT_ON_DEMAND_FILE"' EXIT
+  sudo touch "$CLT_ON_DEMAND_FILE"
+  label=$(softwareupdate --list |
+    sed -n 's/^\* Label: \(Command Line Tools.*\)$/\1/p' |
+    sort -V |
+    tail -n 1)
+  if [[ -z $label ]]; then
+    printf 'softwareupdate found no Command Line Tools; xcode-select --install installs them interactively\n' >&2
+    exit 1
+  fi
+  sudo softwareupdate --install "$label"
+)
 
 setup_nix() {
   if [[ ! -e $NIX_DAEMON_PROFILE ]]; then
@@ -81,6 +102,7 @@ done
 os=$(uname -s)
 case "$os" in
 Darwin)
+  install_command_line_tools
   setup_nix
   move_nix_custom_conf
   ;;
