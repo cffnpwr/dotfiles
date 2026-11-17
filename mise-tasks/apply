@@ -16,9 +16,10 @@ os=$(uname -s)
 case "$os" in
 Darwin)
   host=${1:-$(scutil --get LocalHostName)}
-  darwin_rebuild=$(nix build --no-link --print-out-paths \
+  # sudoはNIX_CONFIGを引き継がないため、同じ設定を引数で渡す
+  # 初回はtrusted-usersが未設定のため、flake.nixのsubstituterを使えるrootでビルド
+  darwin_rebuild=$(sudo -H nix build --no-link --print-out-paths --option accept-flake-config true \
     "$dotfiles_dir#darwinConfigurations.$host.config.system.build.darwin-rebuild")
-  # sudoで実行するdarwin-rebuildにも同じ設定を渡す
   sudo "$darwin_rebuild/bin/darwin-rebuild" switch \
     --option accept-flake-config true --flake "$dotfiles_dir#$host"
   ;;
