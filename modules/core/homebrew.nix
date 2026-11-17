@@ -29,6 +29,14 @@
           autoUpdate = false;
           upgrade = true;
         };
+        # 仮想環境ではApp StoreにサインインできないためmasAppsのインストールを省略
+        extraConfig = ''
+          if `/usr/sbin/sysctl -n kern.hv_vmm_present`.strip == "1"
+            ENV["HOMEBREW_BUNDLE_MAS_SKIP"] = "${
+              lib.concatMapStringsSep " " toString (lib.attrValues config.homebrew.masApps)
+            }"
+          end
+        '';
       };
     };
 
