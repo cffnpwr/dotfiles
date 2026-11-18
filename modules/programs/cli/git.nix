@@ -17,6 +17,7 @@ in
             name = user.git.username;
             inherit (user.git) email;
           };
+
           alias = {
             b = "branch";
             ci = "commit";
@@ -24,9 +25,12 @@ in
             lg = "log --graph --date=iso-strict-local --format='%C(bold blue)%h%C(reset) %C(yellow)%ae%C(reset) %C(cyan)%cd%C(reset)%C(auto)%(decorate:prefix= ,suffix=,separator= ,tag=)%C(reset) %C(green)%G?%C(reset)%n%s'";
             lg-full = "log --graph --date=iso-strict-local --format='%C(bold blue)%h%C(reset) %C(yellow)%ae%C(reset) %C(cyan)%cd%C(reset)%C(auto)%(decorate:prefix= ,suffix=,separator= ,tag=)%C(reset)%nSignature: %G? %GS %GK%n%B'";
           };
+
           credential.helper = "manager";
-          ghq.root = "~/git";
+          fetch.prune = true;
           init.defaultBranch = "main";
+
+          ghq.root = "~/git";
         };
         signing = {
           format = "ssh";
