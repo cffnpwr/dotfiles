@@ -8,7 +8,7 @@
 
     git = {
       username = "cffnpwr";
-      email = "cffnpwr@cffnpwr.dev";
+      email = "86540016+cffnpwr@users.noreply.github.com";
     };
 
     github.username = "cffnpwr";
