@@ -24,7 +24,7 @@ description = "Update flake.lock"
 run = "nix flake update"
 
 [tasks.fmt]
-description = "Format Nix, shell scripts, YAML and Terraform"
+description = "Format Nix, shell scripts, Go, YAML and Terraform"
 # nixfmtはmiseで固定できないため、flake.lockのnixpkgsのnixfmtをPATHに加えて実行
 run = "nix shell --inputs-from . nixpkgs#nixfmt --command treefmt"
 

@@ -10,6 +10,11 @@ command = "shfmt"
 options = ["--write"]
 includes = ["*.sh", "mise-tasks/*", "modules/programs/cli/herdr/herdr-attach"]
 
+[formatter.go]
+command = "gofmt"
+options = ["-w"]
+includes = ["*.go"]
+
 [formatter.yaml]
 command = "yamlfmt"
 includes = ["*.yaml", "*.yml"]
