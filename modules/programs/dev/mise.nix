@@ -5,12 +5,19 @@
     {
       programs.mise = {
         enable = true;
-        # GitHub ActionsのmacOSのrunnerでテストのプロセスがSIGSEGVで異常終了するため、miseのテストを省略
-        package = inputs.mise.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs {
+        package = inputs.mise.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+          # GitHub ActionsのmacOSのrunnerでテストのプロセスがSIGSEGVで異常終了するため、miseのテストを省略
           doCheck = false;
+
           # jdx/miseのdefault.nixはaws-lc・zstdをbuildInputsに含めないため、システムのライブラリを使用せずにビルド
           dontCargoUseSystemLibs = true;
-        };
+
+          # jdx/miseのdefault.nixは補完スクリプトをインストールしないため、ソースに含まれるzshの補完スクリプトをインストール
+          nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.installShellFiles ];
+          postInstall = (old.postInstall or "") + ''
+            installShellCompletion --zsh ./completions/_mise
+          '';
+        });
         enableZshIntegration = true;
         globalConfig.settings = {
           experimental = true;
