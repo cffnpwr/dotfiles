@@ -4,10 +4,28 @@ let
 in
 {
   flake.modules.homeManager.git =
-    { config, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       user = users.${config.home.username};
       sshDir = "${config.home.homeDirectory}/.ssh";
+      pruneGoneBranches = pkgs.buildGoModule {
+        name = "git-prune-gone-branches";
+        src = ./prune-gone-branches;
+        vendorHash = null;
+        subPackages = [ "cmd/git-prune-gone-branches" ];
+        nativeBuildInputs = [ pkgs.makeBinaryWrapper ];
+        postInstall = ''
+          wrapProgram $out/bin/git-prune-gone-branches --prefix PATH : ${
+            lib.makeBinPath [ config.programs.git.package ]
+          }
+        '';
+        meta.mainProgram = "git-prune-gone-branches";
+      };
     in
     {
       programs.git = {
@@ -28,6 +46,11 @@ in
 
           credential.helper = "manager";
           fetch.prune = true;
+          # fetch.pruneはローカルブランチを削除しないため、上流が消えたローカルブランチをフックで削除
+          hook.prune-gone-branches = {
+            event = "reference-transaction";
+            command = lib.getExe pruneGoneBranches;
+          };
           init.defaultBranch = "main";
 
           ghq.root = "~/git";
@@ -43,8 +66,8 @@ in
           signByDefault = true;
           allowedSigners = builtins.concatStringsSep "\n" (
             map (key: "${user.git.email} namespaces=\"git\" ${pkgs.lib.trim (builtins.readFile key)}") [
-              ../security/openssh/id_ecdsa_secretive.pub
-              ../security/openssh/id_ed25519_sk.pub
+              ../../security/openssh/id_ecdsa_secretive.pub
+              ../../security/openssh/id_ed25519_sk.pub
             ]
           );
         };
