@@ -54,13 +54,8 @@ fetch_dotfiles() {
 # ghqの設定で指定したディレクトリにdotfilesをclone
 clone_dotfiles() {
   local -r source_dir=$1
-  if [[ -n $branch ]]; then
-    nix shell --inputs-from "$source_dir" nixpkgs#ghq nixpkgs#git --command \
-      ghq get --branch "$branch" "$REPOSITORY"
-  else
-    nix shell --inputs-from "$source_dir" nixpkgs#ghq nixpkgs#git --command \
-      ghq get "$REPOSITORY"
-  fi
+  nix shell --inputs-from "$source_dir" nixpkgs#ghq nixpkgs#git --command \
+    ghq get ${branch:+--branch "$branch"} "$REPOSITORY"
 }
 
 # nix-darwinの導入前に/etc/nix/nix.custom.confを退避
