@@ -44,7 +44,6 @@ in
             lg-full = "log --graph --date=iso-strict-local --format='%C(bold blue)%h%C(reset) %C(yellow)%ae%C(reset) %C(cyan)%cd%C(reset)%C(auto)%(decorate:prefix= ,suffix=,separator= ,tag=)%C(reset)%nSignature: %G? %GS %GK%n%B'";
           };
 
-          credential.helper = "manager";
           fetch.prune = true;
           # fetch.pruneはローカルブランチを削除しないため、上流が消えたローカルブランチをフックで削除
           hook.prune-gone-branches = {
