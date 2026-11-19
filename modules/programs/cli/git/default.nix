@@ -28,6 +28,8 @@ in
       };
     in
     {
+      imports = [ (import ./_commitlint.nix { inherit users; }) ];
+
       programs.git = {
         enable = true;
         settings = {
