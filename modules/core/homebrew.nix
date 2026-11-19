@@ -27,7 +27,7 @@
           cleanup = "uninstall";
           # masAppsの処理で失敗するため無効化
           autoUpdate = false;
-          upgrade = true;
+          upgrade = false;
         };
         # 仮想環境ではApp StoreにサインインできないためmasAppsのインストールを省略
         extraConfig = ''
