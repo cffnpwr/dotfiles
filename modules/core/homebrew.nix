@@ -23,6 +23,11 @@
 
       homebrew = {
         enable = true;
+        # Homebrew公式のformula・caskの定義をflake.lockで固定するため、Nixで配置したtapから導入
+        taps = [
+          "homebrew/core"
+          "homebrew/cask"
+        ];
         onActivation = {
           cleanup = "uninstall";
           # masAppsの処理で失敗するため無効化

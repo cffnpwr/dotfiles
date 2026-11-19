@@ -58,6 +58,14 @@
     };
 
     # nix-homebrewで使用するhomebrew tap
+    homebrew-homebrew-core = {
+      url = "github:Homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-homebrew-cask = {
+      url = "github:Homebrew/homebrew-cask";
+      flake = false;
+    };
     cffnpwr-homebrew-tap = {
       url = "github:cffnpwr/homebrew-tap";
       flake = false;
