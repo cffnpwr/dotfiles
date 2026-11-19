@@ -51,6 +51,7 @@ in
             command = lib.getExe pruneGoneBranches;
           };
           init.defaultBranch = "main";
+          url."git@github.com:".insteadOf = "https://github.com/";
 
           ghq.root = "~/git";
         };
