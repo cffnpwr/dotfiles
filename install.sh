@@ -47,6 +47,7 @@ setup_nix() {
 }
 
 fetch_dotfiles() {
+  local -r branch=${1:-}
   DOTFILES_FLAKE_REF="github:$REPOSITORY${branch:+?ref=$branch}" \
     nix eval --impure --raw --expr '(builtins.fetchTree (builtins.getEnv "DOTFILES_FLAKE_REF")).outPath'
 }
@@ -54,6 +55,7 @@ fetch_dotfiles() {
 # ghqの設定で指定したディレクトリにdotfilesをclone
 clone_dotfiles() {
   local -r source_dir=$1
+  local -r branch=${2:-}
   nix shell --inputs-from "$source_dir" nixpkgs#ghq nixpkgs#git --command \
     ghq get ${branch:+--branch "$branch"} "$REPOSITORY"
 }
@@ -118,9 +120,9 @@ main() {
   esac
 
   local source_dir
-  source_dir=$(fetch_dotfiles)
+  source_dir=$(fetch_dotfiles "$branch")
   "$source_dir/mise-tasks/apply" ${host:+"$host"}
-  clone_dotfiles "$source_dir"
+  clone_dotfiles "$source_dir" "$branch"
 }
 
 main "$@"
