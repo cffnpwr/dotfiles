@@ -39,11 +39,9 @@
 
       home.activation.zenDefaultBrowser = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
         lib.hm.dag.entryAfter [ "copyApps" ] ''
-          if ! ${pkgs.defaultbrowser}/bin/defaultbrowser | grep -qx '\* zen'; then
-            # defaultbrowserはLaunchServicesに登録されたアプリだけを選択できるため、ZenをLaunchServicesに登録
-            run ${lsregister} -f ${lib.escapeShellArg zenAppPath}
-            run ${pkgs.defaultbrowser}/bin/defaultbrowser zen
-          fi
+          # defaultbrowserはLaunchServicesに登録されたアプリだけを選択できるため、ZenをLaunchServicesに登録
+          run ${lsregister} -f ${lib.escapeShellArg zenAppPath}
+          run ${pkgs.defaultbrowser}/bin/defaultbrowser zen
         ''
       );
     };
