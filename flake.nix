@@ -53,7 +53,7 @@
 
     # nixpkgsの更新を待たずにmiseのリリースを使うため、jdx/miseのflakeから導入
     mise = {
-      url = "github:jdx/mise/v2026.11.8";
+      url = "github:jdx/mise/v2026.11.9";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
