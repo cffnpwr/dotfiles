@@ -54,8 +54,6 @@ in
           };
           init.defaultBranch = "main";
           url."git@github.com:".insteadOf = "https://github.com/";
-
-          ghq.root = "~/git";
         };
         signing = {
           format = "ssh";
