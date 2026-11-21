@@ -50,7 +50,8 @@ jobs:
       - uses: DeterminateSystems/determinate-nix-action@16f94ba7aae399b9f9077c254b6719ec6de7e3e3 # v3.24.2
       - id: build
         run: |
-          store_path=$(nix build --accept-flake-config --no-link --print-out-paths ".#${ATTR}")
+          # NOTE: flake.lockがflake.nixと一致しないPRを自動マージさせないため、flake.lockの更新を禁止
+          store_path=$(nix build --accept-flake-config --no-update-lock-file --no-link --print-out-paths ".#${ATTR}")
           echo "store-path=$store_path" >> "$GITHUB_OUTPUT"
         env:
           ATTR: ${{ matrix.attr }}
