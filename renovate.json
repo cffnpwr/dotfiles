@@ -5,6 +5,10 @@
     // NOTE: `mise lock`で生成されるためignore
     ".mise/locks/**"
   ],
+  "gitIgnoredAuthors": [
+    // NOTE: flake.lockの更新をコミットするGitHub App
+    "262637860+cffnpwr-update-bot[bot]@users.noreply.github.com"
+  ],
   "nix": {
     // NOTE: nixのmanagerはflake.lockのノード名をinput名として扱い、ルートのnixpkgs・flake-partsの代わりに推移的な依存のノードを抽出するため、flake.lock全体を更新
     "lockFileMaintenance": { "enabled": true }
