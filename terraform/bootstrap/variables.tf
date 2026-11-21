@@ -33,6 +33,17 @@ variable "apply_app_private_key" {
   sensitive   = true
 }
 
+variable "flake_lock_app_client_id" {
+  description = "RenovateのPRにflake.lockの更新をコミットするGitHub AppのClient ID"
+  type        = string
+}
+
+variable "flake_lock_app_private_key" {
+  description = "RenovateのPRにflake.lockの更新をコミットするGitHub Appの秘密鍵"
+  type        = string
+  sensitive   = true
+}
+
 variable "nix_signing_key" {
   description = "CIでのNixのバイナリキャッシュとしてアップロードするストアパスの署名に使う秘密鍵"
   type        = string

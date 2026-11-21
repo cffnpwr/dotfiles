@@ -42,6 +42,12 @@ resource "github_repository_environment_deployment_policy" "nix_cache_main" {
   branch_pattern = "main"
 }
 
+# NOTE: pull_requestではブランチの条件と照合するGITHUB_REFがPRのブランチ名にならないため、限定しない
+resource "github_repository_environment" "flake_lock" {
+  repository  = local.repository
+  environment = "flake-lock"
+}
+
 # NOTE: applyのS3 backendの認証情報はworkflowがCLOUDFLARE_API_TOKENから作成
 resource "github_actions_environment_secret" "terraform_plan_aws_access_key_id" {
   repository  = local.repository
@@ -99,6 +105,20 @@ resource "github_actions_environment_secret" "terraform_apply_app_private_key" {
   environment = github_repository_environment.terraform_apply.environment
   secret_name = "APPLY_APP_PRIVATE_KEY"
   value       = var.apply_app_private_key
+}
+
+resource "github_actions_environment_variable" "flake_lock_app_client_id" {
+  repository    = local.repository
+  environment   = github_repository_environment.flake_lock.environment
+  variable_name = "FLAKE_LOCK_APP_CLIENT_ID"
+  value         = var.flake_lock_app_client_id
+}
+
+resource "github_actions_environment_secret" "flake_lock_app_private_key" {
+  repository  = local.repository
+  environment = github_repository_environment.flake_lock.environment
+  secret_name = "FLAKE_LOCK_APP_PRIVATE_KEY"
+  value       = var.flake_lock_app_private_key
 }
 
 resource "github_actions_environment_secret" "nix_cache_signing_key" {
