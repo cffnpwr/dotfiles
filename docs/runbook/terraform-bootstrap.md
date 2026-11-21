@@ -22,16 +22,23 @@ tfstateはR2 Bucketの`dotfiles-tfstate`にSSE-Cで暗号化した状態で保�
 
 ### GitHub App
 
-CIのplan・applyはcffnpwr/home-iacのCIと共有する2つのGitHub Appのトークンを使う。
+CIは3つのGitHub Appのトークンを使う。
+CIのplan・applyはcffnpwr/home-iacのCIと共有する2つのGitHub Appを使う。
 2つのGitHub Appの定義はcffnpwr/actionsの[`modules/github-app/apps/`](https://github.com/cffnpwr/actions/tree/main/modules/github-app/apps)にある。
+`.github/workflows/flake-lock.yaml`は、RenovateのPRに`flake.lock`の更新をコミットするためにGitHub Appを使う。
+このGitHub AppにはContentsの書き込み権限が必要である。
 
 | 種類 | GitHub App | Client IDと秘密鍵の登録先 |
 | --- | --- | --- |
 | `plan` | `cffnpwr-terraform-plan` | `terraform-plan`の`PLAN_APP_CLIENT_ID`・`PLAN_APP_PRIVATE_KEY` |
 | `apply` | `cffnpwr-terraform-apply` | `terraform-apply`の`APPLY_APP_CLIENT_ID`・`APPLY_APP_PRIVATE_KEY` |
+| `flake-lock` | `cffnpwr-update-bot` | `flake-lock`の`FLAKE_LOCK_APP_CLIENT_ID`・`FLAKE_LOCK_APP_PRIVATE_KEY` |
 
-GitHub Appが無い場合はcffnpwr/actionsの[create-github-app](https://github.com/cffnpwr/actions/tree/main/modules/github-app)の手順で作成する。
-GitHub Appが既にある場合は2つのGitHub Appごとに次の手順を行なう。
+`renovate.json`の`gitIgnoredAuthors`には`cffnpwr-update-bot`のbotユーザーのメールアドレスを書いている。
+`flake-lock`で別のGitHub Appを使う場合は、`gitIgnoredAuthors`をそのGitHub Appのbotユーザーのメールアドレスに変更する。
+
+plan・apply用のGitHub Appが無い場合はcffnpwr/actionsの[create-github-app](https://github.com/cffnpwr/actions/tree/main/modules/github-app)の手順で作成する。
+GitHub Appが既にある場合は3つのGitHub Appごとに次の手順を行なう。
 
 1. GitHub Appのinstallationに`dotfiles`を追加する。
    個人アカウントのinstallationにはAPIでリポジトリを追加できないため、設定画面で行なう
@@ -125,6 +132,8 @@ nix key convert-secret-to-public < <秘密鍵のパス>
 | `TF_VAR_plan_app_private_key` | `terraform-plan`の`PLAN_APP_PRIVATE_KEY`に登録する、plan用のGitHub Appの秘密鍵 |
 | `TF_VAR_apply_app_client_id` | `terraform-apply`の`APPLY_APP_CLIENT_ID`に登録する、apply用のGitHub AppのClient ID |
 | `TF_VAR_apply_app_private_key` | `terraform-apply`の`APPLY_APP_PRIVATE_KEY`に登録する、apply用のGitHub Appの秘密鍵 |
+| `TF_VAR_flake_lock_app_client_id` | `flake-lock`の`FLAKE_LOCK_APP_CLIENT_ID`に登録する、flake.lockの更新用のGitHub AppのClient ID |
+| `TF_VAR_flake_lock_app_private_key` | `flake-lock`の`FLAKE_LOCK_APP_PRIVATE_KEY`に登録する、flake.lockの更新用のGitHub Appの秘密鍵 |
 | `TF_VAR_nix_signing_key` | `nix-cache`の`NIX_SIGNING_KEY`に登録する、Nixの署名鍵の秘密鍵 |
 
 GitHub providerは`TF_VAR_github_token`・`GITHUB_TOKEN`環境変数のトークンを使う。
