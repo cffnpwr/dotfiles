@@ -1,0 +1,71 @@
+name: Lock flake inputs
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - flake.nix
+
+concurrency:
+  group: ${{ github.workflow_ref }}-${{ github.event.number }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  lock-flake:
+    name: Lock flake inputs
+    if: github.event.pull_request.head.repo.full_name == github.repository && startsWith(github.head_ref, 'renovate/')
+    runs-on: ubuntu-26.04
+    timeout-minutes: 15
+    environment: flake-lock
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: DeterminateSystems/determinate-nix-action@16f94ba7aae399b9f9077c254b6719ec6de7e3e3 # v3.24.2
+      - name: Lock flake inputs
+        id: lock
+        run: |
+          nix flake lock
+          if git diff --quiet -- flake.lock; then
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "updated=true" >> "$GITHUB_OUTPUT"
+          fi
+      - id: app-token
+        if: steps.lock.outputs.updated == 'true'
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.FLAKE_LOCK_APP_CLIENT_ID }}
+          private-key: ${{ secrets.FLAKE_LOCK_APP_PRIVATE_KEY }}
+          permission-contents: write
+      - name: Commit flake.lock
+        if: steps.lock.outputs.updated == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.head_ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |-
+          jq -n \
+            --arg repository "$REPOSITORY" \
+            --arg branch "$BRANCH" \
+            --arg headSha "$HEAD_SHA" \
+            --arg contents "$(base64 --wrap=0 flake.lock)" \
+            '{
+              query: "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }",
+              variables: {
+                input: {
+                  branch: { repositoryNameWithOwner: $repository, branchName: $branch },
+                  message: { headline: "chore(flake): :package: Update flake.lock" },
+                  expectedHeadOid: $headSha,
+                  fileChanges: { additions: [{ path: "flake.lock", contents: $contents }] }
+                }
+              }
+            }' \
+            | gh api graphql --input -
