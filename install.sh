@@ -12,7 +12,7 @@ options:
   -h, --help             show this help and exit
   -b, --branch <branch>  branch to apply and clone (default: the default branch)
   --host <host>          host configuration to apply (default: the host name)"
-readonly NIX_INSTALLER_URL='https://install.determinate.systems/nix/tag/v3.24.2'
+readonly NIX_INSTALLER_URL='https://install.determinate.systems/nix/tag/v3.24.3'
 readonly NIX_DAEMON_PROFILE='/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 readonly NIX_CUSTOM_CONF='/etc/nix/nix.custom.conf'
 readonly REPOSITORY='cffnpwr/dotfiles'
