@@ -7,6 +7,8 @@
       (_final: prev: {
         llm-agents = inputs.llm-agents.packages.${prev.stdenv.hostPlatform.system};
       })
+      # go.modのバージョンのGoを選択するgo-bin.fromGoModを使用
+      inputs.go-overlay.overlays.default
     ];
   };
 }

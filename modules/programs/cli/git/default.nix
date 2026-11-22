@@ -13,7 +13,10 @@ in
     let
       user = users.${config.home.username};
       sshDir = "${config.home.homeDirectory}/.ssh";
-      pruneGoneBranches = pkgs.buildGoModule {
+      buildGoModule = pkgs.buildGoModule.override {
+        go = pkgs.go-bin.fromGoMod ./prune-gone-branches/go.mod;
+      };
+      pruneGoneBranches = buildGoModule {
         name = "git-prune-gone-branches";
         src = ./prune-gone-branches;
         vendorHash = null;

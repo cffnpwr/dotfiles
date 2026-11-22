@@ -57,6 +57,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # nixpkgsの更新を待たずにgo.modが要求するGoのパッチリリースを使うため、go-overlayから導入
+    go-overlay = {
+      url = "github:purpleclay/go-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # nix-homebrewで使用するhomebrew tap
     homebrew-homebrew-core = {
       url = "github:Homebrew/homebrew-core";
