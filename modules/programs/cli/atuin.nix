@@ -3,7 +3,10 @@
     programs.atuin = {
       enable = true;
       enableZshIntegration = true;
-      settings.search_mode_shell_up_key_binding = "fulltext";
+      settings = {
+        enter_accept = true;
+        search_mode_shell_up_key_binding = "fulltext";
+      };
     };
   };
 }
