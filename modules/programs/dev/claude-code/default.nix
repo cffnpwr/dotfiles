@@ -116,7 +116,7 @@
           };
           statusLine = {
             type = "command";
-            command = "bash ~/.claude/statusline.sh";
+            command = "bash ${./statusline.sh}";
           };
           outputStyle = "japanese-prose";
         };
@@ -138,7 +138,6 @@
             }
           ];
         };
-        ".claude/statusline.sh".source = ./statusline.sh;
       };
     };
 }
