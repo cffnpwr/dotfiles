@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.claude-code =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     {
       programs.claude-code = {
         enable = true;
@@ -125,7 +125,7 @@
       };
 
       home.file = {
-        ".claude/keybindings.json".text = builtins.toJSON {
+        "${config.programs.claude-code.configDir}/keybindings.json".text = builtins.toJSON {
           "$docs" = "https://code.claude.com/docs/en/keybindings";
           "$schema" = "https://www.schemastore.org/claude-code-keybindings.json";
           bindings = [
