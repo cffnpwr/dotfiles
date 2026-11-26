@@ -44,11 +44,11 @@ jobs:
           permission-environments: write
       # NOTE: S3 backendの認証情報は、CLOUDFLARE_API_TOKENのトークンから作る
       - id: r2-credentials
-        uses: cffnpwr/actions/.github/actions/r2-credentials@e211bd1ac958f7b264fc87746847cf9077b76b19 # main
+        uses: cffnpwr/actions/.github/actions/r2-credentials@d46095c8d1711090a6e16c94b00ae8a22ffab63e # main
         with:
           account-id: 086a84b440e09bc83330fe07f1966f5d
           api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      - uses: cffnpwr/actions/.github/actions/terraform-apply@e211bd1ac958f7b264fc87746847cf9077b76b19 # main
+      - uses: cffnpwr/actions/.github/actions/terraform-apply@d46095c8d1711090a6e16c94b00ae8a22ffab63e # main
         with:
           root: terraform
         env:
